@@ -44,10 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = '';
 }
 
-
 $host ="rusiann7.helioho.st";
 $user ="rusiann7_rusiannn";
-$password="4&3dx10Wl";
+$password="";
 $dbname="rusiann7_evaluation";
 
 $conn = new mysqli($host, $user, $password, $dbname);
