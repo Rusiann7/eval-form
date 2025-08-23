@@ -41,9 +41,9 @@
       <h3>Evaluation Progress</h3>
       <p>Track your evaluation completion status</p>
       <div class="progress-bar">
-        <div class="progress-fill"></div>
+        <div class="progress-fill" :style="{width: ( 5 / count * 100 + '%')}"></div>
       </div>
-      <div class="progress-text">2/4 completed</div>
+      <div class="progress-text">2/{{ count }} completed</div>
     </div>
   </main>
 
@@ -57,6 +57,7 @@
           return {
             urlappphp: "https://rusiann7.helioho.st/Getter.php",
             teachers: [],
+            count: 0,
           }
         },
 
@@ -84,6 +85,7 @@
                   quarter: teacher.quarter,
                   year: teacher.year
                 }));
+                this.count = result.count;
 
               }else {
                 console.error("Error fetching teachers:", result.message);
@@ -264,7 +266,6 @@
 
     .progress-fill {
       height: 100%;
-      width: 50%; /* 2/4 completed */
       background: #000;
     }
 
