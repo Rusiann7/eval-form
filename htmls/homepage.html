@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project EVAL - Teacher Evaluation System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* BACKGROUND IMAGE CHANGE - Line below */
+            background: linear-gradient(rgba(12, 89, 4, 0.8), rgba(3, 66, 78, 0.9)), url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo {
+            margin-bottom: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .logo-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 60px;
+            color: #2c3e50;
+            overflow: hidden; /* Added for better image display */
+        }
+
+        /* Added for logo image styling */
+        .logo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.5;
+            color: #e0f7fa;
+            font-weight: 500;
+        }
+
+        .instruction {
+            color: #e0e0e0;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .student .icon {
+            background-color: rgba(74, 109, 167, 0.2);
+            color: #4a6da7;
+        }
+
+        .teacher .icon {
+            background-color: rgba(71, 167, 106, 0.2);
+            color: #47a76a;
+        }
+
+        .admin .icon {
+            background-color: rgba(199, 80, 80, 0.2);
+            color: #c75050;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .card p {
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2c3e50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .student .btn {
+            background: #4a6da7;
+        }
+
+        .student .btn:hover {
+            background: #3a5a8f;
+        }
+
+        .teacher .btn {
+            background: #47a76a;
+        }
+
+        .teacher .btn:hover {
+            background: #3a8f58;
+        }
+
+        .admin .btn {
+            background: #c75050;
+        }
+
+        .admin .btn:hover {
+            background: #a83c3c;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50px);
+            transition: transform 0.5s ease;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .modal-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .student-modal .modal-icon {
+            color: #4a6da7;
+        }
+
+        .teacher-modal .modal-icon {
+            color: #47a76a;
+        }
+
+        .admin-modal .modal-icon {
+            color: #c75050;
+        }
+
+        .modal-header h2 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .modal-header p {
+            color: #666;
+        }
+
+        /* Tab Styles */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #2c3e50;
+            border-bottom: 3px solid;
+        }
+
+        .student-modal .tab-btn.active {
+            color: #4a6da7;
+            border-bottom-color: #4a6da7;
+        }
+
+        .teacher-modal .tab-btn.active {
+            color: #47a76a;
+            border-bottom-color: #47a76a;
+        }
+
+        .admin-modal .tab-btn.active {
+            color: #c75050;
+            border-bottom-color: #c75050;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #4a6da7;
+            outline: none;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+        }
+
+        .remember-me label {
+            margin-bottom: 0;
+            color: #555;
+        }
+
+        .forgot-password a {
+            color: #4a6da7;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .student-modal .modal-btn {
+            background: #4a6da7;
+        }
+
+        .student-modal .modal-btn:hover {
+            background: #3a5a8f;
+        }
+
+        .teacher-modal .modal-btn {
+            background: #47a76a;
+        }
+
+        .teacher-modal .modal-btn:hover {
+            background: #3a8f58;
+        }
+
+        .admin-modal .modal-btn {
+            background: #c75050;
+        }
+
+        .admin-modal .modal-btn:hover {
+            background: #a83c3c;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .switch-form a {
+            color: #4a6da7;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 900px) {
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .card {
+                width: 90%;
+                max-width: 400px;
+            }
+            
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+            
+            .tagline {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <!-- LOGO CHANGE - Lines below -->
+            <div class="logo-image">
+                <img src="logo.png" alt="Project EVAL Logo">
+            </div>
+            <h1>Project EVAL</h1>
+            <p class="tagline">Enriching Vital teAcher's versatiLity: Fostering Growth, Innovation, and Impact</p>
+            <p class="instruction">Select your role to access the evaluation platform</p>
+        </div>
+
+        <div class="cards-container">
+            <div class="card student">
+                <div class="icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Student</h2>
+                <p>Evaluate your teachers and provide feedback on their teaching methods and course content.</p>
+                <button class="btn student-btn">Access Student Portal</button>
+            </div>
+
+            <div class="card teacher">
+                <div class="icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h2>Teacher</h2>
+                <p>Evaluate your colleagues and peers to foster professional growth and collaboration.</p>
+                <button class="btn teacher-btn">Access Teacher Portal</button>
+            </div>
+
+            <div class="card admin">
+                <div class="icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h2>OIC Head Teacher/OIC Assistant Principal/Principal</h2>
+                <p>Evaluate teachers, manage assessments, and oversee the evaluation process.</p>
+                <button class="btn admin-btn">Access Admin Portal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Modal -->
+    <div class="modal student-modal" id="studentModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h2>Student Portal</h2>
+                <p>Login or create a new account</p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="register">Register</button>
+            </div>
+            
+            <div id="studentLogin" class="tab-content active">
+                <form id="studentLoginForm">
+                    <div class="form-group">
+                        <label for="studentId">Student ID</label>
+                        <input type="text" id="studentId" placeholder="Enter your student ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPassword">Password</label>
+                        <input type="password" id="studentPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="studentRemember">
+                            <label for="studentRemember">Remember me</label>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#" id="studentForgotPassword">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="modal-btn">Login to Student Portal</button>
+                </form>
+            </div>
+            
+            <div id="studentRegister" class="tab-content">
+                <form id="studentRegisterForm">
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email Address</label>
+                        <input type="email" id="studentEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentIdRegister">Student ID</label>
+                        <input type="text" id="studentIdRegister" placeholder="Enter your student ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPasswordRegister">Password</label>
+                        <input type="password" id="studentPasswordRegister" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentConfirmPassword">Confirm Password</label>
+                        <input type="password" id="studentConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="modal-btn">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Teacher Modal -->
+    <div class="modal teacher-modal" id="teacherModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <h2>Teacher Portal</h2>
+                <p>Login or create a new account</p>
+            </div>
+            
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="register">Register</button>
+            </div>
+            
+            <div id="teacherLogin" class="tab-content active">
+                <form id="teacherLoginForm">
+                    <div class="form-group">
+                        <label for="teacherId">Teacher ID</label>
+                        <input type="text" id="teacherId" placeholder="Enter your teacher ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherPassword">Password</label>
+                        <input type="password" id="teacherPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="teacherRemember">
+                            <label for="teacherRemember">Remember me</label>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#" id="teacherForgotPassword">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="modal-btn">Login to Teacher Portal</button>
+                </form>
+            </div>
+            
+            <div id="teacherRegister" class="tab-content">
+                <form id="teacherRegisterForm">
+                    <div class="form-group">
+                        <label for="teacherName">Full Name</label>
+                        <input type="text" id="teacherName" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherEmail">Email Address</label>
+                        <input type="email" id="teacherEmail" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherIdRegister">Teacher ID</label>
+                        <input type="text" id="teacherIdRegister" placeholder="Enter your teacher ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherDepartment">Department</label>
+                        <input type="text" id="teacherDepartment" placeholder="Enter your department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherPasswordRegister">Password</label>
+                        <input type="password" id="teacherPasswordRegister" placeholder="Create a password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherConfirmPassword">Confirm Password</label>
+                        <input type="password" id="teacherConfirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="modal-btn">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div class="modal admin-modal" id="adminModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h2>Administrator Portal</h2>
+                <p>Login to your account</p>
+            </div>
+            
+            <!-- Removed tabs for admin since registration is not allowed -->
+            <div id="adminLogin" class="tab-content active">
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="adminId">Admin ID</label>
+                        <input type="text" id="adminId" placeholder="Enter your admin ID" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter your password" required>
+                    </div>
+                    <div class="remember-forgot">
+                        <div class="remember-me">
+                            <input type="checkbox" id="adminRemember">
+                            <label for="adminRemember">Remember me</label>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#" id="adminForgotPassword">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="modal-btn">Login to Admin Portal</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2>Reset Password</h2>
+                <p>Enter your email to receive a password reset link</p>
+            </div>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">Email Address</label>
+                    <input type="email" id="resetEmail" placeholder="Enter your email" required>
+                </div>
+                <button type="submit" class="modal-btn">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simple animation for page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = 1;
+            
+            // Animate cards on load
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                }, 300 + (index * 200));
+            });
+        });
+        
+        // Add fade-in effect on page load
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = 0;
+        
+        // Set initial state for card animation
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+
+        // Modal functionality
+        const studentBtn = document.querySelector('.student-btn');
+        const teacherBtn = document.querySelector('.teacher-btn');
+        const adminBtn = document.querySelector('.admin-btn');
+        
+        const studentModal = document.getElementById('studentModal');
+        const teacherModal = document.getElementById('teacherModal');
+        const adminModal = document.getElementById('adminModal');
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+        
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+        
+        // Open modals
+        studentBtn.addEventListener('click', () => {
+            studentModal.classList.add('active');
+        });
+        
+        teacherBtn.addEventListener('click', () => {
+            teacherModal.classList.add('active');
+        });
+        
+        adminBtn.addEventListener('click', () => {
+            adminModal.classList.add('active');
+        });
+        
+        // Close modals
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                studentModal.classList.remove('active');
+                teacherModal.classList.remove('active');
+                adminModal.classList.remove('active');
+                forgotPasswordModal.classList.remove('active');
+            });
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', (event) => {
+            if (event.target === studentModal) {
+                studentModal.classList.remove('active');
+            }
+            if (event.target === teacherModal) {
+                teacherModal.classList.remove('active');
+            }
+            if (event.target === adminModal) {
+                adminModal.classList.remove('active');
+            }
+            if (event.target === forgotPasswordModal) {
+                forgotPasswordModal.classList.remove('active');
+            }
+        });
+        
+        // Tab functionality - Fixed version
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tab = button.dataset.tab;
+                const modalContent = button.closest('.modal-content');
+                const allTabs = modalContent.querySelectorAll('.tab-btn');
+                const allTabContents = modalContent.querySelectorAll('.tab-content');
+                
+                // Remove active class from all tabs and content
+                allTabs.forEach(tab => tab.classList.remove('active'));
+                allTabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                button.classList.add('active');
+                
+                // Show the corresponding tab content
+                if (tab === 'login') {
+                    modalContent.querySelector('#studentLogin, #teacherLogin, #adminLogin').classList.add('active');
+                } else if (tab === 'register') {
+                    modalContent.querySelector('#studentRegister, #teacherRegister').classList.add('active');
+                }
+            });
+        });
+        
+        // Forgot password functionality
+        const forgotPasswordLinks = document.querySelectorAll('.forgot-password a');
+        forgotPasswordLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Close any open modals
+                studentModal.classList.remove('active');
+                teacherModal.classList.remove('active');
+                adminModal.classList.remove('active');
+                // Open forgot password modal
+                forgotPasswordModal.classList.add('active');
+            });
+        });
+        
+        // Form submission (prevent default for demo)
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                let message = '';
+                
+                if (form.id.includes('Login')) {
+                    message = 'Login successful!';
+                } else if (form.id.includes('Register')) {
+                    message = 'Registration successful!';
+                } else if (form.id === 'forgotPasswordForm') {
+                    message = 'Password reset link has been sent to your email.';
+                    forgotPasswordModal.classList.remove('active');
+                }
+                
+                alert(message);
+                form.reset();
+                
+                // Only close modal on login, not registration
+                if (form.id.includes('Login')) {
+                    studentModal.classList.remove('active');
+                    teacherModal.classList.remove('active');
+                    adminModal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
