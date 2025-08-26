@@ -144,7 +144,7 @@
                         </div>
                     </div>
                     <button type="submit" class="modal-btn">
-                        Login to Student Portal
+                        Login
                     </button>
                 </form>
             </div>

@@ -103,7 +103,6 @@
 
 <style scoped>
 
-
 /* Global */
 body {
   font-family: Arial, sans-serif;
