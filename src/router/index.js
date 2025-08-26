@@ -5,6 +5,7 @@ const Dashboard = () => import('../components/Dashboard.vue')
 const Student = () =>import('../components/User/Student.vue')
 const Teacher = () => import('../components/User/Teacher.vue')
 const Principal = () => import('../components/Admin/Principal.vue')
+const newDashboard = () => import('../components/newDashboard.vue')
 
 const routes = [
   {
@@ -33,7 +34,14 @@ const routes = [
     name: 'Principal',
     component: Principal,
     meta: { title: 'Principal Dashboard', requiresAuth: false }
-  } 
+  },
+  
+  {
+    path: '/new-dashboard',
+    name: 'newDashboard',
+    component: newDashboard,
+    meta: { title: 'Dashboard', requiresAuth: false }
+  }
 ]
 
 const router = createRouter({
