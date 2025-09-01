@@ -16,13 +16,13 @@
             </div>
             
             <div class="info-field">
-                <label for="grade">Grade / Section:</label>
-                <p name="grade">temp-grade-section</p>
+                <label for="grade">Subject:</label>
+                <p name="grade">{{ teacher.sub }}</p>
             </div>
             
             <div class="info-field">
                 <label for="teacher">Subject Teacher:</label>
-                <p name="teacher">{{$route.params.id}}</p>
+                <p name="teacher">{{teacher.firstnm}} {{ teacher.lastnm }}</p>
             </div>
             
             <div class="info-field">
@@ -135,9 +135,9 @@ export default {
     data(){
         return{
             urlappphp: "https://rusiann7.helioho.st/questions.php",
-            urlappphp2: "",
+            urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
             headers: [],
-            teachers: [],
+            teacher: {},
         }
     },
 
@@ -177,9 +177,9 @@ export default {
                 const result = await response.json();
 
                 if(result.success){
-                    this.teachers = result.teachers;
+                    this.teacher = result.teacher;
                 }else{
-                    console.log(error);
+                    console.log("Server error:", result.message);
                 }
             }catch(error){
                 console.log(error);
@@ -190,7 +190,7 @@ export default {
             try{
 
             }catch(error){
-                
+
             }
         }
     },

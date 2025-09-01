@@ -1,4 +1,4 @@
-<?php //login
+<?php //register
 
 require 'config.php';
 
