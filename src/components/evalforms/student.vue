@@ -12,22 +12,22 @@
         <div class="info-fields">
             <div class="info-field">
                 <label for="student">Pangalan ng Mag-aaral (Student Name):</label>
-                <p name="student">tempusername</p>
+                <p name="student">temp-username</p>
             </div>
             
             <div class="info-field">
                 <label for="grade">Grade / Section:</label>
-                <p name="grade">tempgradesection</p>
+                <p name="grade">temp-grade-section</p>
             </div>
             
             <div class="info-field">
                 <label for="teacher">Subject Teacher:</label>
-                <p name="teacher">tempsubjectname</p>
+                <p name="teacher">temp-subject-name</p>
             </div>
             
             <div class="info-field">
                 <label for="date">Petsa (Date):</label>
-                <p name="date">tempdate</p>
+                <p name="date">temp-date</p>
             </div>
         </div>
         
