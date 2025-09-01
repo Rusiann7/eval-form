@@ -32,7 +32,7 @@
         <p>{{teacher.subject}}</p>
         <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
         <br><br>
-        <button class="start">Start Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'student-eval', params: {id: teacher.id}})">Start Evaluation</button>
       </div>
     </div>
 

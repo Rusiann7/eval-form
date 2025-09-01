@@ -45,8 +45,8 @@ const routes = [
   },
 
   {
-    path: '/student-eval',
-    name: 'StEval',
+    path: '/student-eval/:id',
+    name: 'student-eval',
     component: StEval,
     meta: {title: 'Student Evaluation', requiresAuth: false}
   }

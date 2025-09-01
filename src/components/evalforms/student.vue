@@ -22,7 +22,7 @@
             
             <div class="info-field">
                 <label for="teacher">Subject Teacher:</label>
-                <p name="teacher">temp-subject-name</p>
+                <p name="teacher">{{$route.params.id}}</p>
             </div>
             
             <div class="info-field">
@@ -131,7 +131,7 @@
 <script>
 
 export default {
-    name: "setInterval",
+    name: "student-eval",
     data(){
         return{
             urlappphp: "https://rusiann7.helioho.st/questions.php",
@@ -160,11 +160,20 @@ export default {
             }catch(error){
                 console.error(error)
             }
-        }
+        },
+
+        async getTeacherbyid(){
+            try{
+
+            }catch(error){
+
+            }
+        },
     },
 
     mounted(){
         this.getQuestions();
+        this.getTeacherbyid();
     }
 }
 
