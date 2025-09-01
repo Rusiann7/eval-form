@@ -66,7 +66,7 @@ if( $action === 'getQuestions'){
         while($row1 = $result1 ->fetch_assoc()){
             $header_id = $row1['id'];
 
-            $sql2= "SELECT id, question FROM Questions WHERE header_id = $header_id ORDER BY id ASC";
+            $sql2= "SELECT id, questions FROM Questions WHERE header_id = $header_id ORDER BY id ASC";
             $result2 = $conn -> query($sql2);
 
             $questions = [];
@@ -75,7 +75,7 @@ if( $action === 'getQuestions'){
                 while($row2 = $result2 -> fetch_assoc()){
                     $questions[] = [
                         "question_id" => $row2['id'],
-                        "question" => $row2['question']
+                        "question" => $row2['questions']
                     ];
                 }
             }
@@ -89,7 +89,7 @@ if( $action === 'getQuestions'){
 
          echo json_encode([
             "success" => true,
-            "header" => $all_headers,
+            "headers" => $all_headers,
         ]);
 
     }else {

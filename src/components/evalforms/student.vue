@@ -12,22 +12,22 @@
         <div class="info-fields">
             <div class="info-field">
                 <label for="student">Pangalan ng Mag-aaral (Student Name):</label>
-                <p name="student">{{ temp }}hello</p>
+                <p name="student">tempusername</p>
             </div>
             
             <div class="info-field">
                 <label for="grade">Grade / Section:</label>
-                <p name="grade">{{ temp }}text here</p>
+                <p name="grade">tempgradesection</p>
             </div>
             
             <div class="info-field">
                 <label for="teacher">Subject Teacher:</label>
-                <p name="teacher">{{ temp }}text here</p>
+                <p name="teacher">tempsubjectname</p>
             </div>
             
             <div class="info-field">
                 <label for="date">Petsa (Date):</label>
-                <p name="date">{{ temp }}text here</p>
+                <p name="date">tempdate</p>
             </div>
         </div>
         
@@ -62,8 +62,8 @@
             <p><strong>Please rate the following aspects of your teacher's performance using the scale above:</strong></p>
         </div>
         
-        <div class="evaluation-section" v-for="value in source"> <!--title card yung blue i v-for din ito-->
-            <h2 class="section-header">{{ temp.data.header.eng }} <span class="tagalog">({{ temp.data.header.tag }})</span></h2>
+        <div class="evaluation-section" v-for="header in headers" :key="header.header_id"> <!--title card yung blue i v-for din ito-->
+            <h2 class="section-header">{{ header.header }} <span class="tagalog">(temp-header-tag)</span></h2>
             <table class="indicator-table"> 
                 <tr>
                     <th>Indicator</th><!--ito yung sa taas-->
@@ -84,10 +84,10 @@
                         </div>
                     </th>
                 </tr>
-                <tr v-for="value in source"> <!--dito mo lagay yung v-for-->
+                <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
                     <td>
-                        <strong>{{ temp.date.counter }}</strong> {{ temp.data.question.tag }}<br> <!--tanong tagalog-->
-                        <span class="tagalog">{{ temp.data.question.eng }}</span><!--tanong english-->
+                        <strong>temp-date-counter</strong> {{ question.question }}<br> <!--tanong tagalog-->
+                        <span class="tagalog">temp-answer-eng</span><!--tanong english-->
                     </td>
                     <td class="rating-cell">
                         <div class="rating-options">
@@ -134,7 +134,8 @@ export default {
     name: "setInterval",
     data(){
         return{
-            urlappphp: "",
+            urlappphp: "https://rusiann7.helioho.st/questions.php",
+            headers: []
         }
     },
 
@@ -152,18 +153,18 @@ export default {
                 const result = await response.json();
 
                 if(result.success){
-
+                    this.headers = result.headers;
                 }else {
                     console.error("server error:", error);
                 }
             }catch(error){
-
+                console.error(error)
             }
         }
     },
 
     mounted(){
-
+        this.getQuestions();
     }
 }
 
