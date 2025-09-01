@@ -1,6 +1,12 @@
 <?php //login
 require 'config.php';
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+define('JWT_SECRET_KEY', 'eval');
+define('JWT_EXPIRE_TIME', 3600);
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
