@@ -1,4 +1,4 @@
-<?php //login
+<?php //question getter
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -55,40 +55,46 @@ if($conn -> connect_error) {
     die("Connection Failed" . $conn -> connect_error);
 }
 
-if ($action === 'login') {
+if( $action === 'getQuestions'){
 
-    $identifier = $data['id'] ?? '';  //email ito
-    $password   = $data['ps'] ?? '';
+    $sql1 = "SELECT id, header FROM Headers ORDER BY id ASC";
+    $result1 = $conn -> query($sql1);
 
-    $sql = "SELECT * FROM Users WHERE Email = '$identifier';";
-    $result = $conn->query($sql);
+    $all_headers = [];
 
-    if($result && $result->num_rows > 0) {
-        $dataLogin = $result->fetch_assoc();
+    if($result1 && $result1->num_rows > 0){
+        while($row1 = $result1 ->fetch_assoc()){
+            $header_id = $row1['id'];
 
-        if(password_verify($password,$dataLogin['password'])){
-            
-            $tokenPayload=[
-                'user_id' => $dataLogin['id'],
-                'email' => $dataLogin['Email'],
-                'iat' => time(),
-                'exp' => time() + JWT_EXPIRE_TIME
+            $sql2= "SELECT id, question FROM Questions WHERE header_id = $header_id ORDER BY id ASC";
+            $result2 = $conn -> query($sql2);
+
+            $questions = [];
+
+            if($result2 && $result2->num_rows > 0){
+                while($row2 = $result2 -> fetch_assoc()){
+                    $questions[] = [
+                        "question_id" => $row2['id'],
+                        "question" => $row2['question']
+                    ];
+                }
+            }
+
+            $all_headers[] = [
+                "header_id" => $header_id,
+                "header"    => $row1['header'],
+                "questions" => $questions
             ];
-
-            $token = JWT::encode($tokenPayload, JWT_SECRET_KEY, 'HS256');
-
-            echo json_encode([ //ito yung meta data
-                "success"=> true,
-                "token"=> $token,
-                "userData" => [
-                    "email" => $dataLogin['Email'],
-                    "access" => $dataLogin['role']
-                ]]);
-            exit;
-        }else{
-            echo json_encode(["success"=> false,"error" => "Password error"]);
         }
-    }else{
-        echo json_encode(["success"=> false,"error" => "Email not found"]);
+
+         echo json_encode([
+            "success" => true,
+            "header" => $all_headers,
+        ]);
+
+    }else {
+        echo json_encode([
+            "success" => false, //walang headers
+        ]);
     }
 }
