@@ -135,7 +135,9 @@ export default {
     data(){
         return{
             urlappphp: "https://rusiann7.helioho.st/questions.php",
-            headers: []
+            urlappphp2: "",
+            headers: [],
+            teachers: [],
         }
     },
 
@@ -164,11 +166,33 @@ export default {
 
         async getTeacherbyid(){
             try{
+                const response = await fetch(this.urlappphp2, {
+                    method: 'POST',
+                    headers: {
+                        "Content-type":"application/json"
+                    },
+                    body: JSON.stringify({action: "getteacherbyid", id: this.$route.params.id})
+                });
 
+                const result = await response.json();
+
+                if(result.success){
+                    this.teachers = result.teachers;
+                }else{
+                    console.log(error);
+                }
             }catch(error){
-
+                console.log(error);
             }
         },
+
+        async submitEval() {
+            try{
+
+            }catch(error){
+                
+            }
+        }
     },
 
     mounted(){
