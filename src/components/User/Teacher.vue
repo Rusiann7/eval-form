@@ -20,16 +20,13 @@
 
   <!-- Stats -->
   <div class="stats-container">
-    <div class="stat-card">👥<h3>{{ count }}</h3><p>Colleagues</p></div>
+    <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Colleagues</p></div>
     <div class="stat-card">✅<h3>2</h3><p>Completed</p></div>
-    <div class="stat-card">📊<h3>4.5</h3><p>Avg Rating</p></div>
-    <div class="stat-card">📩<h3>3</h3><p>Received</p></div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab active">Evaluate Colleagues</div>
-    <div class="tab">My Feedback</div>
   </div>
 
   <!-- Teacher Cards -->
@@ -42,7 +39,7 @@
         <div class="teacher-card" v-for="teacher in teachers" :key="teacher.id">
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
-          <button class="btn btn-light">Update Evaluation</button>
+          <button class="btn btn-light" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Update Evaluation</button>
         </div>
     </div>
 </template>
@@ -104,8 +101,12 @@
 <style scoped>
 
 /* Global */
+
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   background: #fff;
   color: #1a1a1a;
@@ -225,6 +226,8 @@ header p {
   gap: 20px;
   padding: 20px 40px;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 .stat-card {
   flex: 1;
@@ -250,9 +253,10 @@ header p {
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
-  cursor: pointer;
 }
-.tab.active { background: #000; color: #fff; }
+.tab.active { 
+  background: #000; color: #fff; 
+}
 
 /* Teacher Section */
 .teacher-header {

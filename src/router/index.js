@@ -7,6 +7,7 @@ const Teacher = () => import('../components/User/Teacher.vue')
 const Principal = () => import('../components/Admin/Principal.vue')
 const newDashboard = () => import('../components/newDashboard.vue')
 const StEval = () => import('../components/evalforms/student.vue')
+const TcEval = () => import('../components/evalforms/teacher.vue')
 
 const routes = [
   {
@@ -49,6 +50,13 @@ const routes = [
     name: 'student-eval',
     component: StEval,
     meta: {title: 'Student Evaluation', requiresAuth: false}
+  },
+
+  {
+    path: '/teacher-eval/:id',
+    name: 'teacher-eval',
+    component: TcEval,
+    meta: {title: 'Teacher Evalutaion', requiresAuth: false}
   }
 ]
 
