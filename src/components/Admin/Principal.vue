@@ -13,7 +13,7 @@
   </header>
 
   <!-- Page Header -->    
-  <div class="page-header">
+  <div class="page-header">      
     <h2>Principal Dashboard</h2>
     <p>Manage teacher evaluations and view institutional performance metrics</p>
   </div>
