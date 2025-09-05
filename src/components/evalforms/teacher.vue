@@ -112,7 +112,10 @@ export default {
     data(){
         return{
             urlappphp: "",
-            headers: []
+            headers: [],
+            date: new Date().getDate(),
+            month: new Date().getMonth(),
+            year: new Date().getFullYear()
         }
     },
 

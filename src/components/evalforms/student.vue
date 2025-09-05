@@ -27,7 +27,7 @@
             
             <div class="info-field">
                 <label for="date">Petsa (Date):</label>
-                <p name="date">temp-date</p>
+                <p name="date">{{ month }}</p>
             </div>
         </div>
         
@@ -63,7 +63,7 @@
         </div>
         
         <div class="evaluation-section" v-for="header in headers" :key="header.header_id"> <!--title card yung blue i v-for din ito-->
-            <h2 class="section-header">{{ header.header }} <span class="tagalog">(temp-header-tag)</span></h2>
+            <h2 class="section-header">{{ header.header }} <span class="tagalog">{{ header.header_p }}</span></h2>
             <table class="indicator-table"> 
                 <tr>
                     <th>Indicator</th><!--ito yung sa taas-->
@@ -92,15 +92,15 @@
                     <td class="rating-cell">
                         <div class="rating-options">
                             <label class="rating-option">
-                                <input type="radio" name="expertise5" value="5">
+                                <input type="radio" name="expertise5" value="5" v-model="rrating">
                                 <span class="rating-value">5</span>
                             </label>
                             <label class="rating-option">
-                                <input type="radio" name="expertise5" value="3">
+                                <input type="radio" name="expertise5" value="3" v-model="rrating">
                                 <span class="rating-value">3</span>
                             </label>
                             <label class="rating-option">
-                                <input type="radio" name="expertise5" value="1">
+                                <input type="radio" name="expertise5" value="1" v-model="rrating">
                                 <span class="rating-value">1</span>
                             </label>
                         </div>
@@ -113,7 +113,7 @@
         <div class="feedback-section">
             <h2>Karagdagang mensahe / suhestiyon ng mag-aaral sa kaniyang guro upang mapagbuti pang higit ang kaniyang pagtuturo.</h2>
             <h2>Additional message/suggestion from the student to the teacher to further improve teaching.</h2>
-            <textarea placeholder="Please provide your feedback and suggestions here..."></textarea>
+            <textarea placeholder="Please provide your feedback and suggestions here..." v-model="feedback"></textarea>
         </div>
         
         <div class="buttons">
@@ -138,6 +138,11 @@ export default {
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
             headers: [],
             teacher: {},
+            date: new Date().getDate(),
+            month: "",
+            year: new Date().getFullYear(),
+            feedback: "",
+            rrating: null
         }
     },
 
@@ -178,6 +183,7 @@ export default {
 
                 if(result.success){
                     this.teacher = result.teacher;
+                    this.month = result.month + " " + this.date + ", " + this.year;
                 }else{
                     console.log("Server error:", result.message);
                 }

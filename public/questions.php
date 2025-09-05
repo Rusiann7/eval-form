@@ -12,7 +12,7 @@ $action = $data['action'] ?? '';
 
 if( $action === 'getQuestions'){
 
-    $sql1 = "SELECT id, header FROM Headers ORDER BY id ASC";
+    $sql1 = "SELECT id, header, header_p FROM Headers ORDER BY id ASC";
     $result1 = $conn -> query($sql1);
 
     $all_headers = [];
@@ -38,6 +38,7 @@ if( $action === 'getQuestions'){
             $all_headers[] = [
                 "header_id" => $header_id,
                 "header"    => $row1['header'],
+                "header_p" => $row1['header_p'],
                 "questions" => $questions
             ];
         }

@@ -26,9 +26,13 @@ if($action === 'getteacherbyid'){
             'sub' => $teachers['subject'],
         ];
 
+        $now = new DateTime();
+        $month = $now->format('F');
+
         echo json_encode([
             'success' =>true,
-            'teacher' => $payload
+            'teacher' => $payload,
+            'month' => $month
         ]);
 
     }else{
