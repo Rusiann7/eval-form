@@ -92,15 +92,27 @@
                     <td class="rating-cell">
                         <div class="rating-options">
                             <label class="rating-option">
-                                <input type="radio" name="expertise5" value="5" v-model="rrating">
+                                <input type="radio" 
+                                    :name="'rating: ' + question.question_id"
+                                    value="5" 
+                                    v-model="answer[question.question_id]"
+                                >
                                 <span class="rating-value">5</span>
                             </label>
                             <label class="rating-option">
-                                <input type="radio" name="expertise5" value="3" v-model="rrating">
+                                <input type="radio" 
+                                    :name="'rating: ' + question.question_id"
+                                    value="3" 
+                                    v-model="answer[question.question_id]"
+                                >
                                 <span class="rating-value">3</span>
                             </label>
                             <label class="rating-option">
-                                <input type="radio" name="expertise5" value="1" v-model="rrating">
+                                <input type="radio" 
+                                    :name="'rating-' + question.question_id"
+                                    value="1" 
+                                    v-model="answer[question.question_id]"
+                                >
                                 <span class="rating-value">1</span>
                             </label>
                         </div>
@@ -117,8 +129,8 @@
         </div>
         
         <div class="buttons">
-            <button class="submit"><i class="fas fa-paper-plane"></i> Submit Evaluation</button>
-            <button class="reset"><i class="fas fa-redo"></i> Reset Form</button>
+            <button class="submit" type="submit" @click.prevent="submitEval"><i class="fas fa-paper-plane"></i> Submit Evaluation</button>
+            <button class="reset" type="submit" @click.prevent="formClear"><i class="fas fa-redo"></i> Reset Form</button>
         </div>
         
         <footer>
@@ -142,7 +154,7 @@ export default {
             month: "",
             year: new Date().getFullYear(),
             feedback: "",
-            rrating: null
+            answer:{}
         }
     },
 
@@ -194,16 +206,22 @@ export default {
 
         async submitEval() {
             try{
-
+                console.log(this.answer, this.feedback);
             }catch(error){
 
             }
+        },
+
+        formClear(){
+            this.feedback = "";
+            this.answer = {};
         }
     },
 
     mounted(){
         this.getQuestions();
         this.getTeacherbyid();
+        this.feedback = "";
     }
 }
 

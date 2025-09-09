@@ -8,6 +8,7 @@ const Principal = () => import('../components/Admin/Principal.vue')
 const newDashboard = () => import('../components/newDashboard.vue')
 const StEval = () => import('../components/evalforms/student.vue')
 const TcEval = () => import('../components/evalforms/teacher.vue')
+const printable = () => import('../components/evalforms/main-eval.vue')
 
 const routes = [
   {
@@ -57,6 +58,13 @@ const routes = [
     name: 'teacher-eval',
     component: TcEval,
     meta: {title: 'Teacher Evalutaion', requiresAuth: false}
+  },
+
+  {
+    path: '/printable-form/:id',
+    name: 'printable-form',
+    component: printable,
+    meta: {title: 'Printable Form', requiresAuth: false}
   }
 ]
 
