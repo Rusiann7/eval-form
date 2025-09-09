@@ -148,6 +148,7 @@ export default {
         return{
             urlappphp: "https://rusiann7.helioho.st/questions.php",
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
+            urlappphp3: "",
             headers: [],
             teacher: {},
             date: new Date().getDate(),
@@ -206,7 +207,15 @@ export default {
 
         async submitEval() {
             try{
-                console.log(this.answer, this.feedback);
+                console.log(this.answer, this.feedback, this.$route.params.id);
+
+                const response = await fetch(this.urlappphp3, {
+                    method: 'POST',
+                    headers: {
+                        "Conten-type":"application/json"
+                    },
+                    body: JSON.stringify({action: "submits", id: this.$route.params.id,  })
+                })
             }catch(error){
 
             }
