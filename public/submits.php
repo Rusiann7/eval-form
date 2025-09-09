@@ -17,16 +17,22 @@ if($action === 'submits'){
     $answers = $data['answers'];
     $studentid = $data['stid'];
 
-    $sql = "INSERT INTO ";
+    $sql = "INSERT INTO Evaluations (tcr_id, evt_id, feedback) 
+            VALUES ($teacherid, $studentid, '$feedback');";
 
     if($conn->query($sql) === TRUE){
         echo json_encode([
             'success' => true
         ]);
+
+        $decoded = 
+
+        $sql1 = "INSERT INTO EvaluationAnswer (Question_id, score) 
+                VALUES ();";
     }else{
         echo json_encode([
             'success' => false,
-            'message' => "Error: " . $sql . "<br>" . $conn->error
+            'message' => "Error: " . $conn->error,
         ]);
     }
 }else{
