@@ -325,21 +325,58 @@
                     <i class="fas fa-key"></i>
                 </div>
                 <h2>Reset Password</h2>
-                <p>Enter your email to receive a password reset link</p>
+                <p>Enter your email to receive a password reset code</p>
             </div>
             <form id="forgotPasswordForm">
                 <div class="form-group">
                     <label for="resetEmail">Email Address</label>
                     <input
                         type="email"
-                        id="resetEmail"
+                        v-model="newPassword.email"
                         placeholder="Enter your email"
                         required
                     />
                 </div>
-                <button type="submit" class="modal-btn">Send Reset Link</button>
+                <button type="submit" class="modal-btn" @click="fgps()">Send Reset Code</button>
             </form>
         </div>
+    </div>
+
+    <div class="modal" v-if="activeModal === 'fgps1'">
+        <div class="modal-content">
+            <span class="close-modal" @click="closeModal()">&times;</span>
+                <div class="modal-header">
+                    <div class="modal-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h2>Reset Password</h2>
+                    <p>Enter your new password</p>
+                </div>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">New Password</label>
+                    <input
+                        type="email"
+                        v-model="newPassword.newPasswords"
+                        placeholder="Enter your new password"
+                        required
+                    /><!--vmodel dito-->
+
+                    <label for="condirmpass">Confirm Password</label>
+                    <input 
+                        type="password"
+                        v-model="newPassword.confirmPassword"
+                        placeholder="Confirm your new password"
+                        required
+
+                    /><!--vmodel dito-->
+                </div>
+                <button type="submit" class="modal-btn" @click="fgps()">Reset Password</button>
+            </form>
+
+        </div>
+
+
     </div>
 </template>
 
@@ -358,6 +395,7 @@ export default {
             studentr: { fn: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
             admin: { id: "", ps: "" },
+            newPassword: {newPasswords: "", confirmPassword: "", email: ""},
             isLoading: false,
         };
     },
@@ -451,6 +489,60 @@ export default {
                 }
             }else{
                 alert("Password is not the same");
+            }
+        },
+
+        async fgps(){
+            try{
+
+                this.isLoading = true;
+
+                const response = await fetch(this.urlappphp, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({action: "forgetPassword", email: this.studentl.id})
+                })
+
+                const result =await response.json();
+
+                if(result.success){
+                    this.isLoading = false;
+                    this.activeModal = "fgps1";
+                }
+
+            }catch(error){
+                console.error("Signup error:", error);
+            }
+        },
+
+        async fgps1(){
+            if(this.newPassword.newPasswords === this.newPassword.confirmPassword){
+
+                try{
+                    const response = await fetch(this.urlappphp, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({action: "newPassword", content: this.newPassword})
+                    });
+                    const result = await response.JSON();
+                    
+                    if(result.success){
+                        this.isLoading = false;
+                        this.activeModal = null;
+                        this.activeTab = "login";
+                    }
+                }catch(error){
+                    console.error("Signup error:", error);
+                }
+
+            }else{
+                this.newPassword = {newPasswords: "", confirmPassword: ""};
+                alert("Password missmatch");
+                return;
             }
         },
 
