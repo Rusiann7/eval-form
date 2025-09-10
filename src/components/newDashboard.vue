@@ -356,11 +356,13 @@
                 <div class="form-group">
                     <label for="resetEmail">New Password</label>
                     <input
-                        type="email"
+                        type="password"
                         v-model="newPassword.newPasswords"
                         placeholder="Enter your new password"
                         required
                     /><!--vmodel dito-->
+                    <br>
+                    <br>
 
                     <label for="condirmpass">Confirm Password</label>
                     <input 
@@ -373,10 +375,32 @@
                 </div>
                 <button type="submit" class="modal-btn" @click="fgps()">Reset Password</button>
             </form>
-
         </div>
+    </div>
 
-
+    <div class="modal" v-if="activeModal === 'fgps2'">
+        <div class="modal-content">
+            <span class="close-modal" @click="closeModal()">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2>Reset Password</h2>
+                <p>We have sent an E-Mail to your inbox containing the code</p>
+            </div>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetEmail">Code</label>
+                    <input
+                        type="text"
+                        v-model="newPassword.code"
+                        placeholder="Enter the code"
+                        required
+                    />
+                </div>
+                <button type="submit" class="modal-btn" @click="fgps2()">Enter Reset Code</button>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -387,7 +411,7 @@ export default {
     name: "newDashboard",
     data() {
         return {
-            activeModal: null,
+            activeModal: "",
             activeTab: "login",
             loginphp: "https://rusiann7.helioho.st/login.php",
             signupphp: "https://rusiann7.helioho.st/register.php",
@@ -395,7 +419,7 @@ export default {
             studentr: { fn: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
             admin: { id: "", ps: "" },
-            newPassword: {newPasswords: "", confirmPassword: "", email: ""},
+            newPassword: {newPasswords: "", confirmPassword: "", email: "", code: ""},
             isLoading: false,
         };
     },
@@ -495,21 +519,21 @@ export default {
         async fgps(){
             try{
 
-                this.isLoading = true;
+                //this.isLoading = true;
 
                 const response = await fetch(this.urlappphp, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({action: "forgetPassword", email: this.studentl.id})
+                    body: JSON.stringify({action: "forgetPassword", email: this.newPassword.email})
                 })
 
                 const result =await response.json();
 
                 if(result.success){
                     this.isLoading = false;
-                    this.activeModal = "fgps1";
+                    this.activeModal = "fgps2";
                 }
 
             }catch(error){
@@ -544,6 +568,30 @@ export default {
                 alert("Password missmatch");
                 return;
             }
+        },
+
+        async fgps2(){
+
+            try{
+
+                const response = await fetch(this.urlappphp, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({action: "code", code: this.newPassword.code, email: this.newPassword.email})
+                });
+
+                const result = await response.JSON();
+
+                if(result.success){
+                    this.activeModal = "fgps1";
+                }
+
+            } catch(error){
+
+            }
+
         },
 
         toggleModal(modal) {
