@@ -1,5 +1,4 @@
 <template>
-
     <div v-if="isLoading" class="loading-screen">
         <div class="loading-spinner"></div>
         <p>Loading...</p>
@@ -13,7 +12,8 @@
             </div>
             <h1>Project EVAL</h1>
             <p class="tagline">
-                Enriching Vital teAcher's versatiLity: Fostering Growth, Innovation, and Impact
+                Enriching Vital teAcher's versatiLity: Fostering Growth,
+                Innovation, and Impact
             </p>
             <p class="instruction">
                 Select your role to access the evaluation platform
@@ -27,7 +27,8 @@
                 </div>
                 <h2>Student</h2>
                 <p>
-                    Evaluate your teachers and provide feedback on their teaching methods and course content.
+                    Evaluate your teachers and provide feedback on their
+                    teaching methods and course content.
                 </p>
                 <button
                     class="btn student-btn"
@@ -46,7 +47,8 @@
                 </div>
                 <h2>Teacher</h2>
                 <p>
-                    Evaluate your colleagues and peers to foster professional growth and collaboration.
+                    Evaluate your colleagues and peers to foster professional
+                    growth and collaboration.
                 </p>
                 <button
                     class="btn teacher-btn"
@@ -65,7 +67,8 @@
                 </div>
                 <h2>OIC Head Teacher/OIC Assistant Principal/Principal</h2>
                 <p>
-                    Evaluate teachers, manage assessments, and oversee the evaluation process.
+                    Evaluate teachers, manage assessments, and oversee the
+                    evaluation process.
                 </p>
                 <button
                     class="btn admin-btn"
@@ -112,10 +115,7 @@
 
             <div class="tab-content" v-if="activeTab === 'login'">
                 <!--login-->
-                <form
-                    method="post"
-                    @submit.prevent="login"
-                >
+                <form method="post" @submit.prevent="login">
                     <div class="form-group">
                         <label for="studentId">Student ID:</label>
                         <input
@@ -143,18 +143,13 @@
                             >
                         </div>
                     </div>
-                    <button type="submit" class="modal-btn">
-                        Login
-                    </button>
+                    <button type="submit" class="modal-btn">Login</button>
                 </form>
             </div>
 
             <div class="tab-content" v-if="activeTab === 'register'">
                 <!--register-->
-                <form
-                    method="post"
-                    @submit.prevent="signup"
-                >
+                <form method="post" @submit.prevent="signup">
                     <div class="form-group">
                         <label for="studentName">Full Name:</label>
                         <input
@@ -337,7 +332,9 @@
                         required
                     />
                 </div>
-                <button type="submit" class="modal-btn" @click="fgps()">Send Reset Code</button>
+                <button type="submit" class="modal-btn" @click="fgps()">
+                    Send Reset Code
+                </button>
             </form>
         </div>
     </div>
@@ -345,13 +342,13 @@
     <div class="modal" v-if="activeModal === 'fgps1'">
         <div class="modal-content">
             <span class="close-modal" @click="closeModal()">&times;</span>
-                <div class="modal-header">
-                    <div class="modal-icon">
-                        <i class="fas fa-key"></i>
-                    </div>
-                    <h2>Reset Password</h2>
-                    <p>Enter your new password</p>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-key"></i>
                 </div>
+                <h2>Reset Password</h2>
+                <p>Enter your new password</p>
+            </div>
             <form id="forgotPasswordForm">
                 <div class="form-group">
                     <label for="resetEmail">New Password</label>
@@ -361,19 +358,20 @@
                         placeholder="Enter your new password"
                         required
                     /><!--vmodel dito-->
-                    <br>
-                    <br>
+                    <br />
+                    <br />
 
                     <label for="condirmpass">Confirm Password</label>
-                    <input 
+                    <input
                         type="password"
                         v-model="newPassword.confirmPassword"
                         placeholder="Confirm your new password"
                         required
-
                     /><!--vmodel dito-->
                 </div>
-                <button type="submit" class="modal-btn" @click="fgps()">Reset Password</button>
+                <button type="submit" class="modal-btn" @click="fgps()">
+                    Reset Password
+                </button>
             </form>
         </div>
     </div>
@@ -398,14 +396,16 @@
                         required
                     />
                 </div>
-                <button type="submit" class="modal-btn" @click="fgps2()">Enter Reset Code</button>
+                <button type="submit" class="modal-btn" @click="fgps2()">
+                    Enter Reset Code
+                </button>
             </form>
         </div>
     </div>
 </template>
 
 <script>
-import { setToken } from '../utils/auth';
+import { setToken } from "../utils/auth";
 
 export default {
     name: "newDashboard",
@@ -419,31 +419,35 @@ export default {
             studentr: { fn: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
             admin: { id: "", ps: "" },
-            newPassword: {newPasswords: "", confirmPassword: "", email: "", code: ""},
+            newPassword: {
+                newPasswords: "",
+                confirmPassword: "",
+                email: "",
+                code: "",
+            },
             isLoading: false,
         };
     },
 
     methods: {
-
         async login() {
-            this.isloading = true;
+            this.isLoading = true;
 
-            try{
+            try {
                 let type = null;
                 let site = null;
 
                 switch (this.activeModal) {
-                    case 'student':
+                    case "student":
                         type = "studentl";
                         site = "/student";
                         break;
-                     
-                    case'admin':
+
+                    case "admin":
                         type = "admin";
                         site = "/principal";
                         break;
-                
+
                     default:
                         type = "teacherl";
                         site = "/teacher";
@@ -451,16 +455,20 @@ export default {
                 }
 
                 const response = await fetch(this.loginphp, {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({  email: this[type].id, password: this[type].ps, action: "login"}),
+                    body: JSON.stringify({
+                        email: this[type].id,
+                        password: this[type].ps,
+                        action: "login",
+                    }),
                 });
 
                 const result = await response.json();
 
-                if(result.success) {
+                if (result.success) {
                     if (result.token) {
                         setToken(result.token);
                     }
@@ -470,128 +478,146 @@ export default {
                         ...result.userData,
                     };
 
-                    localStorage.setItem("userData", JSON.stringify(this.formData));
+                    localStorage.setItem(
+                        "userData",
+                        JSON.stringify(this.formData),
+                    );
                     this[type] = { id: "", ps: "" };
 
+                    this.isLoading = false;
                     this.$router.push(site);
-
-                }else {
-                    this.responseMessage = result.error || alert("Log in failed.");
+                } else {
+                    this.responseMessage =
+                        result.error || alert("Log in failed.");
                 }
-
-            }catch(error){
+            } catch (error) {
                 console.error("Login error:", error);
             }
         },
 
         async signup() {
-
-            if (this.studentr.pass === this.studentr.conpass){
+            if (this.studentr.pass === this.studentr.conpass) {
                 try {
-
-                    this.isloading=true;
+                    this.isLoading = true;
 
                     const response = await fetch(this.signupphp, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ ...this.studentr, action: "signup"})
+                        body: JSON.stringify({
+                            ...this.studentr,
+                            action: "signup",
+                        }),
                     });
 
                     const result = await response.json();
-                    if(result.success){
+                    if (result.success) {
                         this.responseMessage = result.message;
-                        this.activeTab = "login"
-                        this.isloading=false;
-                        this.studentr = { fn: "", em: "", id: "", pass: "", conpass: "" };
-                    }else {
-                        console.error("server error: ",error);
+                        this.activeTab = "login";
+                        this.isLoading = false;
+                        this.studentr = {
+                            fn: "",
+                            em: "",
+                            id: "",
+                            pass: "",
+                            conpass: "",
+                        };
+                    } else {
+                        console.error("server error: ", error);
                     }
-                }catch(error){
+                } catch (error) {
                     console.error("Signup error:", error);
                 }
-            }else{
+            } else {
                 alert("Password is not the same");
             }
         },
 
-        async fgps(){
-            try{
-
+        async fgps() {
+            try {
                 //this.isLoading = true;
 
                 const response = await fetch(this.urlappphp, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({action: "forgetPassword", email: this.newPassword.email})
-                })
+                    body: JSON.stringify({
+                        action: "forgetPassword",
+                        email: this.newPassword.email,
+                    }),
+                });
 
-                const result =await response.json();
+                const result = await response.json();
 
-                if(result.success){
+                if (result.success) {
                     this.isLoading = false;
                     this.activeModal = "fgps2";
                 }
-
-            }catch(error){
+            } catch (error) {
                 console.error("Signup error:", error);
             }
         },
 
-        async fgps1(){
-            if(this.newPassword.newPasswords === this.newPassword.confirmPassword){
+        async fgps1() {
+            if (
+                this.newPassword.newPasswords ===
+                this.newPassword.confirmPassword
+            ) {
+                try {
+                    this.isLoading = true;
 
-                try{
                     const response = await fetch(this.urlappphp, {
                         method: "POST",
                         headers: {
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({action: "newPassword", content: this.newPassword})
+                        body: JSON.stringify({
+                            action: "newPassword",
+                            content: this.newPassword,
+                        }),
                     });
                     const result = await response.JSON();
-                    
-                    if(result.success){
+
+                    if (result.success) {
                         this.isLoading = false;
                         this.activeModal = null;
                         this.activeTab = "login";
                     }
-                }catch(error){
+                } catch (error) {
                     console.error("Signup error:", error);
                 }
-
-            }else{
-                this.newPassword = {newPasswords: "", confirmPassword: ""};
+            } else {
+                this.newPassword = { newPasswords: "", confirmPassword: "" };
                 alert("Password missmatch");
                 return;
             }
         },
 
-        async fgps2(){
-
-            try{
+        async fgps2() {
+            try {
+                this.isLoading = true;
 
                 const response = await fetch(this.urlappphp, {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({action: "code", code: this.newPassword.code, email: this.newPassword.email})
+                    body: JSON.stringify({
+                        action: "code",
+                        code: this.newPassword.code,
+                        email: this.newPassword.email,
+                    }),
                 });
 
                 const result = await response.JSON();
 
-                if(result.success){
+                if (result.success) {
+                    this.isLoading = false;
                     this.activeModal = "fgps1";
                 }
-
-            } catch(error){
-
-            }
-
+            } catch (error) {}
         },
 
         toggleModal(modal) {
@@ -816,7 +842,7 @@ h2 {
     background-color: rgba(0, 0, 0, 0.7);
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 2000;
 }
 
 .modal-content {
@@ -972,8 +998,8 @@ h2 {
     font-weight: 600;
     cursor: pointer;
     transition:
-    background 0.3s ease,
-    transform 0.2s ease;
+        background 0.3s ease,
+        transform 0.2s ease;
 }
 
 .modal-btn:hover {
@@ -1009,28 +1035,28 @@ h2 {
 }
 
 .loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    color: white;
 }
 
 .loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 10px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #ffffff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
 }
 
 @media (max-width: 900px) {
