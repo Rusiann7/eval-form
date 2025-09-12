@@ -405,7 +405,7 @@
 </template>
 
 <script>
-import { setToken } from "../utils/auth";
+import { setToken, getToken } from "../utils/auth";
 
 export default {
     name: "newDashboard",
@@ -473,19 +473,15 @@ export default {
                         setToken(result.token);
                     }
 
-                    this.formData = {
-                        ...this[type],
-                        ...result.userData,
-                    };
-
                     localStorage.setItem(
                         "userData",
-                        JSON.stringify(this.formData),
+                        JSON.stringify(this[type].id),
                     );
+
                     this[type] = { id: "", ps: "" };
 
                     this.isLoading = false;
-                    this.$router.push(site);
+                    this.$router.replace(site);
                 } else {
                     this.responseMessage =
                         result.error || alert("Log in failed.");
@@ -618,6 +614,18 @@ export default {
                     this.activeModal = "fgps1";
                 }
             } catch (error) {}
+        },
+
+        skipLogin(){
+            const token = getToken();
+
+            if (!token) {
+              console.error("No token found, redirecting to login.");
+              this.$router.replace("/new-Dashboard");
+              return;
+            }else{
+                this.login();
+            }
         },
 
         toggleModal(modal) {
@@ -998,8 +1006,8 @@ h2 {
     font-weight: 600;
     cursor: pointer;
     transition:
-        background 0.3s ease,
-        transform 0.2s ease;
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 .modal-btn:hover {
@@ -1057,6 +1065,7 @@ h2 {
     height: 40px;
     animation: spin 1s linear infinite;
     margin-bottom: 10px;
+    z-index: 3000;
 }
 
 @media (max-width: 900px) {

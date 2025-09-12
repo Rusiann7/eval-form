@@ -1,4 +1,10 @@
 <template>
+
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
   <header>
     <div>
       <h1>Teacher Evaluation System</h1>
@@ -6,7 +12,7 @@
     </div>
     <div class="user-section">
       <span>Welcome, Student User</span>
-      <button class="logout-btn">Logout</button>
+      <button class="logout-btn" @click="">Logout</button>
     </div>
   </header>
 
@@ -58,6 +64,8 @@
             urlappphp: "https://rusiann7.helioho.st/Getter.php",
             teachers: [],
             count: 0,
+            isLoading: false,
+            id: localStorage.getItem("userData") || "",
           }
         },
 
@@ -66,6 +74,9 @@
           async getTeachers() {
             
             try {
+
+              this.isLoading = true;
+
               const response = await fetch(this.urlappphp, {
                 method: 'POST',
                 headers: {
@@ -86,6 +97,7 @@
                   year: teacher.year
                 }));
                 this.count = result.count;
+                this.isLoading = false;
 
               }else {
                 console.error("Error fetching teachers:", result.message);
@@ -94,11 +106,33 @@
             }catch(error){
               console.error("Error fetching teachers:", error);
             }
-          }
+          },
+
+          logout() {
+            try {
+              removeToken();
+              this.localUserData = {};
+              this.$router.replace("/");
+            }catch (error) {
+              console.error("Logout error:", error);
+            }
+          },
+
+          skipLogin(){
+            const token = getToken();
+
+            if (!token) {
+              console.error("No token found, redirecting to login.");
+              this.$router.replace("/new-Dashboard");
+              return;
+            }
+          },
         },
 
         mounted() {
           this.getTeachers();
+          this.id = localStorage.getItem("userData") || "";
+          this.skipLogin();
         }
     }
 
@@ -274,5 +308,31 @@
       text-align: right;
       color: #333;
     }
+
+    .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    color: white;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #ffffff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+    z-index: 3000;
+}
 
 </style>
