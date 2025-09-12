@@ -473,7 +473,7 @@ export default {
                         setToken(result.token);
                     }
 
-                    localStorage.setItem("userData", JSON.stringify(result.userData.fullname));
+                    localStorage.setItem("userData", result.userData.fullname);
 
                     this[type] = { id: "", ps: "" };
 

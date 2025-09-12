@@ -86,7 +86,7 @@
                 </tr>
                 <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
                     <td>
-                        <strong>temp-date-counter</strong> {{ question.question }}<br> <!--tanong tagalog-->
+                        <strong>counter</strong> {{ question.question }}<br> <!--tanong tagalog-->
                         <span class="tagalog">{{question.question_eng}}</span><!--tanong english-->
                     </td>
                     <td class="rating-cell">
@@ -109,7 +109,7 @@
                             </label>
                             <label class="rating-option">
                                 <input type="radio" 
-                                    :name="'rating-' + question.question_id"
+                                    :name="'rating:' + question.question_id"
                                     value="1" 
                                     v-model="answer[question.question_id]"
                                 >
@@ -146,7 +146,7 @@ export default {
     name: "student-eval",
     data(){
         return{
-            urlappphp: "https://rusiann7.helioho.st/questions.php",
+            urlappphp: "http://localhost:8000/questions.php",
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
             urlappphp3: "",
             headers: [],

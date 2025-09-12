@@ -54,4 +54,9 @@ if( $action === 'getQuestions'){
             "success" => false, //walang headers
         ]);
     }
+}else{
+    echo json_encode([
+        "success" => false, 
+        "action" => $action
+    ]);
 }

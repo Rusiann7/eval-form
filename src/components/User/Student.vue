@@ -8,11 +8,11 @@
   <header>
     <div>
       <h1>Teacher Evaluation System</h1>
-      <button class="portal-btn">Student Portal</button>
+      <button class="portal-btn" @click="$router.push('/')">Student Portal</button>
     </div>
     <div class="user-section">
       <span>Welcome, {{ id }}</span>
-      <button class="logout-btn" @click="">Logout</button>
+      <button class="logout-btn" @click="logout()">Logout</button>
     </div>
   </header>
 
@@ -57,10 +57,9 @@
 
 <script>  
 
-import { setToken, getToken } from "/home/alejandro/Documents/School Files/ProjectEVAL/eval-form/src/utils/auth.js";
+import { removeToken, getToken } from "/home/alejandro/Documents/School Files/ProjectEVAL/eval-form/src/utils/auth.js";
 
     const storedData = localStorage.getItem("userData");
-    const parsedId = storedData ? JSON.parse(storedData) : null;
 
     export default {
         name: 'Student',
@@ -70,7 +69,7 @@ import { setToken, getToken } from "/home/alejandro/Documents/School Files/Proje
             teachers: [],
             count: 0,
             isLoading: false,
-            id: parsedId,
+            id: storedData,
           }
         },
 
@@ -79,7 +78,6 @@ import { setToken, getToken } from "/home/alejandro/Documents/School Files/Proje
           async getTeachers() {
             
             try {
-
               this.isLoading = true;
 
               const response = await fetch(this.urlappphp, {

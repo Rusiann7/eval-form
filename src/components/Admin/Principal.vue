@@ -8,7 +8,7 @@
     </div>
     <div class="user-info">
       <span>Welcome, Principal User</span>
-      <a href="index.html" class="logout-btn">Logout</a>
+      <button class="logout-btn" @click="logout()">Logout</button>
     </div>
   </header>
 
@@ -22,8 +22,6 @@
   <div class="stats-container">
     <div class="stat-card">👥<h3>5</h3><p>Teachers</p></div>
     <div class="stat-card">🎓<h3>560</h3><p>Students</p></div>
-    <div class="stat-card">📊<h3>4.4</h3><p>Avg Rating</p></div>
-    <div class="stat-card">⚠️<h3>1</h3><p>Need Attention</p></div>
   </div>
 
   <!-- Tabs -->
