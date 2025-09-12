@@ -11,7 +11,7 @@
       <button class="portal-btn">Student Portal</button>
     </div>
     <div class="user-section">
-      <span>Welcome, Student User</span>
+      <span>Welcome, {{ id }}</span>
       <button class="logout-btn" @click="">Logout</button>
     </div>
   </header>
@@ -57,6 +57,11 @@
 
 <script>  
 
+import { setToken, getToken } from "/home/alejandro/Documents/School Files/ProjectEVAL/eval-form/src/utils/auth.js";
+
+    const storedData = localStorage.getItem("userData");
+    const parsedId = storedData ? JSON.parse(storedData) : null;
+
     export default {
         name: 'Student',
         data() {
@@ -65,7 +70,7 @@
             teachers: [],
             count: 0,
             isLoading: false,
-            id: localStorage.getItem("userData") || "",
+            id: parsedId,
           }
         },
 

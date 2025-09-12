@@ -12,7 +12,7 @@
         <div class="info-fields">
             <div class="info-field">
                 <label for="student">Pangalan ng Mag-aaral (Student Name):</label>
-                <p name="student">temp-username</p>
+                <p name="student">{{name}}</p>
             </div>
             
             <div class="info-field">
@@ -87,7 +87,7 @@
                 <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
                     <td>
                         <strong>temp-date-counter</strong> {{ question.question }}<br> <!--tanong tagalog-->
-                        <span class="tagalog">temp-answer-eng</span><!--tanong english-->
+                        <span class="tagalog">{{question.question_eng}}</span><!--tanong english-->
                     </td>
                     <td class="rating-cell">
                         <div class="rating-options">
@@ -155,7 +155,8 @@ export default {
             month: "",
             year: new Date().getFullYear(),
             feedback: "",
-            answer:{}
+            answer:{},
+            name: localStorage.getItem("userData"),
         }
     },
 
@@ -231,6 +232,7 @@ export default {
         this.getQuestions();
         this.getTeacherbyid();
         this.feedback = "";
+        this.answer = {};
     }
 }
 

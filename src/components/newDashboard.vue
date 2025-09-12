@@ -473,10 +473,7 @@ export default {
                         setToken(result.token);
                     }
 
-                    localStorage.setItem(
-                        "userData",
-                        JSON.stringify(this[type].id),
-                    );
+                    localStorage.setItem("userData", JSON.stringify(result.userData.fullname));
 
                     this[type] = { id: "", ps: "" };
 
@@ -485,6 +482,8 @@ export default {
                 } else {
                     this.responseMessage =
                         result.error || alert("Log in failed.");
+
+                        this.isLoading = false;
                 }
             } catch (error) {
                 console.error("Login error:", error);

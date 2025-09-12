@@ -17,8 +17,8 @@ $action = $data['action'] ?? '';
 
 if ($action === 'login') {
 
-    $identifier = $data['id'] ?? '';  //email ito
-    $password   = $data['ps'] ?? '';
+    $identifier = $data['email'] ?? '';  //email ito
+    $password   = $data['password'] ?? '';
 
     $sql = "SELECT * FROM Users WHERE Email = '$identifier';";
     $result = $conn->query($sql);
@@ -42,7 +42,8 @@ if ($action === 'login') {
                 "token"=> $token,
                 "userData" => [
                     "email" => $dataLogin['Email'],
-                    "access" => $dataLogin['role']
+                    "access" => $dataLogin['role'],
+                    "fullname" => $dataLogin['name']
                 ]]);
             exit;
         }else{
