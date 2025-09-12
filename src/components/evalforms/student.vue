@@ -146,7 +146,7 @@ export default {
     name: "student-eval",
     data(){
         return{
-            urlappphp: "http://localhost:8000/questions.php",
+            urlappphp: "https://rusiann7.helioho.st/questions.php",
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
             urlappphp3: "",
             headers: [],
