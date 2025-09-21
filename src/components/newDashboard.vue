@@ -406,8 +406,6 @@
 
 <script>
 import { setToken, getToken } from "../utils/auth";
-import CryptoJS from 'crypto-js';
-
 
 export default {
     name: "newDashboard",
@@ -456,21 +454,16 @@ export default {
                         break;
                 }
 
-                const payload = JSON.stringify({
-                    email: this[type].id,
-                    password: this[type].ps,
-                    action: "login",
-                });
-
-                const key = CryptoJS.enc.Latin1.parse("projectevalprojecteval");
-                const iv = CryptoJS.lib.WordArray.random(16);
-                const encrypted = CryptoJS.AES.encrypt(payload, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
-                const bodyData = JSON.stringify({ iv: CryptoJS.enc.Base64.stringify(iv), ct: encrypted.ciphertext.toString(CryptoJS.enc.Base64), });
-
                 const response = await fetch(this.loginphp, {
                     method: "POST",
-                    headers: {"Content-Type": "application/json"},  
-                    body: bodyData,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        email: this[type].id,
+                        password: this[type].ps,
+                        action: "login",
+                    }),
                 });
 
                 const result = await response.json();
