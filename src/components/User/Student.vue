@@ -57,7 +57,7 @@
 
 <script>  
 
-import { removeToken, getToken } from "/home/alejandro/Documents/School Files/ProjectEVAL/eval-form/src/utils/auth.js";
+import { removeToken, getToken } from "../../utils/auth";
 
     const storedData = localStorage.getItem("userData");
 
