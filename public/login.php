@@ -12,7 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-$data = json_decode(file_get_contents('php://input'), true) ?? [];
+$raw = file_get_contents('php://input');
+$input = json_decode($raw, true);
+
+$iv = base64_decode($input["iv"]);
+$ciphertext = base64_decode($input["ct"]);
+$key = "projectevalprojecteval"; // 32 bytes ASCII
+
+$plaintext = openssl_decrypt(
+    $ciphertext,
+    "AES-256-CBC",
+    $key,
+    OPENSSL_RAW_DATA,
+    $iv
+);
+
+if ($plaintext === false) {
+    error_log("Decryption failed: " . openssl_error_string());
+    echo json_encode(["success"=>false,"error"=>"Decryption failed"]);
+    echo json_encode($plaintext);
+    exit;
+}
+error_log("Decrypted: " . $plaintext);
+
+$data = json_decode($plaintext, true) ?? [];
 $action = $data['action'] ?? '';
 
 if ($action === 'login') {

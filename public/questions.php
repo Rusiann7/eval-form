@@ -1,4 +1,5 @@
-<?php //question getter
+<?php
+//question getter
 
 require 'config.php';
 
@@ -21,7 +22,7 @@ if( $action === 'getQuestions'){
         while($row1 = $result1 ->fetch_assoc()){
             $header_id = $row1['id'];
 
-            $sql2= "SELECT id, questions, questions_eng FROM Questions WHERE header_id = $header_id ORDER BY id ASC";
+            $sql2= "SELECT id, questions FROM Questions WHERE header_id = $header_id ORDER BY id ASC";
             $result2 = $conn -> query($sql2);
 
             $questions = [];
@@ -31,7 +32,6 @@ if( $action === 'getQuestions'){
                     $questions[] = [
                         "question_id" => $row2['id'],
                         "question" => $row2['questions'],
-                        "question_eng" => $row2['questions_eng']
                     ];
                 }
             }

@@ -64,8 +64,9 @@
         
         <div class="evaluation-section" v-for="header in headers" :key="header.header_id"> <!--title card yung blue i v-for din ito-->
             <h2 class="section-header">{{ header.header }} <span class="tagalog">{{ header.header_p }}</span></h2>
-            <table class="indicator-table"> 
-                <tr>
+            <table class="indicator-table">
+                <thead>
+                    <tr>
                     <th>Indicator</th><!--ito yung sa taas-->
                     <th class="rating-cell">
                         <div class="rating-options">
@@ -84,10 +85,11 @@
                         </div>
                     </th>
                 </tr>
-                <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
+                </thead> 
+                <tbody>
+                    <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
                     <td>
-                        <strong>counter</strong> {{ question.question }}<br> <!--tanong tagalog-->
-                        <span class="tagalog">{{question.question_eng}}</span><!--tanong english-->
+                        {{ question.question }}<br> <!--tanong tagalog-->
                     </td>
                     <td class="rating-cell">
                         <div class="rating-options">
@@ -118,6 +120,7 @@
                         </div>
                     </td>
                 </tr>
+                </tbody>  
             </table>
         </div>
 
