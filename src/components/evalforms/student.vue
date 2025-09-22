@@ -149,7 +149,7 @@ export default {
         return{
             urlappphp: "https://rusiann7.helioho.st/questions.php",
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
-            urlappphp3: "http://localhost:8000/submits.php",
+            urlappphp3: "https://rusiann7.helioho.st/submits.php",
             headers: [],
             teacher: {},
             date: new Date().getDate(),
