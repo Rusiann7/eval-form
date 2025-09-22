@@ -10,25 +10,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
+$n = 10;
+function getRandomString($n)
+{
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+
+    for ($i = 0; $i < $n; $i++) {
+        $index = rand(0, strlen($characters) - 1);
+        $randomString .= $characters[$index];
+    }
+    return $randomString;
+}
+
 if($action === 'submits'){
 
     $teacherid = $data['id'];
-    $feedback = $data['feedback'];
+    $feedback  = $conn->real_escape_string($data['feedback']);
     $answers = $data['answers'];
     $studentid = $data['stid'];
 
-    $sql = "INSERT INTO Evaluations (tcr_id, evt_id, feedback) 
-            VALUES ($teacherid, $studentid, '$feedback');";
+    $identifier = getRandomString($n);
+
+    $sql = "INSERT INTO Evaluation (tcr_id, evt_id, identifier, feedback) 
+            VALUES ($teacherid, $studentid, '$identifier', '$feedback');";
 
     if($conn->query($sql) === TRUE){
-        echo json_encode([
-            'success' => true
-        ]);
+        $session_id = $conn->insert_id; 
 
-        $decoded = 
+        $values = [];
+        foreach ($answers as $questionId => $score) {
+            $qid   = (int) $questionId;
+            $score = (int) $score;
+            $values[] = "($session_id, $qid, $score)";
+        }
 
-        $sql1 = "INSERT INTO EvaluationAnswer (Question_id, score) 
-                VALUES ();";
+        $sql1 = "INSERT INTO EvaluationAnswer (session_id, question_id, score) 
+                VALUES " . implode(', ', $values);
+
+        if($conn->query($sql1) === TRUE){
+            echo json_encode([
+                'success' => true,
+            ]);
+        }else{
+            echo json_encode([
+                'success' => false,
+                'message' => "Error: " . $conn->error,
+            ]);
+        }
+
     }else{
         echo json_encode([
             'success' => false,

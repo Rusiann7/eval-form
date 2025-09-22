@@ -477,8 +477,7 @@ export default {
                         return;
                     }
 
-                    localStorage.setItem("userData", result.userData.fullname);
-
+                    localStorage.setItem("userData", JSON.stringify(result.userData));
                     this[type] = { id: "", ps: "" };
 
                     this.isLoading = false;

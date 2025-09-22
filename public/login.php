@@ -41,6 +41,7 @@ if ($action === 'login') {
                 "success"=> true,
                 "token"=> $token,
                 "userData" => [
+                    "id" => $dataLogin['id'],
                     "email" => $dataLogin['Email'],
                     "access" => $dataLogin['role'],
                     "fullname" => $dataLogin['name']

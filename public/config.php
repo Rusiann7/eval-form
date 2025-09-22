@@ -10,16 +10,16 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json; charset=utf-8');
 
-require __DIR__ . '/../vendor/autoload.php';
+//require __DIR__ . '/vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
     header('Content-Type: application/json; charset=utf-8');
 }
 
-$host ="sql.freedb.tech:3306";
-$user ="freedb_rusiann";
-$password="YbJY4z&%X&2TPyF";
-$dbname="freedb_projecteval";
+$host ="rusiann7.helioho.st";
+$user ="rusiann7_rusiannn";
+$password="";
+$dbname="rusiann7_evaluation";
 
 $conn = new mysqli($host, $user, $password, $dbname);
 
