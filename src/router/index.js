@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { isAuthenticated } from '../utils/auth'
 
-const Dashboard = () => import('../components/Dashboard.vue')
+//const Dashboard = () => import('../components/Dashboard.vue')
 const Student = () =>import('../components/User/Student.vue')
 const Teacher = () => import('../components/User/Teacher.vue')
 const Principal = () => import('../components/Admin/Principal.vue')
@@ -14,7 +14,7 @@ const routes = [
   {
     path: '/',
     name: 'Dashboard',
-    component: Dashboard,
+    component: newDashboard,
     meta: { title: 'Dashboard', requiresAuth: false }
   },
 
@@ -22,7 +22,7 @@ const routes = [
     path: '/student',
     name: 'Student',
     component: Student,
-    meta: {title: 'Student Form', requiresAuth: false }
+    meta: {title: 'Student Form', requiresAuth: true }
   },
 
   {
@@ -37,13 +37,6 @@ const routes = [
     name: 'Principal',
     component: Principal,
     meta: { title: 'Principal Dashboard', requiresAuth: false }
-  },
-  
-  {
-    path: '/new-dashboard',
-    name: 'newDashboard',
-    component: newDashboard,
-    meta: { title: 'Dashboard', requiresAuth: false }
   },
 
   {

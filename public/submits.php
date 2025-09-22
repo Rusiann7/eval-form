@@ -30,10 +30,13 @@ if($action === 'submits'){
     $answers = $data['answers'];
     $studentid = $data['stid'];
 
+    $scores = array_map('intval', array_values($answers));
+    $average = array_sum($scores) / count($scores);
+
     $identifier = getRandomString($n);
 
-    $sql = "INSERT INTO Evaluation (tcr_id, evt_id, identifier, feedback) 
-            VALUES ($teacherid, $studentid, '$identifier', '$feedback');";
+    $sql = "INSERT INTO Evaluation (tcr_id, evt_id, identifier, feedback, avg) 
+            VALUES ($teacherid, $studentid, '$identifier', '$feedback', $average);";
 
     if($conn->query($sql) === TRUE){
         $session_id = $conn->insert_id; 

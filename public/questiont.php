@@ -21,7 +21,7 @@ if($action === 'getTeacherQuestions'){
         while($row = $result1 ->fetch_assoc()){
             $header_id = $row['id'];
 
-            $sql2 = "SELECT id, questions FROM QuestionsT WHERE header_id = $header_id ORDER BY id ASC";
+            $sql2 = "SELECT id, questions, questions_eng FROM QuestionT WHERE header_id = $header_id ORDER BY id ASC";
             $result2 = $conn -> query($sql2);
 
             $questions = [];
@@ -30,14 +30,15 @@ if($action === 'getTeacherQuestions'){
                 while($row2 = $result2 -> fetch_assoc()){
                     $questions[] = [
                         "question_id" => $row2['id'],
-                        "question" => $row2['questions']
+                        "question" => $row2['questions'],
+                        "question_eng" => $row2['questions_eng'],
                     ];
                 }
             }
 
             $all_headers[] = [
                 "header_id" => $header_id,
-                "header"    => $row1['header'],
+                "header"    => $row['header'],
                 "questions" => $questions
             ];
         }

@@ -1,5 +1,10 @@
 <template>
 
+    <div v-if="isLoading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading...</p>
+    </div>
+
     <div class="container">
         <header>
             <h1><i class="fas fa-user-graduate"></i> STUDENT EVALUATION TOOL</h1>
@@ -12,22 +17,22 @@
         <div class="info-fields">
             <div class="info-field">
                 <label for="student">Pangalan ng Mag-aaral (Student Name):</label>
-                <p name="student">{{name}}</p>
+                <p>{{name}}</p>
             </div>
             
             <div class="info-field">
                 <label for="grade">Subject:</label>
-                <p name="grade">{{ teacher.sub }}</p>
+                <p>{{ teacher.sub }}</p>
             </div>
             
             <div class="info-field">
                 <label for="teacher">Subject Teacher:</label>
-                <p name="teacher">{{teacher.firstnm}} {{ teacher.lastnm }}</p>
+                <p>{{teacher.firstnm}} {{ teacher.lastnm }}</p>
             </div>
             
             <div class="info-field">
                 <label for="date">Petsa (Date):</label>
-                <p name="date">{{ month }}</p>
+                <p>{{ month }}</p>
             </div>
         </div>
         
@@ -67,24 +72,24 @@
             <table class="indicator-table">
                 <thead>
                     <tr>
-                    <th>Indicator</th><!--ito yung sa taas-->
-                    <th class="rating-cell">
-                        <div class="rating-options">
-                            <div class="rating-option">
-                                <span class="rating-value">5</span>
-                                <span class="rating-label">Very Evident</span>
+                        <th>Indicator</th><!--ito yung sa taas-->
+                        <th class="rating-cell">
+                            <div class="rating-options">
+                                <div class="rating-option">
+                                    <span class="rating-value">5</span>
+                                    <span class="rating-label">Very Evident</span>
+                                </div>
+                                <div class="rating-option">
+                                    <span class="rating-value">3</span>
+                                    <span class="rating-label">Sometimes</span>
+                                </div>
+                                <div class="rating-option">
+                                    <span class="rating-value">1</span>
+                                    <span class="rating-label">Not Evident</span>
+                                </div>
                             </div>
-                            <div class="rating-option">
-                                <span class="rating-value">3</span>
-                                <span class="rating-label">Sometimes</span>
-                            </div>
-                            <div class="rating-option">
-                                <span class="rating-value">1</span>
-                                <span class="rating-label">Not Evident</span>
-                            </div>
-                        </div>
-                    </th>
-                </tr>
+                        </th>
+                    </tr>
                 </thead> 
                 <tbody>
                     <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
@@ -159,12 +164,15 @@ export default {
             answer:{},
             name: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
             id: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
+            isLoading: false,
         }
     },
 
     methods:{
         async getQuestions(){
             try {
+                this.isLoading = true;
+
                 const response = await fetch(this.urlappphp, { 
                     method: 'POST',
                     headers:{
@@ -177,16 +185,20 @@ export default {
 
                 if(result.success){
                     this.headers = result.headers;
+                    this.isLoading = false;
                 }else {
                     console.error("server error:", error);
                 }
             }catch(error){
                 console.error(error)
+                this.isLoading = false;
             }
         },
 
         async getTeacherbyid(){
             try{
+                this.isLoading = true;
+
                 const response = await fetch(this.urlappphp2, {
                     method: 'POST',
                     headers: {
@@ -200,17 +212,19 @@ export default {
                 if(result.success){
                     this.teacher = result.teacher;
                     this.month = result.month + " " + this.date + ", " + this.year;
+                    this.isLoading = false;
                 }else{
                     console.log("Server error:", result.message);
                 }
             }catch(error){
                 console.log(error);
+                this.isLoading = false;
             }
         },
 
         async submitEval() {
             try{
-                console.log(this.answer, this.feedback, this.$route.params.id, this.id);
+                this.isLoading = true;
 
                 const response = await fetch(this.urlappphp3, {
                     method: 'POST',
@@ -224,6 +238,7 @@ export default {
                 const result = await response.json();
 
                 if(result.success){
+                    this.isLoading = false;
                     alert("Evaluation submitted successfully. Thank you!");
                     this.$router.replace("/student");
                 }else{
@@ -243,8 +258,7 @@ export default {
     mounted(){
         this.getQuestions();
         this.getTeacherbyid();
-        this.feedback = "";
-        this.answer = {};
+        this.formClear();
     }
 }
 </script>
@@ -558,5 +572,31 @@ footer {
 .tagalog {
     font-style: italic;
     color: #555;
+}
+
+.loading-screen {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.7);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+z-index: 3000;
+color: white;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+  z-index: 3000;
 }
 </style>

@@ -226,7 +226,7 @@
             </div>
 
             <div class="tab-content" v-if="activeTab === 'login'">
-                <form>
+                <form method="post" @submit.prevent="login">
                     <div class="form-group">
                         <label for="teacherId">Email: </label>
                         <input
