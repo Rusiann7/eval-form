@@ -275,17 +275,26 @@ export default {
         formClear(){
             this.feedback = "";
             this.answer = {};
-        }
+        },
 
+        skipLogin(){
+            const token = getToken();
+
+            if (!token) {
+                console.error("No token found, redirecting to login.");
+                this.$router.replace("/new-Dashboard");
+                return;
+            }
+        },
     },
 
     mounted() {
         this.getQuesions();
         this.getTeacherbyid();
         this.formClear();
-    }
+        this.skipLogin();
+    },
 }
-
 
 </script>
 <style scoped>

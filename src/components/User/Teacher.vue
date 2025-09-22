@@ -88,11 +88,21 @@
             }catch(error){
               console.error("Error fetching teachers:", error);
             }
-          }
+          },
+
+          skipLogin(){
+            const token = getToken();
+
+            if (!token) {
+              console.error("No token found, redirecting to login.");
+              this.$router.replace("/new-Dashboard");
+            };
+          },
         },
 
         mounted(){
           this.getTeachers();
+          this.skipLogin();
         }
     }
 

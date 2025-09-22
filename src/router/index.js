@@ -29,7 +29,7 @@ const routes = [
     path: '/teacher',
     name: 'Teacher',
     component: Teacher,
-    meta: {title: 'Teacher Form', requiresAuth: false }
+    meta: {title: 'Teacher Form', requiresAuth: true }
   },
 
   {
@@ -43,14 +43,14 @@ const routes = [
     path: '/student-eval/:id',
     name: 'student-eval',
     component: StEval,
-    meta: {title: 'Student Evaluation', requiresAuth: false}
+    meta: {title: 'Student Evaluation', requiresAuth: true}
   },
 
   {
     path: '/teacher-eval/:id',
     name: 'teacher-eval',
     component: TcEval,
-    meta: {title: 'Teacher Evalutaion', requiresAuth: false}
+    meta: {title: 'Teacher Evalutaion', requiresAuth: true}
   },
 
   {
