@@ -53,6 +53,37 @@
                 </div>
             </div>
 
+            <div class="rating-scale">
+            <h2>Rating Scale</h2>
+            <table class="rating-table">
+                <thead>
+                    <tr>
+                        <th>Rating</th>
+                        <th>Description (English)</th>
+                        <th>Paglalarawan (Filipino)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5</td>
+                        <td>Very Evident</td>
+                        <td>Palagiang Nakikita</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Sometimes Evident</td>
+                        <td>Paminsan-minsang Nakikita</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Not Evident</td>
+                        <td>Hindi Nakikita</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>Please rate the following aspects of your teacher's performance using the scale above:</strong></p>
+            </div>
+
             <div
                 class="evaluation-section"
                 v-for="header in headers"
@@ -66,26 +97,13 @@
                 <table class="indicator-table">
                     <thead>
                         <tr>
-                            <th>Indicator</th>
+                            <th>Questions</th>
                             <!--ito yung sa taas-->
                             <th class="rating-cell">
                                 <div class="rating-options">
                                     <div class="rating-option">
-                                        <span class="rating-value">5</span>
                                         <span class="rating-label"
-                                            >Very Evident</span
-                                        >
-                                    </div>
-                                    <div class="rating-option">
-                                        <span class="rating-value">3</span>
-                                        <span class="rating-label"
-                                            >Sometimes</span
-                                        >
-                                    </div>
-                                    <div class="rating-option">
-                                        <span class="rating-value">1</span>
-                                        <span class="rating-label"
-                                            >Not Evident</span
+                                            >Ratings</span
                                         >
                                     </div>
                                 </div>
@@ -226,7 +244,7 @@ export default {
 /* Set page size to A4 */
 @page {
   size: A4;
-  margin: 20mm;
+  margin: 0mm; /* Remove margins to maximize space */
 }
 
 body {
@@ -242,19 +260,18 @@ body {
 
 .a4-page {
     width: 210mm;
+    min-height: 297mm;
     background: white;
     position: relative;
-    display: flex;
-    flex-direction: column;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    page-break-after: always;
 }
 
+/* Header styles - will be repeated on each page */
 .header {
     display: flex;
     align-items: center;
     text-align: center;
-    padding: 5mm;
+    padding: 3mm 5mm; /* Reduced padding */
     border-bottom: 2px solid #0044cc;
     background-color: #f8f9fa;
     position: relative;
@@ -262,14 +279,14 @@ body {
 
 .logo-left,
 .logo-right {
-    width: 80px;
-    height: 80px;
+    width: 60px; /* Smaller logos */
+    height: 60px;
     background-color: #e6e6e6;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #ccc;
-    margin: 0 10px;
+    margin: 0 5px; /* Reduced margin */
 }
 
 .logo-left img,
@@ -283,72 +300,133 @@ body {
 }
 
 .header h1 {
-    font-size: 16pt;
-    margin: 5px 0;
+    font-size: 14pt; /* Smaller font sizes */
+    margin: 3px 0;
     font-weight: bold;
     color: #003366;
 }
 
 .header h2 {
-    font-size: 14pt;
-    margin: 4px 0;
+    font-size: 12pt;
+    margin: 2px 0;
     font-weight: normal;
     color: #0044aa;
 }
 
 .header h3 {
-    font-size: 13pt;
-    margin: 4px 0;
+    font-size: 11pt;
+    margin: 2px 0;
     font-weight: normal;
     color: #005588;
 }
 
 .header h4 {
-    font-size: 16pt;
-    margin: 8px 0 4px 0;
+    font-size: 14pt;
+    margin: 5px 0 2px 0;
     font-weight: bold;
     color: #cc0000;
     text-transform: uppercase;
 }
 
-.page-number {
-    font-size: 10pt;
-    margin-top: 5px;
-    color: #666;
-}
-
 .content {
-    flex: 1;
-    padding: 15mm;
+    padding: 2mm 10mm; /* Reduced padding */
 }
 
-.content-placeholder {
-    text-align: center;
-    color: #888;
-    font-style: italic;
-    margin-top: 40%;
+.info-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px; /* Reduced gap */
+    margin-bottom: 3px;
+    margin-top: 10px;
 }
 
-.footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 8mm 15mm;
-    border-top: 2px solid #0044cc;
+.info-field {
+    margin-bottom: 3px;
+}
+
+.info-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 3px;
+    color: #2c3e50;
+    font-size: 16px; /* Smaller font */
+}
+
+.evaluation-section {
+    margin: 20px 0; /* Reduced spacing */
+    page-break-inside: avoid;
+}
+
+.section-header {
+    background-color: #4a86e8;
+    color: white;
+    padding: 10px; /* Reduced padding */
+    border-radius: 5px 5px 0 0;
+    margin-bottom: 0;
+    font-size: 20px; /* Smaller font */
+    font-weight: bold;
+}
+
+.indicator-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.indicator-table td:first-child {
+    width: 70%;
+    word-wrap: break-word;
+    padding: 8px 6px; /* Reduced padding */
+    font-size: 14px; /* Smaller font */
+}
+
+.indicator-table td:last-child {
+    width: 30%;
+    vertical-align: top;
+    padding: 8px 6px; /* Reduced padding */
+}
+
+.indicator-table tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.indicator-table tr:nth-child(even) {
     background-color: #f8f9fa;
-    font-size: 10pt;
+}
+
+.rating-cell {
+    width: 30%;
+    vertical-align: top;
+}
+
+.rating-options {
+    display: flex;
+    justify-content: space-around;
+}
+
+.rating-option {
+    text-align: center;
+}
+
+/* Smaller footer */
+.footer {
+    padding: 3mm 10mm; /* Reduced padding */
+    border-top: 1px solid #0044cc; /* Thinner border */
+    background-color: #f8f9fa;
+    font-size: 8pt; /* Smaller font */
+    margin-top: 10mm; /* Reduced margin */
 }
 
 .footer-logo {
-    width: 60px;
-    height: 60px;
+    width: 40px; /* Smaller logo */
+    height: 40px;
     background-color: #e6e6e6;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #ccc;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .footer-logo img {
@@ -361,11 +439,7 @@ body {
 }
 
 .footer-line {
-    margin: 3px 0;
-}
-
-.rating-cell {
-    width: 200px;
+    margin: 1px 0; /* Reduced margin */
 }
 
 .watermark {
@@ -373,7 +447,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    font-size: 40pt;
+    font-size: 30pt; /* Smaller watermark */
     color: rgba(0, 0, 0, 0.05);
     pointer-events: none;
     z-index: -1;
@@ -382,116 +456,141 @@ body {
     font-weight: bold;
 }
 
-@media print {
-    body {
-        background: none;
-    }
-
-    .a4-page {
-        box-shadow: none;
-        margin: 0;
-        padding: 0;
-        page-break-after: always;
-    }
-
-    .a4-page:last-of-type {
-        page-break-after: avoid;
-    }
-
-      .footer {
+.loading-screen {
     position: fixed;
-    bottom: 0;
+    top: 0;
     left: 0;
-    right: 0;
-  }
-}
-
-.info-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-
-.info-field {
-    margin-bottom: 15px;
-}
-
-.info-field label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #2c3e50;
-    font-size: 20px;
-}
-
-.evaluation-section {
-    margin-bottom: 40px;
-    page-break-inside: avoid;
-}
-
-.section-header {
-    background-color: #4a86e8;
-    color: white;
-    padding: 15px;
-    border-radius: 8px 8px 0 0;
-    margin-bottom: 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.indicator-table, 
-.indicator-table tr, 
-.indicator-table td, 
-.indicator-table th {
-    page-break-inside: avoid;
-    break-inside: avoid;
-}
-
-.indicator-table tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-.evaluation-section {
-  page-break-after: auto;
-  break-inside: avoid;
-}
-
-.rating-option {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    text-align: center;
-}
-
-.rating-option input {
-    margin: 5px 0;
-    transform: scale(1.5);
-}
-
-.loading-screen {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.7);
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-z-index: 3000;
-color: white;
+    z-index: 3000;
+    color: white;
 }
 
 .loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 10px;
-  z-index: 3000;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #ffffff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+    z-index: 3000;
+}
+
+.rating-scale {
+    background-color: #f8f9fa;
+    padding: 12px; /* Reduced padding */
+    border-radius: 5px;
+    margin-bottom: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.rating-scale h2 {
+    color: #2c3e50;
+    margin-bottom: 10px; /* Reduced margin */
+    text-align: center;
+    font-size: 20px; /* Smaller font */
+    font-weight: bold;
+}
+
+table.rating-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 8px;
+    font-size: 14px; /* Smaller font */
+}
+
+table.rating-table th, table.rating-table td {
+    border: 1px solid #dee2e6;
+    padding: 8px; /* Reduced padding */
+    text-align: center;
+    font-weight: bold;
+}
+
+table.rating-table th {
+    background-color: #4a86e8;
+    color: white;
+    font-size: 16px; /* Smaller font */
+}
+
+table.rating-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Print styles - HEADER AND FOOTER ON EVERY PAGE */
+/* Print styles - ULTRA SIMPLE FIX */
+/* Print styles - FIXED HEADER/FOOTER THAT WORKS */
+@media print {
+    body {
+        background: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .a4-page {
+        box-shadow: none;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        page-break-after: always;
+    }
+    
+    /* Header on every page - FIXED */
+    .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 2mm 5mm;
+        background: white;
+        z-index: 1000;
+        height: 20mm; /* Fixed height */
+    }
+    
+    /* Footer on every page - FIXED */
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2mm 10mm;
+        background: white;
+        z-index: 1000;
+        height: 12mm; /* Fixed height */
+    }
+    
+    /* CRITICAL: Add margins to content to avoid cutting */
+    .content {
+        padding: 30mm 10mm 20mm 10mm; /* 30mm top clears 20mm header safely */
+        margin: 0;
+    }
+
+    
+    /* Prevent content from being cut off */
+    .evaluation-section {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        margin: 15px 0;
+    }
+    
+    .indicator-table tr {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    
+    /* Ensure tables don't break across pages awkwardly */
+    .indicator-table {
+        page-break-inside: auto;
+    }
+    
+    /* Add extra space before sections that might break */
+    .evaluation-section:first-child {
+        margin-top: 0;
+    }
 }
 </style>
