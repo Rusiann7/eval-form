@@ -2,7 +2,7 @@
 require 'config.php';
 
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
+//use Firebase\JWT\Key;
 
 define('JWT_SECRET_KEY', 'eval');
 define('JWT_EXPIRE_TIME', 3600);
