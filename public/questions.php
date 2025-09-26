@@ -17,32 +17,37 @@ if( $action === 'getQuestions'){
     $result1 = $conn -> query($sql1);
 
     $all_headers = [];
+    $header_id = [];
 
     if($result1 && $result1->num_rows > 0){
         while($row1 = $result1 ->fetch_assoc()){
-            $header_id = $row1['id'];
+            $header_id[] = $row1['id'];
 
-            $sql2= "SELECT id, questions FROM Questions WHERE header_id = $header_id ORDER BY id ASC";
+            $all_headers[] = [
+                "header_id" => $row1['id'],
+                "header"    => $row1['header'],
+                "header_p" => $row1['header_p'],
+                "questions" => []
+            ];
+        }
+
+            $header_id_list = implode(",", $header_id);
+            $sql2= "SELECT id, questions, header_id FROM Questions WHERE header_id IN ($header_id_list);";
             $result2 = $conn -> query($sql2);
-
-            $questions = [];
 
             if($result2 && $result2->num_rows > 0){
                 while($row2 = $result2 -> fetch_assoc()){
-                    $questions[] = [
-                        "question_id" => $row2['id'],
-                        "question" => $row2['questions'],
-                    ];
+                    foreach($all_headers as &$header){
+                        if($header['header_id'] == $row2['header_id']){
+                            $header['questions'][] = [
+                                "question_id" => $row2['id'],
+                                "question" => $row2['questions'],
+                            ];
+                            break;
+                        }
+                    }
                 }
             }
-
-            $all_headers[] = [
-                "header_id" => $header_id,
-                "header"    => $row1['header'],
-                "header_p" => $row1['header_p'],
-                "questions" => $questions
-            ];
-        }
 
          echo json_encode([
             "success" => true,

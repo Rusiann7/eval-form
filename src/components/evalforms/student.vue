@@ -148,6 +148,8 @@
 </template>
 
 <script>
+import { setToken, getToken } from "../../utils/auth";
+
 export default {
     name: "student-eval",
     data(){
@@ -213,6 +215,7 @@ export default {
                     this.teacher = result.teacher;
                     this.month = result.month + " " + this.date + ", " + this.year;
                     this.isLoading = false;
+                    console.log(this.teacher);
                 }else{
                     console.log("Server error:", result.message);
                 }

@@ -34,7 +34,7 @@
                     <label for="student"
                         >Pangalan:</label
                     >
-                    <p>{{ name }}</p>
+                    <p>{{ name.name }}({{ name.stid }})</p>
                 </div>
 
                 <div class="info-field">
@@ -120,9 +120,11 @@
                                 {{ question.question }}<br />
                                 <!--tanong tagalog-->
                             </td>
+
                             <td class="rating-cell">
-                                {{}}
+                                 {{ answers[Number(question.question_id)] || "N/A" }}
                             </td>
+
                         </tr>
                     </tbody>
                 </table>
@@ -164,9 +166,12 @@ export default {
         return {
             urlappphp: "https://rusiann7.helioho.st/questions.php",
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
-            name: "",
+            urlappphp3: "https://rusiann7.helioho.st/ansGetter.php",
+            urlappphp4: "",
+            name: {},
             month: "",
             headers: [],
+            answers: {},
             teacher: {},
             answer: {},
             date: new Date().getDate(),
@@ -221,8 +226,71 @@ export default {
 
                 if (result.success) {
                     this.teacher = result.teacher;
-                    this.month =
-                        result.month + " " + this.date + ", " + this.year;
+                    this.isLoading = false;
+                } else {
+                    console.log("Server error:", result.message);
+                }
+            } catch (error) {
+                console.log(error);
+                this.isLoading = false;
+            }
+        },
+
+        async getAnswers(){
+            try{
+                this.isLoading = true;
+
+                const response = await fetch(this.urlappphp3, {
+                    method: "POST",
+                    headers: {"Content-type": "application/json"},
+                    body: JSON.stringify({
+                        action: "ansGetter",
+                        id: this.$route.params.id,
+                        evt: this.$route.params.evtid
+                    })
+                });
+
+                const result = await response.json()
+
+                if(result.success){
+
+                    const sessionData = Object.values(result.answer)[0];
+
+                    this.month = sessionData.time
+                    this.answer = sessionData
+                    this.isLoading = false
+
+                    this.answers = {};
+                    for (const ans of sessionData.answer) {
+                        this.answers[Number(ans.question_id)] = ans.score;
+                    }
+                }
+
+            }catch(error){
+                console.log(error);
+                this.isLoading = false;
+            }
+        },
+
+        async getStudentbyid() {
+            try {
+                this.isLoading = true;
+
+                const response = await fetch(this.urlappphp4, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        action: "getstudentbyid",
+                        evt: this.$route.params.evtid,
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    this.name = result.student;
                     this.isLoading = false;
                 } else {
                     console.log("Server error:", result.message);
@@ -235,7 +303,9 @@ export default {
     },
 
     mounted() {
-        (this.getTeacherbyid(), this.getQuestions());
+        this.getTeacherbyid();
+        this.getQuestions();
+        this.getAnswers();
     },
 };
 </script>
@@ -398,6 +468,9 @@ body {
 .rating-cell {
     width: 30%;
     vertical-align: top;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .rating-options {

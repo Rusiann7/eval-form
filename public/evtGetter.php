@@ -10,35 +10,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if($action === 'getteacherbyid'){
+if($action === 'getstudentbyid'){
 
-    $idd = $data['id'];
+    $idd = $data['evt'];
 
-    $sql = "SELECT * FROM Teachers WHERE id = $idd";
+    $sql = "SELECT name, stid FROM Users WHERE id = $idd";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0){
-        $teachers = $result->fetch_assoc();
+        $student = $result->fetch_assoc();
 
         $payload = [
-            'firstnm' => $teachers['firstname'],
-            'lastnm' => $teachers['lastname'],
-            'sub' => $teachers['subject'],
+            'name' => $student['name'],
+            'stid' => $student['stid'],
         ];
-
-        $now = new DateTime();
-        $month = $now->format('F');
 
         echo json_encode([
             'success' =>true,
-            'teacher' => $payload,
-            'month' => $month
+            'student' => $payload,
         ]);
 
     }else{
         echo json_encode([
             'success' => false,
-            'message' => 'error teacher not found'
+            'message' => 'error student not found'
         ]);
     }
 }else{
