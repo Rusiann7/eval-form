@@ -167,7 +167,7 @@ export default {
             urlappphp: "https://rusiann7.helioho.st/questions.php",
             urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
             urlappphp3: "https://rusiann7.helioho.st/ansGetter.php",
-            urlappphp4: "",
+            urlappphp4: "https://rusiann7.helioho.st/evtGetter.php",
             name: {},
             month: "",
             headers: [],
@@ -306,6 +306,7 @@ export default {
         this.getTeacherbyid();
         this.getQuestions();
         this.getAnswers();
+        this.getStudentbyid();
     },
 };
 </script>
