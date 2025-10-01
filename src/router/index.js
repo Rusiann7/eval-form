@@ -1,8 +1,8 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import { isAuthenticated } from '../utils/auth'
+import { createRouter, createWebHistory } from 'vue-router' //vue router import
+import { isAuthenticated } from '../utils/auth' //auth import
 
 //const Dashboard = () => import('../components/Dashboard.vue')
-const Student = () =>import('../components/User/Student.vue')
+const Student = () =>import('../components/User/Student.vue') //loads components 
 const Teacher = () => import('../components/User/Teacher.vue')
 const Principal = () => import('../components/Admin/Principal.vue')
 const newDashboard = () => import('../components/newDashboard.vue')
@@ -13,10 +13,10 @@ const printable1 = () => import('../components/evalforms/eval-form-teacher.vue')
 
 const routes = [
   {
-    path: '/',
-    name: 'Dashboard',
-    component: newDashboard,
-    meta: { title: 'Dashboard', requiresAuth: false }
+    path: '/', //url
+    name: 'Dashboard', //component
+    component: newDashboard, //component to be loaded
+    meta: { title: 'Dashboard', requiresAuth: false } //meta data
   },
 
   {
@@ -69,12 +69,12 @@ const routes = [
   }
 ]
 
-const router = createRouter({
+const router = createRouter({ //create the routes and history
   history: createWebHistory(),
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => { //jwt token auth guard and verification
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!isAuthenticated()) {
       next({ path: '/login', query: { redirect: to.fullPath } })
@@ -85,9 +85,9 @@ router.beforeEach((to, from, next) => {
     next()
   }
 
-  if (to.meta?.title) {
+  if (to.meta?.title) { //display the title of the page
     document.title = to.meta.title
   }
 })
 
-export default router
+export default router //export the router as a varaible

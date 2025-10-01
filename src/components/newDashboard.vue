@@ -470,22 +470,21 @@ export default {
 
                 if (result.success) {
                     if (result.token) {
-                        setToken(result.token);
+                        setToken(result.token); //verify the token
                     }else{
                         console.error("No token received from server.");
                         this.isLoading = false;
                         return;
                     }
 
-                    localStorage.setItem("userData", JSON.stringify(result.userData));
+                    localStorage.setItem("userData", JSON.stringify(result.userData)); //saves the info to local storage
                     this[type] = { id: "", ps: "" };
 
                     this.isLoading = false;
-                    this.$router.replace(site);
+                    this.$router.replace(site); //router routes the user to the page
                 } else {
                     this.responseMessage =
                         result.error || alert("Log in failed.");
-
                         this.isLoading = false;
                 }
             } catch (error) {

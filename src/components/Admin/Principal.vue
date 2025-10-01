@@ -46,25 +46,115 @@
 
   <!-- Teacher Cards -->
   <div class="teacher-container">
-    <div class="teacher-card">
-      <h3>Dr. Sarah Johnson</h3><p>Mathematics</p>
-      <span class="badge">120 students</span><span class="badge">⭐ 4.2</span>
+    <div class="teacher-card" v-for="value in source">
+      <h3>Dr. Sarah Johnson</h3>
+      <p>Mathematics</p>
+      <span class="badge">⭐ 4.2</span>
       <button class="btn btn-light">Update Evaluation</button>
     </div>
-
   </div>
 </template>
 
 <script>
 
-    export default {
-      name: 'Principal',
-      data() {
-        return {
+  export default {
+    name: 'Principal',
+    data() {
+      return {
 
+      }
+    },
+
+    method: {
+
+      async getTeachers() {
+            
+        try {
+          this.isLoading = true;
+
+          const response = await fetch(this.urlappphp, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: "getTeachers"})
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            this.teachers = result.teachers.map(teacher => ({
+              id: teacher.id,
+              firstname: teacher.firstname,
+              lastname: teacher.lastname,
+              subject: teacher.subject,
+              quarter: teacher.quarter,
+              year: teacher.year
+            }));
+                
+            this.count = result.count;
+            this.isLoading = false;
+
+          }else {
+            console.error("Error fetching teachers:", result.message);
+            this.isLoading = false;
+          }
+
+        }catch(error){
+          console.error("Error fetching teachers:", error);
         }
       },
-    };
+
+      async getStudentbyid() {
+        try {
+          this.isLoading = true;
+
+          const response = await fetch(this.urlappphp4, {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json",
+            },
+            body: JSON.stringify({
+              action: "getstudentbyid",
+              evt: this.$route.params.evtid,
+            }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            this.name = result.student;
+            this.isLoading = false;
+          } else {
+            console.log("Server error:", result.message);
+          }
+        } catch (error) {
+          console.log(error);
+          this.isLoading = false;
+        }
+      },
+
+      logout() {
+        try {
+          removeToken();
+          this.localUserData = {};
+          this.$router.replace("/");
+        }catch (error) {
+          console.error("Logout error:", error);
+        }
+      },
+
+      skipLogin(){
+        const token = getToken();
+
+        if (!token) {
+          console.error("No token found, redirecting to login.");
+          this.$router.replace("/new-Dashboard");
+          return;
+        }
+      },
+    }
+  };
 
 </script>
 
