@@ -103,6 +103,7 @@
                                     :name="'rating: ' + question.question_id"
                                     value="5" 
                                     v-model="answer[question.question_id]"
+                                    required
                                 >
                                 <span class="rating-value">5</span>
                             </label>
@@ -111,6 +112,7 @@
                                     :name="'rating: ' + question.question_id"
                                     value="3" 
                                     v-model="answer[question.question_id]"
+                                    required
                                 >
                                 <span class="rating-value">3</span>
                             </label>
@@ -119,6 +121,7 @@
                                     :name="'rating:' + question.question_id"
                                     value="1" 
                                     v-model="answer[question.question_id]"
+                                    required
                                 >
                                 <span class="rating-value">1</span>
                             </label>
@@ -133,7 +136,7 @@
         <div class="feedback-section">
             <h2>Karagdagang mensahe / suhestiyon ng mag-aaral sa kaniyang guro upang mapagbuti pang higit ang kaniyang pagtuturo.</h2>
             <h2>Additional message/suggestion from the student to the teacher to further improve teaching.</h2>
-            <textarea placeholder="Please provide your feedback and suggestions here..." v-model="feedback"></textarea>
+            <textarea placeholder="Please provide your feedback and suggestions here..." v-model="feedback" required></textarea>
         </div>
         
         <div class="buttons">
@@ -154,9 +157,9 @@ export default {
     name: "student-eval",
     data(){
         return{
-            urlappphp: "https://rusiann7.helioho.st/questions.php",
-            urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
-            urlappphp3: "https://rusiann7.helioho.st/submits.php",
+            urlappphp: `${import.meta.env.VITE_URLAPPPHP}/questions.php`,
+            urlappphp2: `${import.meta.env.VITE_URLAPPPHP}/idGetter.php`,
+            urlappphp3: `${import.meta.env.VITE_URLAPPPHP}/submits.php`,
             headers: [],
             teacher: {},
             date: new Date().getDate(),
@@ -227,6 +230,13 @@ export default {
 
         async submitEval() {
             try{
+                const unanswered = Object.keys(this.answer).filter(key => !this.answer[key]);
+
+                if (unanswered.length) {
+                    alert('Answer all questions before submitting.');
+                    return; // stop right here
+                }
+
                 this.isLoading = true;
 
                 const response = await fetch(this.urlappphp3, {

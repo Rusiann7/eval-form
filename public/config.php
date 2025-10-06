@@ -10,7 +10,7 @@ header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json; charset=utf-8');
 
-//require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '../../vendor/autoload.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
     header('Content-Type: application/json; charset=utf-8');
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
 
 $host ="rusiann7.helioho.st";
 $user ="rusiann7_rusiannn";
-$password="";
+$password="4&3dx10Wl";
 $dbname="rusiann7_evaluation";
 
 $conn = new mysqli($host, $user, $password, $dbname);

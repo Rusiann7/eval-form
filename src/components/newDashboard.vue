@@ -34,7 +34,6 @@
                     class="btn student-btn"
                     @click="
                         toggleModal('student');
-                        console.log(activeModal);
                     "
                 >
                     Access Student Portal
@@ -54,7 +53,6 @@
                     class="btn teacher-btn"
                     @click="
                         toggleModal('teacher');
-                        console.log(activeModal);
                     "
                 >
                     Access Teacher Portal
@@ -74,7 +72,6 @@
                     class="btn admin-btn"
                     @click="
                         toggleModal('admin');
-                        console.log(activeModal);
                     "
                 >
                     Access Admin Portal
@@ -117,6 +114,7 @@
                 <!--login-->
                 <form method="post" @submit.prevent="login">
                     <div class="form-group">
+                        <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
                         <label for="studentId">Student ID:</label>
                         <input
                             type="text"
@@ -150,6 +148,7 @@
             <div class="tab-content" v-if="activeTab === 'register'">
                 <!--register-->
                 <form method="post" @submit.prevent="signup">
+                    <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
                     <div class="form-group">
                         <label for="studentName">Full Name:</label>
                         <input
@@ -413,8 +412,8 @@ export default {
         return {
             activeModal: "",
             activeTab: "login",
-            loginphp: "https://rusiann7.helioho.st/login.php",
-            signupphp: "https://rusiann7.helioho.st/register.php",
+            loginphp: `${import.meta.env.VITE_URLAPPPHP}/login.php`,
+            signupphp: `${import.meta.env.VITE_URLAPPPHP}/register.php`,
             studentl: { id: "", ps: "" },
             studentr: { fn: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
@@ -426,6 +425,7 @@ export default {
                 code: "",
             },
             isLoading: false,
+            isWrong: false,
         };
     },
 
@@ -469,6 +469,7 @@ export default {
                 const result = await response.json();
 
                 if (result.success) {
+                    this.isWrong = false;
                     if (result.token) {
                         setToken(result.token); //verify the token
                     }else{
@@ -484,7 +485,8 @@ export default {
                     this.$router.replace(site); //router routes the user to the page
                 } else {
                     this.responseMessage =
-                        result.error || alert("Log in failed.");
+                        result.error;
+                        this.isWrong = true;
                         this.isLoading = false;
                 }
             } catch (error) {
@@ -632,6 +634,7 @@ export default {
 
         toggleModal(modal) {
             this.activeModal = modal;
+            this.isWrong = false;   
         },
 
         closeModal() {
@@ -1068,6 +1071,13 @@ h2 {
     animation: spin 1s linear infinite;
     margin-bottom: 10px;
     z-index: 3000;
+}
+
+.wrong {
+    color: red;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
 }
 
 @media (max-width: 900px) {

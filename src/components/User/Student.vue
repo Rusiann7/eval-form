@@ -61,7 +61,7 @@ import { removeToken, getToken } from "../../utils/auth";
     name: 'Student',
     data() {
       return {
-        urlappphp: "https://rusiann7.helioho.st/Getter.php",
+        urlappphp: `${import.meta.env.VITE_URLAPPPHP}/Getter.php`,
         teachers: [],
         count: 0,
         isLoading: false,

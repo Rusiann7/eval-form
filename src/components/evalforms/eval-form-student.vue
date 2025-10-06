@@ -124,11 +124,17 @@
                             <td class="rating-cell">
                                  {{ answers[Number(question.question_id)] || "N/A" }}
                             </td>
-
+                        </tr>
+                        <tr>
+                            
                         </tr>
                     </tbody>
                 </table>
             </div>
+            <p><strong>Comments/Suggestions:</strong></p>
+                            <p class="rating-cell">
+                                {{ answer.feedback || "N/A" }}
+                            </p>
         </div>
 
         <div class="footer">
@@ -164,10 +170,10 @@ export default {
     name: "printEval",
     data() {
         return {
-            urlappphp: "https://rusiann7.helioho.st/questions.php",
-            urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
-            urlappphp3: "https://rusiann7.helioho.st/ansGetter.php",
-            urlappphp4: "https://rusiann7.helioho.st/evtGetter.php",
+            urlappphp: `${import.meta.env.VITE_URLAPPPHP}/questions.php`,
+            urlappphp2: `${import.meta.env.VITE_URLAPPPHP}/idGetter.php`,
+            urlappphp3: `${import.meta.env.VITE_URLAPPPHP}/ansGetter.php`,  
+            urlappphp4: `${import.meta.env.VITE_URLAPPPHP}/evtGetter.php`,
             name: {},
             month: "",
             headers: [],
