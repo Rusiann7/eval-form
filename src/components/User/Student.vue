@@ -73,7 +73,6 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
     methods: {
 
       async getTeachers() {
-            
         try {
           this.isLoading = true;
 

@@ -26,7 +26,7 @@
   <!-- Stats -->
   <div class="stats-container">
     <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Teachers</p></div>
-    <div class="stat-card">🎓<h3>560</h3><p>Students</p></div>
+    <div class="stat-card">🎓<h3>{{ this.count2 }}</h3><p>Students</p></div>
   </div>
 
   <!-- Tabs -->
@@ -42,18 +42,12 @@
     </div>
 
     <div class="teacher-container">
-      <div class="teacher-card" >
-        <h3>Dr. Sarah Johnson</h3>
-        <p>Mathematics</p>
-        <span class="badge">⭐ 4.2</span>
-      </div>
-
-      <div class="card" v-for="teacher in teachers" :key="teacher.id">
-        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-        <p>{{teacher.subject}}</p>
-        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+      <div class="card" v-for="newStudent in newStudents" :key="newStudents.id">
+        <h3>{{ newStudent.firstname }} {{ newStudent.lastname }}</h3>
+        <p>{{newStudent.subject}}</p>
+        <span class="badge">Q{{ newStudent.quarter }} {{newStudent.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'student-eval', params: {id: teacher.id, evtid: evaluator.id}})">View Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'printable-form', params: {id: newStudent.teacher_id, evtid: newStudent.eval_id}})">View Evaluation</button>
       </div>
     </div>
   </div>
@@ -96,18 +90,12 @@
     </div>
 
     <div class="teacher-container">
-      <div class="teacher-card" >
-        <h3>Dr. Sarah Johnson</h3>
-        <p>Mathematics</p>
-        <span class="badge">⭐ 4.2</span>
-      </div>
-
-      <div class="card" v-for="teacher in teachers" :key="teacher.id">
-        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-        <p>{{teacher.subject}}</p>
-        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+      <div class="card" v-for="newteacher in newTeachers" :key="newteacher.id">
+        <h3>{{ newteacher.firstname }} {{ newteacher.lastname }}</h3>
+        <p>{{newteacher.subject}}</p>
+        <span class="badge">Q{{ newteacher.quarter }} {{newteacher.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id, evtid: evaluator.id}})">View Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'teacher-eval', params: {id: newteacher.teacher_id, evtid: newteacher.evt_id}})">View Evaluation</button>
       </div>
     </div>
   </div>
@@ -127,7 +115,10 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         urlappphp2: `${url2}/viewEvaluations.php`,
         urlappphp3: `${url2}/viewEvaluationt.php`,
         teachers: [],
+        newTeachers: [],
+        newStudents: [],
         count: 0,
+        count2: 0,
         isLoading: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         activeModal: "student",
@@ -137,7 +128,6 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
     methods: {
 
       async getTeachers() {
-            
         try {
           this.isLoading = true;
 
@@ -203,6 +193,78 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         }
       },
 
+      async getSteval(){
+        try{
+          this.isLoading = true;
+
+          const response = await fetch(this.urlappphp2, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+              action: "getEvaluations",
+            })
+          });
+
+          const result = await response.json();
+
+          if(result.success){
+            this.newStudents = result.evaluations.map(evaluation => ({
+              id: evaluation.id,
+              teacher_id: evaluation.teacher_id,
+              eval_id: evaluation.eval_id,
+              firstname: evaluation.teacher.firstname,
+              lastname: evaluation.teacher.lastname,
+              subject: evaluation.teacher.subject,
+              quarter: evaluation.teacher.quarter,
+              year: evaluation.teacher.year,
+            }));
+
+            this.count2 = result.total;
+            this.isLoading = false;
+          }
+
+        }catch(error){
+          console.log(error);
+          this.isLoading = false;
+        }
+      },
+
+      async getTceval(){
+        try{
+          this.isLoading = true;
+
+          const response = await fetch(this.urlappphp3, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({
+              action: "getEvaluationt",
+            })
+          });
+
+          const result = await response.json();
+
+          if(result.success){
+            this.newTeachers = result.evaluations.map(evaluation => ({
+              id: evaluation.id,
+              teacher_id: evaluation.teacher_id,
+              eval_id: evaluation.eval_id,
+              firstname: evaluation.teacher.firstname,
+              lastname: evaluation.teacher.lastname,
+              subject: evaluation.teacher.subject,
+              quarter: evaluation.teacher.quarter,
+              year: evaluation.teacher.year,
+            }));
+
+            this.count2 = result.total;
+            this.isLoading = false;
+          }
+
+        }catch(error){
+          console.log(error);
+          this.isLoading = false;
+        }
+      },
+
       logout() {
         try {
           removeToken();
@@ -232,6 +294,8 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       this.getTeachers();
       this.id = localStorage.getItem("userData") || "";
       this.skipLogin();
+      this.getSteval();
+      this.getTceval();
     }
   };
 
