@@ -5,7 +5,7 @@
     </div>
 
     <div class="a4-page">
-        <div class="watermark">JAMES L. GORDON INTEGRATED SCHOOL</div>
+        <!--  <div class="watermark">JAMES L. GORDON INTEGRATED SCHOOL</div> -->
 
         <div class="header">
             <div class="logo-left">
@@ -18,7 +18,7 @@
                 <h1>Republic of The Philippines</h1>
                 <h2>Department of Education</h2>
                 <h3>SCHOOLS DIVISION OF OLONGAPO CITY</h3>
-                <h4>JAMES L. GORDON INTEGRATED SCHOOL</h4>
+                <!-- <h4>JAMES L. GORDON INTEGRATED SCHOOL</h4> -->
             </div>
             <div class="logo-right">
                 <img
@@ -176,7 +176,7 @@ export default {
         return {
             urlappphp: `${url2}/questions.php`,
             urlappphp2: `${url2}/idGetter.php`,
-            urlappphp3: `${url1}}/ansGetter.php`,  
+            urlappphp3: "https://star-panda-literally.ngrok-free.app/ansGetter.php",  
             urlappphp4: `${url2}/evtGetter.php`,
             name: {},
             month: "",
