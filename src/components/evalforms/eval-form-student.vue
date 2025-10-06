@@ -176,8 +176,8 @@ export default {
         return {
             urlappphp: `${url2}/questions.php`,
             urlappphp2: `${url2}/idGetter.php`,
-            urlappphp3: `${url2}}/ansGetter.php`,  
-            urlappphp4: `${url1}/evtGetter.php`,
+            urlappphp3: `${url1}}/ansGetter.php`,  
+            urlappphp4: `${url2}/evtGetter.php`,
             name: {},
             month: "",
             headers: [],
