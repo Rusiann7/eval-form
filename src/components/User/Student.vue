@@ -57,11 +57,14 @@
 <script>  
 import { removeToken, getToken } from "../../utils/auth";
 
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
+
   export default {
     name: 'Student',
     data() {
       return {
-        urlappphp: `${import.meta.env.VITE_URLAPPPHP}/Getter.php`,
+        urlappphp: `${url2}/Getter.php`,
         teachers: [],
         count: 0,
         isLoading: false,

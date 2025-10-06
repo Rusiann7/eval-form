@@ -153,13 +153,16 @@
 <script>
 import { setToken, getToken } from "../../utils/auth";
 
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
+
 export default {
     name: "student-eval",
     data(){
         return{
-            urlappphp: `${import.meta.env.VITE_URLAPPPHP}/questions.php`,
-            urlappphp2: `${import.meta.env.VITE_URLAPPPHP}/idGetter.php`,
-            urlappphp3: `${import.meta.env.VITE_URLAPPPHP}/submits.php`,
+            urlappphp: `${url2}/questions.php`,
+            urlappphp2: `${url2}/idGetter.php`,
+            urlappphp3: `${url2}/submits.php`,
             headers: [],
             teacher: {},
             date: new Date().getDate(),

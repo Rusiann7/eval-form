@@ -166,14 +166,18 @@
 </template>
 
 <script>
+
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
+
 export default {
     name: "printEval",
     data() {
         return {
-            urlappphp: `${import.meta.env.VITE_URLAPPPHP}/questions.php`,
-            urlappphp2: `${import.meta.env.VITE_URLAPPPHP}/idGetter.php`,
-            urlappphp3: `${import.meta.env.VITE_URLAPPPHP}/ansGetter.php`,  
-            urlappphp4: `${import.meta.env.VITE_URLAPPPHP}/evtGetter.php`,
+            urlappphp: `${url2}/questions.php`,
+            urlappphp2: `${url2}/idGetter.php`,
+            urlappphp3: `${url2}}/ansGetter.php`,  
+            urlappphp4: `${url2}/evtGetter.php`,
             name: {},
             month: "",
             headers: [],

@@ -406,14 +406,17 @@
 <script>
 import { setToken, getToken } from "../utils/auth";
 
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
+
 export default {
     name: "newDashboard",
     data() {
         return {
             activeModal: "",
             activeTab: "login",
-            loginphp: `${import.meta.env.VITE_URLAPPPHP}/login.php`,
-            signupphp: `${import.meta.env.VITE_URLAPPPHP}/register.php`,
+            loginphp: `${url2}/login.php`,
+            signupphp: `${url2}/register.php`,
             studentl: { id: "", ps: "" },
             studentr: { fn: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
