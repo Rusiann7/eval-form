@@ -1,5 +1,10 @@
 <template>
 
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
 <!-- Header -->
   <header class="topbar">
     <div>
@@ -7,7 +12,7 @@
       <span class="breadcrumb">Principal Portal</span>
     </div>
     <div class="user-info">
-      <span>Welcome, Principal User</span>
+      <span>Welcome, {{ fullname }}</span>
       <button class="logout-btn" @click="logout()">Logout</button>
     </div>
   </header>
@@ -20,52 +25,116 @@
 
   <!-- Stats -->
   <div class="stats-container">
-    <div class="stat-card">👥<h3>5</h3><p>Teachers</p></div>
+    <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Teachers</p></div>
     <div class="stat-card">🎓<h3>560</h3><p>Students</p></div>
   </div>
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab active">Student Evaluations</div>
-    <div class="tab"> Teacher Evaluations</div>
-    <div class="tab">Peer Overview</div>
+    <div class="tab" @click="toggleModal('student')">Student Evaluations</div>
+    <div class="tab" @click="toggleModal('teacher')">Teacher Evaluations</div>
+    <div class="tab" @click="toggleModal('evaluate')">Evaluate Teachers</div>
   </div>
 
-  <!-- Teacher Section -->
-  <div class="teacher-header">
-    <h3>Teacher Evaluations</h3>
-    <select class="dropdown">
-      <option>All Departments</option>
-      <option>Mathematics</option>
-      <option>Physics</option>
-      <option>English</option>
-      <option>Chemistry</option>
-      <option>Biology</option>
-    </select>
+  <div v-if="activeModal === 'student'">
+    <div class="teacher-header">
+      <h3>Student Evaluations</h3>
+    </div>
+
+    <div class="teacher-container">
+      <div class="teacher-card" >
+        <h3>Dr. Sarah Johnson</h3>
+        <p>Mathematics</p>
+        <span class="badge">⭐ 4.2</span>
+      </div>
+
+      <div class="card" v-for="teacher in teachers" :key="teacher.id">
+        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+        <p>{{teacher.subject}}</p>
+        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+        <br><br>
+        <button class="start" @click.prevent="$router.push({name: 'student-eval', params: {id: teacher.id, evtid: evaluator.id}})">View Evaluation</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Teacher Cards -->
-  <div class="teacher-container">
-    <div class="teacher-card" v-for="value in source">
-      <h3>Dr. Sarah Johnson</h3>
-      <p>Mathematics</p>
-      <span class="badge">⭐ 4.2</span>
-      <button class="btn btn-light">Update Evaluation</button>
+  <div v-if="activeModal === 'evaluate'">
+    <!-- Teacher Section -->
+    <div class="teacher-header">
+      <h3>Evaluate Teachers</h3>
+      <select class="dropdown">
+        <option>All Departments</option>
+        <option>Mathematics</option>
+        <option>Physics</option>
+        <option>English</option>
+        <option>MAPEH</option>
+        <option>Science</option>
+      </select>
+    </div>
+
+    <!-- Teacher Cards -->
+    <div class="teacher-container">
+      <div class="teacher-card" >
+        <h3>Dr. Sarah Johnson</h3>
+        <p>Mathematics</p>
+        <span class="badge">⭐ 4.2</span>
+      </div>
+
+      <div class="card" v-for="teacher in teachers" :key="teacher.id">
+        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+        <p>{{teacher.subject}}</p>
+        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+        <br><br>
+        <button class="start" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="activeModal === 'teacher'">
+    <div class="teacher-header">
+      <h3>Teacher Evaluations</h3>
+    </div>
+
+    <div class="teacher-container">
+      <div class="teacher-card" >
+        <h3>Dr. Sarah Johnson</h3>
+        <p>Mathematics</p>
+        <span class="badge">⭐ 4.2</span>
+      </div>
+
+      <div class="card" v-for="teacher in teachers" :key="teacher.id">
+        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+        <p>{{teacher.subject}}</p>
+        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+        <br><br>
+        <button class="start" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id, evtid: evaluator.id}})">View Evaluation</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { removeToken, getToken } from "../../utils/auth";
+
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
 
   export default {
     name: 'Principal',
     data() {
       return {
-
+        urlappphp: `${url2}/Getter.php`,
+        urlappphp2: `${url2}/viewEvaluations.php`,
+        urlappphp3: `${url2}/viewEvaluationt.php`,
+        teachers: [],
+        count: 0,
+        isLoading: false,
+        fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
+        activeModal: "student",
       }
     },
 
-    method: {
+    methods: {
 
       async getTeachers() {
             
@@ -92,7 +161,7 @@
               year: teacher.year
             }));
                 
-            this.count = result.count;
+            this.count = result.total;
             this.isLoading = false;
 
           }else {
@@ -153,6 +222,16 @@
           return;
         }
       },
+
+      toggleModal(modal) {
+        this.activeModal = modal;  
+      },
+    },
+
+    mounted() {
+      this.getTeachers();
+      this.id = localStorage.getItem("userData") || "";
+      this.skipLogin();
     }
   };
 
@@ -360,4 +439,88 @@ header p {
 .btn-dark { background: #000; color: #fff; }
 .btn-light { background: #f1f3f5; color: #000; }
 
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.card p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  margin-right: 5px;
+}
+
+.badge.evaluated {
+  background: #e5e7eb;
+  color: #333;
+}
+
+.checkmark {
+  color: green;
+  font-weight: bold;
+  margin-left: 6px;
+}
+
+.card button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.card .start {
+  background: #000;
+  color: #fff;
+}
+
+.card .update {
+  background: #fff;
+  color: #333;
+}
+
+.loading-screen {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.7);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+z-index: 3000;
+color: white;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+  z-index: 3000;
+}
 </style>

@@ -27,7 +27,20 @@ if ($action === 'getTeachers') {
                 'year' => $row['year']
             ];
         }
-        echo json_encode(['success' => true, 'teachers' => $teachers]);
+
+        $sql2 = "SELECT COUNT(*) AS total FROM Teachers;";
+        $result2 = $conn->query($sql2);
+
+        if($result2){
+            $row = $result2->fetch_assoc();
+            $total = $row['total'];
+            
+            echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $total]);
+        }else{
+            echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
+            exit();
+        }
+
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
     }

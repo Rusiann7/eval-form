@@ -225,6 +225,7 @@
 
             <div class="tab-content" v-if="activeTab === 'login'">
                 <form method="post" @submit.prevent="login">
+                    <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
                     <div class="form-group">
                         <label for="teacherId">Email: </label>
                         <input
@@ -273,7 +274,8 @@
             </div>
 
             <div class="tab-content active">
-                <form>
+                <form method="post" @submit.prevent="login">
+                    <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
                     <div class="form-group">
                         <label for="adminId">Admin ID</label>
                         <input
@@ -660,23 +662,14 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* BACKGROUND IMAGE CHANGE - Line below */
-    background:
-        linear-gradient(rgba(12, 89, 4, 0.8), rgba(3, 66, 78, 0.9));
-        /*url("../assets/background.png");*/
-    background-size: cover;
-    padding: 20px;
+    padding: 0px;
     color: #fff;
     width: 100%;
-}
-
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(12, 89, 4, 0.8), rgba(3, 66, 78, 0.9));
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .logo {

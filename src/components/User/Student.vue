@@ -28,8 +28,6 @@
         <p>Mathematics</p>
         <span class="badge">Q1 2024</span>
         <span class="badge evaluated">Evaluated</span>
-        <br><br>
-        <button class="update">⭐ Update Evaluation</button>
       </div>
 
       <!-- Card 2 -->

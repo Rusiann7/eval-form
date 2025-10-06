@@ -167,13 +167,18 @@
 </template>
 
 <script>
+import { removeToken, getToken } from "../../utils/auth";
+
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
+
 export default {
     name: 'tcEval',
     data(){
         return{
-            urlappphp: "https://rusiann7.helioho.st/questiont.php",
-            urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
-            urlappphp3: "https://rusiann7.helioho.st/submitt.php",
+            urlappphp: `${url2}/questiont.php`,
+            urlappphp2: `${url2}/idGetter.php`,
+            urlappphp3: `${url2}/submitt.php`,
             headers: [],
             teacher: {},
             date: new Date().getDate(),
@@ -595,5 +600,31 @@ footer {
     h1 {
         font-size: 24px; /* Adjusted for print */
     }
+}
+
+.loading-screen {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.7);
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+z-index: 3000;
+color: white;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+  z-index: 3000;
 }
 </style>

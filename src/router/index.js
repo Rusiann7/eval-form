@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router' //vue router import
 import { isAuthenticated } from '../utils/auth' //auth import
 
-//const Dashboard = () => import('../components/Dashboard.vue')
 const Student = () =>import('../components/User/Student.vue') //loads components 
 const Teacher = () => import('../components/User/Teacher.vue')
 const Principal = () => import('../components/Admin/Principal.vue')

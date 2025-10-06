@@ -7,8 +7,8 @@
       <span class="breadcrumb">Teacher Portal</span>
     </div>
     <div class="user-info">
-      <span>Welcome, Teacher User</span>
-      <a href="index.html" class="logout-btn">Logout</a>
+      <span>Welcome, {{ fullname }}</span>
+      <button class="logout-btn" @click="logout()">Logout</button>
     </div>
   </header>
 
@@ -31,83 +31,99 @@
 
   <!-- Teacher Cards -->
     <div class="teacher-container">
-        <div class="teacher-card">
-          <h3>Dr. Sarah Johnson</h3><p>Mathematics</p>
-          <button class="btn btn-dark">Start Evaluation</button>
-        </div>
-
         <div class="teacher-card" v-for="teacher in teachers" :key="teacher.id">
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
-          <button class="btn btn-light" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Update Evaluation</button>
+          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+          <br><br>
+          <button class="btn btn-dark" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
+        </div>
+
+        <div class="teacher-card">
+          <h3>name</h3>
+          <p>subject</p>
         </div>
     </div>
 </template>
 
 <script>
+import { removeToken, getToken } from "../../utils/auth";
 
-    export default {
-        name: 'Teacher',
-        data() {
-          return {
-            urlappphp: "https://rusiann7.helioho.st/Getter.php",
-            teachers: [],
-            count: 0,
-          }
-        },
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
 
-        methods: {
-          async getTeachers() {
-            
-            try {
-              const response = await fetch(this.urlappphp, {
-                method: 'POST',
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ action: "getTeachers"})
-              });
-
-              const result = await response.json();
-
-              if (result.success) {
-                this.teachers = result.teachers.map(teacher => ({
-                  id: teacher.id,
-                  firstname: teacher.firstname,
-                  lastname: teacher.lastname,
-                  subject: teacher.subject,
-                  quarter: teacher.quarter,
-                  year: teacher.year
-                }));
-                this.count = result.count;
-
-              }else {
-                console.error("Error fetching teachers:", result.message);
-              }
-
-            }catch(error){
-              console.error("Error fetching teachers:", error);
-            }
-          },
-
-          skipLogin(){
-            const token = getToken();
-
-            if (!token) {
-              console.error("No token found, redirecting to login.");
-              this.$router.replace("/new-Dashboard");
-            };
-          },
-        },
-
-        mounted(){
-          this.getTeachers();
-          this.skipLogin();
+  export default {
+    name: 'Teacher',
+      data() {
+        return {
+          urlappphp: `${url2}/Getter.php`,
+          teachers: [],
+          count: 0,
+          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         }
+      },
+
+    methods: {
+      async getTeachers() {
+            
+        try {
+          const response = await fetch(this.urlappphp, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: "getTeachers"})
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            this.teachers = result.teachers.map(teacher => ({
+              id: teacher.id,
+              firstname: teacher.firstname,
+              lastname: teacher.lastname,
+              subject: teacher.subject,
+              quarter: teacher.quarter,
+              year: teacher.year
+            }));
+
+            this.count = result.total;
+
+          }else {
+            console.error("Error fetching teachers:", result.message);
+          }
+
+        }catch(error){
+          console.error("Error fetching teachers:", error);
+        }
+      },
+
+      logout() {
+        try {
+          removeToken();
+          this.localUserData = {};
+          this.$router.replace("/");
+        }catch (error) {
+          console.error("Logout error:", error);
+        }
+      },
+
+      skipLogin(){
+        const token = getToken();
+
+        if (!token) {
+          console.error("No token found, redirecting to login.");
+          this.$router.replace("/new-Dashboard");
+        };
+      },
+    },
+
+    mounted(){
+      this.getTeachers();
+      this.skipLogin();
     }
-
+  }
 </script>
-
 <style scoped>
 
 /* Global */
@@ -312,7 +328,4 @@ header p {
 
 .btn-dark { background: #000; color: #fff; }
 .btn-light { background: #f1f3f5; color: #000; }
-
-
-
 </style>

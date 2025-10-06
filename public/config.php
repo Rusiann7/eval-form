@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Credentials: true');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header('Access-Control-Max-Age: 86400');
 header('Content-Type: application/json; charset=utf-8');
 
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
 
 $host ="rusiann7.helioho.st";
 $user ="rusiann7_rusiannn";
-$password="4&3dx10Wl";
+$password="";
 $dbname="rusiann7_evaluation";
 
 $conn = new mysqli($host, $user, $password, $dbname);
