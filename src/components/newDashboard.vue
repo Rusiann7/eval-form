@@ -8,12 +8,11 @@
         <div class="logo">
             <!-- LOGO CHANGE - Lines below -->
             <div class="logo-image">
-                <img src="../assets/logo.png" alt="Project EVAL Logo" />
+                <img src="../assets/logo2.png" alt="Project EVAL Logo" />
             </div>
-            <h1>Project EVAL</h1>
+            <h1>EduRate</h1>
             <p class="tagline">
-                Enriching Vital teAcher's versatiLity: Fostering Growth,
-                Innovation, and Impact
+                “Reflect, Improve, Inspire!”
             </p>
             <p class="instruction">
                 Select your role to access the evaluation platform
@@ -663,8 +662,8 @@ export default {
     align-items: center;
     /* BACKGROUND IMAGE CHANGE - Line below */
     background:
-        linear-gradient(rgba(12, 89, 4, 0.8), rgba(3, 66, 78, 0.9)),
-        url("../assets/background.png");
+        linear-gradient(rgba(12, 89, 4, 0.8), rgba(3, 66, 78, 0.9));
+        /*url("../assets/background.png");*/
     background-size: cover;
     padding: 20px;
     color: #fff;
