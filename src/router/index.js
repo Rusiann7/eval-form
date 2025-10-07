@@ -61,7 +61,7 @@ const routes = [
   },
 
   {
-    path: '/printable-form-teacher/:id',
+    path: '/printable-form-teacher/:id/:evtid',
     name: 'printable-form1',
     component: printable1,
     meta: {title: 'Printable Form Teachers', requiresAuth: false}

@@ -328,6 +328,12 @@ export default {
   margin: 0mm; /* Remove margins to maximize space */
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -337,6 +343,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    font-size: 1rem;
+    line-height: 1.4;
 }
 
 .a4-page {
@@ -345,6 +353,7 @@ body {
     background: white;
     position: relative;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 100%;
 }
 
 /* Header styles - will be repeated on each page */
@@ -352,22 +361,25 @@ body {
     display: flex;
     align-items: center;
     text-align: center;
-    padding: 3mm 5mm; /* Reduced padding */
+    padding: 0.3rem 0.5rem;
     border-bottom: 2px solid #0044cc;
     background-color: #f8f9fa;
     position: relative;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .logo-left,
 .logo-right {
-    width: 60px; /* Smaller logos */
-    height: 60px;
+    width: 3.75rem;
+    height: 3.75rem;
     background-color: #e6e6e6;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #ccc;
-    margin: 0 5px; /* Reduced margin */
+    margin: 0 0.3rem;
+    flex-shrink: 0;
 }
 
 .logo-left img,
@@ -378,73 +390,87 @@ body {
 
 .header-content {
     flex: 1;
+    min-width: 200px;
 }
 
 .header h1 {
-    font-size: 14pt; /* Smaller font sizes */
-    margin: 3px 0;
+    font-size: 0.875rem;
+    margin: 0.2rem 0;
     font-weight: bold;
     color: #003366;
+    line-height: 1.2;
 }
 
 .header h2 {
-    font-size: 12pt;
-    margin: 2px 0;
+    font-size: 0.75rem;
+    margin: 0.1rem 0;
     font-weight: normal;
     color: #0044aa;
+    line-height: 1.2;
 }
 
 .header h3 {
-    font-size: 11pt;
-    margin: 2px 0;
+    font-size: 0.7rem;
+    margin: 0.1rem 0;
     font-weight: normal;
     color: #005588;
+    line-height: 1.2;
 }
 
 .header h4 {
-    font-size: 14pt;
-    margin: 5px 0 2px 0;
+    font-size: 0.875rem;
+    margin: 0.3rem 0 0.1rem 0;
     font-weight: bold;
     color: #cc0000;
     text-transform: uppercase;
+    line-height: 1.2;
 }
 
 .content {
-    padding: 2mm 10mm; /* Reduced padding */
+    padding: 0.2rem 1rem;
 }
 
 .info-fields {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px; /* Reduced gap */
-    margin-bottom: 3px;
-    margin-top: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.6rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0.6rem;
 }
 
 .info-field {
-    margin-bottom: 3px;
+    margin-bottom: 0.2rem;
 }
 
 .info-field label {
     display: block;
     font-weight: bold;
-    margin-bottom: 3px;
+    margin-bottom: 0.2rem;
     color: #2c3e50;
-    font-size: 16px; /* Smaller font */
+    font-size: 1rem;
+}
+
+.info-field input,
+.info-field select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    font-size: 0.9rem;
 }
 
 .evaluation-section {
-    margin: 20px 0; /* Reduced spacing */
+    margin: 1.25rem 0;
     page-break-inside: avoid;
 }
 
 .section-header {
     background-color: #4a86e8;
     color: white;
-    padding: 10px; /* Reduced padding */
-    border-radius: 5px 5px 0 0;
+    padding: 0.6rem;
+    border-radius: 0.3rem 0.3rem 0 0;
     margin-bottom: 0;
-    font-size: 20px; /* Smaller font */
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
@@ -452,19 +478,21 @@ body {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
+    font-size: 0.9rem;
 }
 
 .indicator-table td:first-child {
     width: 70%;
     word-wrap: break-word;
-    padding: 8px 6px; /* Reduced padding */
-    font-size: 14px; /* Smaller font */
+    padding: 0.5rem 0.4rem;
+    font-size: 0.875rem;
+    vertical-align: top;
 }
 
 .indicator-table td:last-child {
     width: 30%;
     vertical-align: top;
-    padding: 8px 6px; /* Reduced padding */
+    padding: 0.5rem 0.4rem;
 }
 
 .indicator-table tr {
@@ -487,30 +515,55 @@ body {
 .rating-options {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 0.3rem;
 }
 
 .rating-option {
     text-align: center;
+    flex: 1;
+    min-width: 45px;
+}
+
+.rating-option input {
+    margin: 0.2rem 0;
+    transform: scale(1.1);
+}
+
+.rating-value {
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+}
+
+.rating-label {
+    font-size: 0.6rem;
+    color: #666;
+    line-height: 1.1;
 }
 
 /* Smaller footer */
 .footer {
-    padding: 3mm 10mm; /* Reduced padding */
-    border-top: 1px solid #0044cc; /* Thinner border */
+    padding: 0.3rem 1rem;
+    border-top: 1px solid #0044cc;
     background-color: #f8f9fa;
-    font-size: 8pt; /* Smaller font */
-    margin-top: 10mm; /* Reduced margin */
+    font-size: 0.5rem;
+    margin-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .footer-logo {
-    width: 40px; /* Smaller logo */
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     background-color: #e6e6e6;
     display: flex;
     align-items: center;
     justify-content: center;
     border: 1px solid #ccc;
-    margin-right: 10px;
+    flex-shrink: 0;
 }
 
 .footer-logo img {
@@ -520,10 +573,12 @@ body {
 
 .footer-content {
     flex: 1;
+    min-width: 200px;
 }
 
 .footer-line {
-    margin: 1px 0; /* Reduced margin */
+    margin: 0.06rem 0;
+    line-height: 1.2;
 }
 
 .watermark {
@@ -531,7 +586,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    font-size: 30pt; /* Smaller watermark */
+    font-size: 1.875rem;
     color: rgba(0, 0, 0, 0.05);
     pointer-events: none;
     z-index: -1;
@@ -559,39 +614,44 @@ body {
     border: 4px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     border-top: 4px solid #ffffff;
-    width: 40px;
-    height: 40px;
+    width: 2.5rem;
+    height: 2.5rem;
     animation: spin 1s linear infinite;
-    margin-bottom: 10px;
+    margin-bottom: 0.6rem;
     z-index: 3000;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .rating-scale {
     background-color: #f8f9fa;
-    padding: 12px; /* Reduced padding */
-    border-radius: 5px;
-    margin-bottom: 8px;
+    padding: 0.75rem;
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
     border: 1px solid #dee2e6;
 }
 
 .rating-scale h2 {
     color: #2c3e50;
-    margin-bottom: 10px; /* Reduced margin */
+    margin-bottom: 0.6rem;
     text-align: center;
-    font-size: 20px; /* Smaller font */
+    font-size: 1.25rem;
     font-weight: bold;
 }
 
 table.rating-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 8px;
-    font-size: 14px; /* Smaller font */
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
 }
 
 table.rating-table th, table.rating-table td {
     border: 1px solid #dee2e6;
-    padding: 8px; /* Reduced padding */
+    padding: 0.5rem;
     text-align: center;
     font-weight: bold;
 }
@@ -599,21 +659,138 @@ table.rating-table th, table.rating-table td {
 table.rating-table th {
     background-color: #4a86e8;
     color: white;
-    font-size: 16px; /* Smaller font */
+    font-size: 1rem;
 }
 
 table.rating-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-/* Print styles - HEADER AND FOOTER ON EVERY PAGE */
-/* Print styles - ULTRA SIMPLE FIX */
+/* Responsive Design for Screen */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 1rem;
+        align-items: flex-start;
+    }
+    
+    .a4-page {
+        width: 100%;
+        min-height: auto;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .logo-left, .logo-right {
+        width: 4rem;
+        height: 4rem;
+        margin: 0.5rem 0;
+    }
+    
+    .header-content {
+        width: 100%;
+    }
+    
+    .info-fields {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .indicator-table {
+        display: block;
+        overflow-x: auto;
+        table-layout: auto;
+    }
+    
+    .indicator-table td:first-child,
+    .indicator-table td:last-child {
+        width: auto;
+        min-width: 150px;
+    }
+    
+    .rating-options {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .rating-option {
+        flex-direction: row;
+        justify-content: flex-start;
+        text-align: left;
+        gap: 0.5rem;
+    }
+    
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    .watermark {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .content {
+        padding: 0.5rem;
+    }
+    
+    .header h1 {
+        font-size: 0.8rem;
+    }
+    
+    .header h2 {
+        font-size: 0.7rem;
+    }
+    
+    .header h3 {
+        font-size: 0.65rem;
+    }
+    
+    .header h4 {
+        font-size: 0.8rem;
+    }
+    
+    .section-header {
+        font-size: 1.1rem;
+        padding: 0.5rem;
+    }
+    
+    .rating-scale h2 {
+        font-size: 1.1rem;
+    }
+    
+    .indicator-table {
+        font-size: 0.8rem;
+    }
+    
+    table.rating-table {
+        font-size: 0.8rem;
+    }
+    
+    table.rating-table th,
+    table.rating-table td {
+        padding: 0.3rem;
+    }
+}
+
 /* Print styles - FIXED HEADER/FOOTER THAT WORKS */
 @media print {
     body {
         background: none;
         margin: 0;
         padding: 0;
+        font-size: 0.8rem;
     }
     
     .a4-page {
@@ -630,10 +807,10 @@ table.rating-table tr:nth-child(even) {
         top: 0;
         left: 0;
         right: 0;
-        padding: 2mm 5mm;
+        padding: 0.2rem 0.5rem;
         background: white;
         z-index: 1000;
-        height: 20mm; /* Fixed height */
+        height: 1.5rem;
     }
     
     /* Footer on every page - FIXED */
@@ -642,24 +819,23 @@ table.rating-table tr:nth-child(even) {
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 2mm 10mm;
+        padding: 0.2rem 1rem;
         background: white;
         z-index: 1000;
-        height: 12mm; /* Fixed height */
+        height: 1rem;
     }
     
     /* CRITICAL: Add margins to content to avoid cutting */
     .content {
-        padding: 30mm 10mm 20mm 10mm; /* 30mm top clears 20mm header safely */
+        padding: 2rem 1rem 1.5rem 1rem;
         margin: 0;
     }
-
     
     /* Prevent content from being cut off */
     .evaluation-section {
         page-break-inside: avoid;
         break-inside: avoid;
-        margin: 15px 0;
+        margin: 1rem 0;
     }
     
     .indicator-table tr {
@@ -676,5 +852,23 @@ table.rating-table tr:nth-child(even) {
     .evaluation-section:first-child {
         margin-top: 0;
     }
+    
+    /* Hide loading screen when printing */
+    .loading-screen {
+        display: none !important;
+    }
+}
+
+/* Utility classes */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 </style>

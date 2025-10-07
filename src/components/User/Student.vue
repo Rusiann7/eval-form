@@ -139,103 +139,130 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
 </script>
 
 <style scoped>
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 body {
-  background: #fff;
+  background: #f8f9fa;
   color: #333;
+  line-height: 1.6;
 }
 
-/* Navbar */
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 40px;
+  padding: 1rem 1.5rem;
   border-bottom: 1px solid #ddd;
+  background: #fff;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 header h1 {
-  font-size: 18px;
+  font-size: 1.25rem;
   font-weight: bold;
 }
 
 .portal-btn {
   background: #f3f4f6;
-  padding: 5px 12px;
+  padding: 0.5rem 1rem;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 0.875rem;
   cursor: pointer;
   border: none;
+  transition: background 0.2s;
+}
+
+.portal-btn:hover {
+  background: #e5e7eb;
 }
 
 .user-section {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .logout-btn {
   border: none;
   background: #f3f4f6;
-  padding: 6px 14px;
+  padding: 0.5rem 1rem;
   border-radius: 12px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
+.logout-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Main Content */
 main {
-  padding: 30px 40px;
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 main h2 {
-  font-size: 22px;
-  margin-bottom: 8px;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 main p {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #555;
-  margin-bottom: 25px;
+  margin-bottom: 1.5rem;
 }
 
+/* Teachers Grid */
 .teachers {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  gap: 1.25rem;
 }
 
+/* Cards */
 .card {
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 20px;
+  padding: 1.25rem;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .card h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .card p {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 0.75rem;
 }
 
+/* Badges */
 .badge {
   display: inline-block;
-  padding: 4px 10px;
-  font-size: 12px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
   border-radius: 8px;
   background: #f3f4f6;
-  margin-right: 5px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .badge.evaluated {
@@ -244,19 +271,21 @@ main p {
 }
 
 .checkmark {
-  color: green;
+  color: #10b981;
   font-weight: bold;
-  margin-left: 6px;
+  margin-left: 0.5rem;
 }
 
+/* Buttons */
 .card button {
   width: 100%;
-  padding: 10px;
+  padding: 0.75rem;
   border: 1px solid #ddd;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.2s;
 }
 
 .card .start {
@@ -264,27 +293,37 @@ main p {
   color: #fff;
 }
 
+.card .start:hover {
+  background: #333;
+}
+
 .card .update {
   background: #fff;
   color: #333;
 }
 
+.card .update:hover {
+  background: #f9fafb;
+}
+
+/* Progress Section */
 .progress-section {
-  margin-top: 40px;
+  margin-top: 2.5rem;
   border: 1px solid #ddd;
   border-radius: 12px;
-  padding: 20px;
+  padding: 1.25rem;
+  background: #fff;
 }
 
 .progress-section h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .progress-section p {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: #666;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
 }
 
 .progress-bar {
@@ -292,33 +331,35 @@ main p {
   border-radius: 6px;
   background: #e5e7eb;
   overflow: hidden;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .progress-fill {
   height: 100%;
   background: #000;
+  transition: width 0.3s ease;
 }
 
 .progress-text {
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-align: right;
   color: #333;
 }
 
+/* Loading Screen */
 .loading-screen {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.7);
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-z-index: 3000;
-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  color: white;
 }
 
 .loading-spinner {
@@ -328,7 +369,71 @@ color: white;
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
-  margin-bottom: 10px;
-  z-index: 3000;
+  margin-bottom: 0.75rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  main {
+    padding: 1rem;
+  }
+  
+  .teachers {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .card {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.125rem;
+  }
+  
+  main h2 {
+    font-size: 1.25rem;
+  }
+  
+  .user-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .progress-section {
+    padding: 1rem;
+  }
+}
+
+/* Utility Classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 </style>

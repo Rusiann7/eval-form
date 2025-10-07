@@ -94,7 +94,7 @@
                 <tbody>
                     <tr v-for="question in header.questions" :key="question.question_id"> <!--dito mo lagay yung v-for-->
                     <td>
-                        {{ question.question }}<br> <!--tanong tagalog-->
+                        <p>{{ question.question }}</p><br> <!--tanong tagalog-->
                     </td>
                     <td class="rating-cell">
                         <div class="rating-options">
@@ -290,7 +290,6 @@ export default {
 }
 </script>
 <style scoped>
-
 * {
     box-sizing: border-box;
     margin: 0;
@@ -302,95 +301,102 @@ body {
     background-color: #f0f7ff;
     color: #333;
     line-height: 1.6;
-    padding: 20px;
-    font-size: 18px;
+    padding: 1.25rem;
+    font-size: 1rem;
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 75rem;
     margin: 0 auto;
     background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 1.875rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.1);
 }
         
 header {
     text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
+    margin-bottom: 1.875rem;
+    padding-bottom: 1.25rem;
     border-bottom: 2px solid #4a86e8;
 }
 
 h1 {
     color: #2c3e50;
-    margin-bottom: 10px;
-    font-size: 36px;
+    margin-bottom: 0.625rem;
+    font-size: 2rem;
     font-weight: bold;
 }
 
 .intro {
     background-color: #e8f1ff;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
-    font-size: 20px;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.875rem;
+    font-size: 1.125rem;
     font-weight: 500;
 }
 
 .info-fields {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
 }
         
 .info-field {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
 .info-field label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     color: #2c3e50;
-    font-size: 20px;
+    font-size: 1.125rem;
 }
 
 .info-field input, .info-field select {
     width: 100%;
-    padding: 12px;
+    padding: 0.75rem;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 18px;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.info-field input:focus, .info-field select:focus {
+    outline: none;
+    border-color: #4a86e8;
+    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
 }
 
 .rating-scale {
     background-color: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 30px;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.875rem;
     border: 1px solid #dee2e6;
 }
 
 .rating-scale h2 {
     color: #2c3e50;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     text-align: center;
-    font-size: 28px;
+    font-size: 1.5rem;
     font-weight: bold;
 }
         
 table.rating-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    font-size: 18px;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
 }
 
 table.rating-table th, table.rating-table td {
     border: 1px solid #dee2e6;
-    padding: 12px;
+    padding: 0.75rem;
     text-align: center;
     font-weight: bold;
 }
@@ -398,7 +404,7 @@ table.rating-table th, table.rating-table td {
 table.rating-table th {
     background-color: #4a86e8;
     color: white;
-    font-size: 20px;
+    font-size: 1.125rem;
 }
 
 table.rating-table tr:nth-child(even) {
@@ -406,36 +412,37 @@ table.rating-table tr:nth-child(even) {
 }
 
 .evaluation-section {
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
     page-break-inside: avoid;
 }
 
 .section-header {
     background-color: #4a86e8;
     color: white;
-    padding: 15px;
-    border-radius: 8px 8px 0 0;
+    padding: 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
     margin-bottom: 0;
-    font-size: 24px;
+    font-size: 1.25rem;
     font-weight: bold;
 }
         
 .indicator-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    font-size: 18px;
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
 }
 
 .indicator-table th, .indicator-table td {
     border: 1px solid #dee2e6;
-    padding: 12px;
+    padding: 0.75rem;
+    vertical-align: top;
 }
 
 .indicator-table th {
     background-color: #e8f1ff;
     text-align: left;
-    font-size: 20px;
+    font-size: 1.125rem;
     font-weight: bold;
 }
 
@@ -443,14 +450,32 @@ table.rating-table tr:nth-child(even) {
     background-color: #f8f9fa;
 }
 
+/* Make TD content behave like paragraphs */
+.indicator-content {
+    margin: 0;
+    padding: 0;
+}
+
+.indicator-content p {
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.indicator-content p:last-child {
+    margin-bottom: 0;
+}
+
 .rating-cell {
-    width: 200px;
+    min-width: 250px;
+    width: 30%;
 }
 
 .rating-options {
     display: flex;
     justify-content: space-between;
     width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
         
 .rating-option {
@@ -458,60 +483,73 @@ table.rating-table tr:nth-child(even) {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    flex: 1;
+    min-width: 80px;
 }
 
 .rating-option input {
-    margin: 5px 0;
-    transform: scale(1.5);
+    margin: 0.25rem 0;
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .rating-value {
     font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 1.125rem;
+    margin-bottom: 0.25rem;
 }
 
 .rating-label {
-    font-size: 14px;
+    font-size: 0.75rem;
     color: #666;
+    line-height: 1.2;
 }
 
 .feedback-section {
-    margin-top: 40px;
+    margin-top: 2.5rem;
 }
 
 .feedback-section h2 {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     color: #2c3e50;
-    font-size: 28px;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
 textarea {
     width: 100%;
-    height: 150px;
-    padding: 15px;
+    height: 9.375rem;
+    padding: 1rem;
     border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 18px;
+    border-radius: 0.5rem;
+    font-size: 1rem;
     resize: vertical;
+    transition: border-color 0.2s;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4a86e8;
+    box-shadow: 0 0 0 2px rgba(74, 134, 232, 0.2);
 }
         
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    margin-top: 30px;
+    gap: 1.25rem;
+    margin-top: 1.875rem;
+    flex-wrap: wrap;
 }
 
 button {
-    padding: 12px 25px;
+    padding: 0.75rem 1.5rem;
     border: none;
-    border-radius: 5px;
-    font-size: 18px;
+    border-radius: 0.3125rem;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
     font-weight: bold;
+    min-width: 120px;
 }
 
 button.print {
@@ -531,47 +569,182 @@ button.reset {
 
 button:hover {
     opacity: 0.9;
+    transform: translateY(-2px);
 }
         
 footer {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 2.5rem;
     color: #666;
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 500;
 }
 
+/* Loading Screen */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    color: white;
+}
+
+.loading-spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 4px solid #ffffff;
+    width: 2.5rem;
+    height: 2.5rem;
+    animation: spin 1s linear infinite;
+    margin-bottom: 0.75rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tagalog {
+    font-style: italic;
+    color: #555;
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     body {
-        font-size: 16px;
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .container {
+        padding: 1.25rem;
     }
     
     .info-fields {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
     
     .rating-options {
         flex-direction: column;
-        gap: 10px;
+        gap: 0.75rem;
     }
     
     .rating-option {
         flex-direction: row;
         justify-content: flex-start;
-        gap: 10px;
+        gap: 0.75rem;
+        text-align: left;
+        min-width: auto;
     }
     
-    .indicator-table th:nth-child(2),
-    .indicator-table td:nth-child(2) {
+    .indicator-table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .indicator-table th,
+    .indicator-table td {
+        min-width: 200px;
+    }
+    
+    .rating-cell {
         width: 40%;
+        min-width: 200px;
     }
     
     h1 {
-        font-size: 28px;
+        font-size: 1.5rem;
     }
     
     .intro {
-        font-size: 18px;
+        font-size: 1rem;
+        padding: 1rem;
+    }
+    
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    button {
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    .section-header {
+        font-size: 1.125rem;
+        padding: 0.75rem;
+    }
+    
+    .indicator-content p {
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.75rem;
+    }
+    
+    .container {
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+    
+    header {
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.75rem;
+    }
+    
+    h1 {
+        font-size: 1.25rem;
+    }
+    
+    .rating-scale h2,
+    .feedback-section h2 {
+        font-size: 1.25rem;
+    }
+    
+    table.rating-table th,
+    table.rating-table td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .indicator-table th,
+    .indicator-table td {
+        padding: 0.5rem;
+        font-size: 0.875rem;
+    }
+    
+    .rating-value {
+        font-size: 1rem;
+    }
+    
+    textarea {
+        height: 7rem;
+        padding: 0.75rem;
+    }
+    
+    .indicator-content p {
+        font-size: 0.875rem;
+        line-height: 1.4;
+    }
+    
+    .tagalog {
+        font-size: 0.8rem;
     }
 }
 
@@ -579,12 +752,13 @@ footer {
     body {
         background-color: white;
         padding: 0;
-        font-size: 16px;
+        font-size: 0.875rem;
     }
     
     .container {
         box-shadow: none;
         padding: 0;
+        max-width: none;
     }
     
     button {
@@ -592,38 +766,41 @@ footer {
     }
     
     h1 {
-        font-size: 24px;
+        font-size: 1.25rem;
+    }
+    
+    .intro {
+        background-color: transparent;
+        border: 1px solid #ccc;
+    }
+    
+    .rating-scale {
+        border: 1px solid #ccc;
+        background-color: transparent;
+    }
+    
+    .section-header {
+        background-color: #e8f1ff;
+        color: #2c3e50;
+        border: 1px solid #ccc;
+    }
+    
+    .indicator-content p {
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
     }
 }
-        
-.tagalog {
-    font-style: italic;
-    color: #555;
-}
 
-.loading-screen {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: rgba(0, 0, 0, 0.7);
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-z-index: 3000;
-color: white;
-}
-
-.loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 10px;
-  z-index: 3000;
+/* Utility Classes */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 </style>

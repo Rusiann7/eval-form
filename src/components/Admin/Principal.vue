@@ -9,6 +9,7 @@
   <header class="topbar">
     <div>
       <span class="logo">Teacher Evaluation System</span>
+      <br>
       <span class="breadcrumb">Principal Portal</span>
     </div>
     <div class="user-info">
@@ -35,6 +36,7 @@
     <div class="tab" :class="{ active: activeTab === 'teacher' }" @click="click('teacher')">Teacher Evaluations</div>
     <div class="tab" :class="{ active: activeTab === 'evaluate' }" @click="click('evaluate')">Evaluate Teachers</div>
     <div class="tab" :class="{ active: activeTab === 'scheduling' }" @click="click('scheduling')">Create Schedule</div>
+    <div class="tab" :class="{ active: activeTab === 'manage' }" @click="click('manage')">Manage Teacher Account</div>
   </div>
 
   <div v-if="activeModal === 'student'">
@@ -96,7 +98,7 @@
         <p>{{newteacher.subject}}</p>
         <span class="badge">Q{{ newteacher.quarter }} {{newteacher.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'teacher-eval', params: {id: newteacher.teacher_id, evtid: newteacher.evt_id}})">View Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'printable-form1', params: {id: newteacher.teacher_id, evtid: newteacher.evt_id}})">View Evaluation</button>
       </div>
     </div>
   </div>
@@ -110,6 +112,10 @@
       <li>Notify teachers and students of upcoming evaluations</li>
       <li>Create room schedules based on availability</li>
     </ul>
+  </div>
+
+  <div v-if="activeModal === 'manage'">
+    
   </div>
 </template>
 
@@ -355,15 +361,25 @@ header p {
   align-items: center;
   padding: 15px 40px;
   border-bottom: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.logo { font-weight: bold; }
+.logo { 
+  font-weight: bold; 
+  font-size: 18px;
+}
+
 .breadcrumb {
   background: #f1f3f5;
   padding: 5px 12px;
   border-radius: 8px;
   font-size: 14px;
   margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
 
 .user-info {
@@ -371,6 +387,7 @@ header p {
   align-items: center;
   gap: 15px;
   font-size: 14px;
+  flex-wrap: wrap;
 }
 
 .logout-btn {
@@ -381,6 +398,111 @@ header p {
   cursor: pointer;
   text-decoration: none;
   color: #000;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 12px 20px;
+    gap: 12px;
+  }
+  
+  .logo {
+    font-size: 16px;
+  }
+  
+  .breadcrumb {
+    font-size: 13px;
+    padding: 4px 10px;
+    margin-left: 8px;
+    max-width: 150px;
+  }
+  
+  .user-info {
+    gap: 12px;
+    font-size: 13px;
+  }
+  
+  .logout-btn {
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .topbar {
+    padding: 10px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .logo-breadcrumb-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .logo {
+    font-size: 16px;
+  }
+  
+  .breadcrumb {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-left: 0;
+    max-width: 120px;
+  }
+  
+  .user-info {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 12px;
+  }
+  
+  .logout-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  .topbar {
+    padding: 8px 12px;
+  }
+  
+  .user-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .logout-btn {
+    align-self: stretch;
+    text-align: center;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .topbar {
+    padding: 20px 60px;
+  }
+  
+  .logo {
+    font-size: 20px;
+  }
+  
+  .breadcrumb {
+    font-size: 15px;
+    max-width: 300px;
+  }
 }
 
 /* Role Cards */
@@ -463,18 +585,74 @@ header p {
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 10px;
-  padding: 0 40px;
+  gap: 8px;
+  padding: 0 20px;
   margin: 20px 0;
+  flex-wrap: wrap;
+  justify-content: center;
 }
+
 .tab {
   background: #f1f3f5;
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 14px;
   cursor: pointer;
+  text-align: center;
+  flex: 1 0 auto;
+  min-width: fit-content;
+  transition: all 0.2s ease;
 }
-.tab.active { background: #000; color: #fff; }
+
+.tab.active { 
+  background: #000; 
+  color: #fff; 
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .tabs {
+    padding: 0 16px;
+    gap: 6px;
+  }
+  
+  .tab {
+    padding: 6px 12px;
+    font-size: 13px;
+    flex: 1 0 calc(50% - 6px);
+    max-width: calc(50% - 6px);
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .tabs {
+    padding: 0 12px;
+    gap: 4px;
+    margin: 16px 0;
+  }
+  
+  .tab {
+    padding: 6px 10px;
+    font-size: 12px;
+    flex: 1 0 100%;
+    max-width: 100%;
+    border-radius: 12px;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+  .tabs {
+    padding: 0 60px;
+    gap: 12px;
+  }
+  
+  .tab {
+    padding: 10px 20px;
+    font-size: 15px;
+  }
+}
 
 /* Teacher Section */
 .teacher-header {
