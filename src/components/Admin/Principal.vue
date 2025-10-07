@@ -48,7 +48,7 @@
         <p>{{newStudent.subject}}</p>
         <span class="badge">Q{{ newStudent.quarter }} {{newStudent.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="openEvaluationInNewTab">View Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'printable-form', params: {id: newStudent.teacher_id, evtid: newStudent.eval_id}})">View Evaluation</button>
       </div>
     </div>
   </div>
