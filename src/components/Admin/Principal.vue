@@ -31,9 +31,10 @@
 
   <!-- Tabs -->
   <div class="tabs">
-    <div class="tab" @click="toggleModal('student')">Student Evaluations</div>
-    <div class="tab" @click="toggleModal('teacher')">Teacher Evaluations</div>
-    <div class="tab" @click="toggleModal('evaluate')">Evaluate Teachers</div>
+    <div class="tab" :class="{ active: activeTab === 'student' }" @click="click('student')">Student Evaluations</div>
+    <div class="tab" :class="{ active: activeTab === 'teacher' }" @click="click('teacher')">Teacher Evaluations</div>
+    <div class="tab" :class="{ active: activeTab === 'evaluate' }" @click="click('evaluate')">Evaluate Teachers</div>
+    <div class="tab" :class="{ active: activeTab === 'scheduling' }" @click="click('scheduling')">Create Schedule</div>
   </div>
 
   <div v-if="activeModal === 'student'">
@@ -47,7 +48,7 @@
         <p>{{newStudent.subject}}</p>
         <span class="badge">Q{{ newStudent.quarter }} {{newStudent.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'printable-form', params: {id: newStudent.teacher_id, evtid: newStudent.eval_id}})">View Evaluation</button>
+        <button class="start" @click.prevent="window.open($router.resolve({name: 'printable-form', params: {id: newStudent.teacher_id, evtid: newStudent.eval_id}}).href, '_blank')">View Evaluation</button>
       </div>
     </div>
   </div>
@@ -99,6 +100,17 @@
       </div>
     </div>
   </div>
+
+  <div v-if="activeModal === 'scheduling'">
+    <p>WIP to be implemented in Phase 2.</p>
+    <p>Feature set:</p>
+    <ul>
+      <li>Create student schedules based on availability</li>
+      <li>Set evaluation periods and deadlines</li>
+      <li>Notify teachers and students of upcoming evaluations</li>
+      <li>Create room schedules based on availability</li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -122,6 +134,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         isLoading: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         activeModal: "student",
+        activeTab: "student",
       }
     },
 
@@ -288,6 +301,11 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       toggleModal(modal) {
         this.activeModal = modal;  
       },
+
+      click(tabName){
+        this.activeTab = tabName;
+        this.toggleModal(tabName); // your existing function
+      }
     },
 
     mounted() {
