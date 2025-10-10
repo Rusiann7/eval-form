@@ -26,7 +26,7 @@
     </div>
 
      <!-- Added Navigation Bar -->
-  <nav>
+  <!-- <nav>
     <ul class="sidebar" ref="sidebar">
       <li @click="hideSidebar">
         <a href="#">
@@ -87,7 +87,7 @@
         </a>
       </li>
     </ul>
-  </nav>
+  </nav> -->
   </header>
 
   <!-- Page Header -->    
