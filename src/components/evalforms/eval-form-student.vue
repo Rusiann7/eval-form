@@ -122,7 +122,7 @@
                             </td>
 
                             <td class="rating-cell">
-                                 {{ answers[Number(question.question_id)] || "N/A" }}
+                                {{ answers[Number(question.question_id)] || "N/A" }}
                             </td>
                         </tr>
                         <tr>

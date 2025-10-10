@@ -121,7 +121,7 @@
                                 <!--tanong tagalog-->
                             </td>
                             <td class="rating-cell">
-                                {{}}
+                                {{ answers[Number(question.question_id)] || "N/A" }}
                             </td>
                         </tr>
                     </tbody>
@@ -165,10 +165,11 @@ export default {
     name: "printEval",
     data() {
         return {
-            urlappphp: "https://rusiann7.helioho.st/questiont.php",
-            urlappphp2: "https://rusiann7.helioho.st/idGetter.php",
-            urlappphp3: "",
-            name: "",
+            urlappphp: `${url2}/questiont.php`,
+            urlappphp2: `${url2}/idGetter.php`,
+            urlappphp3: "https://star-panda-literally.ngrok-free.app/antGetter.php",
+            urlappphp4: `${url2}/evttGetter.php`,
+            name: {},
             month: "",
             headers: [],
             teacher: {},
@@ -236,10 +237,78 @@ export default {
                 this.isLoading = false;
             }
         },
+
+        async getAnswers(){
+            try{
+                this.isLoading = true;
+
+                const response = await fetch(this.urlappphp3, {
+                    method: "POST",
+                    headers: {"Content-type": "application/json"},
+                    body: JSON.stringify({
+                        action: "ansGetter",
+                        id: this.$route.params.id,
+                        evt: this.$route.params.evtid
+                    })
+                });
+
+                const result = await response.json()
+
+                if(result.success){
+
+                    const sessionData = Object.values(result.answer)[0];
+
+                    this.month = sessionData.time
+                    this.answer = sessionData
+                    this.isLoading = false
+
+                    this.answers = {};
+                    for (const ans of sessionData.answer) {
+                        this.answers[Number(ans.question_id)] = ans.score;
+                    }
+                }
+
+            }catch(error){
+                console.log(error);
+                this.isLoading = false;
+            }
+        },
+
+        async getStudentbyid() {
+            try {
+                this.isLoading = true;
+
+                const response = await fetch(this.urlappphp4, {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        action: "getstudentbyid",
+                        evt: this.$route.params.evtid,
+                    }),
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    this.name = result.student;
+                    this.isLoading = false;
+                } else {
+                    console.log("Server error:", result.message);
+                }
+            } catch (error) {
+                console.log(error);
+                this.isLoading = false;
+            }
+        },
     },
 
     mounted() {
-        (this.getTeacherbyid(), this.getQuestions());
+        this.getTeacherbyid();
+        this.getQuestions();
+        this.getAnswers();
+        this.getStudentbyid();
     },
 };
 </script>

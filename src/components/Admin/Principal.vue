@@ -16,6 +16,78 @@
       <span>Welcome, {{ fullname }}</span>
       <button class="logout-btn" @click="logout()">Logout</button>
     </div>
+
+    <div class="error" v-if="isFailed">
+      <span>Task failed to execute!</span>
+    </div>
+
+    <div class="success" v-if="isSuccess">
+      <span>Task successfully executed!</span>
+    </div>
+
+     <!-- Added Navigation Bar -->
+  <nav>
+    <ul class="sidebar" ref="sidebar">
+      <li @click="hideSidebar">
+        <a href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="26"
+            viewBox="0 -960 960 960"
+            width="26"
+            fill="#e3e3e3"
+          >
+          <path
+            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+          />
+          </svg>
+        </a>
+
+      </li>
+      <li><a href="#" @click.prevent="$router.push('/adminHome')">Home</a></li>
+      <li><a href="#" @click.prevent="$router.push('/adminPrice')">Price</a></li>
+      <li><a href="#" @click.prevent="$router.push('/adminUser')">Users</a></li>
+      <li><a href="#" @click.prevent="$router.push('/adminControl')">Control Panel</a></li>
+      <li><a href="#" @click.prevent="logout">Log Out</a></li>
+    </ul>
+
+    <ul>
+      <li>
+        <a href="#" @click.prevent="$router.push('/adminHome')"
+          >Market Price Tracker-Admin</a>
+      </li>
+      <li class="hideMobile">
+        <a href="#" @click.prevent="$router.push('/adminHome')">Home</a>
+      </li>
+      <li class="hideMobile">
+        <a href="#" @click.prevent="$router.push('/adminPrice')">Price</a>
+      </li>
+      <li class="hideMobile">
+        <a href="#" @click.prevent="$router.push('/adminUser')">Users</a>
+      </li>
+      <li class="hideMobile">
+        <a href="#" @click.prevent="$router.push('/adminControl')">Control Panel</a>
+      </li>
+      <li class="hideMobile">
+        <a href="#" @click.prevent="logout">Log Out</a>
+      </li>
+      <li class="menu-btn" @click="showSidebar">
+        <a href="#">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="26"
+            viewBox="0 -960 960 960"
+            width="26"
+            fill="#e3e3e3"
+          >
+            <path
+              d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+            />
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </nav>
   </header>
 
   <!-- Page Header -->    
@@ -115,7 +187,73 @@
   </div>
 
   <div v-if="activeModal === 'manage'">
-    
+    <div class="content">
+      <div class="tabs">
+        <div class="tab" :class="{ active: activeTab1 === 'crtTeacher' }" @click="click2('crtTeacher')">Create Teachers</div>
+        <div class="tab" :class="{ active: activeTab1 === 'rmTeacher' }" @click="click2('rmTeacher')">Remove Teachers</div>
+      </div>
+
+      <div class="container" v-if="activeTab1 === 'crtTeacher'">
+        <div class="header">
+          <h3 class="headText">Create new teacher users</h3>
+        </div>
+
+        <form method="post" @submit.prevent="createTeachers()">
+          <label for="lsNm">Enter the First Name:</label>
+          <input 
+            type="text"
+            v-model="firstNm"
+            placeholder="Enter firstname"
+            required 
+            class="textField"
+          />
+
+          <label for="lsNm">Enter the Last Name:</label>
+          <input type="text"
+            v-model="lastNm"
+            placeholder="Enter lastname"
+            required
+            class="textField"
+          />
+
+          <label for="email">Enter the Email:</label>
+          <input type="text"
+            v-model="email"
+            placeholder="Enter email"
+            required
+            class="textField"
+          />
+
+          <label for="ps">Enter the Password:</label>
+          <input type="password"
+            v-model="pass"
+            placeholder="Enter password"
+            required
+            class="textField"
+          />
+
+          <label for="conps">Confirm the password:</label>
+          <input type="password"
+            v-model="conpass"
+            placeholder="Confirm password"
+            required
+            class="textField"
+          />
+
+          <button type="submit" class="start">Create Teacher</button>
+        </form>
+      </div>
+
+      <div class="newContainer" v-if="activeTab1 === 'rmTeacher'">
+        <div class="card" v-for="teacher in teachers" :key="teacher.id">
+          <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+          <p>{{teacher.subject}}</p>
+          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+          <br><br>
+          <button class="start" @click.prevent="rmTeachers(id)">Remove Teacher</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -138,9 +276,12 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         count: 0,
         count2: 0,
         isLoading: false,
+        isSuccess: true,
+        isFailed: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         activeModal: "student",
         activeTab: "student",
+        activeTab1: "crtTeacher",
       }
     },
 
@@ -284,6 +425,29 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         }
       },
 
+      async rmTeachers(id){
+        try{
+          this.isLoading
+
+          const response = await fetch(this.urlappphp4, {
+            method: 'POST',
+            headers: {"Content-Type": "application/json" },
+            body: JSON.stringify({action: "rmTeachers", id: id})
+          });
+
+          const result = await response.json();
+
+          if(result.success){
+            this.modal
+
+            this.isLoading = false;
+          }
+
+        }catch(error){
+          console.error(error)
+        }
+      },
+
       logout() {
         try {
           removeToken();
@@ -311,7 +475,12 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       click(tabName){
         this.activeTab = tabName;
         this.toggleModal(tabName); // your existing function
-      }
+      },
+
+      click2(tabName){
+        this.activeTab1 = tabName;
+        this.activeModal = 'manage';
+      },
     },
 
     mounted() {
@@ -322,7 +491,6 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       this.getTceval();
     }
   };
-
 </script>
 
 <style scoped>
@@ -782,5 +950,207 @@ color: white;
   animation: spin 1s linear infinite;
   margin-bottom: 10px;
   z-index: 3000;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.success, .error {
+  position: fixed;
+  top: 20px ;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 30px;
+  border-radius: 8px;
+  font-weight: 500;
+  z-index: 1000;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out, timeout 6s linear forwards;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.success span, .error span {
+  display: block;
+}
+
+/* Progress bar for timeout */
+.success::after, .error::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: currentColor;
+  opacity: 0.3;
+  animation: progress 5s linear forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes timeout {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
+}
+
+
+nav {
+  background-color: #2d333f;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav ul {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav li {
+  height: 50px;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav a {
+  height: 100%;
+  padding: 0 30px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: #e3e3e3;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+nav li:first-child a {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+nav a:hover {
+  background-color: #3a4252;
+  color: white;
+}
+
+nav a:active {
+  background-color: #4a5568;  /* pressed state */
+}
+
+nav li:first-child {
+  margin-right: auto;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar li {
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar a {
+  width: 100%;
+  font-size: 16px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar a:hover {
+  background-color: #3a4252;
+}
+
+.menu-btn {
+  display: none;
+}
+
+.menu-btn:hover {
+  background-color: #3a4252;
+}
+
+@media (max-width: 800px) {
+  .hideMobile {
+    display: none;
+  }
+  .menu-btn {
+    display: block;
+  }
+}
+
+@media (max-width: 400px) {
+  .sidebar {
+    width: 100%;
+  }
 }
 </style>

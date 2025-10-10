@@ -8,11 +8,11 @@
         <div class="logo">
             <!-- LOGO CHANGE - Lines below -->
             <div class="logo-image">
-                <img src="../assets/logo2.png" alt="Project EVAL Logo" />
+                <img src="../assets/logo.png" alt="Project EVAL Logo" />
             </div>
             <h1>EduRate</h1>
             <p class="tagline">
-                “Reflect, Improve, Inspire!”
+                “Enriching Vital teAcher's versatiLity: Fostering Growth, Innovation, and Impact”
             </p>
             <p class="instruction">
                 Select your role to access the evaluation platform
@@ -1066,6 +1066,11 @@ h2 {
     animation: spin 1s linear infinite;
     margin-bottom: 10px;
     z-index: 3000;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .wrong {

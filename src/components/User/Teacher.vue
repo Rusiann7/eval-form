@@ -1,5 +1,10 @@
 <template>
 
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
 <!-- Header -->
   <header class="topbar">
     <div>
@@ -65,6 +70,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
 
     methods: {
       async getTeachers() {
+        this.isLoading = true;
             
         try {
           const response = await fetch(this.urlappphp, {
@@ -88,6 +94,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
             }));
 
             this.count = result.total;
+            this.isLoading = false;
 
           }else {
             console.error("Error fetching teachers:", result.message);
@@ -95,6 +102,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
 
         }catch(error){
           console.error("Error fetching teachers:", error);
+          this.isLoading = false;
         }
       },
 
@@ -121,6 +129,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
     mounted(){
       this.getTeachers();
       this.skipLogin();
+      this.id = localStorage.getItem("userData") || "";
     }
   }
 </script>
@@ -588,4 +597,36 @@ header p {
   white-space: nowrap;
   border: 0;
 }
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  color: white;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.75rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 </style>
