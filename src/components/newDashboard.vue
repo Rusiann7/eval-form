@@ -10,7 +10,7 @@
             <div class="logo-image">
                 <img src="../assets/logo.png" alt="Project EVAL Logo" />
             </div>
-            <h1>EduRate</h1>
+            <h1>Project EVAL</h1>
             <p class="tagline">
                 “Enriching Vital teAcher's versatiLity: Fostering Growth, Innovation, and Impact”
             </p>
