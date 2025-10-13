@@ -11,7 +11,7 @@
       <button class="portal-btn" @click="$router.push('/')">Student Portal</button>
     </div>
     <div class="user-section">
-      <span>Welcome, {{ fullname }}</span>
+      <span>Welcome, {{ fullname }} {{ lastname }}</span>
       <button class="logout-btn" @click="logout()">Logout</button>
     </div>
   </header>
@@ -67,6 +67,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         count: 0,
         isLoading: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
+        lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
       }
     },
 

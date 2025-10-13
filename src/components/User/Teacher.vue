@@ -12,7 +12,7 @@
       <p class="breadcrumb">Teacher Portal</p>
     </div>
     <div class="user-info">
-      <span>Welcome, {{ fullname }}</span>
+      <span>Welcome, {{ fullname }} {{ lastname }}</span>
       <button class="logout-btn" @click="logout()">Logout</button>
     </div>
   </header>
@@ -65,6 +65,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
           teachers: [],
           count: 0,
           fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
+          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
         }
       },
 
