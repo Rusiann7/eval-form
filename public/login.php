@@ -44,7 +44,8 @@ if ($action === 'login') {
                     "id" => $dataLogin['id'],
                     "email" => $dataLogin['Email'],
                     "access" => $dataLogin['role'],
-                    "fullname" => $dataLogin['name']
+                    "fullname" => $dataLogin['name'],
+                    "lastname" => $dataLogin['last_name'],
                 ]]);
             exit;
         }else{

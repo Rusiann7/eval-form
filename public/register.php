@@ -29,7 +29,8 @@ if ($action === 'signup') {
     $password = $data['password'] ?? $data['pass'] ?? '';
     $conpassword = $data['conpass'] ?? $data['cp'] ?? '';
     $fullname = $data['fn'] ?? '';
-    $studentid = $data['id'] ?? '';
+    $lastname = $data['ln'] ?? '';
+    $studentid = (int)$data['id'] ?? '';
 
     if ($password !== $conpassword) {
         echo json_encode(["success" => false, "error" => "Passwords do not match"]);
@@ -44,13 +45,13 @@ if ($action === 'signup') {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $randomString = getRandomString(10);
 
-        $sql ="INSERT INTO Users (Email, password, reset, name, stid) 
-        VALUES ('$identifier', '$hash', '$randomString', '$fullname', '$studentid');";
+        $sql = "INSERT INTO Users (Email, password, reset, name, last_name, stid) 
+        VALUES ('$identifier', '$hash', '$randomString', '$fullname', '$lastname', '$studentid');";
 
         if($conn->query($sql) === true) {
             echo json_encode(["success" => true]);
         }else{
-            echo json_encode(["success" => false,"error" => "Error: " . $sql . "<br>" . $conn->error]);
+            echo json_encode(["success" => false,"error" => "Error: " . $conn->error]);
         }
     }else{
         echo json_encode(["success" => false,"error" => "Error", "message:" => "User already exist"]);

@@ -15,7 +15,7 @@ if($action === 'rmTeachers'){
 
     $sql = "DELETE FROM Teachers WHERE id = $id";
 
-    if($conn->query($sql)){
+    if($conn->query($sql) === true){
         echo json_encode(["success" => true]);
     }else{
         echo json_encode(["success" => false, "message" => $conn->error]);

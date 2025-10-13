@@ -149,11 +149,20 @@
                 <form method="post" @submit.prevent="signup()">
                     <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
                     <div class="form-group">
-                        <label for="studentName">Full Name:</label>
+                        <label for="studentName">First Name:</label>
                         <input
                             type="text"
                             v-model="studentr.fn"
-                            placeholder="Enter your full name"
+                            placeholder="Enter your first name"
+                            required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="studentName">Last Name:</label>
+                        <input
+                            type="text"
+                            v-model="studentr.ln"
+                            placeholder="Enter your last name"
                             required
                         />
                     </div>
@@ -419,7 +428,7 @@ export default {
             loginphp: `${url2}/login.php`,
             signupphp: `${url2}/register.php`,
             studentl: { id: "", ps: "" },
-            studentr: { fn: "", em: "", id: "", pass: "", conpass: "" },
+            studentr: { fn: "", ln: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
             admin: { id: "", ps: "" },
             newPassword: {
@@ -522,15 +531,18 @@ export default {
                         this.isLoading = false;
                         this.studentr = {
                             fn: "",
+                            ln: "",
                             em: "",
                             id: "",
                             pass: "",
                             conpass: "",
                         };
                     } else {
+                        this.isLoading = false;
                         console.error("server error: ", error);
                     }
                 } catch (error) {
+                    this.isLoading = false;
                     console.error("Signup error:", error);
                 }
             } else {

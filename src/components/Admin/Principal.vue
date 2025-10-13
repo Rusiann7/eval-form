@@ -13,7 +13,7 @@
       <span class="breadcrumb">Principal Portal</span>
     </div>
     <div class="user-info">
-      <span>Welcome, {{ fullname }}</span>
+      <span>Welcome, {{ fullname }} {{ lastname }}</span>
       <button class="logout-btn" @click="logout()">Logout</button>
     </div>
 
@@ -205,18 +205,17 @@
             <input 
               type="text"
               v-model="teacherr.fn"
-              placeholder="Enter firstname"
+              placeholder="Enter First Name"
               required 
             />
           </div>
-          
 
           <div class="form-group">
             <label for="lsNm">Enter the Last Name:</label>
             <input 
               type="text"
               v-model="teacherr.ln"
-              placeholder="Enter firstname"
+              placeholder="Enter Last Name"
               required 
             />
           </div>
@@ -226,7 +225,52 @@
             <input 
               type="email"
               v-model="teacherr.email"
-              placeholder="Enter firstname"
+              placeholder="Enter Email"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="lsNm">Enter the ID:</label>
+            <input 
+              type="number"
+              v-model="teacherr.id"
+              placeholder="Enter ID"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="lsNm">Choose Subject:</label>
+            
+            <select v-model="teacherr.sub" class="" required>
+              <option value="Math">Math</option>
+              <option value="English">English</option>
+              <option value="Filipino">Filipino</option>
+              <option value="Science">Science</option>
+              <option value="Araling Panlipunan">Araling Panlipunan</option>
+              <option value="TLE">TLE</option>
+              <option value="MAPEH">MAPEH</option>
+              <option value="ESP">ESP</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="lsNm">Choose Quarter:</label>
+            <select v-model="teacherr.qrt" class="" required>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="lsNm">Enter Year:</label>
+            <input  
+              type="number"
+              v-model="teacherr.yr"
+              placeholder="Enter Year"
               required 
             />
           </div>
@@ -236,7 +280,7 @@
             <input 
               type="password"
               v-model="teacherr.ps"
-              placeholder="Enter firstname"
+              placeholder="Enter Password"
               required 
             />
           </div>
@@ -246,7 +290,7 @@
             <input 
               type="password"
               v-model="teacherr.cpas"
-              placeholder="Enter firstname"
+              placeholder="Confirm Password"
               required 
             />
           </div>
@@ -282,19 +326,24 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         urlappphp2: `${url2}/viewEvaluations.php`,
         urlappphp3: `${url2}/viewEvaluationt.php`,
         urlappphp4: `${url2}/rmTeacher.php`,
+        urlappphp5: `${url2}/createTeacher.php`,
         teachers: [],
-        teacherr: {fn: "", ln: "", email: "", ps: "", cpas: ""},
+        teacherr: {fn: "", ln: "", email: "", ps: "", cpas: "", sub: "", qrt: "", yr: "", id: ""},
         newTeachers: [],
         newStudents: [],
         count: 0,
         count2: 0,
         isLoading: false,
+        isWrong: false,
         isSuccess: false,
         isFailed: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
+        lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
         activeModal: "student",
         activeTab: "student",
         activeTab1: "crtTeacher",
+        selectedSubject: null,
+        selectedQuarter: null,
       }
     },
 
@@ -453,9 +502,9 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
           const result = await response.json();
 
           if(result.success){
+            this.getTeachers();
             this.isSuccess = true;
             this.isLoading = false;
-            this.getTeachers();
           }else{
             this.isLoading = false;
             console.error(result.message);
@@ -483,11 +532,15 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
             const result = await response.json();
 
             if(result.success){
+              this.getTeachers();
               this.isLoading = false;
+              this.isSuccess = true;
               this.teacherr = {
                 fn: "",
                 ln: "",
                 email: "",
+                id: "",
+                yr: "",
                 ps: "",
                 cpas: ""
               };
