@@ -146,7 +146,7 @@
 
             <div class="tab-content" v-if="activeTab === 'register'">
                 <!--register-->
-                <form method="post" @submit.prevent="signup">
+                <form method="post" @submit.prevent="signup()">
                     <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
                     <div class="form-group">
                         <label for="studentName">Full Name:</label>
@@ -534,7 +534,7 @@ export default {
                     console.error("Signup error:", error);
                 }
             } else {
-                alert("Password is not the same");
+                this.isWrong = true
             }
         },
 

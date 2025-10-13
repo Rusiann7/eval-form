@@ -122,7 +122,7 @@
         <p>{{newStudent.subject}}</p>
         <span class="badge">Q{{ newStudent.quarter }} {{newStudent.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'printable-form', params: {id: newStudent.teacher_id, evtid: newStudent.eval_id}})">View Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'printable-form', params: {id: newStudent.id, tcrid: newStudent.teacher_id, evtid: newStudent.eval_id}})">View Evaluation</button>
       </div>
     </div>
   </div>
@@ -165,12 +165,12 @@
     </div>
 
     <div class="teacher-container">
-      <div class="card" v-for="newteacher in newTeachers" :key="newteacher.id">
+      <div class="card" v-for="newteacher in newTeachers" :key="newTeachers.id">
         <h3>{{ newteacher.firstname }} {{ newteacher.lastname }}</h3>
         <p>{{newteacher.subject}}</p>
         <span class="badge">Q{{ newteacher.quarter }} {{newteacher.year}}</span>
         <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'printable-form1', params: {id: newteacher.teacher_id, evtid: newteacher.evt_id}})">View Evaluation</button>
+        <button class="start" @click.prevent="$router.push({name: 'printable-form1', params: {id: newteacher.id, tcrid: newteacher.teacher_id, evtid: newteacher.eval_id}})">View Evaluation</button>
       </div>
     </div>
   </div>
@@ -199,58 +199,69 @@
         </div>
 
         <form method="post" @submit.prevent="createTeachers()">
-          <label for="lsNm">Enter the First Name:</label>
-          <input 
-            type="text"
-            v-model="firstNm"
-            placeholder="Enter firstname"
-            required 
-            class="textField"
-          />
+          <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
+          <div class="form-group">
+            <label for="lsNm">Enter the First Name:</label>
+            <input 
+              type="text"
+              v-model="teacherr.fn"
+              placeholder="Enter firstname"
+              required 
+            />
+          </div>
+          
 
-          <label for="lsNm">Enter the Last Name:</label>
-          <input type="text"
-            v-model="lastNm"
-            placeholder="Enter lastname"
-            required
-            class="textField"
-          />
+          <div class="form-group">
+            <label for="lsNm">Enter the Last Name:</label>
+            <input 
+              type="text"
+              v-model="teacherr.ln"
+              placeholder="Enter firstname"
+              required 
+            />
+          </div>
 
-          <label for="email">Enter the Email:</label>
-          <input type="text"
-            v-model="email"
-            placeholder="Enter email"
-            required
-            class="textField"
-          />
+          <div class="form-group">
+            <label for="lsNm">Enter the Email:</label>
+            <input 
+              type="email"
+              v-model="teacherr.email"
+              placeholder="Enter firstname"
+              required 
+            />
+          </div>
 
-          <label for="ps">Enter the Password:</label>
-          <input type="password"
-            v-model="pass"
-            placeholder="Enter password"
-            required
-            class="textField"
-          />
+          <div class="form-group">
+            <label for="lsNm">Enter the Password:</label>
+            <input 
+              type="password"
+              v-model="teacherr.ps"
+              placeholder="Enter firstname"
+              required 
+            />
+          </div>
 
-          <label for="conps">Confirm the password:</label>
-          <input type="password"
-            v-model="conpass"
-            placeholder="Confirm password"
-            required
-            class="textField"
-          />
+          <div class="form-group">
+            <label for="lsNm">Enter the Confirm Password:</label>
+            <input 
+              type="password"
+              v-model="teacherr.cpas"
+              placeholder="Enter firstname"
+              required 
+            />
+          </div>
 
           <button type="submit" class="start">Create Teacher</button>
         </form>
       </div>
 
-      <div class="newContainer" v-if="activeTab1 === 'rmTeacher'">
+      <div class="teacher-container" v-if="activeTab1 === 'rmTeacher'">
         <div class="card" v-for="teacher in teachers" :key="teacher.id">
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{teacher.subject}}</p>
           <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
           <br><br>
-          <button class="start" @click.prevent="rmTeachers(id)">Remove Teacher</button>
+          <button class="start" @click.prevent="rmTeachers(teacher.id)">Remove Teacher</button>
         </div>
       </div>
     </div>
@@ -270,13 +281,15 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         urlappphp: `${url2}/Getter.php`,
         urlappphp2: `${url2}/viewEvaluations.php`,
         urlappphp3: `${url2}/viewEvaluationt.php`,
+        urlappphp4: `${url2}/rmTeacher.php`,
         teachers: [],
+        teacherr: {fn: "", ln: "", email: "", ps: "", cpas: ""},
         newTeachers: [],
         newStudents: [],
         count: 0,
         count2: 0,
         isLoading: false,
-        isSuccess: true,
+        isSuccess: false,
         isFailed: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         activeModal: "student",
@@ -429,6 +442,8 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         try{
           this.isLoading
 
+          console.log(id);
+
           const response = await fetch(this.urlappphp4, {
             method: 'POST',
             headers: {"Content-Type": "application/json" },
@@ -438,13 +453,52 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
           const result = await response.json();
 
           if(result.success){
-            this.modal
-
+            this.isSuccess = true;
             this.isLoading = false;
+            this.getTeachers();
+          }else{
+            this.isLoading = false;
+            console.error(result.message);
           }
 
         }catch(error){
           console.error(error)
+        }
+      },
+
+      async createTeachers(){
+        if(this.teacherr.ps === this.teacherr.cpas){
+          try{
+            this.isLoading = true;
+
+            const response = await fetch(this.urlappphp5, {
+              method: "POST",
+              headers: {"Content-Type":"application/json"},
+              body: JSON.stringify({
+                ...this.teacherr,
+                action: "createTeachers"
+              }),
+            });
+
+            const result = await response.json();
+
+            if(result.success){
+              this.isLoading = false;
+              this.teacherr = {
+                fn: "",
+                ln: "",
+                email: "",
+                ps: "",
+                cpas: ""
+              };
+            }else{
+              console.error(error)
+            }
+          }catch(error){
+            console.error(error)
+          }
+        }else{
+          this.isWrong = true;
         }
       },
 
@@ -1152,5 +1206,40 @@ nav li:first-child {
   .sidebar {
     width: 100%;
   }
+}
+
+.wrong {
+  color: red;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #444;
+  font-weight: 500;
+  text-align: left;
+}
+
+.form-group input {
+  width: 50%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #4a6da7;
+  outline: none;
 }
 </style>

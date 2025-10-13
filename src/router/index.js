@@ -54,14 +54,14 @@ const routes = [
   },
 
   {
-    path: '/printable-form-student/:id/:evtid',
+    path: '/printable-form-student/:id/:tcrid/:evtid',
     name: 'printable-form',
     component: printable,
     meta: {title: 'Printable Form Students', requiresAuth: false}
   },
 
   {
-    path: '/printable-form-teacher/:id/:evtid',
+    path: '/printable-form-teacher/:id/:tcrid/:evtid',
     name: 'printable-form1',
     component: printable1,
     meta: {title: 'Printable Form Teachers', requiresAuth: false}

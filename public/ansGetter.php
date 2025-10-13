@@ -14,8 +14,9 @@ if($action === 'ansGetter'){
 
     $id = (int)($data['id']);
     $evt = (int)($data['evt']);
+    $tcr = (int)($data['tcr']);
 
-    $sql = "SELECT * FROM Evaluation WHERE tcr_id = $id AND evt_id = $evt;";
+    $sql = "SELECT * FROM Evaluation WHERE id = $id AND evt_id = $evt AND tcr_id = $tcr;";
     $result = $conn->query($sql);
 
     $all_contents = [];

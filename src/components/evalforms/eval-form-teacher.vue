@@ -127,6 +127,10 @@
                     </tbody>
                 </table>
             </div>
+             <p><strong>Comments/Suggestions:</strong></p>
+                            <p class="rating-cell">
+                                {{ answer.feedback || "N/A" }}
+                            </p>
         </div>
 
         <div class="footer">
@@ -174,6 +178,7 @@ export default {
             headers: [],
             teacher: {},
             answer: {},
+            answers: {},
             date: new Date().getDate(),
             year: new Date().getFullYear(),
             isLoading: false,
@@ -190,7 +195,7 @@ export default {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ action: "getQuestions" }),
+                    body: JSON.stringify({ action: "getTeacherQuestions" }),
                 });
 
                 const result = await response.json();
@@ -218,7 +223,7 @@ export default {
                     },
                     body: JSON.stringify({
                         action: "getteacherbyid",
-                        id: this.$route.params.id,
+                        id: this.$route.params.tcrid,
                     }),
                 });
 
@@ -230,10 +235,10 @@ export default {
                         result.month + " " + this.date + ", " + this.year;
                     this.isLoading = false;
                 } else {
-                    console.log("Server error:", result.message);
+                    console.error("Server error:", result.message);
                 }
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 this.isLoading = false;
             }
         },
@@ -246,9 +251,10 @@ export default {
                     method: "POST",
                     headers: {"Content-type": "application/json"},
                     body: JSON.stringify({
-                        action: "ansGetter",
+                        action: "antGetter",
                         id: this.$route.params.id,
-                        evt: this.$route.params.evtid
+                        evt: this.$route.params.evtid,
+                        tcr: this.$route.params.tcrid,
                     })
                 });
 
@@ -266,10 +272,13 @@ export default {
                     for (const ans of sessionData.answer) {
                         this.answers[Number(ans.question_id)] = ans.score;
                     }
+                }else{
+                    console.error(error)
+                    this.isLoading = false;
                 }
 
             }catch(error){
-                console.log(error);
+                console.error(error);
                 this.isLoading = false;
             }
         },
@@ -295,10 +304,11 @@ export default {
                     this.name = result.student;
                     this.isLoading = false;
                 } else {
-                    console.log("Server error:", result.message);
+                    this.isLoading = false;
+                    console.error("Server error:", result.message);
                 }
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 this.isLoading = false;
             }
         },

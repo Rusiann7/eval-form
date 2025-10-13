@@ -14,8 +14,9 @@ if($action === 'antGetter'){
 
     $id = (int)($data['id']);
     $evt = (int)($data['evt']);
+    $tcr = (int)($data['tcr']);
 
-    $sql = "SELECT * FROM EvaluationP WHERE tcr_id = $id AND evt_id = $evt;";
+    $sql = "SELECT * FROM EvaluationP WHERE id = $id AND tcr_id = $tcr AND evt_id = $evt;";
     $result = $conn->query($sql);
 
     $all_contents = [];
@@ -59,7 +60,7 @@ if($action === 'antGetter'){
     }else {
         echo json_encode([
             "success" => false,
-            "message" => "Error at first query"
+            "message" => "Error at first query" . $sql
         ]);
     }
 }

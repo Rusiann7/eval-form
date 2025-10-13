@@ -228,7 +228,7 @@ export default {
                     },
                     body: JSON.stringify({
                         action: "getteacherbyid",
-                        id: this.$route.params.id,
+                        id: this.$route.params.tcrid,
                     }),
                 });
 
@@ -256,7 +256,8 @@ export default {
                     body: JSON.stringify({
                         action: "ansGetter",
                         id: this.$route.params.id,
-                        evt: this.$route.params.evtid
+                        evt: this.$route.params.evtid,
+                        tcr: this.$route.params.tcrid,
                     })
                 });
 

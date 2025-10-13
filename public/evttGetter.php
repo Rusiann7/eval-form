@@ -33,7 +33,7 @@ if($action === 'getstudentbyid'){
     }else{
         echo json_encode([
             'success' => false,
-            'message' => 'error student not found'
+            'message' => 'error student not found' . $sql
         ]);
     }
 }else{
