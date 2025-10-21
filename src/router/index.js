@@ -9,6 +9,7 @@ const StEval = () => import('../components/evalforms/student.vue')
 const TcEval = () => import('../components/evalforms/teacher.vue')
 const printable = () => import('../components/evalforms/eval-form-student.vue')
 const printable1 = () => import('../components/evalforms/eval-form-teacher.vue')
+const testSidebar = () => import('../components/Testing/testSidebar.vue')
 
 const routes = [
   {
@@ -65,6 +66,13 @@ const routes = [
     name: 'printable-form1',
     component: printable1,
     meta: {title: 'Printable Form Teachers', requiresAuth: false}
+  },
+
+  {
+    path: '/testSidebar',
+    name: 'testSidebar',
+    component: testSidebar,
+    meta: {title: 'Testing', requiresAuth: false}
   }
 ]
 

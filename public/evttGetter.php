@@ -14,7 +14,12 @@ if($action === 'getstudentbyid'){
 
     $idd = $data['evt'];
 
-    $sql = "SELECT firstname, lastname FROM Teachers WHERE id = $idd";
+    $sql = "SELECT t.firstname, 
+    t.lastname
+    FROM Teachers t
+    INNER JOIN Users u ON t.usr_id = u.id
+    WHERE u.id = $idd;";
+
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0){
@@ -33,7 +38,7 @@ if($action === 'getstudentbyid'){
     }else{
         echo json_encode([
             'success' => false,
-            'message' => 'error student not found' . $sql
+            'message' => 'error teacher not found ' . $sql
         ]);
     }
 }else{

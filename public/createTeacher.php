@@ -44,20 +44,21 @@ if($action === 'createTeachers'){
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $randomString = getRandomString(10);
 
-            $sql1 = "INSERT INTO Users (Email, password, reset, name, last_name, stid, role)
-            VALUES ('$email', '$hash', '$randomString', '$firstname', '$lastname', '$id', 1);";
+            $sql1 = "INSERT INTO Users (Email, password, reset, is_teacher)
+            VALUES ('$email', '$hash', '$randomString', 1);";
 
             if($conn->query($sql1) === true) {
 
-                $sql2 = "INSERT INTO Teachers (firstname, lastname, subject, quarter, year, identifier)
-                VALUES ('$firstname', '$lastname', '$subject', '$quarter', '$year', '$randomString');";
+                $last_id = $conn->insert_id;
+
+                $sql2 = "INSERT INTO Teachers (firstname, lastname, subject, quarter, year, identifier, usr_id)
+                VALUES ('$firstname', '$lastname', '$subject', '$quarter', '$year', '$randomString', '$last_id');";
 
                 if($conn->query($sql2) === true) {
                     echo json_encode(["success" => true]);
                 }else{
                     echo json_encode(["success" => false,"error" => "Error: " . $conn->error]);
                 }
-
             }else{
                 echo json_encode(["success" => false,"error" => "Error: " . $conn->error]);
             }

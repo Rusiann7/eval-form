@@ -109,6 +109,11 @@
     <div class="tab" :class="{ active: activeTab === 'evaluate' }" @click="click('evaluate')">Evaluate Teachers</div>
     <div class="tab" :class="{ active: activeTab === 'scheduling' }" @click="click('scheduling')">Create Schedule</div>
     <div class="tab" :class="{ active: activeTab === 'manage' }" @click="click('manage')">Manage Teacher Account</div>
+    <div class="tab" :class="{ active: activeTab === 'AI' }" @click="click('AI')">AI Summarizer</div>
+    <div class="tab" :class="{ active: activeTab === 'bulkUpload' }" @click="click('bulkUpload')">Bulk Upload</div>
+    <div class="tab" :class="{ active: activeTab === 'questionManager' }" @click="click('questionManager')">Question Change/Rearrange</div>
+    <div class="tab" :class="{ active: activeTab === 'evalTime' }" @click="click('evalTime')">Evaluation Time Period</div>
+    <div class="tab" :class="{ active: activeTab === 'chart' }" @click="click('chart')">Charts</div>
   </div>
 
   <div v-if="activeModal === 'student'">
@@ -183,6 +188,9 @@
       <li>Set evaluation periods and deadlines</li>
       <li>Notify teachers and students of upcoming evaluations</li>
       <li>Create room schedules based on availability</li>
+      <li>AI powered analysis of data</li>
+      <li>Email verification</li>
+      <li>Forget password bug fixes</li>
     </ul>
   </div>
 
@@ -309,6 +317,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div v-if="activeModal === 'AI'">
+
   </div>
 </template>
 
@@ -489,6 +501,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
 
       async rmTeachers(id){
         try{
+          alert("Are you sure you want to remove this teacher?");
           this.isLoading
 
           console.log(id);
@@ -570,7 +583,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
 
         if (!token) {
           console.error("No token found, redirecting to login.");
-          this.$router.replace("/new-Dashboard");
+          this.$router.replace("/");
           return;
         }
       },

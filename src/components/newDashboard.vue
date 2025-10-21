@@ -8,11 +8,11 @@
         <div class="logo">
             <!-- LOGO CHANGE - Lines below -->
             <div class="logo-image">
-                <img src="../assets/logo.png" alt="Project EVAL Logo" />
+                <img src="../assets/logo2.png" alt="Project EVAL Logo" />
             </div>
-            <h1>Project EVAL</h1>
+            <h1>EduRate</h1>
             <p class="tagline">
-                “Enriching Vital teAcher's versatiLity: Fostering Growth, Innovation, and Impact”
+                “Reflect, Improve, Inspire!”
             </p>
             <p class="instruction">
                 Select your role to access the evaluation platform
@@ -427,6 +427,8 @@ export default {
             activeTab: "login",
             loginphp: `${url2}/login.php`,
             signupphp: `${url2}/register.php`,
+            loginteacherphp: `${url2}/login-t.php`,
+            loginadminphp: `${url2}/login-a.php`,
             studentl: { id: "", ps: "" },
             studentr: { fn: "", ln: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
@@ -449,25 +451,29 @@ export default {
             try {
                 let type = null;
                 let site = null;
+                let url = null;
 
                 switch (this.activeModal) {
                     case "student":
                         type = "studentl";
                         site = "/student";
+                        url = this.loginphp;
                         break;
 
                     case "admin":
                         type = "admin";
                         site = "/principal";
+                        url = this.loginadminphp;
                         break;
 
                     default:
                         type = "teacherl";
                         site = "/teacher";
+                        url = this.loginteacherphp;
                         break;
                 }
 
-                const response = await fetch(this.loginphp, {
+                const response = await fetch(url, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

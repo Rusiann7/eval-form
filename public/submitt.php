@@ -33,10 +33,30 @@ if($action === 'submits'){
     $scores = array_map('intval', array_values($answers));
     $average = array_sum($scores) / count($scores);
 
+    switch($average){
+        case "1":
+            $sentiment = "Very Poor";
+            break;
+        case "2":
+            $sentiment = "Poor";
+            break;
+        case "3":
+            $sentiment = "Average";
+            break;
+        case "4":
+            $sentiment = "Good";
+            break;
+        case "5":
+            $sentiment = "Very Good";
+            break;
+        default:
+            $sentiment = "Out of range";
+    };
+
     $identifier = getRandomString($n);
 
-    $sql = "INSERT INTO EvaluationP (evt_id, tcr_id, identifier, feedback, avg) 
-            VALUES ($evaluatorsid, $teacherid, '$identifier', '$feedback', $average);";
+    $sql = "INSERT INTO EvaluationP (evt_id, tcr_id, identifier, feedback, avg, sentiment) 
+            VALUES ($evaluatorsid, $teacherid, '$identifier', '$feedback', $average, '$sentiment');";
 
     if($conn->query($sql) === TRUE){
         $session_id = $conn->insert_id; 

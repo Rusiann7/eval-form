@@ -12,10 +12,12 @@ $action = $data['action'] ?? '';
 
 if ($action === 'getTeachers') {
 
-    $sql = "SELECT * FROM Teachers";
+    $sql = "SELECT t.* FROM Teachers t INNER JOIN Users u ON t.usr_id = u.id WHERE u.is_deleted = 0;";
     $result = $conn->query($sql);
 
     if ($result) {
+        $rowCount = $result->num_rows;
+
         $teachers = [];
         while ($row = $result->fetch_assoc()) {
             $teachers[] = [
@@ -28,19 +30,7 @@ if ($action === 'getTeachers') {
             ];
         }
 
-        $sql2 = "SELECT COUNT(*) AS total FROM Teachers;";
-        $result2 = $conn->query($sql2);
-
-        if($result2){
-            $row = $result2->fetch_assoc();
-            $total = $row['total'];
-            
-            echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $total]);
-        }else{
-            echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
-            exit();
-        }
-
+        echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $rowCount]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
     }

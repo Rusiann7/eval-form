@@ -21,20 +21,14 @@ if ($action === 'login') {
     $password   = $data['password'] ?? '';
 
     $sql = "SELECT u.Email, 
-    u.id AS user_id,
+    u.id AS user_id, 
     u.password, 
-    s.id AS st_id,
-    s.firstname,
-    s.lastname,
-    s.grade,
-    s.section,
-    s.stud_id
+    t.id AS teachers_id, 
+    t.firstname, 
+    t.lastname  
     FROM Users u 
-    INNER JOIN Students s
-    ON s.usr_id = u.id
-    WHERE u.Email = '$identifier' AND
-    u.is_deleted = 0;";
-
+    INNER JOIN Teachers t ON t.usr_id = u.id 
+    WHERE u.Email = '$identifier' AND u.is_admin = 1 AND u.is_deleted = 0;";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0) {
@@ -59,8 +53,6 @@ if ($action === 'login') {
                         "email" => $dataLogin['Email'],
                         "fullname" => $dataLogin['firstname'],
                         "lastname" => $dataLogin['lastname'],
-                        "grade" => $dataLogin['grade'],
-                        "section" => $dataLogin['section']
                     ]]);
                 exit;
         }else{
