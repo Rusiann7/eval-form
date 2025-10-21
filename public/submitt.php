@@ -33,25 +33,19 @@ if($action === 'submits'){
     $scores = array_map('intval', array_values($answers));
     $average = array_sum($scores) / count($scores);
 
-    switch($average){
-        case "1":
-            $sentiment = "Very Poor";
-            break;
-        case "2":
-            $sentiment = "Poor";
-            break;
-        case "3":
-            $sentiment = "Average";
-            break;
-        case "4":
-            $sentiment = "Good";
-            break;
-        case "5":
-            $sentiment = "Very Good";
-            break;
-        default:
-            $sentiment = "Out of range";
-    };
+    if ($average < 1.5) {
+        $sentiment = "Very Poor";
+    } elseif ($average < 2.5) {
+        $sentiment = "Poor";
+    } elseif ($average < 3.5) {
+        $sentiment = "Average";
+    } elseif ($average < 4.5) {
+        $sentiment = "Good";
+    } elseif ($average <= 5) {
+        $sentiment = "Very Good";
+    } else {
+        $sentiment = "Out of range";
+    }
 
     $identifier = getRandomString($n);
 
