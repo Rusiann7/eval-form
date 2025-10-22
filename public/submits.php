@@ -66,9 +66,15 @@ if($action === 'submits'){
                 VALUES " . implode(', ', $values);
 
         if($conn->query($sql1) === TRUE){
-            echo json_encode([
-                'success' => true,
-            ]);
+
+            $sql = "UPDATE 'Students' SET 'is_evaluated' = 1 WHERE id = $studentid;";
+
+            if($conn->query($sql) === TRUE){
+                echo json_encode([
+                    'success' => true,
+                ]);
+            }
+            
         }else{
             echo json_encode([
                 'success' => false,

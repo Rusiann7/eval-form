@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
+$id = $data['id'] ?? '';
 
 if ($action === 'getTeachers') {
 
@@ -30,7 +31,7 @@ if ($action === 'getTeachers') {
                 'year' => $row['year']
             ];
         }
-            echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $rowCount]);
+
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
     }

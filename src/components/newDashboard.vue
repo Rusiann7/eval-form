@@ -81,7 +81,7 @@
     </div>
 
     <!-- Student Modal -->
-    <div class="modal student-modal" v-if="activeModal === 'student'">
+    <div class="modal student-modal" v-if="activeModal === 'student'" >
         <div class="modal-content">
             <span class="close-modal" @click="closeModal()">&times;</span>
             <!--ito yung button sa close palitan ng method-->
@@ -142,11 +142,8 @@
                         </div>
                     </div>
                     <div 
+                        ref="turnstileWidgetStudent"
                         class="cf-turnstile" 
-                        data-sitekey="0x4AAAAAAB75cNLp9r6mKKXd" 
-                        data-callback="onTurnstileSuccess" 
-                        data-theme="dark"
-                        ref="turnstileWidget"
                     ></div>
                     <button type="submit" class="modal-btn">Login</button>
                 </form>
@@ -221,7 +218,7 @@
     </div>
 
     <!-- Teacher Modal -->
-    <div class="modal teacher-modal" v-if="activeModal === 'teacher'">
+    <div class="modal teacher-modal" v-if="activeModal === 'teacher'" >
         <div class="modal-content">
             <span class="close-modal" @click="closeModal()">&times;</span>
             <div class="modal-header">
@@ -270,6 +267,10 @@
                             >
                         </div>
                     </div>
+                    <div 
+                        class="cf-turnstile" 
+                        ref="turnstileWidgetTeacher"
+                    ></div>
                     <button type="submit" class="modal-btn">
                         Login to Teacher Portal
                     </button>
@@ -706,31 +707,24 @@ export default {
 
     watch: {
         activeModal(newVal) {
-            if (newVal === "student") {
-                this.$nextTick(() => {
-                    setTimeout(() => {
+            this.$nextTick(() => {
+                setTimeout(() => {
+                    const ref = this.$refs[
+                        newVal === "student" ? "turnstileWidgetStudent" :
+                        newVal === "teacher" ? "turnstileWidgetTeacher" : null
+                    ];
 
-                        if (window.turnstile) {
-                            // Clear any old widgets first
-                            const container = this.$refs.turnstileWidget;
-                            container.innerHTML = "";
+                    if (!ref || !window.turnstile) return;
+                    ref.innerHTML = "";
 
-                            window.turnstile.render(container, {
-                                sitekey: "0x4AAAAAAB75cNLp9r6mKKXd",
-                                callback: (token) => {
-                                    document.cookie = "cf_verified=1; path=/; max-age=10800";
-                                    this.captcha = true;
-                                    console.log("Turnstile verified:", token);
-                                },
-                                theme: "dark",
-                            });
-                        } else {
-                            console.warn("Turnstile not ready yet.");
-                        }
-                    }, 300); // ← Delay to let modal fully render
-                });
-            }
-        },
+                    window.turnstile.render(ref, {
+                        sitekey: "0x4AAAAAAB75cNLp9r6mKKXd",
+                        callback: () => (document.cookie = "cf_verified=1; path=/; max-age=10800", this.captcha = true),
+                        theme: "dark"
+                    });
+                }, 300);
+            });
+        }
     },
 };
 </script>

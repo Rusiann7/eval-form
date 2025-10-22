@@ -8,7 +8,7 @@
   <header>
     <div>
       <h1>Teacher Evaluation System</h1>
-      <button class="portal-btn" @click="$router.push('/')">Student Portal</button>
+      <button class="portal-btn">Student Portal</button>
     </div>
     <div class="user-section">
       <span>Welcome, {{ fullname }} {{ lastname }}</span>
@@ -16,8 +16,20 @@
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- Main Content --> 
   <main>
+    <!-- Points Section -->
+    <div class="progress-section">
+      <h3>Your Points: {{ count }}</h3>
+      <h3>Your Rank: {{ badge }}</h3> 
+      <p>Track your evaluation completion points</p>
+      <div class="progress-bar">
+        <div class="progress-fill" :style="{width: ( count / goal * 100 + '%')}"></div>
+      </div>
+      <div class="progress-text">{{ count }}/{{ goal }} Points</div>
+    </div>
+    <br>
+
     <h2>My Teachers</h2>
     <p>Evaluate your teachers for this semester. Your feedback helps improve the learning experience.</p>
 
@@ -39,16 +51,6 @@
         <button class="start" @click.prevent="$router.push({name: 'student-eval', params: {id: teacher.id}})">Start Evaluation</button>
       </div>
     </div>
-
-    <!-- Progress Section -->
-    <div class="progress-section">
-      <h3>Evaluation Progress</h3>
-      <p>Track your evaluation completion status</p>
-      <div class="progress-bar">
-        <div class="progress-fill" :style="{width: ( 5 / count * 100 + '%')}"></div>
-      </div>
-      <div class="progress-text">2/{{ count }} completed</div>
-    </div>
   </main>
 </template>
 
@@ -63,11 +65,17 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
     data() {
       return {
         urlappphp: `${url2}/Getter.php`,
+        urlappphp2: `${url2}/Getter-f.php`,
+        urlappphp3: `${url2}/pointsGetter.php`,
         teachers: [],
+        finishedTeachers: [],
         count: 0,
         isLoading: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
+        stid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
+        badge: null,
+        goal: 0
       }
     },
 
@@ -82,7 +90,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ action: "getTeachers"})
+            body: JSON.stringify({ action: "getTeachers", id: this.stid})
           });
 
           const result = await response.json();
@@ -97,7 +105,8 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
               year: teacher.year
             }));
                 
-            this.count = result.count;
+            this.count = result.points;
+            this.points();
             this.isLoading = false;
 
           }else {
@@ -107,6 +116,94 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
 
         }catch(error){
           console.error("Error fetching teachers:", error);
+        }
+      },
+
+      async getTeachersCompleted() {
+        try {
+          this.isLoading = true;
+
+          const response = await fetch(this.urlappphp2, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: "getTeachersCompleted", id: this.stid})
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            this.teachers = result.teachers.map(teacher => ({
+              id: teacher.id,
+              firstname: teacher.firstname,
+              lastname: teacher.lastname,
+              subject: teacher.subject,
+              quarter: teacher.quarter,
+              year: teacher.year
+            }));
+                
+            this.isLoading = false;
+
+          }else {
+            console.error("Error fetching teachers:", result.message);
+            this.isLoading = false;
+          }
+
+        }catch(error){
+          console.error("Error fetching teachers:", error);
+        }
+      },
+
+      async getPoints(){
+        try {
+          this.isLoading = true;
+
+          const response = await fetch(this.urlappphp3, {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: "getPoints", id: this.stid})
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+                
+            this.count = result.points;
+            this.points();
+            this.isLoading = false;
+
+          }else {
+            console.error("Error fetching ponts:", result.message);
+            this.isLoading = false;
+          }
+
+        }catch(error){
+          console.error("Error fetching points:", error);
+        }
+      },
+
+      points() {
+        if (this.count >= 500) {
+          this.badge = "Maxed";
+          this.goal = 500;
+        } else if (this.count >= 400) {
+          this.badge = "Professional";
+          this.goal = 500;
+        } else if (this.count >= 300) {
+          this.badge = "Expert";
+          this.goal = 400;
+        } else if (this.count >= 200) {
+          this.badge = "Intermediate";
+          this.goal = 300;
+        } else if (this.count >= 100) {
+          this.badge = "Newbie";
+          this.goal = 200;
+        } else {
+          this.badge = "Beginner";
+          this.goal = 100;
         }
       },
 
@@ -135,6 +232,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       this.getTeachers();
       this.id = localStorage.getItem("userData") || "";
       this.skipLogin();
+      this.getPoints();
     }
   }
 </script>
