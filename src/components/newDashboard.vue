@@ -3,6 +3,7 @@
         <div class="loading-spinner"></div>
         <p>Loading...</p>
     </div>
+    
 
     <div class="container">
         <div class="logo">
@@ -140,6 +141,13 @@
                             >
                         </div>
                     </div>
+                    <div 
+                        class="cf-turnstile" 
+                        data-sitekey="0x4AAAAAAB75cNLp9r6mKKXd" 
+                        data-callback="onTurnstileSuccess" 
+                        data-theme="dark"
+                        ref="turnstileWidget"
+                    ></div>
                     <button type="submit" class="modal-btn">Login</button>
                 </form>
             </div>
@@ -441,11 +449,17 @@ export default {
             },
             isLoading: false,
             isWrong: false,
+            captcha: false
         };
     },
 
     methods: {
         async login() {
+
+            if (!this.captcha) {
+                return;
+            }
+
             this.isLoading = true;
 
             try {
@@ -642,6 +656,16 @@ export default {
             } catch (error) {}
         },
 
+        async captchaVerify() {
+            try {
+                if (document.cookie.includes("cf_verified=1")) {
+                    this.captcha = true;
+                }
+            } catch (error) {
+                console.error('Error verifying captcha:', error);
+            }
+        },
+
         skipLogin(){
             const token = getToken();
 
@@ -662,6 +686,50 @@ export default {
         closeModal() {
             this.activeModal = null;
             this.activeTab = "login";
+        },
+    },
+
+    mounted(){
+        if (!document.querySelector('script[src*="cloudflare.com/turnstile"]')) {
+            const script = document.createElement('script');
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        window.onTurnstileSuccess = (token) => {
+            document.cookie = "cf_verified=1; path=/; max-age=10800";
+            this.captcha = true; // Set to false when verified
+        };
+    },
+
+    watch: {
+        activeModal(newVal) {
+            if (newVal === "student") {
+                this.$nextTick(() => {
+                    setTimeout(() => {
+
+                        if (window.turnstile) {
+                            // Clear any old widgets first
+                            const container = this.$refs.turnstileWidget;
+                            container.innerHTML = "";
+
+                            window.turnstile.render(container, {
+                                sitekey: "0x4AAAAAAB75cNLp9r6mKKXd",
+                                callback: (token) => {
+                                    document.cookie = "cf_verified=1; path=/; max-age=10800";
+                                    this.captcha = true;
+                                    console.log("Turnstile verified:", token);
+                                },
+                                theme: "dark",
+                            });
+                        } else {
+                            console.warn("Turnstile not ready yet.");
+                        }
+                    }, 300); // ← Delay to let modal fully render
+                });
+            }
         },
     },
 };
