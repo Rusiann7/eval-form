@@ -67,7 +67,7 @@ if($action === 'submits'){
 
         if($conn->query($sql1) === TRUE){
 
-            $sql = "UPDATE 'Students' SET 'is_evaluated' = 1 WHERE id = $studentid;";
+            $sql = "UPDATE Students SET points = points + 10 WHERE id = $studentid;";
 
             if($conn->query($sql) === TRUE){
                 echo json_encode([

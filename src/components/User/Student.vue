@@ -24,7 +24,7 @@
       <h3>Your Rank: {{ badge }}</h3> 
       <p>Track your evaluation completion points</p>
       <div class="progress-bar">
-        <div class="progress-fill" :style="{width: ( count / goal * 100 + '%')}"></div>
+        <div class="progress-fill" :style="{width: ( count / goal * 10 + '%')}"></div>
       </div>
       <div class="progress-text">{{ count }}/{{ goal }} Points</div>
     </div>
@@ -105,8 +105,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
               year: teacher.year
             }));
                 
-            this.count = result.points;
-            this.points();
+            //this.count = result.points;
             this.isLoading = false;
 
           }else {

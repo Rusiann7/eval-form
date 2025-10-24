@@ -34,7 +34,7 @@
                     <label for="student"
                         >Pangalan:</label
                     >
-                    <p>{{ name.name }} ({{ name.stid }})</p>
+                    <p>{{ name.firstname }} {{ name.lastname }} ({{ name.stid }})</p>
                 </div>
 
                 <div class="info-field">
@@ -132,9 +132,10 @@
                 </table>
             </div>
             <p><strong>Comments/Suggestions:</strong></p>
-                            <p class="rating-cell">
-                                {{ answer.feedback || "N/A" }}
-                            </p>
+
+            <p class="rating-cell">
+                {{ answer.feedback || "N/A" }}
+            </p>
         </div>
 
         <div class="footer">

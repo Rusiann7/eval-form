@@ -1,6 +1,6 @@
 <?php //creates a new p[assword]
 
-include 'config.php';
+require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -26,8 +26,8 @@ $action = $data['action'] ?? '';
 
 if($action === 'password'){
 
-    $password = $data['newPasswords'];
-    $conpassword = $data['confirmPassword'];
+    $password = $data['passwordss'];
+    $conpassword = $data['conpassword'];
     $email = $data['email'];
 
     if($password === $conpassword){
@@ -35,10 +35,10 @@ if($action === 'password'){
         $hash = password_hash(($password), PASSWORD_BCRYPT);
         $newCode = getRandomString($n);
 
-        $sql = "UPDATE Users SET password = '$hash', code = '$newCode' WHERE email = '$email';";
+        $sql = "UPDATE Users SET password = '$hash', reset = '$newCode' WHERE email = '$email';";
         $result = $conn->query($sql);
 
-        if($result === TRUE){
+        if($conn->query($sql) === TRUE){
             echo json_encode(["success" => true,]);
         }else{
             echo json_encode(["success" => false, "error" => $conn->error]);

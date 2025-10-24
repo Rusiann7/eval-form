@@ -321,6 +321,10 @@
                             >
                         </div>
                     </div>
+                     <div 
+                        ref="turnstileWidgetAdmin"
+                        class="cf-turnstile" 
+                    ></div>
                     <button type="submit" class="modal-btn">
                         Login to Admin Portal
                     </button>
@@ -340,7 +344,7 @@
                 <h2>Reset Password</h2>
                 <p>Enter your email to receive a password reset code</p>
             </div>
-            <form id="forgotPasswordForm">
+            <form id="forgotPasswordForm" method="post" @submit.prevent="fgps()">
                 <div class="form-group">
                     <label for="resetEmail">Email Address</label>
                     <input
@@ -350,14 +354,41 @@
                         required
                     />
                 </div>
-                <button type="submit" class="modal-btn" @click="fgps()">
+                <button type="submit" class="modal-btn">
                     Send Reset Code
                 </button>
             </form>
         </div>
     </div>
 
-    <div class="modal" v-if="activeModal === 'fgps1'">
+     <div class="modal" v-if="activeModal === 'code'">
+        <div class="modal-content">
+            <span class="close-modal" @click="closeModal()">&times;</span>
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <h2>Reset Password</h2>
+                <p>We have sent an E-Mail to your inbox containing the code</p>
+            </div>
+            <form id="forgotPasswordForm" method="post" @submit.prevent="codes()">
+                <div class="form-group">
+                    <label for="resetEmail">Code</label>
+                    <input
+                        type="text"
+                        v-model="newPassword.code"
+                        placeholder="Enter the code"
+                        required
+                    />
+                </div>
+                <button type="submit" class="modal-btn">
+                    Enter Reset Code
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" v-if="activeModal === 'password'">
         <div class="modal-content">
             <span class="close-modal" @click="closeModal()">&times;</span>
             <div class="modal-header">
@@ -367,7 +398,7 @@
                 <h2>Reset Password</h2>
                 <p>Enter your new password</p>
             </div>
-            <form id="forgotPasswordForm">
+            <form id="forgotPasswordForm" method="post" @submit.prevent="passwords()">
                 <div class="form-group">
                     <label for="resetEmail">New Password</label>
                     <input
@@ -387,35 +418,8 @@
                         required
                     /><!--vmodel dito-->
                 </div>
-                <button type="submit" class="modal-btn" @click="fgps()">
+                <button type="submit" class="modal-btn">
                     Reset Password
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal" v-if="activeModal === 'fgps2'">
-        <div class="modal-content">
-            <span class="close-modal" @click="closeModal()">&times;</span>
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <i class="fas fa-key"></i>
-                </div>
-                <h2>Reset Password</h2>
-                <p>We have sent an E-Mail to your inbox containing the code</p>
-            </div>
-            <form id="forgotPasswordForm">
-                <div class="form-group">
-                    <label for="resetEmail">Code</label>
-                    <input
-                        type="text"
-                        v-model="newPassword.code"
-                        placeholder="Enter the code"
-                        required
-                    />
-                </div>
-                <button type="submit" class="modal-btn" @click="fgps2()">
-                    Enter Reset Code
                 </button>
             </form>
         </div>
@@ -438,6 +442,9 @@ export default {
             signupphp: `${url2}/register.php`,
             loginteacherphp: `${url2}/login-t.php`,
             loginadminphp: `${url2}/login-a.php`,
+            forgetpassword: `${url2}/reset.php`,
+            password: `${url2}/password.php`,
+            code: `${url2}/code.php`,
             studentl: { id: "", ps: "" },
             studentr: { fn: "", ln: "", em: "", id: "", pass: "", conpass: "" },
             teacherl: { id: "", ps: "" },
@@ -573,15 +580,15 @@ export default {
 
         async fgps() {
             try {
-                //this.isLoading = true;
+                this.isLoading = true;
 
-                const response = await fetch(this.urlappphp, {
+                const response = await fetch(this.forgetpassword, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        action: "forgetPassword",
+                        action: "reset",
                         email: this.newPassword.email,
                     }),
                 });
@@ -590,14 +597,14 @@ export default {
 
                 if (result.success) {
                     this.isLoading = false;
-                    this.activeModal = "fgps2";
+                    this.activeModal = "code";
                 }
             } catch (error) {
                 console.error("Signup error:", error);
             }
         },
 
-        async fgps1() {
+        async passwords() {
             if (
                 this.newPassword.newPasswords ===
                 this.newPassword.confirmPassword
@@ -605,21 +612,23 @@ export default {
                 try {
                     this.isLoading = true;
 
-                    const response = await fetch(this.urlappphp, {
+                    const response = await fetch(this.password, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            action: "newPassword",
-                            content: this.newPassword,
+                            action: "password",
+                            passwordss: this.newPassword.newPasswords,
+                            conpassword: this.newPassword.confirmPassword,
+                            email: this.newPassword.email
                         }),
                     });
-                    const result = await response.JSON();
+                    const result = await response.json();
 
                     if (result.success) {
                         this.isLoading = false;
-                        this.activeModal = null;
+                        this.activeModal = "student";
                         this.activeTab = "login";
                     }
                 } catch (error) {
@@ -632,11 +641,11 @@ export default {
             }
         },
 
-        async fgps2() {
+        async codes() {
             try {
                 this.isLoading = true;
 
-                const response = await fetch(this.urlappphp, {
+                const response = await fetch(this.code, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -648,11 +657,11 @@ export default {
                     }),
                 });
 
-                const result = await response.JSON();
+                const result = await response.json();
 
                 if (result.success) {
                     this.isLoading = false;
-                    this.activeModal = "fgps1";
+                    this.activeModal = "password";
                 }
             } catch (error) {}
         },
@@ -711,7 +720,8 @@ export default {
                 setTimeout(() => {
                     const ref = this.$refs[
                         newVal === "student" ? "turnstileWidgetStudent" :
-                        newVal === "teacher" ? "turnstileWidgetTeacher" : null
+                        newVal === "teacher" ? "turnstileWidgetTeacher" : 
+                        newVal === "admin" ? "turnstileWidgetAdmin" : null
                     ];
 
                     if (!ref || !window.turnstile) return;

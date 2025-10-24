@@ -15,6 +15,7 @@ $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
 if($action === 'reset'){
+    $epass = 'gowo rwob sjza ipdp';
 
     $email = $data['email'];
 

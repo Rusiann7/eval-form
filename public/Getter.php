@@ -12,6 +12,11 @@ $action = $data['action'] ?? '';
 
 if ($action === 'getTeachers') {
 
+    $sql1 = "SELECT t.* 
+    FROM Teachers t 
+    INNER JOIN Users u ON t.usr_id = u.id 
+    LEFT JOIN Evaluation e ON ";
+
     $sql = "SELECT t.* FROM Teachers t INNER JOIN Users u ON t.usr_id = u.id WHERE u.is_deleted = 0;";
     $result = $conn->query($sql);
 

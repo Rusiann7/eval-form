@@ -14,15 +14,16 @@ if($action === 'getstudentbyid'){
 
     $idd = $data['evt'];
 
-    $sql = "SELECT name, stid FROM Users WHERE id = $idd";
+    $sql = "SELECT firstname, lastname, stud_id FROM Students WHERE id = $idd";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0){
         $student = $result->fetch_assoc();
 
         $payload = [
-            'name' => $student['name'],
-            'stid' => $student['stid'],
+            'firstname' => $student['firstname'],
+            'lastname' => $student['lastname'],
+            'stid' => $student['stud_id'],
         ];
 
         echo json_encode([

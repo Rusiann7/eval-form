@@ -192,6 +192,11 @@
       <li>Email verification</li>
       <li>Forget password bug fixes</li>
     </ul>
+    <label for="appt">Select a time:</label>
+    <input type="time" id="appt" name="appt">
+
+      <label for="birthday">Birthday:</label>
+    <input type="date" id="birthday" name="birthday"> 
   </div>
 
   <div v-if="activeModal === 'manage'">
