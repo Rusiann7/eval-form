@@ -17,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
 }
 
 $epass = '';
+$yourApiKey = '';
 
 $host ="rusiann7.helioho.st";
 $user ="rusiann7_rusiannn";
