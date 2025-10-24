@@ -16,6 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
     header('Content-Type: application/json; charset=utf-8');
 }
 
+$epass = '';
+
 $host ="rusiann7.helioho.st";
 $user ="rusiann7_rusiannn";
 $password="";

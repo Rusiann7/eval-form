@@ -1,6 +1,7 @@
 <?php
 
 require 'config.php';
+require 'functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -9,19 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
-
-$n = 10;
-function getRandomString($n)
-{
-    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $randomString = '';
-
-    for ($i = 0; $i < $n; $i++) {
-        $index = rand(0, strlen($characters) - 1);
-        $randomString .= $characters[$index];
-    }
-    return $randomString;
-}
 
 if($action === 'createTeachers'){
     $email = $data['email'];
