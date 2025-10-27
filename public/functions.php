@@ -5,6 +5,7 @@ require 'config.php';
 use PHPMailer\PHPMailer\PHPMailer;
 //use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use Gemini\GeminiClient;
 
 function smtp($email, $body, $altbody){
     global $epass;
@@ -59,4 +60,22 @@ function getRandomString($n){
         $randomString .= $characters[$index];
     }
     return $randomString;
+}
+
+function AIsummarizer($call, $call1, $call2){
+    
+    global $yourApiKey;
+
+    try {
+        $client = Gemini::client($yourApiKey);
+        $model = $client->generativeModel('gemini-2.0-flash');
+
+        $prompt = "";
+
+        $result = $model->generateContent($prompt);
+        
+        return $result->text();
+    }catch(Exception $e){
+        error_log("AI Summarizer Error: " . $e->getMessage());
+    }
 }

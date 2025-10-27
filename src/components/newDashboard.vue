@@ -146,6 +146,9 @@
                         class="cf-turnstile" 
                     ></div>
                     <button type="submit" class="modal-btn">Login</button>
+
+                    <p>Do you aggree to collect you data?</p>
+                    <input type="checkbox" v-model="isConsent"> 
                 </form>
             </div>
 
@@ -457,7 +460,8 @@ export default {
             },
             isLoading: false,
             isWrong: false,
-            captcha: false
+            captcha: false,
+            isConsent: false
         };
     },
 
@@ -519,8 +523,10 @@ export default {
                         return;
                     }
 
-                    localStorage.setItem("userData", JSON.stringify(result.userData)); //saves the info to local storage
+                    localStorage.setItem("userData", JSON.stringify(result.userData));
+                    localStorage.setItem("isConsent", this.isConsent ? "true" : "false"); //saves the info to local storage
                     this[type] = { id: "", ps: "" };
+                    console.log("is consent: ", this.isConsent)
 
                     this.isLoading = false;
                     this.$router.replace(site); //router routes the user to the page
