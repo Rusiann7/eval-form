@@ -31,9 +31,10 @@ if($action === 'createTeachers'){
 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $randomString = getRandomString(10);
+            $randomString1 = getRandomString(10);
 
-            $sql1 = "INSERT INTO Users (Email, password, reset, is_teacher)
-            VALUES ('$email', '$hash', '$randomString', 1);";
+            $sql1 = "INSERT INTO Users (Email, password, reset, verify_code, is_teacher)
+            VALUES ('$email', '$hash', '$randomString', '$randomString1', 1);";
 
             if($conn->query($sql1) === true) {
 

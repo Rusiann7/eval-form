@@ -108,8 +108,7 @@
     <div class="tab" :class="{ active: activeTab === 'teacher' }" @click="click('teacher')">Teacher Evaluations</div>
     <div class="tab" :class="{ active: activeTab === 'evaluate' }" @click="click('evaluate')">Evaluate Teachers</div>
     <div class="tab" :class="{ active: activeTab === 'scheduling' }" @click="click('scheduling')">Create Schedule</div>
-    <div class="tab" :class="{ active: activeTab === 'manage' }" @click="click('manage')">Manage Teacher Account</div>
-    <div class="tab" :class="{ active: activeTab === 'AI' }" @click="click('AI')">AI Summarizer</div>
+    <div class="tab" :class="{ active: activeTab === 'manage' }" @click="click('manage')">Manage Teacher Account</div> 
     <div class="tab" :class="{ active: activeTab === 'bulkUpload' }" @click="click('bulkUpload')">Bulk Upload</div>
     <div class="tab" :class="{ active: activeTab === 'questionManager' }" @click="click('questionManager')">Question Change/Rearrange</div>
     <div class="tab" :class="{ active: activeTab === 'evalTime' }" @click="click('evalTime')">Evaluation Time Period</div>
