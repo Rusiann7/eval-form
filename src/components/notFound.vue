@@ -5,7 +5,7 @@
         <br>
         <br>
 
-        <img src="../assets/logo2.png" alt="edurate logo" style="max-width: 150px; width: 100%; height: auto; margin-bottom: 80px;">
+        <img src="../assets/logo2.png" alt="edurate logo" style="max-width: 150px; width: 100%; height: auto; margin-bottom: 80px; border-radius: 80px;">
 
         <h1>404</h1>
         <h1>Page not found</h1> 
