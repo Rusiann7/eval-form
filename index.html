@@ -7,23 +7,22 @@
     <title>Vite + Vue</title>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PH466ZVDJQ"></script>
-<script>
-  if(localStorage.getItem('isConsent') === 'true'){
-    console.log("GA initialized");
-    window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PH466ZVDJQ"></script>
+    
+    <script>
+      if(localStorage.getItem('isConsent') === 'true'){
+        console.log("GA initialized");
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  console.log("is consented: ", localStorage.getItem('isConsent'))
-  gtag('set', 'debug_mode', true);
+        console.log("is consented: ", localStorage.getItem('isConsent'))
+        gtag('set', 'debug_mode', true);
 
-
-  gtag('config', 'G-PH466ZVDJQ');
-  }
-  
-</script>
+        gtag('config', 'G-PH466ZVDJQ');
+      }
+    </script>
 
   </head>
   <body>
