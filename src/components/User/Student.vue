@@ -35,15 +35,15 @@
 
     <div class="teachers">
       <!-- Card 1 -->
-      <div class="card">
-        <h3>Dr. Sarah Johnson <span class="checkmark">✔</span></h3>
-        <p>Mathematics</p>
-        <span class="badge">Q1 2024</span>
+      <div class="card" v-for="teacher in teachers.filter(t => t.evaluated === 'evaluated')" :key="teacher.id">
+        <h3>{{ teacher.firstname }} {{ teacher.lastname }}<span class="checkmark">✔</span></h3>
+        <p>{{teacher.subject}}</p>
+        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
         <span class="badge evaluated">Evaluated</span>
       </div>
 
       <!-- Card 2 -->
-      <div class="card" v-for="teacher in teachers" :key="teacher.id">
+      <div class="card" v-for="teacher in teachers.filter(t => t.evaluated === 'not evaluated')" :key="teacher.id">
         <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
         <p>{{teacher.subject}}</p>
         <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
@@ -102,7 +102,8 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
               lastname: teacher.lastname,
               subject: teacher.subject,
               quarter: teacher.quarter,
-              year: teacher.year
+              year: teacher.year,
+              evaluated: teacher.evaluated
             }));
                 
             //this.count = result.points;

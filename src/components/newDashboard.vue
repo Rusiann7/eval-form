@@ -147,8 +147,8 @@
                     ></div>
                     <button type="submit" class="modal-btn">Login</button>
 
-                    <p>Do you aggree to collect you data?</p>
-                    <input type="checkbox" v-model="isConsent"> 
+                    <p class="">Do you aggree to collect you data?</p>
+                    <input class="" type="checkbox" v-model="isConsent"> 
                 </form>
             </div>
 
@@ -703,6 +703,20 @@ export default {
             this.activeModal = null;
             this.activeTab = "login";
         },
+
+        notify() {
+            if (Notification.permission === "granted") {
+                //new Notification("Hello Vue", { body: "Congrats, you clicked a button." });
+                console.log("Notification: ", Notification.permission);
+            }else {
+                Notification.requestPermission().then(permission => {
+                    if (permission === "granted") {
+                        //new Notification("Hello Vue", { body: "Congrats, you clicked a button." });
+                        console.log("Notification: ", Notification.permission)
+                    }
+                });
+            }
+        }
     },
 
     mounted(){
@@ -718,6 +732,8 @@ export default {
             document.cookie = "cf_verified=1; path=/; max-age=10800";
             this.captcha = true; // Set to false when verified
         };
+
+        this.notify()
     },
 
     watch: {
