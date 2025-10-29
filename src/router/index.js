@@ -12,6 +12,7 @@ const printable1 = () => import('../components/evalforms/eval-form-teacher.vue')
 const testSidebar = () => import('../components/Testing/testSidebar.vue')
 const pageError = () => import('../components/notFound.vue')
 const yes = () => import('../components/file.vue')
+const scheduler = () => import('../components/Admin/scheduler.vue')
 
 const routes = [
   {
@@ -89,6 +90,13 @@ const routes = [
     name: 'yes',
     component: yes,
     meta: {title: 'Hello', requiresAuth: false }
+  },
+
+  {
+    path: '/scheduler',
+    name: 'Scheduler',
+    component: scheduler,
+    meta: {title: 'Scheduler', requiresAuth: false}
   }
 ]
 
