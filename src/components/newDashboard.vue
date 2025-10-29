@@ -146,9 +146,6 @@
                         class="cf-turnstile" 
                     ></div>
                     <button type="submit" class="modal-btn">Login</button>
-
-                    <p class="">Do you aggree to collect you data?</p>
-                    <input class="" type="checkbox" v-model="isConsent"> 
                 </form>
             </div>
 
