@@ -752,7 +752,7 @@ export default {
                     window.turnstile.render(ref, {
                         sitekey: "0x4AAAAAAB75cNLp9r6mKKXd",
                         callback: () => (document.cookie = "cf_verified=1; path=/; max-age=10800", this.captcha = true),
-                        theme: "dark"
+                        theme: "light"
                     });
                 }, 300);
             });
