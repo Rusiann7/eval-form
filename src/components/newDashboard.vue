@@ -1,7 +1,7 @@
 <template>
     <div v-if="isLoading" class="loading-screen">
         <div class="loading-spinner"></div>
-        <p>Loading page</p>
+        <p>Loading...</p>
     </div>
     
 
