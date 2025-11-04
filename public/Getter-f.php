@@ -9,12 +9,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
-$id = $data['id'] ?? '';
 
 if ($action === 'getTeachers') {
 
-    $sql = "SELECT t.* FROM Teachers t INNER JOIN Users u ON t.usr_id = u.id WHERE u.is_deleted = 0;";
-    $result = $conn->query($sql);
+    $id = $data['id'];
+
+    $sql5 = "SELECT
+    t.*,
+    CASE
+        WHEN e.id IS NOT NULL THEN 'evaluated'
+        ELSE 'not evaluated'
+    END AS is_evaluated
+    FROM
+        Teachers t
+    INNER JOIN
+        Users u ON t.usr_id = u.id
+    LEFT JOIN
+        EvaluationP e ON t.id = e.tcr_id AND e.evt_id = $id
+    WHERE u.is_deleted = 0;";
+
+    $result = $conn->query($sql5);
 
     if ($result) {
 
@@ -28,10 +42,11 @@ if ($action === 'getTeachers') {
                 'lastname' => $row['lastname'],
                 'subject' => $row['subject'],
                 'quarter' => $row['quarter'],
-                'year' => $row['year']
+                'year' => $row['year'],
+                'evaluated' => $row['is_evaluated']
             ];
         }
-
+            echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $rowCount]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
     }

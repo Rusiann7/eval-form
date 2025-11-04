@@ -233,14 +233,6 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       this.id = localStorage.getItem("userData") || "";
       this.skipLogin();
       this.getPoints();
-
-      if (localStorage.getItem("isConsent") === "true") { 
-        //console.log("GA initialized in Student.vue");
-        //window.dataLayer = window.dataLayer || [];
-        //function gtag(){dataLayer.push(arguments);}
-        //gtag("js", new Date());
-        //gtag("config", "G-PH466ZVDJQ", { debug_mode: true });
-      }
     }
   }
 </script>

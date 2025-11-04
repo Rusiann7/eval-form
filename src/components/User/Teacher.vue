@@ -36,17 +36,20 @@
 
   <!-- Teacher Cards -->
     <div class="teacher-container">
-        <div class="teacher-card" v-for="teacher in teachers" :key="teacher.id">
+        <div class="teacher-card" v-for="teacher in teachers.filter(t => t.evaluated === 'evaluated')" :key="teacher.id">
+          <h3>{{ teacher.firstname }} {{ teacher.lastname }}<span class="checkmark">✔</span></h3>
+          <p>{{ teacher.subject }}</p>
+          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+          <br><br>
+          <span class="badge evaluated">Evaluated</span>
+        </div>
+
+        <div class="teacher-card" v-for="teacher in teachers.filter(t => t.evaluated === 'not evaluated')" :key="teacher.id">
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
           <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
           <br><br>
           <button class="btn btn-dark" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
-        </div>
-
-        <div class="teacher-card">
-          <h3>name</h3>
-          <p>subject</p>
         </div>
     </div>
 </template>
@@ -61,11 +64,12 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
     name: 'Teacher',
       data() {
         return {
-          urlappphp: `${url2}/Getter.php`,
+          urlappphp: `${url2}/Getter-f.php`,
           teachers: [],
           count: 0,
-          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
-          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
+          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
+          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
+          usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
         }
       },
 
@@ -79,7 +83,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ action: "getTeachers"})
+            body: JSON.stringify({ action: "getTeachers", id: this.usrid})
           });
 
           const result = await response.json();
@@ -91,7 +95,8 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
               lastname: teacher.lastname,
               subject: teacher.subject,
               quarter: teacher.quarter,
-              year: teacher.year
+              year: teacher.year,
+              evaluated: teacher.evaluated
             }));
 
             this.count = result.total;

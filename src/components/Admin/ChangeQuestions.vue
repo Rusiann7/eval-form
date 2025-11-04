@@ -20,34 +20,35 @@
             <div class="questions-container">
                 <div class="questions-header">
                     <h2>Questions</h2>
-                    <div class="questions-count">{{  }} questions</div>
+                    <div class="questions-count">{{ qCount }} Items</div>
                 </div>
 
                 <div class="questions-list">
-                    <div 
-                        class="question-item" 
-                        v-for="(question, index) in filteredQuestions" 
-                        :key="question.id"
-                        :draggable="true"
-                        @dragstart="dragStart(index)"
-                        @dragover.prevent
-                        @dragenter="dragEnter(index)"
-                        @dragleave="dragLeave(index)"
-                        @drop="drop(index)"
-                        :class="{ 'dragging': draggedIndex === index }"
+                    <div
+                        class="question-item"
+                        v-for="header in headers" :key="header.header_id"
                     >
                         <div class="drag-indicator">
                             <i class="fas fa-grip-lines"></i>
                         </div>
                         <div class="question-content-wrapper">
                             <div class="question-header">
-                                <div class="question-title">{{ question.title }}</div>
-                                <div class="question-date">{{ formatDate(question.date) }}</div>
+                                <div class="question-title">
+                                    <input type="text" v-model="header.header">
+                                    <br> 
+                                    <input type="text" v-model="header.header_p">
+                                </div>
                             </div>
-                            <div class="question-content">{{ question.content }}</div>
+
+                            <div class="question-content" 
+                                v-for="question in header.questions" :key="question.question_id"
+                            >
+                                <input type="text" v-model="question.question">
+                            </div>
+                            
                             <div class="question-actions">
-                                <button class="btn btn-edit" @click="editQuestion(question)">Edit</button>
-                                <button class="btn btn-remove" @click="removeQuestion(question.id)">Remove</button>
+                                <button class="btn btn-edit" @click="">Edit</button>
+                                <button class="btn btn-remove" @click="">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -64,7 +65,7 @@
         <div class="edit-modal" v-if="showModal">
             <div class="edit-modal-content">
                 <div class="edit-modal-header">
-                    <h3>{{ editingQuestion ? 'Edit Question' : 'Add New Question' }}</h3>
+                    <h3>{{ }}</h3>
                     <button class="close-btn">&times;</button>
                 </div>
                 
@@ -99,6 +100,65 @@
         </div>
     </div> 
 </template>
+
+<script>
+import { setToken, getToken } from "../../utils/auth";
+
+const url1 = "https://rusiann7.helioho.st"
+const url2 = "https://star-panda-literally.ngrok-free.app"
+
+export default{
+    name: "changeQuestions",
+    data(){
+        return{
+            showModal: false,
+            urlappphp: `${url2}/questions.php`,
+            isLoading: false,
+            qCount: null,
+            headers: [],
+            searchQuery: null
+        }
+    },
+
+    methods:{
+        async getQuestions(){
+            try {
+                this.isLoading = true;
+
+                const response = await fetch(this.urlappphp, { 
+                    method: 'POST',
+                    headers:{
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ action: "getQuestions"})
+                });
+
+                const result = await response.json();
+
+                if(result.success){
+                    this.headers = result.headers;
+                    this.qCount = result.count
+                    this.isLoading = false;
+                }else {
+                    console.error("server error:", error);
+                }
+            }catch(error){
+                console.error(error)
+                this.isLoading = false;
+            }
+        },
+
+        async changeQuestions(){
+
+        }
+    },
+
+    mounted(){
+        this.getQuestions();
+    }
+}
+
+</script>
 
 <style scoped>
 * {
@@ -153,7 +213,7 @@
         .search-input {
             flex: 1;
             padding: 12px 15px;
-            border: none;
+            border: solid rgba(255, 204, 0, 0.5);
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.1);
             color: white;

@@ -18,6 +18,7 @@ if( $action === 'getQuestions'){
 
     $all_headers = [];
     $header_id = [];
+    $questionCount = 0;
 
     if($result1 && $result1->num_rows > 0){
         while($row1 = $result1 ->fetch_assoc()){
@@ -47,9 +48,11 @@ if( $action === 'getQuestions'){
                         }
                     }
                 }
+                $questionCount += $result2->num_rows;
             }
 
          echo json_encode([
+            "count" => $questionCount,
             "success" => true,
             "headers" => $all_headers,
         ]);

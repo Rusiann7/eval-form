@@ -14,34 +14,6 @@ if ($action === 'getTeachers') {
 
     $id = $data['id'];
 
-    $sql1 = "SELECT t.*, s.id AS student_id, e.id AS evaluation_id,
-    CASE
-        WHEN e.id IS NOT NULL THEN 'evaluated'
-        ELSE 'not evaluated'
-    END is_evaluated
-    FROM Teachers t 
-    INNER JOIN Users u ON t.usr_id = u.id 
-    LEFT JOIN Evaluation e ON t.id = e.tcr_id
-    INNER JOIN Students s ON s.id = e.evt_id
-    WHERE e.evt_id = 4
-    ";
-
-    $sql4 = "SELECT
-    t.*,
-    e.*,
-    CASE
-        WHEN e.id IS NOT NULL THEN 'evaluated'
-        ELSE 'not evaluated'
-    END AS is_evaluated
-    FROM
-        Teachers t
-    INNER JOIN
-        Users u ON t.usr_id = u.id
-    LEFT JOIN
-        Evaluation e ON t.id = e.tcr_id
-    WHERE e.evt_id = 4;
-        ";
-
     $sql5 = "SELECT
     t.*,
     CASE
@@ -56,7 +28,6 @@ if ($action === 'getTeachers') {
         Evaluation e ON t.id = e.tcr_id AND e.evt_id = $id
     WHERE u.is_deleted = 0;";
 
-    //$sql = "SELECT t.* FROM Teachers t INNER JOIN Users u ON t.usr_id = u.id WHERE u.is_deleted = 0;";
     $result = $conn->query($sql5);
 
     if ($result) {

@@ -13,28 +13,11 @@
                         <h2>Evaluation Schedule</h2>
                     </div>
                     
-                    <div class="calendar-header">
-                        <button>
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <h2>{{  }}</h2>
-                        <button >
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
                     
-                    <div class="calendar-grid">
-                        <div>
-                            <p>calendar header</p>
-                        </div>
-                        <div>
-                            <p>calendar area</p>
-                        </div>
-                    </div>
                     
                     <div class="selected-date">
                         <div class="selected-date-label">Evaluation Date</div>
-                        <div class="selected-date-value">{{  }}</div>
+                        <input type="date">
                     </div>
                     
                     <div class="time-section">
@@ -45,10 +28,6 @@
                                 </label>
                                 <div class="time-input-group">
                                     <input type="time" id="start-time" v-model="startTime">
-                                    <select class="ampm-select" v-model="startPeriod">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
-                                    </select>
                                 </div>
                             </div>
                             <div class="time-input">
@@ -57,10 +36,6 @@
                                 </label>
                                 <div class="time-input-group">
                                     <input type="time" id="end-time" v-model="endTime">
-                                    <select class="ampm-select" v-model="endPeriod">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
