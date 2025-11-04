@@ -16,12 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'OPTIONS') {
     header('Content-Type: application/json; charset=utf-8');
 }
 
-$epass = '';
-$yourApiKey = '';
+$epass = 'gowo rwob sjza ipdp';
+$yourApiKey = 'AIzaSyAZ4TMBO6PM1VMuJ7OT638zQp93aRjL37A';
 
 $host ="rusiann7.helioho.st";
 $user ="rusiann7_rusiannn";
-$password="";
+$password="4&3dx10Wl";
 $dbname="rusiann7_evaluation";
 
 $conn = new mysqli($host, $user, $password, $dbname);

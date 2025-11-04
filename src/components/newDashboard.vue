@@ -141,10 +141,12 @@
                             >
                         </div>
                     </div>
-                    <div 
-                        ref="turnstileWidgetStudent"
-                        class="cf-turnstile" 
-                    ></div>
+                    <div style="align-items: center; justify-content: center;">
+                        <div 
+                            ref="turnstileWidgetStudent"
+                            class="cf-turnstile"
+                        ></div>
+                    </div>
                     <button type="submit" class="modal-btn">Login</button>
                 </form>
             </div>

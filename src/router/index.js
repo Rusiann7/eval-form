@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router' //vue router import
-import { isAuthenticated } from '../utils/auth' //auth import
+import { isAuthenticated} from '../utils/auth' //auth import
 
 const Student = () =>import('../components/User/Student.vue') //loads components 
 const Teacher = () => import('../components/User/Teacher.vue')
@@ -13,6 +13,8 @@ const testSidebar = () => import('../components/Testing/testSidebar.vue')
 const pageError = () => import('../components/notFound.vue')
 const yes = () => import('../components/file.vue')
 const scheduler = () => import('../components/Admin/scheduler.vue')
+const changeQuestions = () => import('../components/Admin/ChangeQuestions.vue')
+const fileUpload = () => import('../components/Admin/fileuploader.vue')
 
 const routes = [
   {
@@ -40,7 +42,7 @@ const routes = [
     path: '/principal',
     name: 'Principal',
     component: Principal,
-    meta: { title: 'Principal Dashboard', requiresAuth: false }
+    meta: { title: 'Principal Dashboard', requiresAuth: true }
   },
 
   {
@@ -61,14 +63,14 @@ const routes = [
     path: '/printable-form-student/:id/:tcrid/:evtid',
     name: 'printable-form',
     component: printable,
-    meta: {title: 'Printable Form Students', requiresAuth: false}
+    meta: {title: 'Printable Form Students', requiresAuth: true}
   },
 
   {
     path: '/printable-form-teacher/:id/:tcrid/:evtid',
     name: 'printable-form1',
     component: printable1,
-    meta: {title: 'Printable Form Teachers', requiresAuth: false}
+    meta: {title: 'Printable Form Teachers', requiresAuth: true}
   },
 
   {
@@ -89,7 +91,7 @@ const routes = [
     path: '/yessssssssssssssssssssssssssssssssssssss',
     name: 'yes',
     component: yes,
-    meta: {title: 'Hello', requiresAuth: false }
+    meta: {title: 'Hello', requiresAuth: true }
   },
 
   {
@@ -97,6 +99,20 @@ const routes = [
     name: 'Scheduler',
     component: scheduler,
     meta: {title: 'Scheduler', requiresAuth: false}
+  },
+
+  {
+    path: '/changequestions',
+    name: 'Change-Questions',
+    component: changeQuestions,
+    maeta: {title: 'Change Questions', requiresAuth: false}
+  },
+
+  {
+    path: '/fileupload',
+    name: 'fileupload',
+    component: fileUpload,
+    meta: {title: 'Upload', requiresAuth: false}
   }
 ]
 

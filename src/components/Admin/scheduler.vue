@@ -14,34 +14,27 @@
                     </div>
                     
                     <div class="calendar-header">
-                        <button @click="prevMonth">
+                        <button>
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <h2>{{ currentMonthYear }}</h2>
-                        <button @click="nextMonth">
+                        <h2>{{  }}</h2>
+                        <button >
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
                     
                     <div class="calendar-grid">
-                        <div v-for="day in daysOfWeek" :key="day" class="calendar-day-header">
-                            {{ day }}
+                        <div>
+                            <p>calendar header</p>
                         </div>
-                        <div 
-                            v-for="day in calendarDays" 
-                            :key="day.date"
-                            :class="['calendar-day', 
-                                    { 'selected': isSelected(day.date), 
-                                      'other-month': !day.isCurrentMonth,
-                                      'today': isToday(day.date) }]"
-                            @click="selectDate(day.date)">
-                            {{ day.day }}
+                        <div>
+                            <p>calendar area</p>
                         </div>
                     </div>
                     
                     <div class="selected-date">
                         <div class="selected-date-label">Evaluation Date</div>
-                        <div class="selected-date-value">{{ formatSelectedDate }}</div>
+                        <div class="selected-date-value">{{  }}</div>
                     </div>
                     
                     <div class="time-section">
@@ -51,8 +44,8 @@
                                     <i class="fas fa-clock"></i> Evaluation Start
                                 </label>
                                 <div class="time-input-group">
-                                    <input type="time" id="start-time" v-model="startTime" @change="convertTo12Hour('start')">
-                                    <select class="ampm-select" v-model="startPeriod" @change="updateTimeValue('start')">
+                                    <input type="time" id="start-time" v-model="startTime">
+                                    <select class="ampm-select" v-model="startPeriod">
                                         <option value="AM">AM</option>
                                         <option value="PM">PM</option>
                                     </select>
@@ -63,8 +56,8 @@
                                     <i class="fas fa-clock"></i> Evaluation End
                                 </label>
                                 <div class="time-input-group">
-                                    <input type="time" id="end-time" v-model="endTime" @change="convertTo12Hour('end')">
-                                    <select class="ampm-select" v-model="endPeriod" @change="updateTimeValue('end')">
+                                    <input type="time" id="end-time" v-model="endTime">
+                                    <select class="ampm-select" v-model="endPeriod">
                                         <option value="AM">AM</option>
                                         <option value="PM">PM</option>
                                     </select>
@@ -74,7 +67,7 @@
                         
                         <div class="selected-time">
                             <div class="selected-time-value">
-                                {{ formattedStartTime }} - {{ formattedEndTime }}
+                                {{ }} - {{ }}
                             </div>
                         </div>
                     </div>

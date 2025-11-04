@@ -20,7 +20,7 @@
             <div class="questions-container">
                 <div class="questions-header">
                     <h2>Questions</h2>
-                    <div class="questions-count">{{ filteredQuestions.length }} questions</div>
+                    <div class="questions-count">{{  }} questions</div>
                 </div>
 
                 <div class="questions-list">
@@ -52,9 +52,9 @@
                         </div>
                     </div>
 
-                    <div class="empty-state" v-if="filteredQuestions.length === 0">
+                    <div class="empty-state">
                         <p>No questions found. Try a different search term.</p>
-                        <button class="add-question-btn" @click="addNewQuestion">Add New Question</button>
+                        <button class="add-question-btn">Add New Question</button>
                     </div>
                 </div>
             </div>
@@ -65,7 +65,7 @@
             <div class="edit-modal-content">
                 <div class="edit-modal-header">
                     <h3>{{ editingQuestion ? 'Edit Question' : 'Add New Question' }}</h3>
-                    <button class="close-btn" @click="closeModal">&times;</button>
+                    <button class="close-btn">&times;</button>
                 </div>
                 
                 <div class="form-group">
@@ -74,7 +74,7 @@
                         type="text" 
                         id="question-title" 
                         class="form-control" 
-                        v-model="currentQuestion.title"
+                        v-model="currentQuestion"
                         placeholder="Enter question title"
                     >
                 </div>
@@ -84,7 +84,7 @@
                     <textarea 
                         id="question-content" 
                         class="form-control" 
-                        v-model="currentQuestion.content"
+                        v-model="currentQuestion"
                         placeholder="Enter question content"
                     ></textarea>
                 </div>
@@ -129,8 +129,9 @@
         .header h1 {
             font-size: 2.5rem;
             background: linear-gradient(135deg, #ff8c00 0%, #ffa500 50%, #ffd700 100%);
-            -webkit-background-clip: text;
+            background-clip: text; 
             -webkit-text-fill-color: transparent;
+            color: transparent;   
             margin-bottom: 10px;
         }
 

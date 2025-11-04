@@ -30,22 +30,22 @@
 
                 <div class="file-list">
                     <h3>Selected Files</h3>
-                    <div v-if="files.length === 0" class="empty-state">
+                    <div v-if="files === 0" class="empty-state">
                         No files selected
                     </div>
                     <div v-else>
-                        <div v-for="(file, index) in files" :key="index" class="file-item">
+                        <div class="file-item">
                             <div class="file-info">
                                 <div class="file-icon">
                                     <i>📄</i>
                                 </div>
                                 <div class="file-details">
-                                    <h4>{{ file.name }}</h4>
-                                    <p>{{ formatFileSize(file.size) }}</p>
+                                    <h4>{{ file }}</h4>
+                                    <p>{{}}</p>
                                 </div>
                             </div>
                             <div class="file-actions">
-                                <button class="file-action-btn" @click="removeFile(index)" title="Remove file">
+                                <button class="file-action-btn" title="Remove file">
                                     🗑️
                                 </button>
                             </div>
@@ -53,17 +53,7 @@
                     </div>
                 </div>
 
-                <div class="upload-progress" v-if="uploading">
-                    <div class="upload-status">
-                        <span>Uploading...</span>
-                        <span>{{ progress }}%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" :style="{ width: progress + '%' }"></div>
-                    </div>
-                </div>
-
-                <div class="upload-actions" v-if="files.length > 0 && !uploading">
+                <div class="upload-actions" v-if="files > 0 && !uploading">
                     <button class="action-btn cancel-btn" @click="clearFiles">Cancel</button>
                     <button class="action-btn submit-btn" @click="uploadFiles">Upload Files</button>
                 </div>
