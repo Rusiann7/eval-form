@@ -16,12 +16,12 @@ if($action === "verifyCode"){
     $email = $data['email'];
     $code = $data['code'];
 
-    $sql = "SELECT * FROM Users WHERE Email = $email AND verify_code = $code";
+    $sql = "SELECT * FROM Users WHERE Email = '$email' AND verify_code = '$code'";
     $result = $conn->query($sql);
 
-    if($result && $result->num_rows === 0){
+    if($result && $result->num_rows > 0){
 
-        $sql = "UPDATE Users SET is_verified = 1 WHERE Email = $email";
+        $sql = "UPDATE Users SET is_verified = 1 WHERE Email = '$email'";
 
         if($conn -> query($sql) === true){
             echo json_encode(["success" => true]);
@@ -30,7 +30,7 @@ if($action === "verifyCode"){
         }
         
     }else{
-        echo json_encode(["success" => false, "message" => "Error"]);
+        echo json_encode(["success" => false, "message" => "Error".$sql]);
     }
 
 }

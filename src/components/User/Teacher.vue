@@ -20,18 +20,40 @@
   <!-- Page Title -->
   <div class="page-header">
     <h2>Teacher Portal</h2>
-    <p>Evaluate your colleagues and view feedback received from peers</p>
+    <p>Evaluate your colleagues</p>
   </div>
+
+   <!--Verify Input-->
+  <div v-if="verified === '1'" class="stats-container">
+    <h3>Your account is now verified <span class="checkmark">✔</span></h3>
+  </div>
+
+  <!--Verify Status-->
+  <div class="stats-container" v-if="verified === '0' & active === 'code'">
+    <div class="stat-card">
+      <h3>Verify your account:</h3>
+      <br>
+      <button @click="verifyCode">Send Code</button>
+    </div>
+  </div>
+
+  <div class="stats-container" v-if="verified === '0' & active === 'input'">
+    <div class="stat-card">
+      <h3>Verify your account:</h3>
+      <br>
+      <form method="post" @submit.prevent="verifyInput">
+        <input type="text" v-model="verify">
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+
+ 
 
   <!-- Stats -->
   <div class="stats-container">
     <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Colleagues</p></div>
     <div class="stat-card">✅<h3>2</h3><p>Completed</p></div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab active">Evaluate Colleagues</div>
   </div>
 
   <!-- Teacher Cards -->
@@ -65,11 +87,19 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       data() {
         return {
           urlappphp: `${url2}/Getter-f.php`,
+          vfcode: `${url2}/emailVerifySMTP.php`,
+          vfinput: `${url2}/emailVerifyCode.php`,
+          vfchecker: `${url2}/verificationChecker.php`,
           teachers: [],
           count: 0,
           fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
           lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
           usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
+          email: JSON.parse(localStorage.getItem("userData") || "{}").email || null,
+          verify: null,
+          verified: 0,
+          active: "code",
+          isLoading: false
         }
       },
 
@@ -112,6 +142,76 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         }
       },
 
+      async verifyInput(){
+
+        this.isLoading = true;
+
+        const response = await fetch(this.vfinput, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            action: "verifyCode",
+            email: this.email,
+            code: this.verify
+          }),
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+          this.isLoading = false;
+          this.verifyCheck();
+        }else{
+          console.error("Error")
+        }
+      },
+
+      async verifyCode(){
+
+        this.isLoading = true;
+
+        const response = await fetch(this.vfcode, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            action: "verifySMTP",
+            email: this.email
+          }),
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+          this.isLoading = false,
+          this.active = "input"
+        }else{
+          console.error("Error")
+        }
+      },
+
+      async verifyCheck(){
+
+        this.isLoading = true;
+
+        const response = await fetch(this.vfchecker, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            action: "verify",
+            email: this.email
+          }),
+        });
+
+        const result = await response.json();
+
+        if(result.success){
+          this.isLoading = false;
+
+          this.verified = result.verified;
+          console.log(this.verified)
+        }
+      },
+
       logout() {
         try {
           removeToken();
@@ -136,6 +236,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
       this.getTeachers();
       this.skipLogin();
       this.id = localStorage.getItem("userData") || "";
+      this.verifyCheck();
     }
   }
 </script>

@@ -105,7 +105,7 @@ const routes = [
     path: '/changequestions',
     name: 'Change-Questions',
     component: changeQuestions,
-    maeta: {title: 'Change Questions', requiresAuth: false}
+    meta: {title: 'Change Questions', requiresAuth: false}
   },
 
   {

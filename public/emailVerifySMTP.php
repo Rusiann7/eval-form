@@ -15,10 +15,10 @@ if($action === "verifySMTP"){
 
     $email = $data['email'];
 
-    $sql = "SELECT verify_code FROM Users WHERE Email = $email";
+    $sql = "SELECT verify_code FROM Users WHERE Email = '$email'";
     $result = $conn->query($sql);
 
-    if($result && $result->num_rows === 0){
+    if($result && $result->num_rows > 0){
         $row = $result->fetch_assoc();
         $code = $row['verify_code'];
 
@@ -55,10 +55,12 @@ if($action === "verifySMTP"){
 
         $smtp = smtp($email, $body, $altbody);
 
-        if($run){
+        if($smtp){
             echo json_encode(["success" => true]);
         }else{
             echo json_encode(["success" => false, "messsage" => "error"]);
         }
+    }else{
+        echo json_encode(["success" => false, "message" => "User not found".$sql]);
     }
 }
