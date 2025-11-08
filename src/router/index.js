@@ -15,6 +15,7 @@ const yes = () => import('../components/file.vue')
 const scheduler = () => import('../components/Admin/scheduler.vue')
 const changeQuestions = () => import('../components/Admin/ChangeQuestions.vue')
 const fileUpload = () => import('../components/Admin/fileuploader.vue')
+const test = () => import('../components/Testing/test.vue')
 
 const routes = [
   {
@@ -113,6 +114,13 @@ const routes = [
     name: 'fileupload',
     component: fileUpload,
     meta: {title: 'Upload', requiresAuth: false}
+  },
+
+  {
+    path: '/test',
+    name: 'test',
+    component: test,
+    meta: {title: 'Test', requiresAuth: false}
   }
 ]
 

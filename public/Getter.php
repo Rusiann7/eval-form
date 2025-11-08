@@ -16,6 +16,7 @@ if ($action === 'getTeachers') {
 
     $sql5 = "SELECT
     t.*,
+    u.is_deleted,
     CASE
         WHEN e.id IS NOT NULL THEN 'evaluated'
         ELSE 'not evaluated'

@@ -355,6 +355,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
         isFailed: false,
         fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
         lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
+        usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
         activeModal: "student",
         activeTab: "student",
         activeTab1: "crtTeacher",
@@ -374,7 +375,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ action: "getTeachers"})
+            body: JSON.stringify({ action: "getTeachers", id: this.usrid})
           });
 
           const result = await response.json();

@@ -21,7 +21,7 @@ if($action === "student"){
     $all_contents = [];
     $session_id = [];
 
-    if($result && $result->num_rows === 0){
+    if($result && $result->num_rows > 0){
         while($orw1 = $result->fetch_assoc()){
             $session_id[] = $row1;
 
@@ -39,14 +39,24 @@ if($action === "student"){
         if($result2 && $result2->num_rows > 0){
             while($row2 = $result2->fetch_assoc()){
 
-                $count;
-                $computed = "";
-
                 $all_contents[$row2['session_id']]["answer"][] = [
                     "question_id" => $row2['question_id'],
                     "score"       => $row2['score']
                 ];
             }
+
+            $qid = [];
+
+            foreach($all_contents as $session_id => $session_data){
+                foreach($session_data as $answer){
+                    $question_id = $answer["question_id"];
+                    $score = $answer["score"];
+
+                    $qid[$question_id][] = $score;
+                }
+            }
+        }else{
+            echo json_encode(["success" => false, "message" => "error".$sql]);
         }
     }
 }

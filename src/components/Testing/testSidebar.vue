@@ -49,7 +49,29 @@
     </template>
   </draggable>
 
+<div class="sidebar">
+      <div class="menu-item">
+      Main Item 2
+    </div>
 
+    <!-- Your menu trigger -->
+    <button @click="showSubMenu = !showSubMenu">
+      Student
+    </button>
+    
+    <!-- Transition wrapper around your v-if div -->
+    <transition name="slide-fade" :duration="{ enter: 100, leave: 150 }">
+      <div v-if="showSubMenu" class="submenu">
+        <a href="#">merged</a>
+        <br><br>  
+        <a href="#">indi</a>  
+      </div>
+    </transition>
+    
+    <div class="menu-item">
+      Main Item 3
+    </div>
+  </div>
 </template>
 
 <script>
@@ -63,7 +85,8 @@ export default {
         { question_id: 1, question: 'What is your name?' },
         { question_id: 2, question: 'What subject do you teach?' },
         { question_id: 3, question: 'How do you rate the facilities?' }
-      ]
+      ],
+      showSubMenu: false
     }
   },
   methods: {
@@ -84,5 +107,24 @@ export default {
   color: white;
   border-radius: 6px;
   cursor: grab;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+
+.submenu {
+  background: #f5f5f5;
+  padding: 10px;
 }
 </style>
