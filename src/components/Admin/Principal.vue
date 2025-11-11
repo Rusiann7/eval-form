@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="item">
-        <a href="#" @click.stop="showMenu3 = !showMenu3">Accounts</a>
+        <a href="#" @click.stop="showMenu3 = !showMenu3">Account Management</a>
         <div class="sub-menu" v-if="showMenu3">
           <a href="#" @click="click2('crtTeacher')" class="sub-item"
             >Add Teachers</a
@@ -212,25 +212,6 @@
       </div>
     </div>
 
-    <div v-if="activeModal === 'scheduling'">
-      <p>WIP to be implemented in Phase 2.</p>
-      <p>Feature set:</p>
-      <ul>
-        <li>Create student schedules based on availability</li>
-        <li>Set evaluation periods and deadlines</li>
-        <li>Notify teachers and students of upcoming evaluations</li>
-        <li>Create room schedules based on availability</li>
-        <li>AI powered analysis of data</li>
-        <li>Email verification</li>
-        <li>Forget password bug fixes</li>
-      </ul>
-      <label for="appt">Select a time:</label>
-      <input type="time" id="appt" name="appt" />
-
-      <label for="birthday">Birthday:</label>
-      <input type="date" id="birthday" name="birthday" />
-    </div>
-
     <div v-if="activeModal === 'manage'">
       <div class="content">
         <div class="container" v-if="activeTab1 === 'crtTeacher'">
@@ -336,8 +317,9 @@
                 required
               />
             </div>
-
-            <button type="submit" class="start">Create Teacher</button>
+            <div class="">
+              <button type="submit" class="btn">Create Teacher</button>
+            </div>
           </form>
         </div>
 
@@ -1102,6 +1084,8 @@ header p {
 
 .form-group {
   margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .form-group label {
@@ -1114,7 +1098,7 @@ header p {
 
 .form-group input,
 .form-group select {
-  width: 100%;
+  width: 70%;
   padding: 12px 15px;
   border: 1.5px solid #e1e5e9;
   border-radius: 8px;

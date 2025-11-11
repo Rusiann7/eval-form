@@ -1,5 +1,4 @@
 <template>
-
   <div v-if="isLoading" class="loading-screen">
     <div class="loading-spinner"></div>
     <p>Loading...</p>
@@ -16,225 +15,250 @@
     </div>
   </header>
 
-  <!-- Main Content --> 
+  <!-- Main Content -->
   <main>
     <!-- Points Section -->
     <div class="progress-section">
       <h3>Your Points: {{ count }}</h3>
-      <h3>Your Rank: {{ badge }}</h3> 
+      <h3>Your Rank: {{ badge }}</h3>
       <p>Track your evaluation completion points</p>
       <div class="progress-bar">
-        <div class="progress-fill" :style="{width: ( count / goal * 10 + '%')}"></div>
+        <div
+          class="progress-fill"
+          :style="{ width: (count / goal) * 10 + '%' }"
+        ></div>
       </div>
       <div class="progress-text">{{ count }}/{{ goal }} Points</div>
     </div>
-    <br>
+    <br />
 
     <h2>My Teachers</h2>
-    <p>Evaluate your teachers for this semester. Your feedback helps improve the learning experience.</p>
+    <p>
+      Evaluate your teachers for this semester. Your feedback helps improve the
+      learning experience.
+    </p>
 
     <div class="teachers">
       <!-- Card 1 -->
-      <div class="card" v-for="teacher in teachers.filter(t => t.evaluated === 'evaluated')" :key="teacher.id">
-        <h3>{{ teacher.firstname }} {{ teacher.lastname }}<span class="checkmark">✔</span></h3>
-        <p>{{teacher.subject}}</p>
-        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+      <div
+        class="card"
+        v-for="teacher in teachers.filter((t) => t.evaluated === 'evaluated')"
+        :key="teacher.id"
+      >
+        <h3>
+          {{ teacher.firstname }} {{ teacher.lastname
+          }}<span class="checkmark">✔</span>
+        </h3>
+        <p>{{ teacher.subject }}</p>
+        <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
         <span class="badge evaluated">Evaluated</span>
       </div>
 
       <!-- Card 2 -->
-      <div class="card" v-for="teacher in teachers.filter(t => t.evaluated === 'not evaluated')" :key="teacher.id">
+      <div
+        class="card"
+        v-for="teacher in teachers.filter(
+          (t) => t.evaluated === 'not evaluated'
+        )"
+        :key="teacher.id"
+      >
         <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-        <p>{{teacher.subject}}</p>
-        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
-        <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'student-eval', params: {id: teacher.id}})">Start Evaluation</button>
+        <p>{{ teacher.subject }}</p>
+        <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+        <br /><br />
+        <button
+          class="start"
+          @click.prevent="
+            $router.push({ name: 'student-eval', params: { id: teacher.id } })
+          "
+        >
+          Start Evaluation
+        </button>
       </div>
     </div>
   </main>
 </template>
 
-<script>  
+<script>
 import { removeToken, getToken } from "../../utils/auth";
 
-const url1 = "https://rusiann7.helioho.st"
-const url2 = "https://star-panda-literally.ngrok-free.app"
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
 
-  export default {
-    name: 'Student',
-    data() {
-      return {
-        urlappphp: `${url2}/Getter.php`,
-        urlappphp2: `${url2}/Getter-f.php`,
-        urlappphp3: `${url2}/pointsGetter.php`,
-        teachers: [],
-        finishedTeachers: [],
-        count: 0,
-        isLoading: false,
-        fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
-        lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
-        stid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
-        badge: null,
-        goal: 0
+export default {
+  name: "Student",
+  data() {
+    return {
+      urlappphp: `${url2}/Getter.php`,
+      urlappphp2: `${url2}/Getter-f.php`,
+      urlappphp3: `${url2}/pointsGetter.php`,
+      teachers: [],
+      finishedTeachers: [],
+      count: 0,
+      isLoading: false,
+      fullname:
+        JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
+        "Student Name",
+      lastname:
+        JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
+        "Student Name",
+      stid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
+      badge: null,
+      goal: 0,
+    };
+  },
+
+  methods: {
+    async getTeachers() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getTeachers", id: this.stid }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.teachers = result.teachers.map((teacher) => ({
+            id: teacher.id,
+            firstname: teacher.firstname,
+            lastname: teacher.lastname,
+            subject: teacher.subject,
+            quarter: teacher.quarter,
+            year: teacher.year,
+            evaluated: teacher.evaluated,
+          }));
+
+          //this.count = result.points;
+          this.isLoading = false;
+        } else {
+          console.error("Error fetching teachers:", result.message);
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
       }
     },
 
-    methods: {
+    async getTeachersCompleted() {
+      try {
+        this.isLoading = true;
 
-      async getTeachers() {
-        try {
-          this.isLoading = true;
+        const response = await fetch(this.urlappphp2, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "getTeachersCompleted",
+            id: this.stid,
+          }),
+        });
 
-          const response = await fetch(this.urlappphp, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "getTeachers", id: this.stid})
-          });
+        const result = await response.json();
 
-          const result = await response.json();
+        if (result.success) {
+          this.teachers = result.teachers.map((teacher) => ({
+            id: teacher.id,
+            firstname: teacher.firstname,
+            lastname: teacher.lastname,
+            subject: teacher.subject,
+            quarter: teacher.quarter,
+            year: teacher.year,
+          }));
 
-          if (result.success) {
-            this.teachers = result.teachers.map(teacher => ({
-              id: teacher.id,
-              firstname: teacher.firstname,
-              lastname: teacher.lastname,
-              subject: teacher.subject,
-              quarter: teacher.quarter,
-              year: teacher.year,
-              evaluated: teacher.evaluated
-            }));
-                
-            //this.count = result.points;
-            this.isLoading = false;
-
-          }else {
-            console.error("Error fetching teachers:", result.message);
-            this.isLoading = false;
-          }
-
-        }catch(error){
-          console.error("Error fetching teachers:", error);
-        }
-      },
-
-      async getTeachersCompleted() {
-        try {
-          this.isLoading = true;
-
-          const response = await fetch(this.urlappphp2, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "getTeachersCompleted", id: this.stid})
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            this.teachers = result.teachers.map(teacher => ({
-              id: teacher.id,
-              firstname: teacher.firstname,
-              lastname: teacher.lastname,
-              subject: teacher.subject,
-              quarter: teacher.quarter,
-              year: teacher.year
-            }));
-                
-            this.isLoading = false;
-
-          }else {
-            console.error("Error fetching teachers:", result.message);
-            this.isLoading = false;
-          }
-
-        }catch(error){
-          console.error("Error fetching teachers:", error);
-        }
-      },
-
-      async getPoints(){
-        try {
-          this.isLoading = true;
-
-          const response = await fetch(this.urlappphp3, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "getPoints", id: this.stid})
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-                
-            this.count = result.points;
-            this.points();
-            this.isLoading = false;
-
-          }else {
-            console.error("Error fetching ponts:", result.message);
-            this.isLoading = false;
-          }
-
-        }catch(error){
-          console.error("Error fetching points:", error);
-        }
-      },
-
-      points() {
-        if (this.count >= 500) {
-          this.badge = "Maxed";
-          this.goal = 500;
-        } else if (this.count >= 400) {
-          this.badge = "Professional";
-          this.goal = 500;
-        } else if (this.count >= 300) {
-          this.badge = "Expert";
-          this.goal = 400;
-        } else if (this.count >= 200) {
-          this.badge = "Intermediate";
-          this.goal = 300;
-        } else if (this.count >= 100) {
-          this.badge = "Newbie";
-          this.goal = 200;
+          this.isLoading = false;
         } else {
-          this.badge = "Beginner";
-          this.goal = 100;
+          console.error("Error fetching teachers:", result.message);
+          this.isLoading = false;
         }
-      },
-
-      logout() {
-        try {
-          removeToken();
-          this.localUserData = {};
-          this.$router.replace("/");
-        }catch (error) {
-          console.error("Logout error:", error);
-        }
-      },
-
-      skipLogin(){
-        const token = getToken();
-
-        if (!token) {
-          console.error("No token found, redirecting to login.");
-          this.$router.replace("/new-Dashboard");
-          return;
-        }
-      },
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+      }
     },
 
-    mounted() {
-      this.getTeachers();
-      this.id = localStorage.getItem("userData") || "";
-      this.skipLogin();
-      this.getPoints();
-    }
-  }
+    async getPoints() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp3, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getPoints", id: this.stid }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.count = result.points;
+          this.points();
+          this.isLoading = false;
+        } else {
+          console.error("Error fetching ponts:", result.message);
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.error("Error fetching points:", error);
+      }
+    },
+
+    points() {
+      if (this.count >= 500) {
+        this.badge = "Maxed";
+        this.goal = 500;
+      } else if (this.count >= 400) {
+        this.badge = "Professional";
+        this.goal = 500;
+      } else if (this.count >= 300) {
+        this.badge = "Expert";
+        this.goal = 400;
+      } else if (this.count >= 200) {
+        this.badge = "Intermediate";
+        this.goal = 300;
+      } else if (this.count >= 100) {
+        this.badge = "Newbie";
+        this.goal = 200;
+      } else {
+        this.badge = "Beginner";
+        this.goal = 100;
+      }
+    },
+
+    logout() {
+      try {
+        removeToken();
+        this.localUserData = {};
+        this.$router.replace("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    },
+
+    skipLogin() {
+      const token = getToken();
+
+      if (!token) {
+        console.error("No token found, redirecting to login.");
+        this.$router.replace("/new-Dashboard");
+        return;
+      }
+    },
+  },
+
+  mounted() {
+    this.getTeachers();
+    this.id = localStorage.getItem("userData") || "";
+    this.skipLogin();
+    this.getPoints();
+  },
+};
 </script>
 
 <style scoped>
@@ -242,7 +266,7 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
@@ -333,13 +357,13 @@ main p {
   border-radius: 12px;
   padding: 1.25rem;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
@@ -472,8 +496,12 @@ main p {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -483,21 +511,21 @@ main p {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .user-section {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   main {
     padding: 1rem;
   }
-  
+
   .teachers {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .card {
     padding: 1rem;
   }
@@ -507,17 +535,17 @@ main p {
   header h1 {
     font-size: 1.125rem;
   }
-  
+
   main h2 {
     font-size: 1.25rem;
   }
-  
+
   .user-section {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
-  
+
   .progress-section {
     padding: 1rem;
   }

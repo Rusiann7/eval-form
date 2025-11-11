@@ -1,130 +1,473 @@
 <template>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
 
-<nav>
-    <ul class="sidebar" ref="sidebar">
-      <li @click="hideSidebar">
-        <a href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="26"
-            viewBox="0 -960 960 960"
-            width="26"
-            fill="#e3e3e3"
+  <div class="container">
+    <header class="header">
+      <div class="search-container">
+        <span class="material-icons search-icon">search</span>
+        <input
+          aria-label="Search"
+          class="search-input"
+          placeholder="Search Bar"
+          type="text"
+        />
+      </div>
+
+      <div class="header-buttons">
+        <button class="btn-secondary">Send</button>
+        <button class="btn-primary">
+          Send
+          <span class="material-icons">send</span>
+        </button>
+      </div>
+    </header>
+
+    <!--main-->
+    <!--top part-->
+
+    <main class="main">
+      <draggable
+        v-model="headers"
+        group="header"
+        @start="drag = true"
+        @end="drag = false"
+        item-key="header.header_id"
+      >
+        <template #item="{ element: header }"> </template>
+        <div class="section">
+          <div class="section-header">
+            <div class="section-title">
+              <p class="title-text">{{ header.header }}</p>
+            </div>
+            <div class="section-actions">
+              <button class="btn-section">
+                <span class="material-icons">edit</span>
+                Edit
+              </button>
+              <button class="btn-section">
+                <span class="material-icons">delete</span>
+                Remove
+              </button>
+            </div>
+          </div>
+
+          <!--questions-->
+          <draggable
+            v-model="headers"
+            group="questions"
+            @start="drag = true"
+            @end="drag = false"
+            item-key="question.question_id"
           >
-          <path
-            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
-          />
-          </svg>
-        </a>
+            <div class="questions-container">
+              <div
+                class="question-card"
+                v-for="question in header.question"
+                :key="question.question_id"
+              >
+                <div class="question-content">
+                  <div class="question-text">
+                    <p>Question</p>
+                  </div>
+                  <div class="question-actions">
+                    <button class="btn-question">
+                      <span class="material-icons">edit</span>
+                      Edit
+                    </button>
+                    <button class="btn-question">
+                      <span class="material-icons">delete</span>
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </draggable>
+        </div>
+      </draggable>
 
-      </li>
-      <li><a href="#" @click.prevent="$router.push('/adminHome')">Home</a></li> <!--chart-->
-      <li><a href="#" @click.prevent="$router.push('/adminPrice')">Student Evaluation</a></li>
-      <li>
-        <select name="Teachers" id="">Teachers
-            <option value="Individual Evaluation">Individual Evaluation(Teachers)</option>
-            <option value="Averaged Evaluation">Averaged Evaluation (Students)</option>
-            <option value="Averaged Evaluation">Averaged Evaluation (Teachers)</option>
-        </select>
-      </li>
-      <li><a href="#" @click.prevent="$router.push('/adminControl')"></a></li>
-      <li><a href="#" @click.prevent="$router.push('/adminControl')">Sentiment Analysis</a></li>
-      <li><a href="#" @click.prevent="$router.push('/adminControl')">Bulk Upload</a></li>
-      <li>
-            <select name="" id=""> Evaluation Period
-                <option value="">Overview</option>
-                <option value="">Evaluation Period for Teachers</option>
-                <option value="">Evaluation Period for Students</option>
-            </select>
-      </li>
-      <li><a href="#" @click.prevent="logout">Log Out</a></li>
-    </ul>
-</nav>
-
-  <draggable v-model="questions" @end="updateOrder" item-key="id">
-    <template #item="{ element, index }">
-      <div class="p-2 border mb-2 rounded">
-        {{ index + 1 }}. {{ element.text }}
+      <!--second questions-->
+      <div class="section">
+        <div class="section-header">
+          <div class="section-title">
+            <p class="title-text">Header 2</p>
+          </div>
+          <div class="section-actions">
+            <button class="btn-section">
+              <span class="material-icons">edit</span>
+              Edit
+            </button>
+            <button class="btn-section">
+              <span class="material-icons">delete</span>
+              Remove
+            </button>
+          </div>
+        </div>
+        <div class="questions-container">
+          <div class="question-card">
+            <div class="question-content">
+              <div class="question-text">
+                <p>A third question to show the pattern</p>
+              </div>
+              <div class="question-actions">
+                <button class="btn-question">
+                  <span class="material-icons">edit</span>
+                  Edit
+                </button>
+                <button class="btn-question">
+                  <span class="material-icons">delete</span>
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="question-card">
+            <div class="question-content">
+              <div class="question-text">
+                <p>Fourth question example in the second header</p>
+              </div>
+              <div class="question-actions">
+                <button class="btn-question">
+                  <span class="material-icons">edit</span>
+                  Edit
+                </button>
+                <button class="btn-question">
+                  <span class="material-icons">delete</span>
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </template>
-  </draggable>
-
-<div class="sidebar">
-      <div class="menu-item">
-      Main Item 2
-    </div>
-
-    <!-- Your menu trigger -->
-    <button @click="showSubMenu = !showSubMenu">
-      Student
-    </button>
-    
-    <!-- Transition wrapper around your v-if div -->
-    <transition name="slide-fade" :duration="{ enter: 100, leave: 150 }">
-      <div v-if="showSubMenu" class="submenu">
-        <a href="#">merged</a>
-        <br><br>  
-        <a href="#">indi</a>  
-      </div>
-    </transition>
-    
-    <div class="menu-item">
-      Main Item 3
-    </div>
+    </main>
   </div>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import draggable from "vuedraggable";
+
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
 
 export default {
-  components: { draggable },
+  components: {
+    draggable,
+  },
   data() {
     return {
-      questions: [
-        { question_id: 1, question: 'What is your name?' },
-        { question_id: 2, question: 'What subject do you teach?' },
-        { question_id: 3, question: 'How do you rate the facilities?' }
-      ],
-      showSubMenu: false
-    }
+      drag: false,
+      urlappphp: `${url2}/questions.php`,
+      headers: [],
+    };
   },
+
   methods: {
-  updateOrder(evt) {
-    console.log('New order:', this.questions.map(q => q.question))
+    async getQuestions() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getQuestions" }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.headers = result.headers;
+          this.isLoading = false;
+        } else {
+          console.error("server error:", error);
+        }
+      } catch (error) {
+        console.error(error);
+        this.isLoading = false;
+      }
+    },
+  },
+};
+</script>
+
+<style scoped>
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.material-icons {
+  font-size: 1.25rem;
+  vertical-align: middle;
+}
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
   }
 }
 
-}
-</script>
-
-
-<style>
-.card {
-  padding: 10px;
-  margin: 5px;
-  background: #2f2f2f;
-  color: white;
-  border-radius: 6px;
-  cursor: grab;
+/* Header */
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
 }
 
-.slide-fade-enter-active {
-  transition: all 0.3s ease-out;
+@media (min-width: 640px) {
+  .header {
+    flex-direction: row;
+  }
 }
 
-.slide-fade-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+/* Search */
+.search-container {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  max-width: 24rem;
 }
 
-.slide-fade-enter-from,
-.slide-fade-leave-to {
-  transform: translateY(-10px);
-  opacity: 0;
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
 }
 
-.submenu {
-  background: #f5f5f5;
-  padding: 10px;
+.search-input {
+  width: 100%;
+  padding-left: 2.5rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.search-input:focus {
+  outline: none;
+  ring: 2px solid #000000;
+  border-color: #000000;
+}
+
+/* Buttons */
+.header-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-section,
+.btn-question {
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  border: 1px solid;
+}
+
+.btn-primary {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
+}
+
+.btn-primary:hover {
+  background-color: #1f2937;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+}
+
+.btn-secondary:hover {
+  background-color: #f3f4f6;
+}
+
+/* Main Content */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Sections */
+.section {
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding: 1.5rem;
+  }
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-header {
+    flex-direction: row;
+  }
+}
+
+.section-title {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.title-text {
+  font-weight: 600;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.section-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.btn-section {
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.btn-section:hover {
+  background-color: #1f2937;
+}
+
+/* Questions */
+.questions-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.question-card {
+  background-color: #ffffff;
+  color: #000000;
+  border-radius: 0.5rem;
+  border: 1px solid #000000;
+  padding: 1rem;
+}
+
+.question-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .question-content {
+    flex-direction: row;
+  }
+}
+
+.question-text {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.question-text p {
+  color: #000000;
+}
+
+.question-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.btn-question {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #000000;
+}
+
+.btn-question:hover {
+  background-color: #f3f4f6;
+}
+
+/* Responsive Design */
+@media (min-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: row;
+  }
+
+  .section-header {
+    flex-direction: row;
+  }
+
+  .question-content {
+    flex-direction: row;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus,
+input:focus {
+  outline: 2px solid #000000;
+  outline-offset: 2px;
 }
 </style>

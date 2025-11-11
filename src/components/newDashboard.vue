@@ -46,7 +46,7 @@
 
       <div class="card admin">
         <div class="icon"></div>
-        <h2>OIC Head Teacher/OIC Assistant Principal/Principal</h2>
+        <h2>Admin</h2>
         <p>
           Evaluate teachers, manage assessments, and oversee the evaluation
           process.

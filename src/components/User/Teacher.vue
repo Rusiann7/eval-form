@@ -1,11 +1,10 @@
 <template>
-
   <div v-if="isLoading" class="loading-screen">
     <div class="loading-spinner"></div>
     <p>Loading...</p>
   </div>
 
-<!-- Header -->
+  <!-- Header -->
   <header class="topbar">
     <div>
       <span class="logo">Teacher Evaluation System</span>
@@ -23,227 +22,249 @@
     <p>Evaluate your colleagues</p>
   </div>
 
-   <!--Verify Input-->
+  <!--Verify Input-->
   <div v-if="verified === '1'" class="stats-container">
     <h3>Your account is now verified <span class="checkmark">✔</span></h3>
   </div>
 
   <!--Verify Status-->
-  <div class="stats-container" v-if="verified === '0' & active === 'code'">
+  <div class="stats-container" v-if="(verified === '0') & (active === 'code')">
     <div class="stat-card">
       <h3>Verify your account:</h3>
-      <br>
+      <br />
       <button @click="verifyCode">Send Code</button>
     </div>
   </div>
 
-  <div class="stats-container" v-if="verified === '0' & active === 'input'">
+  <div class="stats-container" v-if="(verified === '0') & (active === 'input')">
     <div class="stat-card">
       <h3>Verify your account:</h3>
-      <br>
+      <br />
       <form method="post" @submit.prevent="verifyInput">
-        <input type="text" v-model="verify">
+        <input type="text" v-model="verify" />
         <button type="submit">Submit</button>
       </form>
     </div>
   </div>
 
- 
-
   <!-- Stats -->
   <div class="stats-container">
-    <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Colleagues</p></div>
-    <div class="stat-card">✅<h3>2</h3><p>Completed</p></div>
+    <div class="stat-card">
+      👥
+      <h3>{{ this.count }}</h3>
+      <p>Colleagues</p>
+    </div>
+    <div class="stat-card">
+      ✅
+      <h3>2</h3>
+      <p>Completed</p>
+    </div>
   </div>
 
   <!-- Teacher Cards -->
-    <div class="teacher-container">
-        <div class="teacher-card" v-for="teacher in teachers.filter(t => t.evaluated === 'evaluated')" :key="teacher.id">
-          <h3>{{ teacher.firstname }} {{ teacher.lastname }}<span class="checkmark">✔</span></h3>
-          <p>{{ teacher.subject }}</p>
-          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
-          <br><br>
-          <span class="badge evaluated">Evaluated</span>
-        </div>
-
-        <div class="teacher-card" v-for="teacher in teachers.filter(t => t.evaluated === 'not evaluated')" :key="teacher.id">
-          <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-          <p>{{ teacher.subject }}</p>
-          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
-          <br><br>
-          <button class="btn btn-dark" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
-        </div>
+  <div class="teacher-container">
+    <div
+      class="teacher-card"
+      v-for="teacher in teachers.filter((t) => t.evaluated === 'evaluated')"
+      :key="teacher.id"
+    >
+      <h3>
+        {{ teacher.firstname }} {{ teacher.lastname
+        }}<span class="checkmark">✔</span>
+      </h3>
+      <p>{{ teacher.subject }}</p>
+      <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+      <br /><br />
+      <span class="badge evaluated">Evaluated</span>
     </div>
+
+    <div
+      class="teacher-card"
+      v-for="teacher in teachers.filter((t) => t.evaluated === 'not evaluated')"
+      :key="teacher.id"
+    >
+      <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+      <p>{{ teacher.subject }}</p>
+      <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+      <br /><br />
+      <button
+        class="btn btn-dark"
+        @click.prevent="
+          $router.push({ name: 'teacher-eval', params: { id: teacher.id } })
+        "
+      >
+        Start Evaluation
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
 import { removeToken, getToken } from "../../utils/auth";
 
-const url1 = "https://rusiann7.helioho.st"
-const url2 = "https://star-panda-literally.ngrok-free.app"
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
 
-  export default {
-    name: 'Teacher',
-      data() {
-        return {
-          urlappphp: `${url2}/Getter-f.php`,
-          vfcode: `${url2}/emailVerifySMTP.php`,
-          vfinput: `${url2}/emailVerifyCode.php`,
-          vfchecker: `${url2}/verificationChecker.php`,
-          teachers: [],
-          count: 0,
-          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
-          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
-          usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
-          email: JSON.parse(localStorage.getItem("userData") || "{}").email || null,
-          verify: null,
-          verified: 0,
-          active: "code",
-          isLoading: false
-        }
-      },
+export default {
+  name: "Teacher",
+  data() {
+    return {
+      urlappphp: `${url2}/Getter-f.php`,
+      vfcode: `${url2}/emailVerifySMTP.php`,
+      vfinput: `${url2}/emailVerifyCode.php`,
+      vfchecker: `${url2}/verificationChecker.php`,
+      teachers: [],
+      count: 0,
+      fullname:
+        JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
+        "Teacher Name",
+      lastname:
+        JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
+        "Teacher Name",
+      usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
+      email: JSON.parse(localStorage.getItem("userData") || "{}").email || null,
+      verify: null,
+      verified: 0,
+      active: "code",
+      isLoading: false,
+    };
+  },
 
-    methods: {
-      async getTeachers() {
-        this.isLoading = true;
-            
-        try {
-          const response = await fetch(this.urlappphp, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "getTeachers", id: this.usrid})
-          });
+  methods: {
+    async getTeachers() {
+      this.isLoading = true;
 
-          const result = await response.json();
-
-          if (result.success) {
-            this.teachers = result.teachers.map(teacher => ({
-              id: teacher.id,
-              firstname: teacher.firstname,
-              lastname: teacher.lastname,
-              subject: teacher.subject,
-              quarter: teacher.quarter,
-              year: teacher.year,
-              evaluated: teacher.evaluated
-            }));
-
-            this.count = result.total;
-            this.isLoading = false;
-
-          }else {
-            console.error("Error fetching teachers:", result.message);
-          }
-
-        }catch(error){
-          console.error("Error fetching teachers:", error);
-          this.isLoading = false;
-        }
-      },
-
-      async verifyInput(){
-
-        this.isLoading = true;
-
-        const response = await fetch(this.vfinput, {
+      try {
+        const response = await fetch(this.urlappphp, {
           method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({
-            action: "verifyCode",
-            email: this.email,
-            code: this.verify
-          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getTeachers", id: this.usrid }),
         });
 
         const result = await response.json();
 
-        if(result.success){
+        if (result.success) {
+          this.teachers = result.teachers.map((teacher) => ({
+            id: teacher.id,
+            firstname: teacher.firstname,
+            lastname: teacher.lastname,
+            subject: teacher.subject,
+            quarter: teacher.quarter,
+            year: teacher.year,
+            evaluated: teacher.evaluated,
+          }));
+
+          this.count = result.total;
           this.isLoading = false;
-          this.verifyCheck();
-        }else{
-          console.error("Error")
+        } else {
+          console.error("Error fetching teachers:", result.message);
         }
-      },
-
-      async verifyCode(){
-
-        this.isLoading = true;
-
-        const response = await fetch(this.vfcode, {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({
-            action: "verifySMTP",
-            email: this.email
-          }),
-        });
-
-        const result = await response.json();
-
-        if(result.success){
-          this.isLoading = false,
-          this.active = "input"
-        }else{
-          console.error("Error")
-        }
-      },
-
-      async verifyCheck(){
-
-        this.isLoading = true;
-
-        const response = await fetch(this.vfchecker, {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({
-            action: "verify",
-            email: this.email
-          }),
-        });
-
-        const result = await response.json();
-
-        if(result.success){
-          this.isLoading = false;
-
-          this.verified = result.verified;
-          console.log(this.verified)
-        }
-      },
-
-      logout() {
-        try {
-          removeToken();
-          this.localUserData = {};
-          this.$router.replace("/");
-        }catch (error) {
-          console.error("Logout error:", error);
-        }
-      },
-
-      skipLogin(){
-        const token = getToken();
-
-        if (!token) {
-          console.error("No token found, redirecting to login.");
-          this.$router.replace("/new-Dashboard");
-        };
-      },
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
+        this.isLoading = false;
+      }
     },
 
-    mounted(){
-      this.getTeachers();
-      this.skipLogin();
-      this.id = localStorage.getItem("userData") || "";
-      this.verifyCheck();
-    }
-  }
+    async verifyInput() {
+      this.isLoading = true;
+
+      const response = await fetch(this.vfinput, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "verifyCode",
+          email: this.email,
+          code: this.verify,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        this.isLoading = false;
+        this.verifyCheck();
+      } else {
+        console.error("Error");
+      }
+    },
+
+    async verifyCode() {
+      this.isLoading = true;
+
+      const response = await fetch(this.vfcode, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "verifySMTP",
+          email: this.email,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        (this.isLoading = false), (this.active = "input");
+      } else {
+        console.error("Error");
+      }
+    },
+
+    async verifyCheck() {
+      this.isLoading = true;
+
+      const response = await fetch(this.vfchecker, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "verify",
+          email: this.email,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        this.isLoading = false;
+
+        this.verified = result.verified;
+        console.log(this.verified);
+      }
+    },
+
+    logout() {
+      try {
+        removeToken();
+        this.localUserData = {};
+        this.$router.replace("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    },
+
+    skipLogin() {
+      const token = getToken();
+
+      if (!token) {
+        console.error("No token found, redirecting to login.");
+        this.$router.replace("/new-Dashboard");
+      }
+    },
+  },
+
+  mounted() {
+    this.getTeachers();
+    this.skipLogin();
+    this.id = localStorage.getItem("userData") || "";
+    this.verifyCheck();
+  },
+};
 </script>
 <style scoped>
 /* Global */
 * {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -286,7 +307,7 @@ header p {
   gap: 1rem;
 }
 
-.logo { 
+.logo {
   font-weight: bold;
   font-size: 1.125rem;
 }
@@ -347,13 +368,13 @@ header p {
   padding: 1.875rem 1.25rem;
   width: min(280px, 100%);
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.role-card:hover { 
+.role-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
@@ -364,19 +385,28 @@ header p {
   display: inline-block;
 }
 
-.student { background: #eaf1ff; color: #0066ff; }
-.teacher { background: #e9f9ee; color: #2ecc71; }
-.admin   { background: #f6eaff; color: #9b59b6; }
-
-.role-card h3 { 
-  margin: 0.625rem 0 0.5rem; 
-  font-size: 1.125rem; 
+.student {
+  background: #eaf1ff;
+  color: #0066ff;
+}
+.teacher {
+  background: #e9f9ee;
+  color: #2ecc71;
+}
+.admin {
+  background: #f6eaff;
+  color: #9b59b6;
 }
 
-.role-card p { 
-  color: #555; 
-  font-size: 0.875rem; 
-  margin-bottom: 1.25rem; 
+.role-card h3 {
+  margin: 0.625rem 0 0.5rem;
+  font-size: 1.125rem;
+}
+
+.role-card p {
+  color: #555;
+  font-size: 0.875rem;
+  margin-bottom: 1.25rem;
 }
 
 .btn {
@@ -392,28 +422,28 @@ header p {
   width: 100%;
 }
 
-.btn-student { 
-  background: #000; 
-  color: #fff; 
+.btn-student {
+  background: #000;
+  color: #fff;
 }
 
 .btn-student:hover {
   background: #333;
 }
 
-.btn-teacher { 
-  background: #f1f3f5; 
-  color: #000; 
+.btn-teacher {
+  background: #f1f3f5;
+  color: #000;
 }
 
 .btn-teacher:hover {
   background: #e9ecef;
 }
 
-.btn-admin   { 
-  background: #fff; 
-  border: 1px solid #ccc; 
-  color: #000; 
+.btn-admin {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #000;
 }
 
 .btn-admin:hover {
@@ -421,19 +451,19 @@ header p {
 }
 
 /* Page Headers */
-.page-header { 
-  padding: 1.875rem 1.5rem 0.625rem; 
+.page-header {
+  padding: 1.875rem 1.5rem 0.625rem;
 }
 
-.page-header h2 { 
-  margin: 0; 
-  font-size: 1.25rem; 
+.page-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
 
-.page-header p { 
-  color: #555; 
-  font-size: 0.875rem; 
+.page-header p {
+  color: #555;
+  font-size: 0.875rem;
 }
 
 /* Stats */
@@ -453,7 +483,7 @@ header p {
   border-radius: 12px;
   padding: 1.25rem;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
 
@@ -461,14 +491,14 @@ header p {
   transform: translateY(-2px);
 }
 
-.stat-card h3 { 
-  margin: 0.625rem 0 0; 
-  font-size: 1.125rem; 
+.stat-card h3 {
+  margin: 0.625rem 0 0;
+  font-size: 1.125rem;
 }
 
-.stat-card p { 
-  color: #555; 
-  font-size: 0.875rem; 
+.stat-card p {
+  color: #555;
+  font-size: 0.875rem;
 }
 
 /* Tabs */
@@ -494,9 +524,9 @@ header p {
   background: #e9ecef;
 }
 
-.tab.active { 
-  background: #000; 
-  color: #fff; 
+.tab.active {
+  background: #000;
+  color: #fff;
 }
 
 /* Teacher Section */
@@ -532,24 +562,24 @@ header p {
   border-radius: 12px;
   padding: 1.25rem;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .teacher-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.teacher-card h3 { 
-  margin: 0; 
-  font-size: 1rem; 
+.teacher-card h3 {
+  margin: 0;
+  font-size: 1rem;
 }
 
-.teacher-card p { 
-  color: #555; 
-  margin: 0.5rem 0 0.75rem; 
-  font-size: 0.875rem; 
+.teacher-card p {
+  color: #555;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.875rem;
 }
 
 .badge {
@@ -561,10 +591,10 @@ header p {
   margin: 0 0.5rem 0.75rem 0;
 }
 
-.badge.rating { 
-  background: #ffe6e6; 
-  color: #c0392b; 
-  font-weight: bold; 
+.badge.rating {
+  background: #ffe6e6;
+  color: #c0392b;
+  font-weight: bold;
 }
 
 .card-buttons {
@@ -579,9 +609,9 @@ header p {
   font-size: 0.875rem;
 }
 
-.btn-dark { 
-  background: #000; 
-  color: #fff; 
+.btn-dark {
+  background: #000;
+  color: #fff;
   border: none;
 }
 
@@ -589,9 +619,9 @@ header p {
   background: #333;
 }
 
-.btn-light { 
-  background: #f1f3f5; 
-  color: #000; 
+.btn-light {
+  background: #f1f3f5;
+  color: #000;
   border: none;
 }
 
@@ -606,43 +636,43 @@ header p {
     align-items: flex-start;
     padding: 1rem;
   }
-  
+
   .breadcrumb-container {
     width: 100%;
     justify-content: flex-start;
   }
-  
+
   .user-info {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .page-header {
     padding: 1.5rem 1rem 0.5rem;
   }
-  
+
   .teacher-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .stats-container {
     padding: 1rem;
   }
-  
+
   .stat-card {
     min-width: calc(50% - 0.625rem);
   }
-  
+
   .tabs {
     padding: 0 1rem;
   }
-  
+
   .teacher-container {
     padding: 0 1rem 2rem;
     grid-template-columns: 1fr;
   }
-  
+
   .card-buttons {
     flex-direction: column;
   }
@@ -652,41 +682,41 @@ header p {
   header {
     margin: 2rem 0 1rem;
   }
-  
+
   header h1 {
     font-size: 1.25rem;
   }
-  
+
   .role-container {
     margin: 2rem auto;
   }
-  
+
   .role-card {
     width: 100%;
     max-width: 280px;
   }
-  
+
   .stats-container {
     gap: 1rem;
   }
-  
+
   .stat-card {
     min-width: 100%;
   }
-  
+
   .tabs {
     gap: 0.5rem;
   }
-  
+
   .tab {
     padding: 0.5rem 0.875rem;
     font-size: 0.8125rem;
   }
-  
+
   .teacher-header {
     align-items: stretch;
   }
-  
+
   .dropdown {
     width: 100%;
   }
@@ -732,8 +762,11 @@ header p {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-
 </style>
