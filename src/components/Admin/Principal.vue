@@ -1,621 +1,663 @@
 <template>
-
   <div v-if="isLoading" class="loading-screen">
     <div class="loading-spinner"></div>
     <p>Loading...</p>
   </div>
 
-<!-- Header -->
-  <header class="topbar">
-    <div>
-      <span class="logo">Teacher Evaluation System</span>
-      <br>
-      <span class="breadcrumb">Principal Portal</span>
-    </div>
-    <div class="user-info">
-      <span>Welcome, {{ fullname }} {{ lastname }}</span>
-      <button class="logout-btn" @click="logout()">Logout</button>
-    </div>
-
-    <div class="error" v-if="isFailed">
-      <span>Task failed to execute!</span>
-    </div>
-
-    <div class="success" v-if="isSuccess">
-      <span>Task successfully executed!</span>
-    </div>
-
-     <!-- Added Navigation Bar -->
-  <!-- <nav>
-    <ul class="sidebar" ref="sidebar">
-      <li @click="hideSidebar">
-        <a href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="26"
-            viewBox="0 -960 960 960"
-            width="26"
-            fill="#e3e3e3"
+  <div class="side-bar">
+    <div class="menu">
+      <div class="item">
+        <a href="#" class="sub-btn" @click.stop="showMenu1 = !showMenu1"
+          >Student</a
+        >
+        <div class="sub-menu" v-if="showMenu1">
+          <a href="#" class="sub-item">Merged Answers</a>
+          <a href="#" @click="click('student')" class="sub-item"
+            >Individual Answers</a
           >
-          <path
-            d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
-          />
-          </svg>
-        </a>
-
-      </li>
-      <li><a href="#" @click.prevent="$router.push('/adminHome')">Home</a></li>
-      <li><a href="#" @click.prevent="$router.push('/adminPrice')">Price</a></li>
-      <li><a href="#" @click.prevent="$router.push('/adminUser')">Users</a></li>
-      <li><a href="#" @click.prevent="$router.push('/adminControl')">Control Panel</a></li>
-      <li><a href="#" @click.prevent="logout">Log Out</a></li>
-    </ul>
-
-    <ul>
-      <li>
-        <a href="#" @click.prevent="$router.push('/adminHome')"
-          >Market Price Tracker-Admin</a>
-      </li>
-      <li class="hideMobile">
-        <a href="#" @click.prevent="$router.push('/adminHome')">Home</a>
-      </li>
-      <li class="hideMobile">
-        <a href="#" @click.prevent="$router.push('/adminPrice')">Price</a>
-      </li>
-      <li class="hideMobile">
-        <a href="#" @click.prevent="$router.push('/adminUser')">Users</a>
-      </li>
-      <li class="hideMobile">
-        <a href="#" @click.prevent="$router.push('/adminControl')">Control Panel</a>
-      </li>
-      <li class="hideMobile">
-        <a href="#" @click.prevent="logout">Log Out</a>
-      </li>
-      <li class="menu-btn" @click="showSidebar">
-        <a href="#">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="26"
-            viewBox="0 -960 960 960"
-            width="26"
-            fill="#e3e3e3"
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
+          >Teacher</a
+        >
+        <div class="sub-menu" v-if="showMenu2">
+          <a href="#" class="sub-item">Merged Answers</a>
+          <a href="#" @click="click('teacher')" class="sub-item"
+            >Individual Answers</a
           >
-            <path
-              d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-            />
-          </svg>
-        </a>
-      </li>
-    </ul>
-  </nav> -->
-  </header>
+          <a href="#" @click="click('evaluate')" class="sub-item"
+            >Evaluate Teachers</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" @click.stop="showMenu3 = !showMenu3">Accounts</a>
+        <div class="sub-menu" v-if="showMenu3">
+          <a href="#" @click="click2('crtTeacher')" class="sub-item"
+            >Add Teachers</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Delete Users</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
+      </div>
 
-  <!-- Page Header -->    
-  <div class="page-header">      
-    <h2>Principal Dashboard</h2>
-    <p>Manage teacher evaluations and view institutional performance metrics</p>
-  </div>
-
-  <!-- Stats -->
-  <div class="stats-container">
-    <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Teachers</p></div>
-    <div class="stat-card">🎓<h3>{{ this.count2 }}</h3><p>Students</p></div>
-  </div>
-
-  <!-- Tabs -->
-  <div class="tabs">
-    <div class="tab" :class="{ active: activeTab === 'student' }" @click="click('student')">Student Evaluations</div>
-    <div class="tab" :class="{ active: activeTab === 'teacher' }" @click="click('teacher')">Teacher Evaluations</div>
-    <div class="tab" :class="{ active: activeTab === 'evaluate' }" @click="click('evaluate')">Evaluate Teachers</div>
-    <div class="tab" :class="{ active: activeTab === 'scheduling' }" @click="click('scheduling')">Create Schedule</div>
-    <div class="tab" :class="{ active: activeTab === 'manage' }" @click="click('manage')">Manage Teacher Account</div> 
-    <div class="tab" :class="{ active: activeTab === 'bulkUpload' }" @click="click('bulkUpload')">Bulk Upload</div>
-    <div class="tab" :class="{ active: activeTab === 'questionManager' }" @click="click('questionManager')">Question Change/Rearrange</div>
-    <div class="tab" :class="{ active: activeTab === 'evalTime' }" @click="click('evalTime')">Evaluation Time Period</div>
-    <div class="tab" :class="{ active: activeTab === 'chart' }" @click="click('chart')">Charts</div>
-  </div>
-
-  <div v-if="activeModal === 'student'">
-    <div class="teacher-header">
-      <h3>Student Evaluations</h3>
-    </div>
-
-    <div class="teacher-container">
-      <div class="card" v-for="newStudent in newStudents" :key="newStudents.id">
-        <h3>{{ newStudent.firstname }} {{ newStudent.lastname }}</h3>
-        <p>{{newStudent.subject}}</p>
-        <span class="badge">Q{{ newStudent.quarter }} {{newStudent.year}}</span>
-        <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'printable-form', params: {id: newStudent.id, tcrid: newStudent.teacher_id, evtid: newStudent.eval_id}})">View Evaluation</button>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/changequestions')"
+          >Question Change</a
+        >
       </div>
     </div>
   </div>
 
-  <div v-if="activeModal === 'evaluate'">
-    <!-- Teacher Section -->
-    <div class="teacher-header">
-      <h3>Evaluate Teachers</h3>
-      <select class="dropdown">
-        <option>All Departments</option>
-        <option>Mathematics</option>
-        <option>Physics</option>
-        <option>English</option>
-        <option>MAPEH</option>
-        <option>Science</option>
-      </select>
-    </div>
-
-    <!-- Teacher Cards -->
-    <div class="teacher-container">
-      <div class="teacher-card" >
-        <h3>Dr. Sarah Johnson</h3>
-        <p>Mathematics</p>
-        <span class="badge">⭐ 4.2</span>
+  <div class="main-content">
+    <!-- Header -->
+    <header class="topbar">
+      <div>
+        <span class="logo">Teacher Evaluation System</span>
+        <br />
+        <span class="breadcrumb">Principal Portal</span>
+      </div>
+      <div class="user-info">
+        <span>Welcome, {{ fullname }} {{ lastname }}</span>
+        <button class="logout-btn" @click="logout()">Logout</button>
       </div>
 
-      <div class="card" v-for="teacher in teachers" :key="teacher.id">
-        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-        <p>{{teacher.subject}}</p>
-        <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
-        <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
-      </div>
-    </div>
-  </div>
-
-  <div v-if="activeModal === 'teacher'">
-    <div class="teacher-header">
-      <h3>Teacher Evaluations</h3>
-    </div>
-
-    <div class="teacher-container">
-      <div class="card" v-for="newteacher in newTeachers" :key="newTeachers.id">
-        <h3>{{ newteacher.firstname }} {{ newteacher.lastname }}</h3>
-        <p>{{newteacher.subject}}</p>
-        <span class="badge">Q{{ newteacher.quarter }} {{newteacher.year}}</span>
-        <br><br>
-        <button class="start" @click.prevent="$router.push({name: 'printable-form1', params: {id: newteacher.id, tcrid: newteacher.teacher_id, evtid: newteacher.eval_id}})">View Evaluation</button>
-      </div>
-    </div>
-  </div>
-
-  <div v-if="activeModal === 'scheduling'">
-    <p>WIP to be implemented in Phase 2.</p>
-    <p>Feature set:</p>
-    <ul>
-      <li>Create student schedules based on availability</li>
-      <li>Set evaluation periods and deadlines</li>
-      <li>Notify teachers and students of upcoming evaluations</li>
-      <li>Create room schedules based on availability</li>
-      <li>AI powered analysis of data</li>
-      <li>Email verification</li>
-      <li>Forget password bug fixes</li>
-    </ul>
-    <label for="appt">Select a time:</label>
-    <input type="time" id="appt" name="appt">
-
-      <label for="birthday">Birthday:</label>
-    <input type="date" id="birthday" name="birthday"> 
-  </div>
-
-  <div v-if="activeModal === 'manage'">
-    <div class="content">
-      <div class="tabs">
-        <div class="tab" :class="{ active: activeTab1 === 'crtTeacher' }" @click="click2('crtTeacher')">Create Teachers</div>
-        <div class="tab" :class="{ active: activeTab1 === 'rmTeacher' }" @click="click2('rmTeacher')">Remove Teachers</div>
+      <div class="error" v-if="isFailed">
+        <span>Task failed to execute!</span>
       </div>
 
-      <div class="container" v-if="activeTab1 === 'crtTeacher'">
-        <div class="header">
-          <h3 class="headText">Create new teacher users</h3>
+      <div class="success" v-if="isSuccess">
+        <span>Task successfully executed!</span>
+      </div>
+    </header>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <h2>Principal Dashboard</h2>
+      <p>
+        Manage teacher evaluations and view institutional performance metrics
+      </p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-container">
+      <div class="stat-card">
+        👥
+        <h3>{{ this.count }}</h3>
+        <p>Teachers</p>
+      </div>
+      <div class="stat-card">
+        🎓
+        <h3>{{ this.count2 }}</h3>
+        <p>Students</p>
+      </div>
+    </div>
+
+    <div v-if="activeModal === 'student'">
+      <div class="teacher-header">
+        <h3>Student Evaluations</h3>
+      </div>
+
+      <div class="teacher-container">
+        <div
+          class="card"
+          v-for="newStudent in newStudents"
+          :key="newStudents.id"
+        >
+          <h3>{{ newStudent.firstname }} {{ newStudent.lastname }}</h3>
+          <p>{{ newStudent.subject }}</p>
+          <span class="badge"
+            >Q{{ newStudent.quarter }} {{ newStudent.year }}</span
+          >
+          <br /><br />
+          <button
+            class="start"
+            @click.prevent="
+              $router.push({
+                name: 'printable-form',
+                params: {
+                  id: newStudent.id,
+                  tcrid: newStudent.teacher_id,
+                  evtid: newStudent.eval_id,
+                },
+              })
+            "
+          >
+            View Evaluation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="activeModal === 'evaluate'">
+      <!-- Teacher Section -->
+      <div class="teacher-header">
+        <h3>Evaluate Teachers</h3>
+        <select class="dropdown">
+          <option>All Departments</option>
+          <option>Mathematics</option>
+          <option>Physics</option>
+          <option>English</option>
+          <option>MAPEH</option>
+          <option>Science</option>
+        </select>
+      </div>
+
+      <!-- Teacher Cards -->
+      <div class="teacher-container">
+        <div class="teacher-card">
+          <h3>Dr. Sarah Johnson</h3>
+          <p>Mathematics</p>
+          <span class="badge">⭐ 4.2</span>
         </div>
 
-        <form method="post" @submit.prevent="createTeachers()">
-          <div v-if="isWrong" class="wrong"> <p class="wrong"> Wrong Credentials or Incomplete</p></div>
-          <div class="form-group">
-            <label for="lsNm">Enter the First Name:</label>
-            <input 
-              type="text"
-              v-model="teacherr.fn"
-              placeholder="Enter First Name"
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Enter the Last Name:</label>
-            <input 
-              type="text"
-              v-model="teacherr.ln"
-              placeholder="Enter Last Name"
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Enter the Email:</label>
-            <input 
-              type="email"
-              v-model="teacherr.email"
-              placeholder="Enter Email"
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Enter the ID:</label>
-            <input 
-              type="number"
-              v-model="teacherr.id"
-              placeholder="Enter ID"
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Choose Subject:</label>
-            
-            <select v-model="teacherr.sub" class="" required>
-              <option value="Math">Math</option>
-              <option value="English">English</option>
-              <option value="Filipino">Filipino</option>
-              <option value="Science">Science</option>
-              <option value="Araling Panlipunan">Araling Panlipunan</option>
-              <option value="TLE">TLE</option>
-              <option value="MAPEH">MAPEH</option>
-              <option value="ESP">ESP</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Choose Quarter:</label>
-            <select v-model="teacherr.qrt" class="" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Enter Year:</label>
-            <input  
-              type="number"
-              v-model="teacherr.yr"
-              placeholder="Enter Year"
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Enter the Password:</label>
-            <input 
-              type="password"
-              v-model="teacherr.ps"
-              placeholder="Enter Password"
-              required 
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lsNm">Enter the Confirm Password:</label>
-            <input 
-              type="password"
-              v-model="teacherr.cpas"
-              placeholder="Confirm Password"
-              required 
-            />
-          </div>
-
-          <button type="submit" class="start">Create Teacher</button>
-        </form>
-      </div>
-
-      <div class="teacher-container" v-if="activeTab1 === 'rmTeacher'">
         <div class="card" v-for="teacher in teachers" :key="teacher.id">
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-          <p>{{teacher.subject}}</p>
-          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
-          <br><br>
-          <button class="start" @click.prevent="rmTeachers(teacher.id)">Remove Teacher</button>
+          <p>{{ teacher.subject }}</p>
+          <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+          <br /><br />
+          <button
+            class="start"
+            @click.prevent="
+              $router.push({ name: 'teacher-eval', params: { id: teacher.id } })
+            "
+          >
+            Start Evaluation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="activeModal === 'teacher'">
+      <div class="teacher-header">
+        <h3>Teacher Evaluations</h3>
+      </div>
+
+      <div class="teacher-container">
+        <div
+          class="card"
+          v-for="newteacher in newTeachers"
+          :key="newTeachers.id"
+        >
+          <h3>{{ newteacher.firstname }} {{ newteacher.lastname }}</h3>
+          <p>{{ newteacher.subject }}</p>
+          <span class="badge"
+            >Q{{ newteacher.quarter }} {{ newteacher.year }}</span
+          >
+          <br /><br />
+          <button
+            class="start"
+            @click.prevent="
+              $router.push({
+                name: 'printable-form1',
+                params: {
+                  id: newteacher.id,
+                  tcrid: newteacher.teacher_id,
+                  evtid: newteacher.eval_id,
+                },
+              })
+            "
+          >
+            View Evaluation
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="activeModal === 'scheduling'">
+      <p>WIP to be implemented in Phase 2.</p>
+      <p>Feature set:</p>
+      <ul>
+        <li>Create student schedules based on availability</li>
+        <li>Set evaluation periods and deadlines</li>
+        <li>Notify teachers and students of upcoming evaluations</li>
+        <li>Create room schedules based on availability</li>
+        <li>AI powered analysis of data</li>
+        <li>Email verification</li>
+        <li>Forget password bug fixes</li>
+      </ul>
+      <label for="appt">Select a time:</label>
+      <input type="time" id="appt" name="appt" />
+
+      <label for="birthday">Birthday:</label>
+      <input type="date" id="birthday" name="birthday" />
+    </div>
+
+    <div v-if="activeModal === 'manage'">
+      <div class="content">
+        <div class="container" v-if="activeTab1 === 'crtTeacher'">
+          <div class="header">
+            <h3 class="headText">Create new teacher users</h3>
+          </div>
+
+          <form method="post" @submit.prevent="createTeachers()">
+            <div v-if="isWrong" class="wrong">
+              <p class="wrong">Wrong Credentials or Incomplete</p>
+            </div>
+            <div class="form-group">
+              <label for="lsNm">Enter the First Name:</label>
+              <input
+                type="text"
+                v-model="teacherr.fn"
+                placeholder="Enter First Name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Last Name:</label>
+              <input
+                type="text"
+                v-model="teacherr.ln"
+                placeholder="Enter Last Name"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Email:</label>
+              <input
+                type="email"
+                v-model="teacherr.email"
+                placeholder="Enter Email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the ID:</label>
+              <input
+                type="number"
+                v-model="teacherr.id"
+                placeholder="Enter ID"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Choose Subject:</label>
+
+              <select v-model="teacherr.sub" class="" required>
+                <option value="Math">Math</option>
+                <option value="English">English</option>
+                <option value="Filipino">Filipino</option>
+                <option value="Science">Science</option>
+                <option value="Araling Panlipunan">Araling Panlipunan</option>
+                <option value="TLE">TLE</option>
+                <option value="MAPEH">MAPEH</option>
+                <option value="ESP">ESP</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Choose Quarter:</label>
+              <select v-model="teacherr.qrt" class="" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter Year:</label>
+              <input
+                type="number"
+                v-model="teacherr.yr"
+                placeholder="Enter Year"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Password:</label>
+              <input
+                type="password"
+                v-model="teacherr.ps"
+                placeholder="Enter Password"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Confirm Password:</label>
+              <input
+                type="password"
+                v-model="teacherr.cpas"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+
+            <button type="submit" class="start">Create Teacher</button>
+          </form>
+        </div>
+
+        <div class="teacher-container" v-if="activeTab1 === 'rmTeacher'">
+          <div class="card" v-for="teacher in teachers" :key="teacher.id">
+            <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+            <p>{{ teacher.subject }}</p>
+            <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+            <br /><br />
+            <button class="start" @click.prevent="rmTeachers(teacher.id)">
+              Remove Teacher
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div v-if="activeModal === 'AI'">
-
-  </div>
+  <div v-if="activeModal === 'AI'"></div>
 </template>
 
 <script>
 import { removeToken, getToken } from "../../utils/auth";
 
-const url1 = "https://rusiann7.helioho.st"
-const url2 = "https://star-panda-literally.ngrok-free.app"
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
 
-  export default {
-    name: 'Principal',
-    data() {
-      return {
-        urlappphp: `${url2}/Getter.php`,
-        urlappphp2: `${url2}/viewEvaluations.php`,
-        urlappphp3: `${url2}/viewEvaluationt.php`,
-        urlappphp4: `${url2}/rmTeacher.php`,
-        urlappphp5: `${url2}/createTeacher.php`,
-        teachers: [],
-        teacherr: {fn: "", ln: "", email: "", ps: "", cpas: "", sub: "", qrt: "", yr: "", id: ""},
-        newTeachers: [],
-        newStudents: [],
-        count: 0,
-        count2: 0,
-        isLoading: false,
-        isWrong: false,
-        isSuccess: false,
-        isFailed: false,
-        fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
-        lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
-        usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
-        activeModal: "student",
-        activeTab: "student",
-        activeTab1: "crtTeacher",
-        selectedSubject: null,
-        selectedQuarter: null,
+export default {
+  name: "Principal",
+  data() {
+    return {
+      urlappphp: `${url2}/Getter.php`,
+      urlappphp2: `${url2}/viewEvaluations.php`,
+      urlappphp3: `${url2}/viewEvaluationt.php`,
+      urlappphp4: `${url2}/rmTeacher.php`,
+      urlappphp5: `${url2}/createTeacher.php`,
+      teachers: [],
+      teacherr: {
+        fn: "",
+        ln: "",
+        email: "",
+        ps: "",
+        cpas: "",
+        sub: "",
+        qrt: "",
+        yr: "",
+        id: "",
+      },
+      newTeachers: [],
+      newStudents: [],
+      count: 0,
+      count2: 0,
+      isLoading: false,
+      isWrong: false,
+      isSuccess: false,
+      isFailed: false,
+      fullname:
+        JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
+        "Student Name",
+      lastname:
+        JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
+        "Student Name",
+      usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
+      activeModal: "student",
+      activeTab: "student",
+      activeTab1: "crtTeacher",
+      selectedSubject: null,
+      selectedQuarter: null,
+      showMenu1: false,
+      showMenu2: false,
+      showMenu3: false,
+    };
+  },
+
+  methods: {
+    async getTeachers() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getTeachers", id: this.usrid }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.teachers = result.teachers.map((teacher) => ({
+            id: teacher.id,
+            firstname: teacher.firstname,
+            lastname: teacher.lastname,
+            subject: teacher.subject,
+            quarter: teacher.quarter,
+            year: teacher.year,
+          }));
+
+          this.count = result.total;
+          this.isLoading = false;
+        } else {
+          console.error("Error fetching teachers:", result.message);
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.error("Error fetching teachers:", error);
       }
     },
 
-    methods: {
+    async getStudentbyid() {
+      try {
+        this.isLoading = true;
 
-      async getTeachers() {
-        try {
-          this.isLoading = true;
+        const response = await fetch(this.urlappphp4, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "getstudentbyid",
+            evt: this.$route.params.evtid,
+          }),
+        });
 
-          const response = await fetch(this.urlappphp, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "getTeachers", id: this.usrid})
-          });
+        const result = await response.json();
 
-          const result = await response.json();
-
-          if (result.success) {
-            this.teachers = result.teachers.map(teacher => ({
-              id: teacher.id,
-              firstname: teacher.firstname,
-              lastname: teacher.lastname,
-              subject: teacher.subject,
-              quarter: teacher.quarter,
-              year: teacher.year
-            }));
-                
-            this.count = result.total;
-            this.isLoading = false;
-
-          }else {
-            console.error("Error fetching teachers:", result.message);
-            this.isLoading = false;
-          }
-
-        }catch(error){
-          console.error("Error fetching teachers:", error);
+        if (result.success) {
+          this.name = result.student;
+          this.isLoading = false;
+        } else {
+          console.log("Server error:", result.message);
         }
-      },
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
 
-      async getStudentbyid() {
+    async getSteval() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp2, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getEvaluations",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.newStudents = result.evaluations.map((evaluation) => ({
+            id: evaluation.id,
+            teacher_id: evaluation.teacher_id,
+            eval_id: evaluation.eval_id,
+            firstname: evaluation.teacher.firstname,
+            lastname: evaluation.teacher.lastname,
+            subject: evaluation.teacher.subject,
+            quarter: evaluation.teacher.quarter,
+            year: evaluation.teacher.year,
+          }));
+
+          this.count2 = result.total;
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+
+    async getTceval() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp3, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getEvaluationt",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.newTeachers = result.evaluations.map((evaluation) => ({
+            id: evaluation.id,
+            teacher_id: evaluation.teacher_id,
+            eval_id: evaluation.eval_id,
+            firstname: evaluation.teacher.firstname,
+            lastname: evaluation.teacher.lastname,
+            subject: evaluation.teacher.subject,
+            quarter: evaluation.teacher.quarter,
+            year: evaluation.teacher.year,
+          }));
+
+          this.count2 = result.total;
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
+      }
+    },
+
+    async rmTeachers(id) {
+      try {
+        alert("Are you sure you want to remove this teacher?");
+        this.isLoading;
+
+        console.log(id);
+
+        const response = await fetch(this.urlappphp4, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "rmTeachers", id: id }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.getTeachers();
+          this.isSuccess = true;
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+          console.error(result.message);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async createTeachers() {
+      if (this.teacherr.ps === this.teacherr.cpas) {
         try {
           this.isLoading = true;
 
-          const response = await fetch(this.urlappphp4, {
+          const response = await fetch(this.urlappphp5, {
             method: "POST",
-            headers: {
-              "Content-type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              action: "getstudentbyid",
-              evt: this.$route.params.evtid,
+              ...this.teacherr,
+              action: "createTeachers",
             }),
           });
 
           const result = await response.json();
 
           if (result.success) {
-            this.name = result.student;
+            this.getTeachers();
             this.isLoading = false;
+            this.isSuccess = true;
+            this.teacherr = {
+              fn: "",
+              ln: "",
+              email: "",
+              id: "",
+              yr: "",
+              ps: "",
+              cpas: "",
+            };
           } else {
-            console.log("Server error:", result.message);
+            console.error(error);
           }
         } catch (error) {
-          console.log(error);
-          this.isLoading = false;
+          console.error(error);
         }
-      },
-
-      async getSteval(){
-        try{
-          this.isLoading = true;
-
-          const response = await fetch(this.urlappphp2, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-              action: "getEvaluations",
-            })
-          });
-
-          const result = await response.json();
-
-          if(result.success){
-            this.newStudents = result.evaluations.map(evaluation => ({
-              id: evaluation.id,
-              teacher_id: evaluation.teacher_id,
-              eval_id: evaluation.eval_id,
-              firstname: evaluation.teacher.firstname,
-              lastname: evaluation.teacher.lastname,
-              subject: evaluation.teacher.subject,
-              quarter: evaluation.teacher.quarter,
-              year: evaluation.teacher.year,
-            }));
-
-            this.count2 = result.total;
-            this.isLoading = false;
-          }
-
-        }catch(error){
-          console.log(error);
-          this.isLoading = false;
-        }
-      },
-
-      async getTceval(){
-        try{
-          this.isLoading = true;
-
-          const response = await fetch(this.urlappphp3, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-              action: "getEvaluationt",
-            })
-          });
-
-          const result = await response.json();
-
-          if(result.success){
-            this.newTeachers = result.evaluations.map(evaluation => ({
-              id: evaluation.id,
-              teacher_id: evaluation.teacher_id,
-              eval_id: evaluation.eval_id,
-              firstname: evaluation.teacher.firstname,
-              lastname: evaluation.teacher.lastname,
-              subject: evaluation.teacher.subject,
-              quarter: evaluation.teacher.quarter,
-              year: evaluation.teacher.year,
-            }));
-
-            this.count2 = result.total;
-            this.isLoading = false;
-          }
-
-        }catch(error){
-          console.log(error);
-          this.isLoading = false;
-        }
-      },
-
-      async rmTeachers(id){
-        try{
-          alert("Are you sure you want to remove this teacher?");
-          this.isLoading
-
-          console.log(id);
-
-          const response = await fetch(this.urlappphp4, {
-            method: 'POST',
-            headers: {"Content-Type": "application/json" },
-            body: JSON.stringify({action: "rmTeachers", id: id})
-          });
-
-          const result = await response.json();
-
-          if(result.success){
-            this.getTeachers();
-            this.isSuccess = true;
-            this.isLoading = false;
-          }else{
-            this.isLoading = false;
-            console.error(result.message);
-          }
-
-        }catch(error){
-          console.error(error)
-        }
-      },
-
-      async createTeachers(){
-        if(this.teacherr.ps === this.teacherr.cpas){
-          try{
-            this.isLoading = true;
-
-            const response = await fetch(this.urlappphp5, {
-              method: "POST",
-              headers: {"Content-Type":"application/json"},
-              body: JSON.stringify({
-                ...this.teacherr,
-                action: "createTeachers"
-              }),
-            });
-
-            const result = await response.json();
-
-            if(result.success){
-              this.getTeachers();
-              this.isLoading = false;
-              this.isSuccess = true;
-              this.teacherr = {
-                fn: "",
-                ln: "",
-                email: "",
-                id: "",
-                yr: "",
-                ps: "",
-                cpas: ""
-              };
-            }else{
-              console.error(error)
-            }
-          }catch(error){
-            console.error(error)
-          }
-        }else{
-          this.isWrong = true;
-        }
-      },
-
-      logout() {
-        try {
-          removeToken();
-          this.localUserData = {};
-          this.$router.replace("/");
-        }catch (error) {
-          console.error("Logout error:", error);
-        }
-      },
-
-      skipLogin(){
-        const token = getToken();
-
-        if (!token) {
-          console.error("No token found, redirecting to login.");
-          this.$router.replace("/");
-          return;
-        }
-      },
-
-      toggleModal(modal) {
-        this.activeModal = modal;  
-      },
-
-      click(tabName){
-        this.activeTab = tabName;
-        this.toggleModal(tabName); // your existing function
-      },
-
-      click2(tabName){
-        this.activeTab1 = tabName;
-        this.activeModal = 'manage';
-      },
+      } else {
+        this.isWrong = true;
+      }
     },
 
-    mounted() {
-      this.getTeachers();
-      this.id = localStorage.getItem("userData") || "";
-      this.skipLogin();
-      this.getSteval();
-      this.getTceval();
-    }
-  };
+    logout() {
+      try {
+        removeToken();
+        this.localUserData = {};
+        this.$router.replace("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    },
+
+    skipLogin() {
+      const token = getToken();
+
+      if (!token) {
+        console.error("No token found, redirecting to login.");
+        this.$router.replace("/");
+        return;
+      }
+    },
+
+    toggleModal(modal) {
+      this.activeModal = modal;
+    },
+
+    click(tabName) {
+      this.activeTab = tabName;
+      this.toggleModal(tabName); // your existing function
+    },
+
+    click2(tabName) {
+      this.activeTab1 = tabName;
+      this.activeModal = "manage";
+    },
+  },
+
+  mounted() {
+    this.getTeachers();
+    this.id = localStorage.getItem("userData") || "";
+    this.skipLogin();
+    this.getSteval();
+    this.getTceval();
+  },
+};
 </script>
 
 <style scoped>
@@ -624,13 +666,15 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
   background: #fff;
   color: #1a1a1a;
   line-height: 1.6;
+  display: flex;
+  min-height: 100vh;
 }
 
 /* ===== HEADER & TYPOGRAPHY ===== */
@@ -658,10 +702,14 @@ header p {
   border-bottom: 1px solid #eee;
   flex-wrap: wrap;
   gap: 15px;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 99;
 }
 
-.logo { 
-  font-weight: bold; 
+.logo {
+  font-weight: bold;
   font-size: 18px;
 }
 
@@ -719,13 +767,13 @@ header p {
   padding: 30px 20px;
   width: 280px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
-.role-card:hover { 
+.role-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
@@ -736,20 +784,29 @@ header p {
   display: inline-block;
 }
 
-.student { background: #eaf1ff; color: #0066ff; }
-.teacher { background: #e9f9ee; color: #2ecc71; }
-.admin   { background: #f6eaff; color: #9b59b6; }
+.student {
+  background: #eaf1ff;
+  color: #0066ff;
+}
+.teacher {
+  background: #e9f9ee;
+  color: #2ecc71;
+}
+.admin {
+  background: #f6eaff;
+  color: #9b59b6;
+}
 
-.role-card h3 { 
-  margin: 10px 0 5px; 
-  font-size: 18px; 
+.role-card h3 {
+  margin: 10px 0 5px;
+  font-size: 18px;
   font-weight: 600;
 }
 
-.role-card p { 
-  color: #555; 
-  font-size: 14px; 
-  margin-bottom: 20px; 
+.role-card p {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 20px;
   line-height: 1.5;
 }
 
@@ -768,43 +825,43 @@ header p {
 
 .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .btn:active {
   transform: translateY(0);
 }
 
-.btn-student { 
-  background: #000; 
-  color: #fff; 
+.btn-student {
+  background: #000;
+  color: #fff;
 }
 
-.btn-teacher { 
-  background: #f1f3f5; 
-  color: #000; 
+.btn-teacher {
+  background: #f1f3f5;
+  color: #000;
 }
 
-.btn-admin { 
-  background: #fff; 
-  border: 1px solid #ccc; 
-  color: #000; 
+.btn-admin {
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #000;
 }
 
 /* ===== PAGE COMPONENTS ===== */
-.page-header { 
-  padding: 30px 40px 10px; 
+.page-header {
+  padding: 30px 40px 10px;
 }
 
-.page-header h2 { 
-  margin: 0; 
-  font-size: 20px; 
+.page-header h2 {
+  margin: 0;
+  font-size: 20px;
   font-weight: 600;
 }
 
-.page-header p { 
-  color: #555; 
-  font-size: 14px; 
+.page-header p {
+  color: #555;
+  font-size: 14px;
   margin-top: 5px;
 }
 
@@ -823,7 +880,7 @@ header p {
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
 }
 
@@ -831,15 +888,15 @@ header p {
   transform: translateY(-2px);
 }
 
-.stat-card h3 { 
-  margin: 10px 0 0; 
-  font-size: 18px; 
+.stat-card h3 {
+  margin: 10px 0 0;
+  font-size: 18px;
   font-weight: 600;
 }
 
-.stat-card p { 
-  color: #555; 
-  font-size: 14px; 
+.stat-card p {
+  color: #555;
+  font-size: 14px;
   margin-top: 5px;
 }
 
@@ -871,9 +928,9 @@ header p {
   background: #e9ecef;
 }
 
-.tab.active { 
-  background: #000; 
-  color: #fff; 
+.tab.active {
+  background: #000;
+  color: #fff;
 }
 
 /* ===== TEACHER COMPONENTS ===== */
@@ -913,25 +970,25 @@ header p {
   border-radius: 12px;
   padding: 20px;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .teacher-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
 }
 
-.teacher-card h3 { 
-  margin: 0; 
-  font-size: 16px; 
+.teacher-card h3 {
+  margin: 0;
+  font-size: 16px;
   font-weight: 600;
 }
 
-.teacher-card p { 
-  color: #555; 
-  margin: 5px 0 10px; 
-  font-size: 14px; 
+.teacher-card p {
+  color: #555;
+  margin: 5px 0 10px;
+  font-size: 14px;
 }
 
 /* ===== CARD COMPONENTS ===== */
@@ -940,12 +997,12 @@ header p {
   border-radius: 12px;
   padding: 20px;
   background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card h3 {
@@ -972,10 +1029,10 @@ header p {
   font-weight: 500;
 }
 
-.badge.rating { 
-  background: #ffe6e6; 
-  color: #c0392b; 
-  font-weight: bold; 
+.badge.rating {
+  background: #ffe6e6;
+  color: #c0392b;
+  font-weight: bold;
 }
 
 .badge.evaluated {
@@ -990,15 +1047,15 @@ header p {
 }
 
 /* ===== BUTTON VARIANTS ===== */
-.btn-dark { 
-  background: #000; 
-  color: #fff; 
+.btn-dark {
+  background: #000;
+  color: #fff;
   border: none;
 }
 
-.btn-light { 
-  background: #f1f3f5; 
-  color: #000; 
+.btn-light {
+  background: #f1f3f5;
+  color: #000;
   border: none;
 }
 
@@ -1016,7 +1073,7 @@ header p {
 
 .card button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card .start {
@@ -1106,11 +1163,16 @@ header p {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
-.success, .error {
+.success,
+.error {
   position: fixed;
   top: 20px;
   left: 50%;
@@ -1137,13 +1199,15 @@ header p {
   border: 1px solid #f5c6cb;
 }
 
-.success span, .error span {
+.success span,
+.error span {
   display: block;
 }
 
 /* Progress bar for timeout */
-.success::after, .error::after {
-  content: '';
+.success::after,
+.error::after {
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -1195,46 +1259,54 @@ header p {
     padding: 12px 20px;
     gap: 12px;
   }
-  
+
   .logo {
     font-size: 16px;
   }
-  
+
   .breadcrumb {
     font-size: 13px;
     padding: 4px 10px;
     margin-left: 8px;
     max-width: 150px;
   }
-  
+
   .user-info {
     gap: 12px;
     font-size: 13px;
   }
-  
+
   .logout-btn {
     padding: 5px 10px;
     font-size: 13px;
   }
-  
+
   .tabs {
     padding: 0 16px;
     gap: 6px;
   }
-  
+
   .tab {
     padding: 6px 12px;
     font-size: 13px;
     flex: 1 0 calc(50% - 6px);
     max-width: calc(50% - 6px);
   }
-  
+
   .page-header,
   .teacher-header,
   .stats-container,
   .teacher-container {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .side-bar {
+    width: 200px;
+  }
+
+  .main-content {
+    margin-left: 200px;
   }
 }
 
@@ -1246,43 +1318,43 @@ header p {
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .logo-breadcrumb-container {
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .logo {
     font-size: 16px;
   }
-  
+
   .breadcrumb {
     font-size: 12px;
     padding: 4px 8px;
     margin-left: 0;
     max-width: 120px;
   }
-  
+
   .user-info {
     width: 100%;
     justify-content: space-between;
     gap: 8px;
     font-size: 12px;
   }
-  
+
   .logout-btn {
     padding: 4px 8px;
     font-size: 12px;
   }
-  
+
   .tabs {
     padding: 0 12px;
     gap: 4px;
     margin: 16px 0;
   }
-  
+
   .tab {
     padding: 6px 10px;
     font-size: 12px;
@@ -1290,16 +1362,30 @@ header p {
     max-width: 100%;
     border-radius: 12px;
   }
-  
+
   .teacher-header {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .role-card,
   .stat-card {
     width: 100%;
     min-width: auto;
+  }
+
+  .side-bar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+
+  body {
+    flex-direction: column;
   }
 }
 
@@ -1308,19 +1394,20 @@ header p {
   .topbar {
     padding: 8px 12px;
   }
-  
+
   .user-info {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .logout-btn {
     align-self: stretch;
     text-align: center;
   }
-  
-  .success, .error {
+
+  .success,
+  .error {
     min-width: 280px;
     padding: 15px 20px;
     left: 10px;
@@ -1335,21 +1422,21 @@ header p {
   .topbar {
     padding: 20px 60px;
   }
-  
+
   .logo {
     font-size: 20px;
   }
-  
+
   .breadcrumb {
     font-size: 15px;
     max-width: 300px;
   }
-  
+
   .tabs {
     padding: 0 60px;
     gap: 12px;
   }
-  
+
   .tab {
     padding: 10px 20px;
     font-size: 15px;
@@ -1372,11 +1459,11 @@ header p {
   .dropdown {
     border-width: 2px;
   }
-  
+
   .wrong {
     border: 2px solid #d32f2f;
   }
-  
+
   .badge {
     border: 1px solid currentColor;
   }
@@ -1403,5 +1490,105 @@ select:focus-visible,
 .btn:disabled:hover {
   transform: none !important;
   box-shadow: none !important;
+}
+
+/* Overlay for background */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+.side-bar {
+  background: #f8f9fa;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 999;
+  border-right: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.side-bar .menu {
+  width: 100%;
+  margin-top: 80px;
+}
+
+.side-bar .menu .item {
+  cursor: pointer;
+  position: relative;
+}
+
+.side-bar .menu .item a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  display: block;
+  padding: 5px 30px;
+  line-height: 60px;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.side-bar .menu .item a:hover {
+  background: rgba(0, 0, 0, 0.898);
+  transition: 0.3s ease;
+  color: white;
+}
+
+.side-bar .menu .item i {
+  margin-right: 15px;
+}
+
+.side-bar .menu .item .sub-menu {
+  background: #e9ecef;
+  position: relative;
+  z-index: 1000;
+}
+
+.side-bar .menu .item .sub-menu a {
+  padding-left: 60px;
+  border-bottom: 1px solid #ddd;
+}
+
+.side-bar .menu .item .sub-menu a:hover {
+  background: rgba(0, 0, 0, 0.898);
+  color: white;
+}
+
+.content {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+button {
+  position: relative;
+  z-index: 1000;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.main-content {
+  margin-left: 250px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-header,
+.teacher-header,
+.stats-container,
+.teacher-container,
+.role-container {
+  position: relative;
+  z-index: 1;
 }
 </style>
