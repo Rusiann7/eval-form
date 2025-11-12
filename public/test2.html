@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Performance Evaluation</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0f172a", // black as requested
+              "background-light": "#ffffff", // white
+              "background-dark": "#111827", // almost black
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem", // 8px
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+      html {
+        scrollbar-width: thin;
+        scrollbar-color: #888 #f1f1f1;
+      }
+      html.dark ::-webkit-scrollbar-track {
+        background: #2d3748;
+      }
+      html.dark ::-webkit-scrollbar-thumb {
+        background: #4a5568;
+      }
+      html.dark ::-webkit-scrollbar-thumb:hover {
+        background: #718096;
+      }
+      html.dark {
+        scrollbar-color: #4a5568 #2d3748;
+      }
+    </style>
+  </head>
+  <body
+    class="font-display bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 antialiased"
+  >
+    <div class="flex h-screen items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div
+        class="w-full max-w-6xl rounded-lg bg-slate-50 dark:bg-slate-900/70 p-8 shadow-2xl shadow-slate-200/50 dark:shadow-slate-950/50"
+      >
+        <div class="grid grid-cols-1 gap-12 lg:grid-cols-2">
+          <div class="flex flex-col space-y-8">
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <div class="flex items-center justify-center sm:justify-start">
+                <div
+                  class="w-40 h-40 bg-slate-200 dark:bg-slate-700 rounded-lg flex items-center justify-center"
+                >
+                  <span
+                    class="material-icons text-6xl text-slate-400 dark:text-slate-500"
+                    >image</span
+                  >
+                </div>
+              </div>
+              <div class="flex flex-col justify-center space-y-4 text-sm">
+                <div>
+                  <label class="font-medium text-slate-500 dark:text-slate-400"
+                    >Name</label
+                  >
+                  <p
+                    class="mt-1 font-semibold text-base text-slate-900 dark:text-white"
+                  >
+                    John Doe
+                  </p>
+                </div>
+                <div>
+                  <label class="font-medium text-slate-500 dark:text-slate-400"
+                    >Quarter</label
+                  >
+                  <p
+                    class="mt-1 font-semibold text-base text-slate-900 dark:text-white"
+                  >
+                    Q3
+                  </p>
+                </div>
+                <div>
+                  <label class="font-medium text-slate-500 dark:text-slate-400"
+                    >Year</label
+                  >
+                  <p
+                    class="mt-1 font-semibold text-base text-slate-900 dark:text-white"
+                  >
+                    2023
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-4 text-sm">
+              <div>
+                <label class="font-medium text-slate-500 dark:text-slate-400"
+                  >Subject</label
+                >
+                <p
+                  class="mt-1 font-semibold text-base text-slate-900 dark:text-white"
+                >
+                  Quarterly Performance Review
+                </p>
+              </div>
+              <div>
+                <label class="font-medium text-slate-500 dark:text-slate-400"
+                  >Sentiment</label
+                >
+                <p
+                  class="mt-1 font-semibold text-base text-slate-900 dark:text-white"
+                >
+                  Positive
+                </p>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4 pt-4">
+              <button
+                class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-slate-700 bg-white dark:bg-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-md shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-900 transition-colors"
+              >
+                Previous Evaluation
+              </button>
+              <button
+                class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-slate-700 bg-white dark:bg-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-md shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-900 transition-colors"
+              >
+                Average Evaluation
+              </button>
+              <button
+                class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-slate-700 bg-white dark:bg-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-md shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-900 transition-colors"
+              >
+                Show Performance Graph
+              </button>
+              <button
+                class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-slate-700 bg-white dark:bg-slate-800 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-md shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-900 transition-colors"
+              >
+                Individual Evaluation
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col h-full">
+            <h2
+              class="text-xl font-bold text-center mb-4 text-slate-900 dark:text-white"
+            >
+              AI Summarizer
+            </h2>
+            <div
+              class="flex flex-col flex-grow bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg p-4"
+            >
+              <div class="flex-grow mb-4">
+                <textarea
+                  class="w-full h-full resize-none bg-transparent border-0 p-0 focus:ring-0 text-slate-600 dark:text-slate-400 text-sm"
+                  placeholder="AI Response Here..."
+                  readonly=""
+                >
+John has shown exceptional growth this quarter, particularly in his project management skills. He successfully led the "Phoenix" project, delivering it two weeks ahead of schedule. His communication with stakeholders has been consistently clear and effective. An area for improvement would be to delegate more tasks to junior team members to foster their growth.</textarea
+                >
+              </div>
+              <div class="flex items-center space-x-2">
+                <input
+                  class="flex-grow w-full px-4 py-2 bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-md focus:ring-primary focus:border-primary dark:placeholder-slate-500 transition-colors"
+                  placeholder="Ask a follow-up..."
+                  type="text"
+                />
+                <button
+                  class="inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-white bg-primary rounded-md shadow-sm hover:bg-slate-800 dark:hover:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-offset-slate-900 transition-colors"
+                >
+                  <span class="material-icons text-lg">send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

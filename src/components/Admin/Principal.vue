@@ -4,6 +4,7 @@
     <p>Loading...</p>
   </div>
 
+  <!--sidebar-->
   <div class="side-bar">
     <div class="menu">
       <div class="item">
@@ -56,7 +57,9 @@
       </div>
     </div>
   </div>
+  <!--end of sidebar-->
 
+  <!--main content container-->
   <div class="main-content">
     <!-- Header -->
     <header class="topbar">

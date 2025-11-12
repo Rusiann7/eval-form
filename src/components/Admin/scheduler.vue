@@ -1,541 +1,467 @@
 <template>
-<div id="app">
-        <div class="container">
-            <div class="header">
-                <h1>Teacher Evaluation System</h1>
-                <p>Schedule and manage peer evaluation sessions</p>
-            </div>
-            
-            <div class="scheduler">
-                <div class="calendar-section">
-                    <div class="section-title">
-                        <i class="fas fa-calendar-alt"></i>
-                        <h2>Evaluation Schedule</h2>
-                    </div>
-                    
-                    
-                    
-                    <div class="selected-date">
-                        <div class="selected-date-label">Evaluation Date</div>
-                        <input type="date">
-                    </div>
-                    
-                    <div class="time-section">
-                        <div class="time-inputs">
-                            <div class="time-input">
-                                <label for="start-time">
-                                    <i class="fas fa-clock"></i> Evaluation Start
-                                </label>
-                                <div class="time-input-group">
-                                    <input type="time" id="start-time" v-model="startTime">
-                                </div>
-                            </div>
-                            <div class="time-input">
-                                <label for="end-time">
-                                    <i class="fas fa-clock"></i> Evaluation End
-                                </label>
-                                <div class="time-input-group">
-                                    <input type="time" id="end-time" v-model="endTime">
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="selected-time">
-                            <div class="selected-time-value">
-                                {{ }} - {{ }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="timer-section">
-                    <div class="section-title">
-                        <i class="fas fa-stopwatch"></i>
-                        <h2>Evaluation Timer</h2>
-                    </div>
-                    
-                    <div class="timer-label">Evaluation Time Remaining</div>
-                    <div class="timer-display">{{ formattedTime }}</div>
-                    
-                    <div class="timer-controls">
-                        <button class="timer-btn start" @click="startTimer" :disabled="timerRunning">
-                            <i class="fas fa-play"></i> Start
-                        </button>
-                        <button class="timer-btn pause" @click="pauseTimer" :disabled="!timerRunning">
-                            <i class="fas fa-pause"></i> Pause
-                        </button>
-                        <button class="timer-btn reset" @click="resetTimer">
-                            <i class="fas fa-redo"></i> Reset
-                        </button>
-                    </div>
-                    
-                    <div class="timer-inputs">
-                        <div class="timer-input">
-                            <label for="hours">
-                                <i class="fas fa-clock"></i> Hours
-                            </label>
-                            <input type="number" id="hours" v-model="hours" min="0" max="23">
-                        </div>
-                        <div class="timer-input">
-                            <label for="minutes">
-                                <i class="fas fa-clock"></i> Minutes
-                            </label>
-                            <input type="number" id="minutes" v-model="minutes" min="0" max="59">
-                        </div>
-                        <div class="timer-input">
-                            <label for="seconds">
-                                <i class="fas fa-clock"></i> Seconds
-                            </label>
-                            <input type="number" id="seconds" v-model="seconds" min="0" max="59">
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
+    rel="stylesheet"
+  />
+
+  <!--sidebar-->
+  <div class="side-bar">
+    <div class="menu">
+      <div class="item">
+        <a
+          href="#"
+          class="sub-btn"
+          @click.stop="
+            $router.push('/principal');
+            showMenu1 = !showMenu1;
+          "
+          >Student</a
+        >
+        <div class="sub-menu" v-if="showMenu1">
+          <a href="#" class="sub-item">Merged Answers</a>
+          <a href="#" @click="click('student')" class="sub-item"
+            >Individual Answers</a
+          >
         </div>
-    </div> 
+      </div>
+      <div class="item">
+        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
+          >Teacher</a
+        >
+        <div class="sub-menu" v-if="showMenu2">
+          <a href="#" class="sub-item">Merged Answers</a>
+          <a href="#" @click="click('teacher')" class="sub-item"
+            >Individual Answers</a
+          >
+          <a href="#" @click="click('evaluate')" class="sub-item"
+            >Evaluate Teachers</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a
+          href="#"
+          @click.stop="
+            $router.push('/principal');
+            showMenu3 = !showMenu3;
+          "
+          >Account Management</a
+        >
+        <div class="sub-menu" v-if="showMenu3">
+          <a href="#" @click="click2('crtTeacher')" class="sub-item"
+            >Add Teachers</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Delete Users</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
+      </div>
+
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/changequestions')"
+          >Question Change</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!--end of sidebar-->
+
+  <div class="content">
+    <div class="container">
+      <main class="main-content">
+        <div class="card">
+          <header class="header">
+            <h1 class="title">Set Due Date</h1>
+            <p class="subtitle">
+              Define the submission deadline for this assignment.
+            </p>
+          </header>
+          <form action="#" class="form" method="POST">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="label" for="due-date">Due date</label>
+                <div class="input-container">
+                  <span class="material-icons-outlined input-icon">
+                    calendar_today
+                  </span>
+                  <input
+                    class="input-field"
+                    id="due-date"
+                    name="due-date"
+                    type="date"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label" for="due-time">Time</label>
+                <div class="input-container">
+                  <span class="material-icons-outlined input-icon">
+                    schedule
+                  </span>
+                  <input
+                    class="input-field"
+                    id="due-time"
+                    name="due-time"
+                    type="time"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="label">End (Optional)</label>
+              <p class="description">
+                Set a final cutoff date and time after which submissions are no
+                longer accepted.
+              </p>
+              <div class="form-grid">
+                <div>
+                  <div class="input-container">
+                    <span class="material-icons-outlined input-icon">
+                      event_busy
+                    </span>
+                    <input
+                      class="input-field"
+                      id="end-date"
+                      name="end-date"
+                      type="date"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div class="input-container">
+                    <span class="material-icons-outlined input-icon">
+                      access_time
+                    </span>
+                    <input
+                      class="input-field"
+                      id="end-time"
+                      name="end-time"
+                      type="time"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="checkbox-container">
+              <div class="checkbox-wrapper">
+                <input
+                  class="checkbox"
+                  id="countdown-timer"
+                  name="countdown-timer"
+                  type="checkbox"
+                />
+              </div>
+              <div class="checkbox-label-container">
+                <label class="checkbox-label" for="countdown-timer"
+                  >Countdown Timer</label
+                >
+                <p class="checkbox-description">
+                  Display a countdown timer for students.
+                </p>
+              </div>
+            </div>
+            <div class="button-container">
+              <button class="button" type="submit">
+                <span class="material-icons-outlined">save</span>
+                Save Settings
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
 </template>
 
-<script>
-
-</script>
+<script></script>
 
 <style scoped>
+.material-icons-outlined {
+  font-size: 20px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
+}
+
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        body {
-            background: linear-gradient(135deg, #0a2f0a 0%, #1a5a1a 50%, #2a7a2a 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.content {
+  background-color: #f9fafb;
+  color: #1f2937;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
 
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 10px;
-        }
+.main-content {
+  width: 100%;
+  max-width: 32rem;
+}
 
-        .header h1 {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            line-height: 1.2;
-        }
+.card {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+}
 
-        .header p {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            opacity: 0.9;
-            margin-top: 10px;
-        }
+.header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
 
-        .scheduler {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
 
-        .calendar-section, .timer-section {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            padding: clamp(15px, 3vw, 25px);
-            flex: 1;
-            min-width: min(100%, 350px);
-            max-width: 600px;
-        }
+.subtitle {
+  color: #6b7280;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
 
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: clamp(1.2rem, 3vw, 1.4rem);
-        }
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
-        .section-title i {
-            color: #2a7a2a;
-        }
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
 
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
 
-        .calendar-header button {
-            background: #f0f0f0;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.description {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
 
-        .calendar-header button:hover {
-            background: #e0e0e0;
-        }
+.input-container {
+  position: relative;
+}
 
-        .calendar-header h2 {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            color: #333;
-            text-align: center;
-        }
+.input-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  pointer-events: none;
+}
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-bottom: 20px;
-        }
+.input-field {
+  padding-left: 2.5rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
+  color: #111827;
+  height: 2.5rem;
+  font-size: 0.875rem;
+}
 
-        .calendar-day-header {
-            text-align: center;
-            font-weight: 600;
-            color: #666;
-            padding: 8px 0;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-        }
+.input-field:focus {
+  outline: none;
+  ring: 2px solid #111827;
+  border-color: #111827;
+}
 
-        .calendar-day {
-            height: clamp(30px, 8vw, 40px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-        }
+.checkbox-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
 
-        .calendar-day:hover {
-            background: #f0f0f0;
-        }
+.checkbox-wrapper {
+  display: flex;
+  height: 1.25rem;
+  align-items: center;
+}
 
-        .calendar-day.selected {
-            background: #2a7a2a;
-            color: white;
-        }
+.checkbox {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
 
-        .calendar-day.other-month {
-            color: #ccc;
-        }
+.checkbox:focus {
+  ring: 2px solid #111827;
+}
 
-        .calendar-day.today {
-            background: #e1f5e1;
-            font-weight: 600;
-        }
+.checkbox-label-container {
+  margin-left: 0.75rem;
+}
 
-        .time-section {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 15px;
-        }
+.checkbox-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+}
 
-        .time-inputs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
+.checkbox-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
 
-        .time-input {
-            flex: 1;
-            min-width: 150px;
-        }
+.button-container {
+  padding-top: 1rem;
+}
 
-        .time-input label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #111827;
+  transition: opacity 0.2s;
+}
 
-        .time-input-group {
-            display: flex;
-            gap: 8px;
-        }
+.button:hover {
+  opacity: 0.9;
+}
 
-        .time-input-group input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            transition: all 0.3s ease;
-            min-width: 0;
-        }
+.button:focus {
+  outline: none;
+  ring: 2px solid #111827;
+  ring-offset: 2px;
+}
 
-        .time-input-group input:focus {
-            border-color: #2a7a2a;
-            outline: none;
-        }
+@media (min-width: 640px) {
+  .card {
+    padding: 2rem;
+  }
 
-        .ampm-select {
-            flex: 0.7;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            background: white;
-            transition: all 0.3s ease;
-            min-width: 0;
-        }
+  .title {
+    font-size: 1.875rem;
+  }
 
-        .ampm-select:focus {
-            border-color: #2a7a2a;
-            outline: none;
-        }
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
-        .timer-display {
-            font-size: clamp(2rem, 8vw, 3rem);
-            font-weight: 700;
-            color: #2a7a2a;
-            text-align: center;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            background: #f0fff0;
-            padding: 15px;
-            border-radius: 15px;
-            border: 2px solid #e1f5e1;
-            word-break: break-word;
-        }
+.side-bar {
+  background: #f8f9fa;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 999;
+  border-right: 1px solid #ddd;
+  flex-shrink: 0;
+}
 
-        .timer-label {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            font-weight: 600;
-            color: #2a7a2a;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+.side-bar .menu {
+  width: 100%;
+  margin-top: 80px;
+}
 
-        .timer-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
+.side-bar .menu .item {
+  cursor: pointer;
+  position: relative;
+}
 
-        .timer-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            min-width: 100px;
-            justify-content: center;
-        }
+.side-bar .menu .item a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  display: block;
+  padding: 5px 30px;
+  line-height: 60px;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
 
-        .timer-btn.start {
-            background: #2a7a2a;
-            color: white;
-        }
+.side-bar .menu .item a:hover {
+  background: rgba(0, 0, 0, 0.898);
+  transition: 0.3s ease;
+  color: white;
+}
 
-        .timer-btn.start:hover {
-            background: #1a5a1a;
-            transform: translateY(-2px);
-        }
+.side-bar .menu .item i {
+  margin-right: 15px;
+}
 
-        .timer-btn.pause {
-            background: #ff9800;
-            color: white;
-        }
+.side-bar .menu .item .sub-menu {
+  background: #e9ecef;
+  position: relative;
+  z-index: 1000;
+}
 
-        .timer-btn.pause:hover {
-            background: #e68900;
-            transform: translateY(-2px);
-        }
+.side-bar .menu .item .sub-menu a {
+  padding-left: 60px;
+  border-bottom: 1px solid #ddd;
+}
 
-        .timer-btn.reset {
-            background: #f0f0f0;
-            color: #333;
-        }
+.side-bar .menu .item .sub-menu a:hover {
+  background: rgba(0, 0, 0, 0.898);
+  color: white;
+}
 
-        .timer-btn.reset:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
-
-        .selected-date {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            background: #f0fff0;
-            border-radius: 15px;
-            border: 2px solid #e1f5e1;
-        }
-
-        .selected-date-label {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        .selected-date-value {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            font-weight: 700;
-            color: #2a7a2a;
-        }
-
-        .selected-time {
-            text-align: center;
-            margin-top: 10px;
-            padding: 10px;
-            background: #f0fff0;
-            border-radius: 10px;
-        }
-
-        .selected-time-value {
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            font-weight: 600;
-            color: #2a7a2a;
-        }
-
-        .timer-inputs {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .timer-input {
-            flex: 1;
-            min-width: 80px;
-        }
-
-        .timer-input label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
-
-        .timer-input input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            transition: all 0.3s ease;
-        }
-
-        .timer-input input:focus {
-            border-color: #2a7a2a;
-            outline: none;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .scheduler {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .calendar-section, .timer-section {
-                width: 100%;
-                max-width: 500px;
-            }
-            
-            .time-inputs {
-                flex-direction: column;
-            }
-            
-            .time-input {
-                min-width: 100%;
-            }
-            
-            .timer-controls {
-                flex-direction: column;
-            }
-            
-            .timer-btn {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                gap: 20px;
-            }
-            
-            .calendar-section, .timer-section {
-                padding: 15px;
-                border-radius: 15px;
-            }
-            
-            .calendar-grid {
-                gap: 3px;
-            }
-            
-            .calendar-day {
-                height: 35px;
-                border-radius: 5px;
-            }
-            
-            .time-section {
-                padding: 15px;
-            }
-            
-            .timer-inputs {
-                gap: 10px;
-            }
-            
-            .timer-input {
-                min-width: calc(33.33% - 10px);
-            }
-        }
-
-        @media (max-width: 360px) {
-            .calendar-day-header {
-                font-size: 0.7rem;
-            }
-            
-            .calendar-day {
-                font-size: 0.8rem;
-                height: 30px;
-            }
-            
-            .timer-input {
-                min-width: calc(50% - 10px);
-            }
-            
-            .timer-input:last-child {
-                min-width: 100%;
-            }
-        }
+.content {
+  margin-left: 250px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 </style>

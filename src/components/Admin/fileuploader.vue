@@ -1,354 +1,317 @@
 <template>
-    <div id="app">
-        <div class="container">
-            <header>
-                <h1>EduRate</h1>
-                <p class="subtitle">Upload your documents here</p>
-            </header>
-
-            <main class="upload-container">
-                <div class="upload-area" 
-                     @click="triggerFileInput"
-                     @drop="handleDrop"
-                     @dragover="handleDragOver"
-                     @dragleave="handleDragLeave"
-                     :class="{ 'dragover': isDragging }">
-                    <div class="upload-icon">
-                        <i>📁</i>
-                    </div>
-                    <div class="upload-text">
-                        <h3>Drag & Drop Files Here</h3>
-                        <p>Supported formats: PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
-                    </div>
-                    <button class="browse-btn">Browse Files</button>
-                    <input type="file" 
-                           ref="fileInput" 
-                           class="file-input" 
-                           multiple 
-                           @change="handleFileSelect">
-                </div>
-
-                <div class="file-list">
-                    <h3>Selected Files</h3>
-                    <div v-if="files === 0" class="empty-state">
-                        No files selected
-                    </div>
-                    <div v-else>
-                        <div class="file-item">
-                            <div class="file-info">
-                                <div class="file-icon">
-                                    <i>📄</i>
-                                </div>
-                                <div class="file-details">
-                                    <h4>{{ file }}</h4>
-                                    <p>{{}}</p>
-                                </div>
-                            </div>
-                            <div class="file-actions">
-                                <button class="file-action-btn" title="Remove file">
-                                    🗑️
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="upload-actions" v-if="files > 0 && !uploading">
-                    <button class="action-btn cancel-btn" @click="clearFiles">Cancel</button>
-                    <button class="action-btn submit-btn" @click="uploadFiles">Upload Files</button>
-                </div>
-
-                <div class="success-message" :class="{ 'show': uploadComplete }">
-                    <h3>✅ Upload Successful!</h3>
-                    <p>Your files have been uploaded successfully.</p>
-                </div>
-            </main>
-
+  <!--sidebar-->
+  <div class="side-bar">
+    <div class="menu">
+      <div class="item">
+        <a
+          href="#"
+          class="sub-btn"
+          @click.stop="
+            $router.push('/principal');
+            showMenu1 = !showMenu1;
+          "
+          >Student</a
+        >
+        <div class="sub-menu" v-if="showMenu1">
+          <a href="#" class="sub-item">Merged Answers</a>
+          <a href="#" @click="click('student')" class="sub-item"
+            >Individual Answers</a
+          >
         </div>
-    </div> 
+      </div>
+      <div class="item">
+        <a
+          href="#"
+          class="sub-btn"
+          @click.stop="
+            $router.push('/principal');
+            showMenu2 = !showMenu2;
+          "
+          >Teacher</a
+        >
+        <div class="sub-menu" v-if="showMenu2">
+          <a href="#" class="sub-item">Merged Answers</a>
+          <a href="#" @click="click('teacher')" class="sub-item"
+            >Individual Answers</a
+          >
+          <a href="#" @click="click('evaluate')" class="sub-item"
+            >Evaluate Teachers</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a
+          href="#"
+          @click.stop="
+            $router.push('/principal');
+            showMenu3 = !showMenu3;
+          "
+          >Account Management</a
+        >
+        <div class="sub-menu" v-if="showMenu3">
+          <a href="#" @click="click2('crtTeacher')" class="sub-item"
+            >Add Teachers</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Delete Users</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
+      </div>
+
+      <div class="item">
+        <a href="#" @click.prevent="$router.push('/changequestions')"
+          >Question Change</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!--end of sidebar-->
+
+  <!--main content-->
+  <div class="main-content">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <div class="container">
+      <div class="content">
+        <h1 class="title">File Upload</h1>
+        <div class="upload-area">
+          <span class="material-icons upload-icon">upload_file</span>
+        </div>
+        <div class="buttons">
+          <button class="btn btn-primary">Send</button>
+          <button class="btn btn-secondary">View Upload Guidelines</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-        body {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-            color: #f5f5f5;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-        }
+.container {
+  width: 100%;
+  max-width: 28rem;
+  padding: 2rem;
+  text-align: center;
+}
 
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
 
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #ffa726, #ff9800);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+.title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #374151;
+}
 
-        .subtitle {
-            font-size: 1.1rem;
-            color: #aaa;
-        }
+.dark .title {
+  color: #d1d5db;
+}
 
-        .upload-container {
-            background: rgba(40, 40, 40, 0.8);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 167, 38, 0.2);
-        }
+.upload-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 12rem;
+  height: 12rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
 
-        .upload-area {
-            border: 2px dashed rgba(255, 167, 38, 0.5);
-            border-radius: 12px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: rgba(30, 30, 30, 0.5);
-            margin-bottom: 25px;
-        }
+.upload-area:hover {
+  background-color: #f9fafb;
+}
 
-        .upload-area:hover, .upload-area.dragover {
-            border-color: #ffa726;
-            background: rgba(40, 40, 40, 0.8);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 167, 38, 0.2);
-        }
+.dark .upload-area {
+  border-color: #4b5563;
+}
 
-        .upload-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            color: #ffa726;
-        }
+.dark .upload-area:hover {
+  background-color: #1f2937;
+}
 
-        .upload-text {
-            margin-bottom: 20px;
-        }
+.upload-icon {
+  font-size: 3rem;
+  color: #9ca3af;
+}
 
-        .upload-text h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #ffa726;
-        }
+.dark .upload-icon {
+  color: #6b7280;
+}
 
-        .upload-text p {
-            color: #aaa;
-            font-size: 0.95rem;
-        }
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  padding-top: 1rem;
+}
 
-        .browse-btn {
-            background: linear-gradient(to right, #ffa726, #ff9800);
-            color: #1a1a1a;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-            margin-top: 10px;
-        }
+@media (min-width: 640px) {
+  .buttons {
+    flex-direction: row;
+  }
+}
 
-        .browse-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 167, 38, 0.4);
-        }
+.btn {
+  font-weight: 500;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        .file-input {
-            display: none;
-        }
+@media (min-width: 640px) {
+  .btn {
+    width: auto;
+  }
+}
 
-        .file-list {
-            margin-top: 25px;
-        }
+.btn-primary {
+  background-color: #111827;
+  color: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
 
-        .file-list h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #ffa726;
-        }
+.btn-primary:hover {
+  opacity: 0.9;
+}
 
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            background: rgba(50, 50, 50, 0.6);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border-left: 4px solid #ffa726;
-            transition: all 0.3s ease;
-        }
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #111827, 0 0 0 4px rgba(255, 255, 255, 0.8);
+}
 
-        .file-item:hover {
-            background: rgba(60, 60, 60, 0.8);
-            transform: translateX(5px);
-        }
+.dark .btn-primary:focus {
+  box-shadow: 0 0 0 2px #111827, 0 0 0 4px #121212;
+}
 
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.btn-secondary {
+  background-color: #e5e7eb;
+  color: #1f2937;
+}
 
-        .file-icon {
-            color: #ffa726;
-            font-size: 24px;
-        }
+.dark .btn-secondary {
+  background-color: #374151;
+  color: #e5e7eb;
+}
 
-        .file-details h4 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-        }
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
 
-        .file-details p {
-            font-size: 0.8rem;
-            color: #aaa;
-        }
+.dark .btn-secondary:hover {
+  background-color: #4b5563;
+}
 
-        .file-actions {
-            display: flex;
-            gap: 10px;
-        }
+.btn-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #9ca3af, 0 0 0 4px rgba(255, 255, 255, 0.8);
+}
 
-        .file-action-btn {
-            background: none;
-            border: none;
-            color: #aaa;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.2s ease;
-        }
+.dark .btn-secondary:focus {
+  box-shadow: 0 0 0 2px #6b7280, 0 0 0 4px #121212;
+}
 
-        .file-action-btn:hover {
-            color: #ffa726;
-        }
+.side-bar {
+  background: #f8f9fa;
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 999;
+  border-right: 1px solid #ddd;
+  flex-shrink: 0;
+}
 
-        .upload-progress {
-            margin-top: 20px;
-        }
+.side-bar .menu {
+  width: 100%;
+  margin-top: 80px;
+}
 
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
+.side-bar .menu .item {
+  cursor: pointer;
+  position: relative;
+}
 
-        .progress {
-            height: 100%;
-            background: linear-gradient(to right, #ffa726, #ff9800);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
+.side-bar .menu .item a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  display: block;
+  padding: 5px 30px;
+  line-height: 60px;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+}
 
-        .upload-status {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
+.side-bar .menu .item a:hover {
+  background: rgba(0, 0, 0, 0.898);
+  transition: 0.3s ease;
+  color: white;
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 20px;
-            color: #777;
-            font-style: italic;
-        }
+.side-bar .menu .item i {
+  margin-right: 15px;
+}
 
-        .upload-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 25px;
-        }
+.side-bar .menu .item .sub-menu {
+  background: #e9ecef;
+  position: relative;
+  z-index: 1000;
+}
 
-        .action-btn {
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            font-size: 1rem;
-        }
+.side-bar .menu .item .sub-menu a {
+  padding-left: 60px;
+  border-bottom: 1px solid #ddd;
+}
 
-        .cancel-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: #f5f5f5;
-        }
+.side-bar .menu .item .sub-menu a:hover {
+  background: rgba(0, 0, 0, 0.898);
+  color: white;
+}
 
-        .submit-btn {
-            background: linear-gradient(to right, #ffa726, #ff9800);
-            color: #1a1a1a;
-        }
-
-        .action-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(255, 167, 38, 0.3);
-        }
-
-        .success-message {
-            text-align: center;
-            padding: 20px;
-            background: rgba(76, 175, 80, 0.2);
-            border-radius: 10px;
-            margin-top: 20px;
-            color: #4caf50;
-            display: none;
-        }
-
-        .success-message.show {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 600px) {
-            .upload-container {
-                padding: 20px;
-            }
-            
-            .upload-area {
-                padding: 30px 15px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-        } 
+.main-content {
+  margin-left: 250px;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 </style>
