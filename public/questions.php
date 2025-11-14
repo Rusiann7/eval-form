@@ -61,10 +61,9 @@ if( $action === 'getQuestions'){
         echo json_encode([
             "success" => false, //walang headers
         ]);
+        http_response_code(400);
     }
 }else{
-    echo json_encode([
-        "success" => false, 
-        "action" => $action
-    ]);
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

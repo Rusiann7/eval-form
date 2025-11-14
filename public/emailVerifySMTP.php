@@ -59,8 +59,13 @@ if($action === "verifySMTP"){
             echo json_encode(["success" => true]);
         }else{
             echo json_encode(["success" => false, "messsage" => "error"]);
+            http_response_code(500);
         }
     }else{
-        echo json_encode(["success" => false, "message" => "User not found".$sql]);
+        echo json_encode(["success" => false, "message" => "User not found"]);
+        http_response_code(400);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

@@ -24,6 +24,10 @@ if($action === "verify"){
 
         echo json_encode(["success" => true, "verified" => $verified]);
     }else{
-        echo json_encode(["success" => false, "message" => "error".$sql]);
+        echo json_encode(["success" => false, "message" => "error"]);
+        http_response_code(500);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

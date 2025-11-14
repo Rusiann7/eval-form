@@ -41,6 +41,9 @@
           <a href="#" @click="click2('rmTeacher')" class="sub-item"
             >Delete Users</a
           >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Edit Users</a
+          >
         </div>
       </div>
       <div class="item">
@@ -270,14 +273,13 @@
               <label for="lsNm">Choose Subject:</label>
 
               <select v-model="teacherr.sub" class="" required>
-                <option value="Math">Math</option>
-                <option value="English">English</option>
-                <option value="Filipino">Filipino</option>
-                <option value="Science">Science</option>
-                <option value="Araling Panlipunan">Araling Panlipunan</option>
-                <option value="TLE">TLE</option>
-                <option value="MAPEH">MAPEH</option>
-                <option value="ESP">ESP</option>
+                <option
+                  v-for="subject in subjects"
+                  :key="subject.id"
+                  :value="subject.id"
+                >
+                  {{ subject.subjects }}
+                </option>
               </select>
             </div>
 
@@ -307,6 +309,7 @@
                 type="password"
                 v-model="teacherr.ps"
                 placeholder="Enter Password"
+                minlength="8"
                 required
               />
             </div>
@@ -437,6 +440,7 @@ export default {
       urlappphp3: `${url2}/viewEvaluationt.php`,
       urlappphp4: `${url2}/rmTeacher.php`,
       urlappphp5: `${url2}/createTeacher.php`,
+      subjecturl: `${url2}/subjectGetter.php`,
       teachers: [],
       teacherr: {
         fn: "",
@@ -472,6 +476,7 @@ export default {
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
+      subjects: { id: "", subject: "" },
     };
   },
 
@@ -652,6 +657,8 @@ export default {
             }),
           });
 
+          console.log(this.teacherr);
+
           const result = await response.json();
 
           if (result.success) {
@@ -668,6 +675,8 @@ export default {
               cpas: "",
             };
           } else {
+            this.isLoading = false;
+            this.isFailed = true;
             console.error(error);
           }
         } catch (error) {
@@ -675,6 +684,28 @@ export default {
         }
       } else {
         this.isWrong = true;
+      }
+    },
+
+    async getSubjects() {
+      try {
+        const response = await fetch(this.subjecturl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getSubjects",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.subjects = result.subjects;
+          console.log(this.subjects);
+        } else {
+        }
+      } catch (error) {
+        console.error("error");
       }
     },
 
@@ -704,7 +735,7 @@ export default {
 
     click(tabName) {
       this.activeTab = tabName;
-      this.toggleModal(tabName); // your existing function
+      this.toggleModal(tabName);
     },
 
     click2(tabName) {
@@ -713,12 +744,29 @@ export default {
     },
   },
 
+  watch: {
+    activeModal(newVal) {
+      switch (newVal) {
+        case "student":
+          this.getSteval();
+          break;
+        case "teacher":
+          this.getTceval();
+          break;
+        case "evaluate":
+          this.getTeachers();
+          break;
+        case "manage":
+          this.getSubjects();
+      }
+    },
+  },
+
   mounted() {
-    this.getTeachers();
     this.id = localStorage.getItem("userData") || "";
     this.skipLogin();
     this.getSteval();
-    this.getTceval();
+    this.getTeachers();
   },
 };
 </script>

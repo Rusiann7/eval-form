@@ -188,6 +188,7 @@
             <input
               type="password"
               v-model="studentr.pass"
+              minlength="8"
               placeholder="Create a password"
               required
             />
@@ -461,7 +462,6 @@ export default {
       isLoading: false,
       isWrong: false,
       captcha: false,
-      isConsent: false,
     };
   },
 
@@ -523,9 +523,7 @@ export default {
           }
 
           localStorage.setItem("userData", JSON.stringify(result.userData));
-          localStorage.setItem("isConsent", this.isConsent ? "true" : "false"); //saves the info to local storage
           this[type] = { id: "", ps: "" };
-          console.log("is consent: ", this.isConsent);
 
           this.isLoading = false;
           this.$router.replace(site); //router routes the user to the page

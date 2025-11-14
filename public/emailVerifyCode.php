@@ -30,7 +30,10 @@ if($action === "verifyCode"){
         }
         
     }else{
-        echo json_encode(["success" => false, "message" => "Error".$sql]);
+        echo json_encode(["success" => false, "message" => "Error"]);
+        http_response_code(500);
     }
-
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

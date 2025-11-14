@@ -59,5 +59,9 @@ if($action === 'getTeacherQuestions'){
             "success" => false,
             "message" => "no headers fetched"
         ]);
+        http_response_code(500);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

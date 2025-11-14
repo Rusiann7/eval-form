@@ -29,17 +29,29 @@ if($action === 'getEvaluationt'){
         }
 
         $teacher_id_list = implode(",", $teacher);
-        $sql2 = "SELECT firstname, lastname, subject, quarter, year, id FROM Teachers WHERE id IN ($teacher_id_list);";
+        $sql2 = "SELECT 
+        t.firstname, 
+        t.lastname, 
+        t.quarter, 
+        t.year, 
+        t.id AS teacher_id,
+        s.subjects
+        FROM 
+        Teachers t 
+        INNER JOIN 
+        Subjects s ON t.subject = s.id
+        WHERE t.id IN ($teacher_id_list);";
+        
         $result2 = $conn->query($sql2);
 
         if($result2 && $result2->num_rows > 0){
             while($row2 = $result2->fetch_assoc()){
                 foreach($evaluations as &$evaluation){
-                    if($evaluation['teacher_id'] == $row2['id']){
+                    if($evaluation['teacher_id'] == $row2['teacher_id']){
                         $evaluation['teacher'] = [
                             "firstname" => $row2['firstname'],
                             "lastname" => $row2['lastname'],
-                            "subject" => $row2['subject'],
+                            "subject" => $row2['subjects'],
                             "quarter" => $row2['quarter'],
                             "year" => $row2['year'],
                         ];
@@ -57,16 +69,18 @@ if($action === 'getEvaluationt'){
                 echo json_encode(["success" => true, "evaluations" => $evaluations, "total" => $total]);
             }else{
                 echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
+                http_response_code(500);
                 exit();
             }
-
         }else{
             echo json_encode(["success" => false, "message" => "It errored at the second part"]);
+            http_response_code(500);
         }
-
-        
     }else{
         echo json_encode(["success" => false, "message" => "Failed"]);
+        http_response_code(500);
     }
-
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

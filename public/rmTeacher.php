@@ -18,6 +18,10 @@ if($action === 'rmTeachers'){
     if($conn->query($sql) === true){
         echo json_encode(["success" => true]);
     }else{
+        http_response_code(500);
         echo json_encode(["success" => false, "message" => $conn->error]);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

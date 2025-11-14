@@ -47,14 +47,21 @@ if($action === 'createTeachers'){
                     echo json_encode(["success" => true]);
                 }else{
                     echo json_encode(["success" => false,"error" => "Error: " . $conn->error]);
+                    http_response_code(500);
                 }
             }else{
                 echo json_encode(["success" => false,"error" => "Error: " . $conn->error]);
+                http_response_code(500);
             }
         }else{
             echo json_encode(["success" => false,"error" => "Error", "message:" => "User already exist"]);
+            http_response_code(400);
         }   
     }else{
         echo json_encode(["success" => false, "error" => "Passwords do not match"]);
+        http_response_code(400);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }
