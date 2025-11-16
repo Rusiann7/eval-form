@@ -5,13 +5,58 @@
   </div>
 
   <header>
-    <div>
-      <h1>Teacher Evaluation System</h1>
-      <button class="portal-btn">Student Portal</button>
+    <div class="header-left">
+      <input
+        type="checkbox"
+        id="student-nav-toggle"
+        class="menu-checkbox"
+        aria-hidden="true"
+      />
+      <div class="title-row">
+        <h1>Teacher Evaluation System</h1>
+        <div class="title-actions">
+          <button class="portal-btn">Student Portal</button>
+          <label
+            for="student-nav-toggle"
+            class="menu-toggle"
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+      </div>
+      <label for="student-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+      <div class="menu-panel" role="dialog" aria-labelledby="student-nav-title">
+        <div class="menu-header">
+          <p id="student-nav-title" class="menu-title">Student Portal</p>
+          <p class="menu-subtitle">Welcome, {{ fullname }} {{ lastname }}</p>
+        </div>
+        <label for="student-nav-toggle" class="menu-close" aria-label="Close menu">
+          <span></span>
+          <span></span>
+        </label>
+        <button class="logout-btn menu-logout" @click="logout()">
+          <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
     </div>
     <div class="user-section">
-      <span>Welcome, {{ fullname }} {{ lastname }}</span>
-      <button class="logout-btn" @click="logout()">Logout</button>
+      <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
+      <button class="logout-btn desktop-only" @click="logout()">
+        <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </button>
     </div>
   </header>
 
@@ -38,35 +83,54 @@
       learning experience.
     </p>
 
+    <!-- Search and Filter Controls -->
+    <div class="teacher-controls">
+      <div class="search-box">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search teachers by name or subject..."
+          class="search-input"
+        />
+      </div>
+      <div class="filter-controls">
+        <select v-model="sortBy" class="sort-select">
+          <option value="name">Sort by Name</option>
+          <option value="subject">Sort by Subject</option>
+          <option value="quarter">Sort by Quarter</option>
+        </select>
+        <label class="toggle-label">
+          <input
+            type="checkbox"
+            v-model="hideEvaluated"
+            class="toggle-checkbox"
+          />
+          <span class="toggle-text">Hide Evaluated</span>
+        </label>
+      </div>
+    </div>
+
     <div class="teachers">
-      <!-- Card 1 -->
       <div
         class="card"
-        v-for="teacher in teachers.filter((t) => t.evaluated === 'evaluated')"
-        :key="teacher.id"
+        v-for="(teacher, index) in filteredTeachers"
+        :key="`teacher-${teacher.id}-${index}`"
       >
-        <h3>
+        <h3 v-if="teacher.evaluated === 'evaluated'">
           {{ teacher.firstname }} {{ teacher.lastname
           }}<span class="checkmark">✔</span>
         </h3>
+        <h3 v-else>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
         <p>{{ teacher.subject }}</p>
         <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-        <span class="badge evaluated">Evaluated</span>
-      </div>
-
-      <!-- Card 2 -->
-      <div
-        class="card"
-        v-for="teacher in teachers.filter(
-          (t) => t.evaluated === 'not evaluated'
-        )"
-        :key="teacher.id"
-      >
-        <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-        <p>{{ teacher.subject }}</p>
-        <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-        <br /><br />
+        <span v-if="teacher.evaluated === 'evaluated'" class="badge evaluated">Evaluated</span>
+        <br v-if="teacher.evaluated !== 'evaluated'" /><br v-if="teacher.evaluated !== 'evaluated'" />
         <button
+          v-if="teacher.evaluated !== 'evaluated'"
           class="start"
           @click.prevent="
             $router.push({ name: 'student-eval', params: { id: teacher.id } })
@@ -74,6 +138,9 @@
         >
           Start Evaluation
         </button>
+      </div>
+      <div v-if="filteredTeachers.length === 0" class="no-results">
+        <p>No teachers found matching your search criteria.</p>
       </div>
     </div>
   </main>
@@ -105,7 +172,57 @@ export default {
       stid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
       badge: null,
       goal: 0,
+      searchQuery: "",
+      sortBy: "name",
+      hideEvaluated: false,
     };
+  },
+
+  computed: {
+    filteredTeachers() {
+      // Start with a fresh copy of teachers array
+      let filtered = this.teachers.slice();
+
+      // Filter by search query
+      if (this.searchQuery.trim()) {
+        const query = this.searchQuery.toLowerCase().trim();
+        filtered = filtered.filter(
+          (teacher) =>
+            teacher.firstname.toLowerCase().includes(query) ||
+            teacher.lastname.toLowerCase().includes(query) ||
+            `${teacher.firstname} ${teacher.lastname}`
+              .toLowerCase()
+              .includes(query) ||
+            teacher.subject.toLowerCase().includes(query)
+        );
+      }
+
+      // I filter out evaluated if hideEvaluated is true
+      if (this.hideEvaluated) {
+        filtered = filtered.filter(
+          (teacher) => teacher.evaluated !== "evaluated"
+        );
+      }
+
+      // Pang sort ng mga teachers
+      const sorted = [...filtered].sort((a, b) => {
+        if (this.sortBy === "name") {
+          const nameA = `${a.firstname} ${a.lastname}`.toLowerCase();
+          const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
+          return nameA.localeCompare(nameB);
+        } else if (this.sortBy === "subject") {
+          return a.subject.localeCompare(b.subject);
+        } else if (this.sortBy === "quarter") {
+          if (a.quarter !== b.quarter) {
+            return a.quarter - b.quarter;
+          }
+          return a.year - b.year;
+        }
+        return 0;
+      });
+
+      return sorted;
+    },
   },
 
   methods: {
@@ -287,9 +404,36 @@ header {
   gap: 1rem;
 }
 
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.title-row h1 {
+  flex: 1;
+}
+
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 header h1 {
   font-size: 1.25rem;
   font-weight: bold;
+  margin: 0;
 }
 
 .portal-btn {
@@ -313,6 +457,184 @@ header h1 {
   flex-wrap: wrap;
 }
 
+.desktop-only {
+  display: inline-flex;
+}
+
+.menu-checkbox {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 45;
+  flex-shrink: 0;
+}
+
+.menu-checkbox:checked ~ .title-row .menu-toggle {
+  display: none;
+}
+
+.menu-checkbox:checked ~ .menu-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-checkbox:checked ~ .menu-overlay {
+  display: block;
+}
+
+.menu-toggle span {
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-toggle:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 3px;
+}
+
+.menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(280px, 80%);
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -6px 0 24px rgba(15,23,42,0.15);
+  padding: 4.5rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 40;
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.menu-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.menu-subtitle {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.menu-close {
+  align-self: flex-end;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 41;
+}
+
+.menu-close span {
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+}
+
+.menu-close span:first-child {
+  transform: rotate(45deg);
+}
+
+.menu-close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.menu-close:hover {
+  background: #eef2ff;
+  border-color: #d1d5db;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(1px);
+  z-index: 35;
+  cursor: pointer;
+}
+
+.menu-logout {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.menu-checkbox:checked + .menu-toggle span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.menu-checkbox:checked + .menu-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-checkbox:checked + .menu-toggle span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.menu-checkbox:checked ~ .menu-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-checkbox:checked ~ .menu-overlay {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(17,24,39,0.55);
+  backdrop-filter: blur(2px);
+  z-index: 30;
+  cursor: pointer;
+}
+
 .logout-btn {
   border: none;
   background: #f3f4f6;
@@ -320,10 +642,27 @@ header h1 {
   border-radius: 12px;
   cursor: pointer;
   transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logout-btn:hover {
   background: #e5e7eb;
+}
+
+.logout-icon {
+  flex-shrink: 0;
+  color: #dc2626;
+  stroke: #dc2626;
+}
+
+.menu-logout {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  justify-content: flex-start;
 }
 
 /* Main Content */
@@ -342,6 +681,105 @@ main p {
   font-size: 0.875rem;
   color: #555;
   margin-bottom: 1.5rem;
+}
+
+/* Teacher Controls */
+.teacher-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  min-width: 180px;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.toggle-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #000;
+}
+
+.toggle-text {
+  font-weight: 500;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.no-results p {
+  font-size: 1rem;
+  margin: 0;
 }
 
 /* Teachers Grid */
@@ -512,13 +950,66 @@ main p {
     align-items: flex-start;
   }
 
+  .header-left {
+    width: 100%;
+  }
+
+  .title-row {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .title-actions .portal-btn {
+    display: none;
+  }
+
   .user-section {
     width: 100%;
     justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .menu-checkbox:checked ~ .title-row .menu-toggle {
+    display: none !important;
+  }
+
+  .user-greeting {
+    display: none;
   }
 
   main {
     padding: 1rem;
+  }
+
+  .teacher-controls {
+    padding: 0.75rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .sort-select {
+    width: 100%;
+    min-width: unset;
   }
 
   .teachers {

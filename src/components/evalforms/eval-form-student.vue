@@ -779,12 +779,27 @@ table.rating-table tr:nth-child(even) {
 }
 
 /* Print styles - FIXED HEADER/FOOTER THAT WORKS */
+/* 
+  IMPORTANT: For best print results, enable "Background graphics" in your browser's print settings:
+  - Chrome/Edge: Settings > More settings > Background graphics
+  - Firefox: Options > Print Background Colors
+  - Safari: Show Details > Print backgrounds
+*/
 @media print {
+  /* Force browsers to print backgrounds and colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
   body {
     background: none;
     margin: 0;
     padding: 0;
     font-size: 0.8rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .a4-page {
@@ -793,6 +808,9 @@ table.rating-table tr:nth-child(even) {
     width: 100%;
     height: 100%;
     page-break-after: always;
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   /* Header on every page - FIXED */
@@ -802,9 +820,26 @@ table.rating-table tr:nth-child(even) {
     left: 0;
     right: 0;
     padding: 0.2rem 0.5rem;
-    background: white;
+    background: #f8f9fa !important;
+    background-color: #f8f9fa !important;
+    border-bottom: 2px solid #0044cc !important;
     z-index: 1000;
-    height: 1.5rem;
+    height: auto;
+    min-height: 1.5rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .header h1 {
+    color: #003366 !important;
+  }
+
+  .header h2 {
+    color: #0044aa !important;
+  }
+
+  .header h3 {
+    color: #005588 !important;
   }
 
   /* Footer on every page - FIXED */
@@ -814,9 +849,24 @@ table.rating-table tr:nth-child(even) {
     left: 0;
     right: 0;
     padding: 0.2rem 1rem;
-    background: white;
+    background: #f8f9fa !important;
+    background-color: #f8f9fa !important;
+    border-top: 1px solid #0044cc !important;
     z-index: 1000;
-    height: 1rem;
+    height: auto;
+    min-height: 1rem;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Logo containers */
+  .logo-left,
+  .logo-right,
+  .footer-logo {
+    background-color: #e6e6e6 !important;
+    border: 1px solid #ccc !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   /* CRITICAL: Add margins to content to avoid cutting */
@@ -825,16 +875,122 @@ table.rating-table tr:nth-child(even) {
     margin: 0;
   }
 
-  /* Prevent content from being cut off */
-  .evaluation-section {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin: 1rem 0;
+  /* Info fields */
+  .info-field label {
+    color: #2c3e50 !important;
+    font-weight: bold !important;
+  }
+
+  /* Rating scale */
+  .rating-scale {
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .rating-scale h2 {
+    color: #2c3e50 !important;
+  }
+
+  /* Rating table */
+  table.rating-table {
+    border-collapse: collapse !important;
+  }
+
+  table.rating-table th {
+    background-color: #4a86e8 !important;
+    color: white !important;
+    border: 1px solid #dee2e6 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  table.rating-table td {
+    border: 1px solid #dee2e6 !important;
+  }
+
+  table.rating-table tr:nth-child(even) {
+    background-color: #f2f2f2 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Section headers */
+  .section-header {
+    background-color: #4a86e8 !important;
+    color: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .section-header .tagalog {
+    color: white !important;
+    display: block !important;
+  }
+
+  /* Text elements */
+  p,
+  strong {
+    color: #000 !important;
+  }
+
+  .info-field p {
+    color: #000 !important;
+  }
+
+  /* Indicator table */
+  .indicator-table {
+    border-collapse: collapse !important;
+    width: 100% !important;
+    border: 1px solid #dee2e6 !important;
+  }
+
+  .indicator-table thead {
+    display: table-header-group !important;
+  }
+
+  .indicator-table tbody {
+    display: table-row-group !important;
+  }
+
+  .indicator-table th {
+    border: 1px solid #dee2e6 !important;
+    background-color: #f8f9fa !important;
+    font-weight: bold !important;
+    padding: 0.5rem 0.4rem !important;
+    text-align: left !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .indicator-table td {
+    border: 1px solid #dee2e6 !important;
+    padding: 0.5rem 0.4rem !important;
   }
 
   .indicator-table tr {
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+
+  .indicator-table tr:nth-child(even) {
+    background-color: #f8f9fa !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Rating cell */
+  .rating-cell {
+    text-align: center !important;
+    border: 1px solid #dee2e6 !important;
+  }
+
+  /* Prevent content from being cut off */
+  .evaluation-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin: 1rem 0;
   }
 
   /* Ensure tables don't break across pages awkwardly */
@@ -850,6 +1006,21 @@ table.rating-table tr:nth-child(even) {
   /* Hide loading screen when printing */
   .loading-screen {
     display: none !important;
+  }
+
+  /* Ensure all borders print */
+  .info-field,
+  .evaluation-section,
+  .rating-scale {
+    border: none;
+  }
+
+  /* Force visibility of all elements */
+  .header-content,
+  .footer-content,
+  .content > * {
+    visibility: visible !important;
+    display: block !important;
   }
 }
 
