@@ -7,13 +7,58 @@
 
 <!-- Header -->
   <header class="topbar">
-    <div>
-      <span class="logo">Teacher Evaluation System</span>
-      <p class="breadcrumb">Teacher Portal</p>
+    <div class="header-left">
+      <input
+        type="checkbox"
+        id="teacher-nav-toggle"
+        class="menu-checkbox"
+        aria-hidden="true"
+      />
+      <div class="title-row">
+        <h1 class="logo">Teacher Evaluation System</h1>
+        <div class="title-actions">
+          <button class="portal-btn">Teacher Portal</button>
+          <label
+            for="teacher-nav-toggle"
+            class="menu-toggle"
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+      </div>
+      <div class="menu-panel" role="dialog" aria-labelledby="teacher-nav-title">
+        <div class="menu-header">
+          <p id="teacher-nav-title" class="menu-title">Teacher Portal</p>
+          <p class="menu-subtitle">Welcome, {{ fullname }} {{ lastname }}</p>
+        </div>
+        <label for="teacher-nav-toggle" class="menu-close" aria-label="Close menu">
+          <span></span>
+          <span></span>
+        </label>
+        <button class="logout-btn menu-logout" @click="logout()">
+          <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
+      <label for="teacher-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
     </div>
-    <div class="user-info">
-      <span>Welcome, {{ fullname }} {{ lastname }}</span>
-      <button class="logout-btn" @click="logout()">Logout</button>
+    <div class="user-section">
+      <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
+      <button class="logout-btn desktop-only" @click="logout()">
+        <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </button>
     </div>
   </header>
 
@@ -34,21 +79,46 @@
     <div class="tab active">Evaluate Colleagues</div>
   </div>
 
-  <!-- Teacher Cards -->
-    <div class="teacher-container">
-        <div class="teacher-card" v-for="teacher in teachers" :key="teacher.id">
-          <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-          <p>{{ teacher.subject }}</p>
-          <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
-          <br><br>
-          <button class="btn btn-dark" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
-        </div>
-
-        <div class="teacher-card">
-          <h3>name</h3>
-          <p>subject</p>
-        </div>
+  <!-- Search and Filter Controls -->
+  <div class="teacher-controls">
+    <div class="search-box">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search colleagues by name or subject..."
+        class="search-input"
+      />
     </div>
+    <div class="filter-controls">
+      <select v-model="sortBy" class="sort-select">
+        <option value="name">Sort by Name</option>
+        <option value="subject">Sort by Subject</option>
+        <option value="quarter">Sort by Quarter</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Teacher Cards -->
+  <div class="teacher-container">
+    <div
+      class="teacher-card"
+      v-for="(teacher, index) in filteredTeachers"
+      :key="`teacher-${teacher.id}-${index}`"
+    >
+      <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+      <p>{{ teacher.subject }}</p>
+      <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+      <br><br>
+      <button class="btn btn-dark" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
+    </div>
+    <div v-if="filteredTeachers.length === 0" class="no-results">
+      <p>No colleagues found matching your search criteria.</p>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -64,9 +134,52 @@ const url2 = "https://star-panda-literally.ngrok-free.app"
           urlappphp: `${url2}/Getter.php`,
           teachers: [],
           count: 0,
-          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Student Name",
-          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Student Name",
+          isLoading: false,
+          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
+          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
+          searchQuery: "",
+          sortBy: "name",
         }
+      },
+
+      computed: {
+        filteredTeachers() {
+          // Start with a fresh copy of teachers array
+          let filtered = this.teachers.slice();
+
+          // Filter by search query
+          if (this.searchQuery.trim()) {
+            const query = this.searchQuery.toLowerCase().trim();
+            filtered = filtered.filter(
+              (teacher) =>
+                teacher.firstname.toLowerCase().includes(query) ||
+                teacher.lastname.toLowerCase().includes(query) ||
+                `${teacher.firstname} ${teacher.lastname}`
+                  .toLowerCase()
+                  .includes(query) ||
+                teacher.subject.toLowerCase().includes(query)
+            );
+          }
+
+          // Sort the filtered results - create a new sorted array
+          const sorted = [...filtered].sort((a, b) => {
+            if (this.sortBy === "name") {
+              const nameA = `${a.firstname} ${a.lastname}`.toLowerCase();
+              const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
+              return nameA.localeCompare(nameB);
+            } else if (this.sortBy === "subject") {
+              return a.subject.localeCompare(b.subject);
+            } else if (this.sortBy === "quarter") {
+              if (a.quarter !== b.quarter) {
+                return a.quarter - b.quarter;
+              }
+              return a.year - b.year;
+            }
+            return 0;
+          });
+
+          return sorted;
+        },
       },
 
     methods: {
@@ -180,9 +293,49 @@ header p {
   gap: 1rem;
 }
 
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.title-row h1 {
+  flex: 1;
+}
+
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .logo { 
   font-weight: bold;
   font-size: 1.125rem;
+  margin: 0;
+}
+
+.portal-btn {
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.portal-btn:hover {
+  background: #e5e7eb;
 }
 
 .breadcrumb-container {
@@ -199,12 +352,154 @@ header p {
   font-size: 0.875rem;
 }
 
-.user-info {
+.user-section {
   display: flex;
   align-items: center;
   gap: 1rem;
   font-size: 0.875rem;
   flex-wrap: wrap;
+}
+
+.desktop-only {
+  display: inline-flex;
+}
+
+.menu-checkbox {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 45;
+  flex-shrink: 0;
+}
+
+.menu-checkbox:checked ~ .menu-toggle {
+  display: none;
+}
+
+.menu-checkbox:checked ~ .menu-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-checkbox:checked ~ .menu-overlay {
+  display: block;
+}
+
+.menu-toggle span {
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-toggle:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 3px;
+}
+
+.menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(280px, 80%);
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -6px 0 24px rgba(15,23,42,0.15);
+  padding: 4.5rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 40;
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.menu-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.menu-subtitle {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.menu-close {
+  align-self: flex-end;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 41;
+}
+
+.menu-close span {
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+}
+
+.menu-close span:first-child {
+  transform: rotate(45deg);
+}
+
+.menu-close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.menu-close:hover {
+  background: #eef2ff;
+  border-color: #d1d5db;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(1px);
+  z-index: 35;
+  cursor: pointer;
 }
 
 .logout-btn {
@@ -217,10 +512,27 @@ header p {
   color: #000;
   transition: all 0.2s;
   font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logout-btn:hover {
   background: #f8f9fa;
+}
+
+.logout-icon {
+  flex-shrink: 0;
+  color: #dc2626;
+  stroke: #dc2626;
+}
+
+.menu-logout {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  justify-content: flex-start;
 }
 
 /* Role Cards */
@@ -374,6 +686,84 @@ header p {
   flex-wrap: wrap;
 }
 
+/* Teacher Controls */
+.teacher-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 0 1.5rem 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  min-width: 180px;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.no-results p {
+  font-size: 1rem;
+  margin: 0;
+}
+
 .tab {
   background: #f1f3f5;
   padding: 0.5rem 1rem;
@@ -500,15 +890,48 @@ header p {
     align-items: flex-start;
     padding: 1rem;
   }
-  
-  .breadcrumb-container {
+
+  .header-left {
     width: 100%;
-    justify-content: flex-start;
   }
-  
-  .user-info {
+
+  .title-row {
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .title-actions .portal-btn {
+    display: none;
+  }
+
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .menu-checkbox:checked ~ .menu-toggle {
+    display: none !important;
+  }
+
+  .user-greeting {
+    display: none;
   }
   
   .page-header {
@@ -530,6 +953,22 @@ header p {
   
   .tabs {
     padding: 0 1rem;
+  }
+
+  .teacher-controls {
+    margin: 0 1rem 1.5rem;
+    padding: 0.75rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .sort-select {
+    width: 100%;
+    min-width: unset;
   }
   
   .teacher-container {

@@ -50,6 +50,7 @@ if($action === 'antGetter'){
                 "success" => false,
                 "message" => "Error at second query"
             ]);
+            http_response_code(500);
         }
 
         echo json_encode([
@@ -60,7 +61,11 @@ if($action === 'antGetter'){
     }else {
         echo json_encode([
             "success" => false,
-            "message" => "Error at first query" . $sql
+            "message" => "Error at first query"
         ]);
+        http_response_code(500);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

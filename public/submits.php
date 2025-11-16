@@ -68,6 +68,7 @@ if($action === 'submits'){
                 'success' => false,
                 'message' => "Error: " . $conn->error,
             ]);
+            http_response_code(500);
         }
 
     }else{
@@ -75,10 +76,9 @@ if($action === 'submits'){
             'success' => false,
             'message' => "Error: " . $conn->error,
         ]);
+        http_response_code(500);
     }
 }else{
-    echo json_encode([
-        "success" => false,
-        "message" => $action, 
-    ]);
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

@@ -57,8 +57,13 @@ if ($action === 'login') {
                 exit;
         }else{
             echo json_encode(["success"=> false,"error" => "Password error"]);
+            http_response_code(400);
         }
     }else{
         echo json_encode(["success"=> false,"error" => "Email not found"]);
+        http_response_code(400);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

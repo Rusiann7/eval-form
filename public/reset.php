@@ -55,9 +55,14 @@ if($action === 'reset'){
         if($run){
             echo json_encode(["success" => true]);
         }else{
+            http_response_code(500);
             echo json_encode(["success" => false, "message" => "Failed to send email"]);
         }
     } else{
+        http_response_code(400);
         echo json_encode(["success" => false, "message" => "Email not found"]);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

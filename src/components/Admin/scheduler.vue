@@ -1,574 +1,1082 @@
 <template>
-<div id="app">
-        <div class="container">
-            <div class="header">
-                <h1>Teacher Evaluation System</h1>
-                <p>Schedule and manage peer evaluation sessions</p>
-            </div>
-            
-            <div class="scheduler">
-                <div class="calendar-section">
-                    <div class="section-title">
-                        <i class="fas fa-calendar-alt"></i>
-                        <h2>Evaluation Schedule</h2>
-                    </div>
-                    
-                    <div class="calendar-header">
-                        <button @click="prevMonth">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <h2>{{ currentMonthYear }}</h2>
-                        <button @click="nextMonth">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    
-                    <div class="calendar-grid">
-                        <div v-for="day in daysOfWeek" :key="day" class="calendar-day-header">
-                            {{ day }}
-                        </div>
-                        <div 
-                            v-for="day in calendarDays" 
-                            :key="day.date"
-                            :class="['calendar-day', 
-                                    { 'selected': isSelected(day.date), 
-                                      'other-month': !day.isCurrentMonth,
-                                      'today': isToday(day.date) }]"
-                            @click="selectDate(day.date)">
-                            {{ day.day }}
-                        </div>
-                    </div>
-                    
-                    <div class="selected-date">
-                        <div class="selected-date-label">Evaluation Date</div>
-                        <div class="selected-date-value">{{ formatSelectedDate }}</div>
-                    </div>
-                    
-                    <div class="time-section">
-                        <div class="time-inputs">
-                            <div class="time-input">
-                                <label for="start-time">
-                                    <i class="fas fa-clock"></i> Evaluation Start
-                                </label>
-                                <div class="time-input-group">
-                                    <input type="time" id="start-time" v-model="startTime" @change="convertTo12Hour('start')">
-                                    <select class="ampm-select" v-model="startPeriod" @change="updateTimeValue('start')">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="time-input">
-                                <label for="end-time">
-                                    <i class="fas fa-clock"></i> Evaluation End
-                                </label>
-                                <div class="time-input-group">
-                                    <input type="time" id="end-time" v-model="endTime" @change="convertTo12Hour('end')">
-                                    <select class="ampm-select" v-model="endPeriod" @change="updateTimeValue('end')">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="selected-time">
-                            <div class="selected-time-value">
-                                {{ formattedStartTime }} - {{ formattedEndTime }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="timer-section">
-                    <div class="section-title">
-                        <i class="fas fa-stopwatch"></i>
-                        <h2>Evaluation Timer</h2>
-                    </div>
-                    
-                    <div class="timer-label">Evaluation Time Remaining</div>
-                    <div class="timer-display">{{ formattedTime }}</div>
-                    
-                    <div class="timer-controls">
-                        <button class="timer-btn start" @click="startTimer" :disabled="timerRunning">
-                            <i class="fas fa-play"></i> Start
-                        </button>
-                        <button class="timer-btn pause" @click="pauseTimer" :disabled="!timerRunning">
-                            <i class="fas fa-pause"></i> Pause
-                        </button>
-                        <button class="timer-btn reset" @click="resetTimer">
-                            <i class="fas fa-redo"></i> Reset
-                        </button>
-                    </div>
-                    
-                    <div class="timer-inputs">
-                        <div class="timer-input">
-                            <label for="hours">
-                                <i class="fas fa-clock"></i> Hours
-                            </label>
-                            <input type="number" id="hours" v-model="hours" min="0" max="23">
-                        </div>
-                        <div class="timer-input">
-                            <label for="minutes">
-                                <i class="fas fa-clock"></i> Minutes
-                            </label>
-                            <input type="number" id="minutes" v-model="minutes" min="0" max="59">
-                        </div>
-                        <div class="timer-input">
-                            <label for="seconds">
-                                <i class="fas fa-clock"></i> Seconds
-                            </label>
-                            <input type="number" id="seconds" v-model="seconds" min="0" max="59">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> 
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
+    rel="stylesheet"
+  />
 
+  <!-- Sidebar -->
+  <input
+    type="checkbox"
+    id="scheduler-nav-toggle"
+    class="menu-checkbox"
+    aria-hidden="true"
+  />
+  <label for="scheduler-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+    
+  <div class="side-bar">
+    <div class="sidebar-header">
+      <h3 class="sidebar-title">Principal Portal</h3>
+      <label for="scheduler-nav-toggle" class="sidebar-close" aria-label="Close menu">
+        <span></span>
+        <span></span>
+      </label>
+    </div>
+    <div class="menu">
+      <div class="item">
+        <a href="#" class="sub-btn" @click.stop="navigateAndClose('/principal'); showMenu1 = !showMenu1">
+          <span>Student</span>
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
+        <div class="sub-menu" v-if="showMenu1">
+          <a href="#" class="sub-item" @click="navigateAndClose('/principal')">Merged Answers</a>
+          <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Individual Answers</a>
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
+          <span>Teacher</span>
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu2 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
+        <div class="sub-menu" v-if="showMenu2">
+          <a href="#" class="sub-item" @click="navigateAndClose('/principal')">Merged Answers</a>
+          <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Individual Answers</a>
+          <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Evaluate Teachers</a>
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" class="sub-btn" @click.stop="showMenu3 = !showMenu3">
+          <span>Account Management</span>
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu3 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
+        <div class="sub-menu" v-if="showMenu3">
+          <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Add Teachers</a>
+          <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Delete Users</a>
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="navigateAndClose('/scheduler')">Scheduler</a>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="navigateAndClose('/fileupload')">File Upload</a>
+      </div>
+      <div class="item">
+        <a href="#" @click.prevent="navigateAndClose('/changequestions')">Question Change</a>
+      </div>
+    </div>
+    <div class="sidebar-footer">
+      <button class="logout-btn sidebar-logout" @click="logout()">
+        <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </button>
+    </div>
+  </div>
+
+  <!-- Main content container -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="header-left">
+        <div class="title-row">
+          <h1 class="logo">Teacher Evaluation System</h1>
+          <div class="title-actions">
+            <button class="portal-btn">Principal Portal</button>
+            <label
+              for="scheduler-nav-toggle"
+              class="menu-toggle"
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="user-section">
+        <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
+        <button class="logout-btn desktop-only" @click="logout()">
+          <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </header>
+
+  <div class="content">
+    <div class="container">
+      <main class="content-main">
+        <div class="card current-times-card">
+          <h2 class="card-title">Current Times</h2>
+          <div class="times-display">
+            <div class="time-item">
+              <h3>Student:</h3>
+              <p class="time-value">Time here</p>
+            </div>
+            <div class="time-item">
+              <h3>Teacher:</h3>
+              <p class="time-value">time here</p>
+            </div>
+          </div>
+        </div>
+        <div class="card form-card">
+          <header class="header">
+            <h1 class="title">Set Due Date</h1>
+            <p class="subtitle">
+              Define the submission deadline for this assignment.
+            </p>
+          </header>
+          <form @submit.prevent="showtime()" class="form" method="POST">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="label" for="due-date">Due date</label>
+                <div class="input-container">
+                  <span class="material-icons-outlined input-icon">
+                    calendar_today
+                  </span>
+                  <input
+                    class="input-field"
+                    id="due-date"
+                    name="due-date"
+                    type="date"
+                    v-model="times.dateset"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="label" for="due-time">Time</label>
+                <div class="input-container">
+                  <span class="material-icons-outlined input-icon">
+                    schedule
+                  </span>
+                  <input
+                    class="input-field"
+                    id="due-time"
+                    name="due-time"
+                    type="time"
+                    v-model="times.timeset"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="label">End (Optional)</label>
+              <p class="description">
+                Set a final cutoff date and time after which submissions are no
+                longer accepted.
+              </p>
+              <div class="form-grid">
+                <div class="form-group">
+                  <div class="input-container">
+                    <span class="material-icons-outlined input-icon">
+                      event_busy
+                    </span>
+                    <input
+                      class="input-field"
+                      id="end-date"
+                      name="end-date"
+                      type="date"
+                      v-model="times.dateend"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-container">
+                    <span class="material-icons-outlined input-icon">
+                      access_time
+                    </span>
+                    <input
+                      class="input-field"
+                      id="end-time"
+                      name="end-time"
+                      type="time"
+                      v-model="times.timeend"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="checkbox-container">
+              <div class="checkbox-wrapper">
+                <input
+                  class="checkbox"
+                  id="countdown-timer"
+                  name="countdown-timer"
+                  type="checkbox"
+                  v-model="times.countdownTimer"
+                />
+              </div>
+              <div class="checkbox-label-container">
+                <label class="checkbox-label" for="countdown-timer"
+                  >Countdown Timer</label
+                >
+                <p class="checkbox-description">
+                  Display a countdown timer for students.
+                </p>
+              </div>
+            </div>
+            <div class="button-container">
+              <button class="button" type="submit">
+                <span class="material-icons-outlined">save</span>
+                Save Settings
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+  </div>
 </template>
 
 <script>
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
 
+export default {
+  name: "schedule",
+  data() {
+    return {
+      timegetterphp: `${url2}/time.php`,
+      timesettierphp: `${url2}/startEvalSMTP.php`,
+      times: {
+        timeset: "",
+        dateset: "",
+        timeend: "",
+        dateend: "",
+        countdownTimer: false,
+      },
+      startendtime: {},
+      isLoading: false,
+      showMenu1: false,
+      showMenu2: false,
+      showMenu3: false,
+      fullname: "",
+      lastname: "",
+    };
+  },
+
+  methods: {
+    navigateAndClose(route) {
+      this.$router.push(route);
+      // Close sidebar on mobile after navigation
+      if (window.innerWidth <= 768) {
+        document.getElementById('scheduler-nav-toggle').checked = false;
+      }
+    },
+    logout() {
+      localStorage.removeItem("userData");
+      this.$router.push("/");
+    },
+    showtime() {
+      console.log(this.times);
+    },
+    async setTime() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.timesettierphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "setTime",
+            timess: this.times,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.getTime();
+        } else {
+          this.isLoading = false;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+
+    async getTime() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.timegetterphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getTime",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.startendtime = this.result;
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+  },
+
+  mounted() {
+    // Initialize user data
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        this.fullname = user.fullname || "";
+        this.lastname = user.lastname || "";
+      } catch (e) {
+        console.error("Error parsing user data:", e);
+      }
+    }
+    //this.getTime();
+  },
+};
 </script>
 
 <style scoped>
+/* ===== CSS RESET & BASE STYLES ===== */
 * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
 
-        body {
-            background: linear-gradient(135deg, #0a2f0a 0%, #1a5a1a 50%, #2a7a2a 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.material-icons-outlined {
+  font-size: 20px;
+}
 
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
+}
 
-        .header {
-            text-align: center;
-            color: white;
-            margin-bottom: 10px;
-        }
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
+}
 
-        .header h1 {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 700;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            line-height: 1.2;
-        }
+/* ===== TOPBAR STYLES ===== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 30;
+}
 
-        .header p {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            opacity: 0.9;
-            margin-top: 10px;
-        }
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
 
-        .scheduler {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
 
-        .calendar-section, .timer-section {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            padding: clamp(15px, 3vw, 25px);
-            flex: 1;
-            min-width: min(100%, 350px);
-            max-width: 600px;
-        }
+.logo {
+  font-weight: bold;
+  font-size: 1.125rem;
+  margin: 0;
+  color: #111827;
+}
 
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            color: #333;
-            font-size: clamp(1.2rem, 3vw, 1.4rem);
-        }
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
 
-        .section-title i {
-            color: #2a7a2a;
-        }
+.portal-btn {
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
 
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+.portal-btn:hover {
+  background: #e5e7eb;
+}
 
-        .calendar-header button {
-            background: #f0f0f0;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+}
 
-        .calendar-header button:hover {
-            background: #e0e0e0;
-        }
+.user-greeting {
+  color: #374151;
+  white-space: nowrap;
+}
 
-        .calendar-header h2 {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            color: #333;
-            text-align: center;
-        }
+.desktop-only {
+  display: inline-flex;
+}
 
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            margin-bottom: 20px;
-        }
+.menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 45;
+  flex-shrink: 0;
+}
 
-        .calendar-day-header {
-            text-align: center;
-            font-weight: 600;
-            color: #666;
-            padding: 8px 0;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-        }
+.menu-toggle span {
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
 
-        .calendar-day {
-            height: clamp(30px, 8vw, 40px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: clamp(0.8rem, 2vw, 1rem);
-        }
+.logout-btn {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #374151;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
 
-        .calendar-day:hover {
-            background: #f0f0f0;
-        }
+.logout-btn:hover {
+  background: #e5e7eb;
+  border-color: #d1d5db;
+}
 
-        .calendar-day.selected {
-            background: #2a7a2a;
-            color: white;
-        }
+.logout-icon {
+  flex-shrink: 0;
+  color: #dc2626;
+  stroke: #dc2626;
+}
 
-        .calendar-day.other-month {
-            color: #ccc;
-        }
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  background: #f9fafb;
+}
 
-        .calendar-day.today {
-            background: #e1f5e1;
-            font-weight: 600;
-        }
+/* ===== CONTENT AREA ===== */
+.content {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
+}
 
-        .time-section {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 15px;
-        }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
 
-        .time-inputs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
+.content-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
 
-        .time-input {
-            flex: 1;
-            min-width: 150px;
-        }
+/* ===== CARD STYLES ===== */
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
 
-        .time-input label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
 
-        .time-input-group {
-            display: flex;
-            gap: 8px;
-        }
+.current-times-card {
+  padding: 2rem;
+}
 
-        .time-input-group input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            transition: all 0.3s ease;
-            min-width: 0;
-        }
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
 
-        .time-input-group input:focus {
-            border-color: #2a7a2a;
-            outline: none;
-        }
+.times-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
 
-        .ampm-select {
-            flex: 0.7;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            background: white;
-            transition: all 0.3s ease;
-            min-width: 0;
-        }
+.time-item {
+  padding: 1.25rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
 
-        .ampm-select:focus {
-            border-color: #2a7a2a;
-            outline: none;
-        }
+.time-item h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.5rem 0;
+}
 
-        .timer-display {
-            font-size: clamp(2rem, 8vw, 3rem);
-            font-weight: 700;
-            color: #2a7a2a;
-            text-align: center;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-            background: #f0fff0;
-            padding: 15px;
-            border-radius: 15px;
-            border: 2px solid #e1f5e1;
-            word-break: break-word;
-        }
+.time-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
 
-        .timer-label {
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
-            font-weight: 600;
-            color: #2a7a2a;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+.form-card {
+  padding: 2rem;
+}
 
-        .timer-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
+.form-card .header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
 
-        .timer-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex: 1;
-            min-width: 100px;
-            justify-content: center;
-        }
+.form-card .title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
 
-        .timer-btn.start {
-            background: #2a7a2a;
-            color: white;
-        }
+.form-card .subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
 
-        .timer-btn.start:hover {
-            background: #1a5a1a;
-            transform: translateY(-2px);
-        }
+/* ===== FORM STYLES ===== */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
 
-        .timer-btn.pause {
-            background: #ff9800;
-            color: white;
-        }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
-        .timer-btn.pause:hover {
-            background: #e68900;
-            transform: translateY(-2px);
-        }
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
 
-        .timer-btn.reset {
-            background: #f0f0f0;
-            color: #333;
-        }
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
 
-        .timer-btn.reset:hover {
-            background: #e0e0e0;
-            transform: translateY(-2px);
-        }
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+}
 
-        .selected-date {
-            text-align: center;
-            margin-top: 20px;
-            padding: 15px;
-            background: #f0fff0;
-            border-radius: 15px;
-            border: 2px solid #e1f5e1;
-        }
+.description {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
 
-        .selected-date-label {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            color: #666;
-            margin-bottom: 5px;
-        }
+.input-container {
+  position: relative;
+}
 
-        .selected-date-value {
-            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
-            font-weight: 700;
-            color: #2a7a2a;
-        }
+.input-icon {
+  position: absolute;
+  left: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  pointer-events: none;
+  z-index: 1;
+}
 
-        .selected-time {
-            text-align: center;
-            margin-top: 10px;
-            padding: 10px;
-            background: #f0fff0;
-            border-radius: 10px;
-        }
+.input-field {
+  padding-left: 2.5rem;
+  padding-right: 1rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #111827;
+  height: 2.75rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
 
-        .selected-time-value {
-            font-size: clamp(1rem, 2vw, 1.1rem);
-            font-weight: 600;
-            color: #2a7a2a;
-        }
+.input-field:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
 
-        .timer-inputs {
-            display: flex;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
+.input-field:hover {
+  border-color: #9ca3af;
+  background-color: #f9fafb;
+}
 
-        .timer-input {
-            flex: 1;
-            min-width: 80px;
-        }
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
 
-        .timer-input label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-top: 0.125rem;
+}
 
-        .timer-input input {
-            width: 100%;
-            padding: 10px 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            transition: all 0.3s ease;
-        }
+.checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 4px;
+  border: 1.5px solid #d1d5db;
+  cursor: pointer;
+  accent-color: #000;
+}
 
-        .timer-input input:focus {
-            border-color: #2a7a2a;
-            outline: none;
-        }
+.checkbox:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .scheduler {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .calendar-section, .timer-section {
-                width: 100%;
-                max-width: 500px;
-            }
-            
-            .time-inputs {
-                flex-direction: column;
-            }
-            
-            .time-input {
-                min-width: 100%;
-            }
-            
-            .timer-controls {
-                flex-direction: column;
-            }
-            
-            .timer-btn {
-                width: 100%;
-            }
-        }
+.checkbox-label-container {
+  flex: 1;
+}
 
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                gap: 20px;
-            }
-            
-            .calendar-section, .timer-section {
-                padding: 15px;
-                border-radius: 15px;
-            }
-            
-            .calendar-grid {
-                gap: 3px;
-            }
-            
-            .calendar-day {
-                height: 35px;
-                border-radius: 5px;
-            }
-            
-            .time-section {
-                padding: 15px;
-            }
-            
-            .timer-inputs {
-                gap: 10px;
-            }
-            
-            .timer-input {
-                min-width: calc(33.33% - 10px);
-            }
-        }
+.checkbox-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  display: block;
+  margin-bottom: 0.25rem;
+  cursor: pointer;
+}
 
-        @media (max-width: 360px) {
-            .calendar-day-header {
-                font-size: 0.7rem;
-            }
-            
-            .calendar-day {
-                font-size: 0.8rem;
-                height: 30px;
-            }
-            
-            .timer-input {
-                min-width: calc(50% - 10px);
-            }
-            
-            .timer-input:last-child {
-                min-width: 100%;
-            }
-        }
+.checkbox-description {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.button-container {
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 0.5rem;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* ===== MENU CHECKBOX ===== */
+.menu-checkbox {
+  display: none;
+}
+
+/* ===== MENU OVERLAY ===== */
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(1px);
+  z-index: 35;
+  cursor: pointer;
+}
+
+.menu-checkbox:checked ~ .menu-overlay {
+  display: block;
+}
+
+/* ===== SIDEBAR ===== */
+.side-bar {
+  background: #ffffff;
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 40;
+  border-right: 1px solid #e5e7eb;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f9fafb;
+  position: relative;
+}
+
+.sidebar-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.sidebar-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.sidebar-close span {
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+}
+
+.sidebar-close span:first-child {
+  transform: rotate(45deg);
+}
+
+.sidebar-close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.sidebar-close:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.side-bar .menu {
+  width: 100%;
+  padding: 0.75rem 0;
+  flex: 1;
+}
+
+.side-bar .menu .item {
+  cursor: pointer;
+  position: relative;
+}
+
+.side-bar .menu .item a {
+  color: #374151;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-bottom: 1px solid #f3f4f6;
+  transition: all 0.2s ease;
+}
+
+.side-bar .menu .item a:hover {
+  background: #f9fafb;
+  color: #111827;
+}
+
+.side-bar .menu .item .sub-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.chevron-icon {
+  transition: transform 0.2s ease;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.chevron-icon.rotated {
+  transform: rotate(180deg);
+}
+
+.side-bar .menu .item .sub-menu {
+  background: #f9fafb;
+  position: relative;
+  border-left: 3px solid #e5e7eb;
+  margin-left: 1.25rem;
+}
+
+.side-bar .menu .item .sub-menu a {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  font-size: 0.875rem;
+  color: #6b7280;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.side-bar .menu .item .sub-menu a:hover {
+  background: #f3f4f6;
+  color: #111827;
+  border-left-color: #000;
+}
+
+.sidebar-footer {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.sidebar-logout {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  justify-content: flex-start;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.sidebar-logout:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .topbar {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .title-row {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .title-actions .portal-btn {
+    display: none;
+  }
+
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .menu-checkbox:checked ~ .menu-toggle {
+    display: none !important;
+  }
+
+  .user-greeting {
+    display: none;
+  }
+
+  .side-bar {
+    transform: translateX(-100%);
+    box-shadow: 2px 0 24px rgba(15, 23, 42, 0.15);
+  }
+
+  .menu-checkbox:checked ~ .side-bar {
+    transform: translateX(0);
+  }
+
+  .sidebar-close {
+    display: flex;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .content {
+    padding: 1rem;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .current-times-card,
+  .form-card {
+    padding: 1.5rem;
+  }
+
+  .times-display {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .content {
+    padding: 0.75rem;
+  }
+
+  .current-times-card,
+  .form-card {
+    padding: 1.25rem;
+  }
+
+  .card-title,
+  .form-card .title {
+    font-size: 1.25rem;
+  }
+
+  .side-bar {
+    width: min(280px, 85%);
+  }
+
+  .times-display {
+    gap: 0.75rem;
+  }
+
+  .time-item {
+    padding: 1rem;
+  }
+}
 </style>

@@ -105,20 +105,20 @@ const router = createRouter({ //create the routes and history
   routes,
 })
 
-router.beforeEach((to, from, next) => { //jwt token auth guard and verification
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (!isAuthenticated()) {
-      next({ path: '/login', query: { redirect: to.fullPath } })
-    } else {
-      next()
-    }
-  } else {
-    next()
-  }
+// router.beforeEach((to, from, next) => { //jwt token auth guard and verification
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (!isAuthenticated()) {
+//       next({ path: '/login', query: { redirect: to.fullPath } })
+//     } else {
+//       next()
+//     }
+//   } else {
+//     next()
+//   }
 
-  if (to.meta?.title) { //display the title of the page
-    document.title = to.meta.title
-  }
-})
+//   if (to.meta?.title) { //display the title of the page
+//     document.title = to.meta.title
+//   }
+// })
 
 export default router //export the router as a varaible
