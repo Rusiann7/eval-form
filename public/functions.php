@@ -9,6 +9,10 @@ use Gemini\GeminiClient;
 
 function smtp($email, $body, $altbody){
     global $epass;
+
+    if (!is_array($email)) {
+        $emails = [$email];
+    }
     
     $mail = new PHPMailer(true);
 
@@ -25,8 +29,11 @@ function smtp($email, $body, $altbody){
 
     //Recipients
     $mail->setFrom('systemmailer678@gmail.com', 'School AutoMailer');
-    $mail->addAddress($email);     //Add a recipient
-    $mail->addAddress($email);     //Name is optional
+
+    foreach ($emails as $email) {
+        $mail->addAddress($email);
+    }
+
     $mail->addReplyTo('systemmailer678@gmail.com', 'Information');
     $mail->addCC('systemmailer678@gmail.com');
     $mail->addBCC('systemmailer678@gmail.com');
@@ -37,7 +44,7 @@ function smtp($email, $body, $altbody){
     
     //Content
     $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Password Reset';
+    $mail->Subject = 'AutoMailer Service';
     $mail->Body = $body;   
     $mail->AltBody = $altbody;
 

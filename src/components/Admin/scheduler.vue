@@ -123,6 +123,7 @@
 
   <div class="content">
     <div class="container">
+<<<<<<< HEAD
       <main class="content-main">
         <div class="card current-times-card">
           <h2 class="card-title">Current Times</h2>
@@ -135,6 +136,17 @@
               <h3>Teacher:</h3>
               <p class="time-value">time here</p>
             </div>
+=======
+      <main class="main-content">
+        <div class="card" style="margin-bottom: 40px">
+          <div class="titles">
+            <h1>Current Times</h1>
+            <br />
+            <h3>Time Start: {{ startendtime.time_start }}</h3>
+            <h3>Date Start: {{ startendtime.date_start }}</h3>
+            <h3>Time End: {{ startendtime.time_end }}</h3>
+            <h3>Date End: {{ startendtime.date_end }}</h3>
+>>>>>>> 7334c43 (finished the updating of the dynamic questions for the students)
           </div>
         </div>
         <div class="card form-card">
@@ -144,7 +156,11 @@
               Define the submission deadline for this assignment.
             </p>
           </header>
+<<<<<<< HEAD
           <form @submit.prevent="showtime()" class="form" method="POST">
+=======
+          <form @submit.prevent="this.setTime()" class="form" method="POST">
+>>>>>>> 7334c43 (finished the updating of the dynamic questions for the students)
             <div class="form-grid">
               <div class="form-group">
                 <label class="label" for="due-date">Due date</label>
@@ -257,7 +273,7 @@ export default {
   name: "schedule",
   data() {
     return {
-      timegetterphp: `${url2}/time.php`,
+      timegetterphp: `${url2}/timeGetter.php`,
       timesettierphp: `${url2}/startEvalSMTP.php`,
       times: {
         timeset: "",
@@ -277,6 +293,7 @@ export default {
   },
 
   methods: {
+<<<<<<< HEAD
     navigateAndClose(route) {
       this.$router.push(route);
       // Close sidebar on mobile after navigation
@@ -291,6 +308,8 @@ export default {
     showtime() {
       console.log(this.times);
     },
+=======
+>>>>>>> 7334c43 (finished the updating of the dynamic questions for the students)
     async setTime() {
       try {
         this.isLoading = true;
@@ -300,7 +319,10 @@ export default {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "setTime",
-            timess: this.times,
+            time_start: this.times.timeset,
+            date_start: this.times.dateset,
+            time_end: this.times.timeend,
+            date_end: this.times.dateend,
           }),
         });
 
@@ -333,7 +355,13 @@ export default {
         const result = await response.json();
 
         if (result.success) {
-          this.startendtime = this.result;
+          const t = result.times || {};
+          this.startendtime = {
+            time_start: t.time_start,
+            date_start: t.date_start,
+            time_end: t.time_end,
+            date_end: t.date_end,
+          };
           this.isLoading = false;
         } else {
           this.isLoading = false;
@@ -346,6 +374,7 @@ export default {
   },
 
   mounted() {
+<<<<<<< HEAD
     // Initialize user data
     const userData = localStorage.getItem("userData");
     if (userData) {
@@ -358,6 +387,9 @@ export default {
       }
     }
     //this.getTime();
+=======
+    this.getTime();
+>>>>>>> 7334c43 (finished the updating of the dynamic questions for the students)
   },
 };
 </script>
@@ -703,6 +735,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   background-color: #f9fafb;
 }
 
+<<<<<<< HEAD
 .checkbox-container {
   display: flex;
   align-items: flex-start;
@@ -753,6 +786,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   line-height: 1.5;
 }
 
+=======
+>>>>>>> 7334c43 (finished the updating of the dynamic questions for the students)
 .button-container {
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;

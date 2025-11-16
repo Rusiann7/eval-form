@@ -55,13 +55,14 @@ if( $action === 'getQuestions'){
 
          echo json_encode([
             "count" => $questionCount,
+            "header_ver" => $identifiers[0],
             "success" => true,
             "headers" => $all_headers,
         ]);
 
     }else {
         echo json_encode([
-            "success" => false, //walang headers
+            "success" => false, 
         ]);
         http_response_code(400);
     }
