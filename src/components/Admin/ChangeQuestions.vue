@@ -8,6 +8,39 @@
     rel="stylesheet"
   />
 
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=add"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=arrow_upward"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=arrow_downward"
+  />
+
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
+  <div class="error" v-if="isFailed">
+    <span>Task failed to execute!</span>
+  </div>
+
+  <div class="success" v-if="isSuccess">
+    <span>Task successfully executed!</span>
+  </div>
+
   <!--sidebar-->
   <div class="side-bar">
     <div class="menu">
@@ -91,10 +124,9 @@
         </div>
 
         <div class="header-buttons">
-          <button class="btn-secondary">Send</button>
           <button class="btn-primary">
-            Send
-            <span class="material-icons">send</span>
+            Add
+            <span class="material-symbols-outlined"> add </span>
           </button>
         </div>
       </header>
@@ -103,74 +135,33 @@
       <!--top part-->
 
       <main class="main">
-        <draggable
-          v-model="headers"
-          group="header"
-          @start="drag = true"
-          @end="drag = false"
-          item-key="header.header_id"
-        >
-          <template #item="{ element: header }"> </template>
-          <div class="section">
-            <div class="section-header">
-              <div class="section-title">
-                <p class="title-text">{{ header.header }}</p>
-              </div>
-              <div class="section-actions">
-                <button class="btn-section">
-                  <span class="material-icons">edit</span>
-                  Edit
-                </button>
-                <button class="btn-section">
-                  <span class="material-icons">delete</span>
-                  Remove
-                </button>
-              </div>
-            </div>
-
-            <!--questions-->
-            <draggable
-              v-model="headers"
-              group="questions"
-              @start="drag = true"
-              @end="drag = false"
-              item-key="question.question_id"
-            >
-              <div class="questions-container">
-                <div
-                  class="question-card"
-                  v-for="question in header.question"
-                  :key="question.question_id"
-                >
-                  <div class="question-content">
-                    <div class="question-text">
-                      <p>Question</p>
-                    </div>
-                    <div class="question-actions">
-                      <button class="btn-question">
-                        <span class="material-icons">edit</span>
-                        Edit
-                      </button>
-                      <button class="btn-question">
-                        <span class="material-icons">delete</span>
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </draggable>
-          </div>
-        </draggable>
-
-        <!--second questions-->
-        <div class="section">
+        <div class="section" v-for="header in headers" :key="header.header_id">
           <div class="section-header">
             <div class="section-title">
-              <p class="title-text">Header 2</p>
+              <p class="title-text" v-if="!header.editing">
+                {{ header.header }}
+              </p>
+              <input
+                class="search-input"
+                type="text"
+                v-model="header.header"
+                v-if="header.editing"
+              />
+              <button
+                class="btn-section"
+                v-if="header.editing"
+                @click="
+                  (header.editing = false),
+                    changeHeader(header.header_id, header.header),
+                    (isSuccess = true)
+                "
+              >
+                <span class="material-icons">edit</span>
+                Edit
+              </button>
             </div>
             <div class="section-actions">
-              <button class="btn-section">
+              <button class="btn-section" @click="header.editing = true">
                 <span class="material-icons">edit</span>
                 Edit
               </button>
@@ -180,28 +171,25 @@
               </button>
             </div>
           </div>
+
+          <!--questions-->
           <div class="questions-container">
-            <div class="question-card">
+            <div
+              class="question-card"
+              v-for="question in header.questions"
+              :key="question.question_id"
+            >
               <div class="question-content">
+                <button class="btn-question">
+                  <span class="material-symbols-outlined"> arrow_upward </span>
+                </button>
+                <button class="btn-question">
+                  <span class="material-symbols-outlined">
+                    arrow_downward
+                  </span>
+                </button>
                 <div class="question-text">
-                  <p>A third question to show the pattern</p>
-                </div>
-                <div class="question-actions">
-                  <button class="btn-question">
-                    <span class="material-icons">edit</span>
-                    Edit
-                  </button>
-                  <button class="btn-question">
-                    <span class="material-icons">delete</span>
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="question-card">
-              <div class="question-content">
-                <div class="question-text">
-                  <p>Fourth question example in the second header</p>
+                  <p>{{ question.question }}</p>
                 </div>
                 <div class="question-actions">
                   <button class="btn-question">
@@ -223,20 +211,22 @@
 </template>
 
 <script>
-import draggable from "vuedraggable";
-
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
 
 export default {
-  components: {
-    draggable,
-  },
+  name: "chQuestions",
   data() {
     return {
-      drag: false,
       urlappphp: `${url2}/questions.php`,
+      chHeaderphp: `${url2}/headerChangerS.php`,
       headers: [],
+      showMenu1: false,
+      showMenu2: false,
+      showMenu3: false,
+      isLoading: false,
+      isSuccess: false,
+      isFailed: false,
     };
   },
 
@@ -256,7 +246,7 @@ export default {
         const result = await response.json();
 
         if (result.success) {
-          this.headers = result.headers;
+          this.headers = result.headers.map((h) => ({ ...h, editing: false }));
           this.isLoading = false;
         } else {
           console.error("server error:", error);
@@ -266,6 +256,60 @@ export default {
         this.isLoading = false;
       }
     },
+
+    async changeHeader(headerId, headername) {
+      console.log(headerId, headername);
+
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.chHeaderphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "changeHeaders",
+            id: headerId,
+            newHeader: headername,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+          this.getQuestions();
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+  },
+
+  watch: {
+    isSuccess(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.isSuccess = false;
+        }, 6000);
+      }
+    },
+
+    isFailed(newVal) {
+      if (newVal) {
+        setTimeout(() => {
+          this.isFailed = false;
+        }, 6000);
+      }
+    },
+  },
+
+  mounted() {
+    this.getQuestions();
   },
 };
 </script>
@@ -609,5 +653,121 @@ input:focus {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+/* ===== LOADING & FEEDBACK STATES ===== */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  color: white;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid #ffffff;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+  z-index: 3000;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.success,
+.error {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px 30px;
+  border-radius: 8px;
+  font-weight: 500;
+  z-index: 1000;
+  text-align: center;
+  min-width: 300px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out, timeout 6s linear forwards;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.success span,
+.error span {
+  display: block;
+}
+
+/* Progress bar for timeout */
+.success::after,
+.error::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: currentColor;
+  opacity: 0.3;
+  animation: progress 5s linear forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes timeout {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
 }
 </style>

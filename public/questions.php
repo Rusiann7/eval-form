@@ -13,7 +13,7 @@ $action = $data['action'] ?? '';
 
 if( $action === 'getQuestions'){
 
-    $sql1 = "SELECT id, header, header_p FROM Headers ORDER BY id ASC";
+    $sql1 = "SELECT id, header, header_p, identifier FROM Headers ORDER BY id ASC";
     $result1 = $conn -> query($sql1);
 
     $all_headers = [];
@@ -23,6 +23,7 @@ if( $action === 'getQuestions'){
     if($result1 && $result1->num_rows > 0){
         while($row1 = $result1 ->fetch_assoc()){
             $header_id[] = $row1['id'];
+            $identifiers[] = $row1['identifier'];
 
             $all_headers[] = [
                 "header_id" => $row1['id'],
@@ -33,7 +34,8 @@ if( $action === 'getQuestions'){
         }
 
             $header_id_list = implode(",", $header_id);
-            $sql2= "SELECT id, questions, header_id FROM Questions WHERE header_id IN ($header_id_list);";
+            $identifiers_list = "'" . implode("','", $identifiers) . "'";
+            $sql2= "SELECT id, questions, header_id, header_version FROM Questions WHERE header_id IN ($header_id_list) AND header_version IN ($identifiers_list);";
             $result2 = $conn -> query($sql2);
 
             if($result2 && $result2->num_rows > 0){

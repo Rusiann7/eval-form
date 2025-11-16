@@ -4,6 +4,79 @@
     <p>Loading...</p>
   </div>
 
+  <div class="loading-screen" v-if="activeModal === 'showInfo'">
+    <div class="modal-container">
+      <div class="modal-content">
+        <div class="modal-grid">
+          <div class="left-column">
+            <div class="profile-section">
+              <div class="profile-image-container">
+                <div class="profile-image">
+                  <span class="material-icons profile-icon">image</span>
+                </div>
+              </div>
+              <div class="profile-details">
+                <div class="detail-item">
+                  <label class="detail-label">Name</label>
+                  <p class="detail-value">John Doe</p>
+                </div>
+                <div class="detail-item">
+                  <label class="detail-label">Quarter</label>
+                  <p class="detail-value">Q3</p>
+                </div>
+                <div class="detail-item">
+                  <label class="detail-label">Year</label>
+                  <p class="detail-value">2023</p>
+                </div>
+              </div>
+            </div>
+            <div class="info-section">
+              <div class="info-item">
+                <label class="info-label">Subject</label>
+                <p class="info-value">Quarterly Performance Review</p>
+              </div>
+              <div class="info-item">
+                <label class="info-label">Sentiment</label>
+                <p class="info-value">Positive</p>
+              </div>
+            </div>
+            <div class="buttons-grid">
+              <button class="action-button">Previous Evaluation</button>
+              <button class="action-button">Average Evaluation</button>
+              <button class="action-button">Show Performance Graph</button>
+              <button class="action-button">Individual Evaluation</button>
+            </div>
+          </div>
+          <div class="right-column">
+            <button @click="click('student')">close</button>
+            <h2 class="ai-title">AI Summarizer</h2>
+
+            <div class="ai-container">
+              <div class="ai-response">
+                <textarea
+                  class="ai-textarea"
+                  placeholder="AI Response Here..."
+                  readonly
+                >
+                </textarea>
+              </div>
+              <div class="ai-input-container">
+                <input
+                  class="ai-input"
+                  placeholder="Ask a follow-up..."
+                  type="text"
+                />
+                <button class="ai-send-button">
+                  <span class="material-icons send-icon">send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--sidebar-->
   <div class="side-bar">
     <div class="menu">
@@ -351,77 +424,6 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-
-    <div class="main-modal" v-if="activeModal === 'showInfo'">
-      <div class="modal-container">
-        <div class="modal-content">
-          <div class="modal-grid">
-            <div class="left-column">
-              <div class="profile-section">
-                <div class="profile-image-container">
-                  <div class="profile-image">
-                    <span class="material-icons profile-icon">image</span>
-                  </div>
-                </div>
-                <div class="profile-details">
-                  <div class="detail-item">
-                    <label class="detail-label">Name</label>
-                    <p class="detail-value">John Doe</p>
-                  </div>
-                  <div class="detail-item">
-                    <label class="detail-label">Quarter</label>
-                    <p class="detail-value">Q3</p>
-                  </div>
-                  <div class="detail-item">
-                    <label class="detail-label">Year</label>
-                    <p class="detail-value">2023</p>
-                  </div>
-                </div>
-              </div>
-              <div class="info-section">
-                <div class="info-item">
-                  <label class="info-label">Subject</label>
-                  <p class="info-value">Quarterly Performance Review</p>
-                </div>
-                <div class="info-item">
-                  <label class="info-label">Sentiment</label>
-                  <p class="info-value">Positive</p>
-                </div>
-              </div>
-              <div class="buttons-grid">
-                <button class="action-button">Previous Evaluation</button>
-                <button class="action-button">Average Evaluation</button>
-                <button class="action-button">Show Performance Graph</button>
-                <button class="action-button">Individual Evaluation</button>
-              </div>
-            </div>
-            <div class="right-column">
-              <h2 class="ai-title">AI Summarizer</h2>
-              <div class="ai-container">
-                <div class="ai-response">
-                  <textarea
-                    class="ai-textarea"
-                    placeholder="AI Response Here..."
-                    readonly
-                  >
-                  </textarea>
-                </div>
-                <div class="ai-input-container">
-                  <input
-                    class="ai-input"
-                    placeholder="Ask a follow-up..."
-                    type="text"
-                  />
-                  <button class="ai-send-button">
-                    <span class="material-icons send-icon">send</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -620,8 +622,6 @@ export default {
         alert("Are you sure you want to remove this teacher?");
         this.isLoading;
 
-        console.log(id);
-
         const response = await fetch(this.urlappphp4, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -701,7 +701,6 @@ export default {
 
         if (result.success) {
           this.subjects = result.subjects;
-          console.log(this.subjects);
         } else {
         }
       } catch (error) {

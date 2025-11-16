@@ -82,6 +82,14 @@
   <div class="content">
     <div class="container">
       <main class="main-content">
+        <div class="card" style="margin-bottom: 40px">
+          <h1>Current Times</h1>
+          <br />
+          <h3>Student:</h3>
+          <h4>Time here</h4>
+          <h3>Teacher:</h3>
+          <h4>time here</h4>
+        </div>
         <div class="card">
           <header class="header">
             <h1 class="title">Set Due Date</h1>
@@ -89,7 +97,7 @@
               Define the submission deadline for this assignment.
             </p>
           </header>
-          <form action="#" class="form" method="POST">
+          <form @submit.prevent="this.showtime()" class="form" method="POST">
             <div class="form-grid">
               <div class="form-group">
                 <label class="label" for="due-date">Due date</label>
@@ -99,9 +107,10 @@
                   </span>
                   <input
                     class="input-field"
-                    id="due-date"
                     name="due-date"
                     type="date"
+                    v-model="times.dateset"
+                    required
                   />
                 </div>
               </div>
@@ -113,15 +122,16 @@
                   </span>
                   <input
                     class="input-field"
-                    id="due-time"
                     name="due-time"
                     type="time"
+                    v-model="times.timeset"
+                    required
                   />
                 </div>
               </div>
             </div>
             <div class="form-group">
-              <label class="label">End (Optional)</label>
+              <label class="label">End</label>
               <p class="description">
                 Set a final cutoff date and time after which submissions are no
                 longer accepted.
@@ -134,9 +144,10 @@
                     </span>
                     <input
                       class="input-field"
-                      id="end-date"
                       name="end-date"
                       type="date"
+                      v-model="times.dateend"
+                      required
                     />
                   </div>
                 </div>
@@ -147,30 +158,13 @@
                     </span>
                     <input
                       class="input-field"
-                      id="end-time"
                       name="end-time"
                       type="time"
+                      v-model="times.timeend"
+                      required
                     />
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="checkbox-container">
-              <div class="checkbox-wrapper">
-                <input
-                  class="checkbox"
-                  id="countdown-timer"
-                  name="countdown-timer"
-                  type="checkbox"
-                />
-              </div>
-              <div class="checkbox-label-container">
-                <label class="checkbox-label" for="countdown-timer"
-                  >Countdown Timer</label
-                >
-                <p class="checkbox-description">
-                  Display a countdown timer for students.
-                </p>
               </div>
             </div>
             <div class="button-container">
@@ -186,7 +180,93 @@
   </div>
 </template>
 
-<script></script>
+<script>
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
+
+export default {
+  name: "schedule",
+  data() {
+    return {
+      timegetterphp: `${url2}/time.php`,
+      timesettierphp: `${url2}/startEvalSMTP.php`,
+      times: {
+        timeset: "",
+        dateset: "",
+        timeend: "",
+        dateend: "",
+      },
+      startendtime: {},
+      isLoading: false,
+      showMenu1: false,
+      showMenu2: false,
+      showMenu3: false,
+    };
+  },
+
+  methods: {
+    showtime() {
+      console.log(this.times);
+    },
+    async setTime() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.timesettierphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "setTime",
+            timess: this.times,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.getTime();
+        } else {
+          this.isLoading = false;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+
+    async getTime() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.timegetterphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getTime",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.startendtime = this.result;
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+  },
+
+  mounted() {
+    //this.getTime();
+  },
+};
+</script>
 
 <style scoped>
 .material-icons-outlined {
@@ -296,7 +376,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .input-field {
   padding-left: 2.5rem;
-  width: 100%;
+  width: 85%;
   border-radius: 0.5rem;
   border: 1px solid #d1d5db;
   background-color: #f9fafb;
