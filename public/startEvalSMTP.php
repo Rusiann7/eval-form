@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if($action === "begin"){
+if($action === "setTime"){
 
     $time_start = $data['time_start'];
     $date_start = $data['date_start'];
@@ -19,9 +19,10 @@ if($action === "begin"){
     $date_end = $data['date_end'];
     
     $sql = "INSERT INTO Schedules (time_start, date_start, time_end, date_end, is_deleted) 
-    VALUES ($time_start, $date_start, $time_end, $date_end, 0)";
+    VALUES ('$time_start', '$date_start', '$time_end', '$date_end', 0)";
 
     if($conn->query($sql) === true){
+        
 
         $body = '
             <center style="font-family: Arial, sans-serif; background-color: #f5f5f5; padding: 40px 20px; margin: 0;">
@@ -46,10 +47,29 @@ if($action === "begin"){
 
         $altbody = 'Evaluations has begun you may now evaluate Start: ' .$time_start; $date_start. 'End: '.$time_end; $date_end;
 
-        $email = "";
+        $email = [];
+
+        $sql = "SELECT email FROM Users WHERE is_deleted = 0;";
+        $result = $conn->query($sql);
+
+        if($result && $result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $email[] = [
+                    "email" => $row['email']
+                ];
+            }
+            echo json_encode(["success" => true, "emails" => $email]);
+        }
 
         $maill = smtp($email, $body, $altbody);
-        echo json_encode(["success" => true]);
+        
+        if($maill){
+            echo json_encode(["success" => true]);
+        }else{
+            echo json_encode(["success" => false, "messsage" => "error"]);
+            http_response_code(500);
+        }
+        
     }else{
         echo json_encode(["success" => false, "message" => "error"]);
         http_response_code(500);

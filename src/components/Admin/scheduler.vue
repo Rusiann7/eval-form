@@ -83,12 +83,14 @@
     <div class="container">
       <main class="main-content">
         <div class="card" style="margin-bottom: 40px">
-          <h1>Current Times</h1>
-          <br />
-          <h3>Student:</h3>
-          <h4>Time here</h4>
-          <h3>Teacher:</h3>
-          <h4>time here</h4>
+          <div class="titles">
+            <h1>Current Times</h1>
+            <br />
+            <h3>Time Start: {{ startendtime.time_start }}</h3>
+            <h3>Date Start: {{ startendtime.date_start }}</h3>
+            <h3>Time End: {{ startendtime.time_end }}</h3>
+            <h3>Date End: {{ startendtime.date_end }}</h3>
+          </div>
         </div>
         <div class="card">
           <header class="header">
@@ -97,7 +99,7 @@
               Define the submission deadline for this assignment.
             </p>
           </header>
-          <form @submit.prevent="this.showtime()" class="form" method="POST">
+          <form @submit.prevent="this.setTime()" class="form" method="POST">
             <div class="form-grid">
               <div class="form-group">
                 <label class="label" for="due-date">Due date</label>
@@ -188,7 +190,7 @@ export default {
   name: "schedule",
   data() {
     return {
-      timegetterphp: `${url2}/time.php`,
+      timegetterphp: `${url2}/timeGetter.php`,
       timesettierphp: `${url2}/startEvalSMTP.php`,
       times: {
         timeset: "",
@@ -205,9 +207,6 @@ export default {
   },
 
   methods: {
-    showtime() {
-      console.log(this.times);
-    },
     async setTime() {
       try {
         this.isLoading = true;
@@ -217,7 +216,10 @@ export default {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             action: "setTime",
-            timess: this.times,
+            time_start: this.times.timeset,
+            date_start: this.times.dateset,
+            time_end: this.times.timeend,
+            date_end: this.times.dateend,
           }),
         });
 
@@ -250,7 +252,13 @@ export default {
         const result = await response.json();
 
         if (result.success) {
-          this.startendtime = this.result;
+          const t = result.times || {};
+          this.startendtime = {
+            time_start: t.time_start,
+            date_start: t.date_start,
+            time_end: t.time_end,
+            date_end: t.date_end,
+          };
           this.isLoading = false;
         } else {
           this.isLoading = false;
@@ -263,7 +271,7 @@ export default {
   },
 
   mounted() {
-    //this.getTime();
+    this.getTime();
   },
 };
 </script>
@@ -389,46 +397,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   outline: none;
   ring: 2px solid #111827;
   border-color: #111827;
-}
-
-.checkbox-container {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-}
-
-.checkbox-wrapper {
-  display: flex;
-  height: 1.25rem;
-  align-items: center;
-}
-
-.checkbox {
-  height: 1rem;
-  width: 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid #d1d5db;
-  color: #111827;
-}
-
-.checkbox:focus {
-  ring: 2px solid #111827;
-}
-
-.checkbox-label-container {
-  margin-left: 0.75rem;
-}
-
-.checkbox-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-}
-
-.checkbox-description {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0;
 }
 
 .button-container {

@@ -124,9 +124,39 @@
         </div>
 
         <div class="header-buttons">
-          <button class="btn-primary">
+          <button class="btn-primary" @click="isEditing = !isEditing">
             Add
-            <span class="material-symbols-outlined"> add </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#FFFFFF"
+            >
+              <path
+                d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+              />
+            </svg>
+          </button>
+
+          <input
+            type="text"
+            v-model="newHeader"
+            class="search-input"
+            v-if="isEditing"
+          />
+          <button class="btn-primary" @click="addHeader()" v-if="isEditing">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#FFFFFF"
+            >
+              <path
+                d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+              />
+            </svg>
           </button>
         </div>
       </header>
@@ -152,8 +182,7 @@
                 v-if="header.editing"
                 @click="
                   (header.editing = false),
-                    changeHeader(header.header_id, header.header),
-                    (isSuccess = true)
+                    changeHeader(header.header_id, header.header)
                 "
               >
                 <span class="material-icons">edit</span>
@@ -161,13 +190,51 @@
               </button>
             </div>
             <div class="section-actions">
-              <button class="btn-section" @click="header.editing = true">
+              <button
+                class="btn-section"
+                @click="header.editing = !header.editing"
+              >
                 <span class="material-icons">edit</span>
                 Edit
               </button>
-              <button class="btn-section">
-                <span class="material-icons">delete</span>
-                Remove
+
+              <button class="btn-section" @click="header.addQ = !header.addQ">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#FFFFFF"
+                >
+                  <path
+                    d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+                  />
+                </svg>
+                Add question
+              </button>
+
+              <input
+                type="text"
+                class="search-input"
+                v-if="header.addQ"
+                v-model="newQuestion"
+              />
+              <button
+                class="btn-section"
+                @click="addQuestion(header.header_id)"
+                v-if="header.addQ"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="24px"
+                  viewBox="0 -960 960 960"
+                  width="24px"
+                  fill="#FFFFFF"
+                >
+                  <path
+                    d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"
+                  />
+                </svg>
               </button>
             </div>
           </div>
@@ -180,23 +247,39 @@
               :key="question.question_id"
             >
               <div class="question-content">
-                <button class="btn-question">
-                  <span class="material-symbols-outlined"> arrow_upward </span>
-                </button>
-                <button class="btn-question">
-                  <span class="material-symbols-outlined">
-                    arrow_downward
-                  </span>
-                </button>
                 <div class="question-text">
-                  <p>{{ question.question }}</p>
-                </div>
-                <div class="question-actions">
-                  <button class="btn-question">
+                  <p v-if="!question.editing">{{ question.question }}</p>
+                  <input
+                    type="text"
+                    v-if="question.editing"
+                    v-model="question.question"
+                    class="search-input"
+                  />
+                  <button
+                    class="btn-question"
+                    v-if="question.editing"
+                    @click="
+                      (question.editing = false),
+                        changeQuestion(question.question_id, question.question)
+                    "
+                  >
                     <span class="material-icons">edit</span>
                     Edit
                   </button>
-                  <button class="btn-question">
+                </div>
+
+                <div class="question-actions">
+                  <button
+                    class="btn-question"
+                    @click="question.editing = !question.editing"
+                  >
+                    <span class="material-icons">edit</span>
+                    Edit
+                  </button>
+                  <button
+                    class="btn-question"
+                    @click="rmQuestion(question.question_id)"
+                  >
                     <span class="material-icons">delete</span>
                     Remove
                   </button>
@@ -220,13 +303,21 @@ export default {
     return {
       urlappphp: `${url2}/questions.php`,
       chHeaderphp: `${url2}/headerChangerS.php`,
+      chQuestionphp: `https://star-panda-literally.ngrok-free.app/questionChange.php`,
+      rmQuestionphp: `${url2}/questionDelete.php`,
+      addQuestionphp: `${url2}/addQuestion.php`,
+      addheaderphp: `${url2}/addHeader.php`,
       headers: [],
+      newQuestion: "",
+      newHeader: "",
+      header_version: null,
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
       isLoading: false,
       isSuccess: false,
       isFailed: false,
+      isEditing: false,
     };
   },
 
@@ -246,7 +337,12 @@ export default {
         const result = await response.json();
 
         if (result.success) {
-          this.headers = result.headers.map((h) => ({ ...h, editing: false }));
+          this.headers = result.headers.map((h) => ({
+            ...h,
+            editing: false,
+            addQ: false,
+          }));
+          this.header_version = result.header_ver;
           this.isLoading = false;
         } else {
           console.error("server error:", error);
@@ -258,8 +354,6 @@ export default {
     },
 
     async changeHeader(headerId, headername) {
-      console.log(headerId, headername);
-
       try {
         this.isLoading = true;
 
@@ -278,6 +372,125 @@ export default {
         if (result.success) {
           this.isLoading = false;
           this.isSuccess = true;
+          this.getQuestions();
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+
+    async changeQuestion(questionId, questionname) {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.chQuestionphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "chQuestions",
+            id: questionId,
+            question: questionname,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+          this.getQuestions();
+        }
+      } catch (error) {
+        this.isLoading = false;
+        this.isFailed = true;
+        console.error(error);
+      }
+    },
+
+    async rmQuestion(qId) {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.rmQuestionphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "delQuestion",
+            id: qId,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+          this.getQuestions();
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+
+    async addQuestion(hId) {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.addQuestionphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "addQuestion",
+            question: this.newQuestion,
+            id: hId,
+            identifier: this.header_version,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+          this.getQuestions();
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+
+    async addHeader() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.addheaderphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "addHeader",
+            header: this.newHeader,
+            identifier: this.header_version,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+          this.isEditing = false;
           this.getQuestions();
         } else {
           this.isLoading = false;
@@ -310,6 +523,8 @@ export default {
 
   mounted() {
     this.getQuestions();
+    this.newQuestion = "";
+    this.newHeader = "";
   },
 };
 </script>
