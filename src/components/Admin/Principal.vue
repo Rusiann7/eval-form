@@ -4,7 +4,16 @@
     <p>Loading...</p>
   </div>
 
-  <div class="loading-screen" v-if="activeModal === 'showInfo'">
+  <!-- Sidebar -->
+  <input
+    type="checkbox"
+    id="principal-nav-toggle"
+    class="menu-checkbox"
+    aria-hidden="true"
+  />
+  <label for="principal-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+
+  <div class="main-modal" v-if="activeModal === 'showInfo'">
     <div class="modal-container">
       <div class="modal-content">
         <div class="modal-grid">
@@ -76,8 +85,7 @@
       </div>
     </div>
   </div>
-
-  <!--sidebar-->
+    
   <div class="side-bar">
     <div class="sidebar-header">
       <h3 class="sidebar-title">Principal Portal</h3>
@@ -2828,10 +2836,18 @@ select:focus-visible,
   backdrop-filter: blur(1px);
   z-index: 35;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 .menu-checkbox:checked ~ .menu-overlay {
   display: block;
+}
+
+/* Hide overlay on desktop where sidebar is always visible */
+@media (min-width: 769px) {
+  .menu-overlay {
+    display: none !important;
+  }
 }
 
 /* Sidebar */
@@ -2849,6 +2865,7 @@ select:focus-visible,
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease;
+  pointer-events: auto;
 }
 
 .sidebar-header {
@@ -2912,6 +2929,7 @@ select:focus-visible,
 .side-bar .menu .item {
   cursor: pointer;
   position: relative;
+  pointer-events: auto;
 }
 
 .side-bar .menu .item a {
@@ -2925,6 +2943,9 @@ select:focus-visible,
   font-weight: 500;
   border-bottom: 1px solid #f3f4f6;
   transition: all 0.2s ease;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .side-bar .menu .item a:hover {
@@ -2962,6 +2983,9 @@ select:focus-visible,
   font-size: 0.875rem;
   color: #6b7280;
   border-bottom: 1px solid #f3f4f6;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .side-bar .menu .item .sub-menu a:hover {

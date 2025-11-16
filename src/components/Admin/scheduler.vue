@@ -123,23 +123,28 @@
 
   <div class="content">
     <div class="container">
-      <main class="main-content">
-        <div class="card" style="margin-bottom: 40px">
-          <h1>Current Times</h1>
-          <br />
-          <h3>Student:</h3>
-          <h4>Time here</h4>
-          <h3>Teacher:</h3>
-          <h4>time here</h4>
+      <main class="content-main">
+        <div class="card current-times-card">
+          <h2 class="card-title">Current Times</h2>
+          <div class="times-display">
+            <div class="time-item">
+              <h3>Student:</h3>
+              <p class="time-value">Time here</p>
+            </div>
+            <div class="time-item">
+              <h3>Teacher:</h3>
+              <p class="time-value">time here</p>
+            </div>
+          </div>
         </div>
-        <div class="card">
+        <div class="card form-card">
           <header class="header">
             <h1 class="title">Set Due Date</h1>
             <p class="subtitle">
               Define the submission deadline for this assignment.
             </p>
           </header>
-          <form @submit.prevent="this.showtime()" class="form" method="POST">
+          <form @submit.prevent="showtime()" class="form" method="POST">
             <div class="form-grid">
               <div class="form-group">
                 <label class="label" for="due-date">Due date</label>
@@ -149,6 +154,7 @@
                   </span>
                   <input
                     class="input-field"
+                    id="due-date"
                     name="due-date"
                     type="date"
                     v-model="times.dateset"
@@ -164,6 +170,7 @@
                   </span>
                   <input
                     class="input-field"
+                    id="due-time"
                     name="due-time"
                     type="time"
                     v-model="times.timeset"
@@ -173,40 +180,59 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="label">End</label>
+              <label class="label">End (Optional)</label>
               <p class="description">
                 Set a final cutoff date and time after which submissions are no
                 longer accepted.
               </p>
               <div class="form-grid">
-                <div>
+                <div class="form-group">
                   <div class="input-container">
                     <span class="material-icons-outlined input-icon">
                       event_busy
                     </span>
                     <input
                       class="input-field"
+                      id="end-date"
                       name="end-date"
                       type="date"
                       v-model="times.dateend"
-                      required
                     />
                   </div>
                 </div>
-                <div>
+                <div class="form-group">
                   <div class="input-container">
                     <span class="material-icons-outlined input-icon">
                       access_time
                     </span>
                     <input
                       class="input-field"
+                      id="end-time"
                       name="end-time"
                       type="time"
                       v-model="times.timeend"
-                      required
                     />
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="checkbox-container">
+              <div class="checkbox-wrapper">
+                <input
+                  class="checkbox"
+                  id="countdown-timer"
+                  name="countdown-timer"
+                  type="checkbox"
+                  v-model="times.countdownTimer"
+                />
+              </div>
+              <div class="checkbox-label-container">
+                <label class="checkbox-label" for="countdown-timer"
+                  >Countdown Timer</label
+                >
+                <p class="checkbox-description">
+                  Display a countdown timer for students.
+                </p>
               </div>
             </div>
             <div class="button-container">
@@ -215,24 +241,11 @@
                 Save Settings
               </button>
             </div>
-            <div class="checkbox-label-container">
-              <label class="checkbox-label" for="countdown-timer"
-                >Countdown Timer</label
-              >
-              <p class="checkbox-description">
-                Display a countdown timer for students.
-              </p>
-            </div>
-          </div>
-          <div class="button-container">
-            <button class="button" type="submit">
-              <span class="material-icons-outlined">save</span>
-              Save Settings
-            </button>
-          </div>
-        </form>
-      </div>
+          </form>
+        </div>
+      </main>
     </div>
+  </div>
   </div>
 </template>
 
@@ -251,16 +264,30 @@ export default {
         dateset: "",
         timeend: "",
         dateend: "",
+        countdownTimer: false,
       },
       startendtime: {},
       isLoading: false,
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
+      fullname: "",
+      lastname: "",
     };
   },
 
   methods: {
+    navigateAndClose(route) {
+      this.$router.push(route);
+      // Close sidebar on mobile after navigation
+      if (window.innerWidth <= 768) {
+        document.getElementById('scheduler-nav-toggle').checked = false;
+      }
+    },
+    logout() {
+      localStorage.removeItem("userData");
+      this.$router.push("/");
+    },
     showtime() {
       console.log(this.times);
     },
@@ -319,6 +346,17 @@ export default {
   },
 
   mounted() {
+    // Initialize user data
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        this.fullname = user.fullname || "";
+        this.lastname = user.lastname || "";
+      } catch (e) {
+        console.error("Error parsing user data:", e);
+      }
+    }
     //this.getTime();
   },
 };
@@ -486,57 +524,101 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   margin-left: 280px;
   width: calc(100% - 280px);
   transition: margin-left 0.3s ease, width 0.3s ease;
+  background: #f9fafb;
 }
 
-/* ===== PAGE HEADER ===== */
-.page-header {
-  padding: 1.5rem 1.5rem 0.625rem;
-}
-
-.page-header h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.page-header p {
-  color: #6b7280;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  line-height: 1.5;
-}
-
-/* ===== CONTENT WRAPPER ===== */
-.content-wrapper {
-  padding: 1.25rem 1.5rem 2.5rem;
+/* ===== CONTENT AREA ===== */
+.content {
   flex: 1;
+  padding: 2rem 1.5rem;
+  overflow-y: auto;
 }
 
-.form-card {
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.content-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ===== CARD STYLES ===== */
+.card {
   background: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border: 1px solid #e5e7eb;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.current-times-card {
   padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.times-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.time-item {
+  padding: 1.25rem;
+  background: #f9fafb;
+  border-radius: 8px;
   border: 1px solid #e5e7eb;
 }
 
-.form-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
+.time-item h3 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 0.5rem 0;
 }
 
-.form-title {
+.time-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.form-card {
+  padding: 2rem;
+}
+
+.form-card .header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.form-card .title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #111827;
   margin: 0 0 0.5rem 0;
 }
 
-.form-subtitle {
+.form-card .subtitle {
   font-size: 0.875rem;
   color: #6b7280;
   margin: 0;
@@ -547,7 +629,13 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .form-grid {
@@ -559,7 +647,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .label {
   display: block;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #374151;
   margin-bottom: 0.5rem;
 }
@@ -592,24 +680,27 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 
 .input-field {
   padding-left: 2.5rem;
-  width: 85%;
+  padding-right: 1rem;
+  width: 100%;
   border-radius: 0.5rem;
   border: 1px solid #d1d5db;
-  background-color: #f9fafb;
+  background-color: #ffffff;
   color: #111827;
   height: 2.75rem;
   font-size: 0.875rem;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .input-field:focus {
   outline: none;
   border-color: #000;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
 }
 
 .input-field:hover {
-  border-color: #c1c9d2;
+  border-color: #9ca3af;
+  background-color: #f9fafb;
 }
 
 .checkbox-container {
@@ -937,16 +1028,22 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     max-width: 100% !important;
   }
 
-  .page-header {
-    padding: 1.25rem 1rem 0.5rem;
-  }
-
-  .content-wrapper {
+  .content {
     padding: 1rem;
   }
 
+  .container {
+    max-width: 100%;
+  }
+
+  .current-times-card,
   .form-card {
     padding: 1.5rem;
+  }
+
+  .times-display {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .form-grid {
@@ -956,16 +1053,30 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 @media (max-width: 480px) {
+  .content {
+    padding: 0.75rem;
+  }
+
+  .current-times-card,
   .form-card {
     padding: 1.25rem;
   }
 
-  .form-title {
+  .card-title,
+  .form-card .title {
     font-size: 1.25rem;
   }
 
   .side-bar {
     width: min(280px, 85%);
+  }
+
+  .times-display {
+    gap: 0.75rem;
+  }
+
+  .time-item {
+    padding: 1rem;
   }
 }
 </style>
