@@ -38,11 +38,11 @@ if($action === 'getstudentbyid'){
     }else{
         echo json_encode([
             'success' => false,
-            'message' => 'error teacher not found ' . $sql
+            'message' => 'error teacher not found '
         ]);
+        http_response_code(400);
     }
 }else{
-    echo json_encode([
-        "success" => false,
-    ]);
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

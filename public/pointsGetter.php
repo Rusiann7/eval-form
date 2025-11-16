@@ -23,5 +23,9 @@ if ($action === 'getPoints') {
         echo json_encode(['success' => true, 'points' => $points]);
     }else {
         echo json_encode(['success' => false, 'message' => 'Failed to get points']);
+        http_response_code(500);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

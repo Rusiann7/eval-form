@@ -1,6 +1,7 @@
-<?php
+<?php 
 
 require 'config.php';
+require 'functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -10,16 +11,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if($action === 'rmTeachers'){
-    $id = (int)$data['id'];
+if($action === "changeHeaders"){
 
-    $sql = "DELETE FROM Teachers WHERE id = $id";
+    $headerId = $data['id'];
+    $newHeader = $data['newHeader'];
+
+    $sql = "UPDATE Headers SET header = '$newHeader' WHERE id = $headerId;";
 
     if($conn->query($sql) === true){
         echo json_encode(["success" => true]);
     }else{
+        echo json_encode(["success" => false, "message" => "error"]);
         http_response_code(500);
-        echo json_encode(["success" => false, "message" => $conn->error]);
     }
 }else{
     echo json_encode(["success" => false, "message" => "Invalid action"]);

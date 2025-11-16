@@ -1,7 +1,6 @@
-<?php
+<?php 
 
 require 'config.php';
-require 'functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -11,25 +10,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if($action === "export"){
+if($action === 'getSubjects'){
 
-    $sql = "SELECT * FROM $table";
+    $sql = "SELECT * FROM Subjects";
     $result = $conn->query($sql);
 
-    if($result && $result->num_rows){
-
+    if($result && $result->num_rows > 0){
         while($row = $result->fetch_assoc()){
-            $items .= implode(',', $row) . "\n";
+            $subjects[] = [
+                'id' => $row['id'],
+                'subjects' => $row['subjects']
+            ];
         }
 
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="export.csv"');
-
-        echo json_encode(["success" => true]);
-    }else{
-        echo json_encode(["success" => false, "message" => "error"]);
+        echo json_encode(["success" => true, "subjects" => $subjects]);
     }
 }else{
     echo json_encode(["success" => false, "message" => "Invalid action"]);
     http_response_code(400);
 }
+

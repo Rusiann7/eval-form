@@ -96,6 +96,19 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "file",
+  data() {
+    return {
+      showMenu1: false,
+      showMenu2: false,
+      showMenu3: false,
+    };
+  },
+};
+</script>
+
 <style scoped>
 * {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;

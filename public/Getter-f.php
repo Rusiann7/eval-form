@@ -50,5 +50,9 @@ if ($action === 'getTeachers') {
             echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $rowCount]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
+        http_response_code(400);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

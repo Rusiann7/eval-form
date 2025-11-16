@@ -4,15 +4,80 @@
     <p>Loading...</p>
   </div>
 
-  <!-- Sidebar -->
-  <input
-    type="checkbox"
-    id="principal-nav-toggle"
-    class="menu-checkbox"
-    aria-hidden="true"
-  />
-  <label for="principal-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
-    
+  <div class="loading-screen" v-if="activeModal === 'showInfo'">
+    <div class="modal-container">
+      <div class="modal-content">
+        <div class="modal-grid">
+          <div class="left-column">
+            <div class="profile-section">
+              <div class="profile-image-container">
+                <div class="profile-image">
+                  <span class="material-icons profile-icon">image</span>
+                </div>
+              </div>
+              <div class="profile-details">
+                <div class="detail-item">
+                  <label class="detail-label">Name</label>
+                  <p class="detail-value">John Doe</p>
+                </div>
+                <div class="detail-item">
+                  <label class="detail-label">Quarter</label>
+                  <p class="detail-value">Q3</p>
+                </div>
+                <div class="detail-item">
+                  <label class="detail-label">Year</label>
+                  <p class="detail-value">2023</p>
+                </div>
+              </div>
+            </div>
+            <div class="info-section">
+              <div class="info-item">
+                <label class="info-label">Subject</label>
+                <p class="info-value">Quarterly Performance Review</p>
+              </div>
+              <div class="info-item">
+                <label class="info-label">Sentiment</label>
+                <p class="info-value">Positive</p>
+              </div>
+            </div>
+            <div class="buttons-grid">
+              <button class="action-button">Previous Evaluation</button>
+              <button class="action-button">Average Evaluation</button>
+              <button class="action-button">Show Performance Graph</button>
+              <button class="action-button">Individual Evaluation</button>
+            </div>
+          </div>
+          <div class="right-column">
+            <button @click="click('student')">close</button>
+            <h2 class="ai-title">AI Summarizer</h2>
+
+            <div class="ai-container">
+              <div class="ai-response">
+                <textarea
+                  class="ai-textarea"
+                  placeholder="AI Response Here..."
+                  readonly
+                >
+                </textarea>
+              </div>
+              <div class="ai-input-container">
+                <input
+                  class="ai-input"
+                  placeholder="Ask a follow-up..."
+                  type="text"
+                />
+                <button class="ai-send-button">
+                  <span class="material-icons send-icon">send</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--sidebar-->
   <div class="side-bar">
     <div class="sidebar-header">
       <h3 class="sidebar-title">Principal Portal</h3>
@@ -66,6 +131,9 @@
           >
           <a href="#" @click="click2('rmTeacher')" class="sub-item"
             >Delete Users</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Edit Users</a
           >
         </div>
       </div>
@@ -507,16 +575,82 @@
               </div>
             </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">
-                <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <line x1="19" y1="8" x2="19" y2="14"></line>
-                  <line x1="22" y1="11" x2="16" y2="11"></line>
-                </svg>
-                Create Teacher Account
-              </button>
+            <div class="form-group">
+              <label for="lsNm">Enter the Email:</label>
+              <input
+                type="email"
+                v-model="teacherr.email"
+                placeholder="Enter Email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the ID:</label>
+              <input
+                type="number"
+                v-model="teacherr.id"
+                placeholder="Enter ID"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Choose Subject:</label>
+
+              <select v-model="teacherr.sub" class="" required>
+                <option
+                  v-for="subject in subjects"
+                  :key="subject.id"
+                  :value="subject.id"
+                >
+                  {{ subject.subjects }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Choose Quarter:</label>
+              <select v-model="teacherr.qrt" class="" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter Year:</label>
+              <input
+                type="number"
+                v-model="teacherr.yr"
+                placeholder="Enter Year"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Password:</label>
+              <input
+                type="password"
+                v-model="teacherr.ps"
+                placeholder="Enter Password"
+                minlength="8"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Confirm Password:</label>
+              <input
+                type="password"
+                v-model="teacherr.cpas"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+            <div class="">
+              <button type="submit" class="btn">Create Teacher</button>
             </div>
           </form>
         </div>
@@ -604,77 +738,6 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-
-    <div class="main-modal" v-if="activeModal === 'showInfo'">
-      <div class="modal-container">
-        <div class="modal-content">
-          <div class="modal-grid">
-            <div class="left-column">
-              <div class="profile-section">
-                <div class="profile-image-container">
-                  <div class="profile-image">
-                    <span class="material-icons profile-icon">image</span>
-                  </div>
-                </div>
-                <div class="profile-details">
-                  <div class="detail-item">
-                    <label class="detail-label">Name</label>
-                    <p class="detail-value">John Doe</p>
-                  </div>
-                  <div class="detail-item">
-                    <label class="detail-label">Quarter</label>
-                    <p class="detail-value">Q3</p>
-                  </div>
-                  <div class="detail-item">
-                    <label class="detail-label">Year</label>
-                    <p class="detail-value">2023</p>
-                  </div>
-                </div>
-              </div>
-              <div class="info-section">
-                <div class="info-item">
-                  <label class="info-label">Subject</label>
-                  <p class="info-value">Quarterly Performance Review</p>
-                </div>
-                <div class="info-item">
-                  <label class="info-label">Sentiment</label>
-                  <p class="info-value">Positive</p>
-                </div>
-              </div>
-              <div class="buttons-grid">
-                <button class="action-button">Previous Evaluation</button>
-                <button class="action-button">Average Evaluation</button>
-                <button class="action-button">Show Performance Graph</button>
-                <button class="action-button">Individual Evaluation</button>
-              </div>
-            </div>
-            <div class="right-column">
-              <h2 class="ai-title">AI Summarizer</h2>
-              <div class="ai-container">
-                <div class="ai-response">
-                  <textarea
-                    class="ai-textarea"
-                    placeholder="AI Response Here..."
-                    readonly
-                  >
-                  </textarea>
-                </div>
-                <div class="ai-input-container">
-                  <input
-                    class="ai-input"
-                    placeholder="Ask a follow-up..."
-                    type="text"
-                  />
-                  <button class="ai-send-button">
-                    <span class="material-icons send-icon">send</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -693,6 +756,7 @@ export default {
       urlappphp3: `${url2}/viewEvaluationt.php`,
       urlappphp4: `${url2}/rmTeacher.php`,
       urlappphp5: `${url2}/createTeacher.php`,
+      subjecturl: `${url2}/subjectGetter.php`,
       teachers: [],
       teacherr: {
         fn: "",
@@ -736,6 +800,7 @@ export default {
       evaluateSortBy: "name-asc",
       deleteSearchQuery: "",
       deleteSortBy: "name-asc",
+      subjects: { id: "", subject: "" },
     };
   },
 
@@ -1117,8 +1182,6 @@ export default {
         alert("Are you sure you want to remove this teacher?");
         this.isLoading;
 
-        console.log(id);
-
         const response = await fetch(this.urlappphp4, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -1154,6 +1217,8 @@ export default {
             }),
           });
 
+          console.log(this.teacherr);
+
           const result = await response.json();
 
           if (result.success) {
@@ -1170,6 +1235,8 @@ export default {
               cpas: "",
             };
           } else {
+            this.isLoading = false;
+            this.isFailed = true;
             console.error(error);
           }
         } catch (error) {
@@ -1177,6 +1244,27 @@ export default {
         }
       } else {
         this.isWrong = true;
+      }
+    },
+
+    async getSubjects() {
+      try {
+        const response = await fetch(this.subjecturl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getSubjects",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.subjects = result.subjects;
+        } else {
+        }
+      } catch (error) {
+        console.error("error");
       }
     },
 
@@ -1231,12 +1319,29 @@ export default {
     },
   },
 
+  watch: {
+    activeModal(newVal) {
+      switch (newVal) {
+        case "student":
+          this.getSteval();
+          break;
+        case "teacher":
+          this.getTceval();
+          break;
+        case "evaluate":
+          this.getTeachers();
+          break;
+        case "manage":
+          this.getSubjects();
+      }
+    },
+  },
+
   mounted() {
-    this.getTeachers();
     this.id = localStorage.getItem("userData") || "";
     // this.skipLogin();
     this.getSteval();
-    this.getTceval();
+    this.getTeachers();
   },
 };
 </script>

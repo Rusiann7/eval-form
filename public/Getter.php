@@ -16,6 +16,7 @@ if ($action === 'getTeachers') {
 
     $sql5 = "SELECT
     t.*,
+    s.subjects AS subjects,
     u.is_deleted,
     CASE
         WHEN e.id IS NOT NULL THEN 'evaluated'
@@ -27,7 +28,10 @@ if ($action === 'getTeachers') {
         Users u ON t.usr_id = u.id
     LEFT JOIN
         Evaluation e ON t.id = e.tcr_id AND e.evt_id = $id
-    WHERE u.is_deleted = 0;";
+    LEFT JOIN
+        Subjects s ON t.subject = s.id
+    WHERE 
+        u.is_deleted = 0;";
 
     $result = $conn->query($sql5);
 
@@ -41,7 +45,7 @@ if ($action === 'getTeachers') {
                 'id' => $row['id'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
-                'subject' => $row['subject'],
+                'subject' => $row['subjects'],
                 'quarter' => $row['quarter'],
                 'year' => $row['year'],
                 'evaluated' => $row['is_evaluated']
@@ -50,5 +54,9 @@ if ($action === 'getTeachers') {
             echo json_encode(['success' => true, 'teachers' => $teachers, 'total' => $rowCount]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to get teachers']);
+        http_response_code(500);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

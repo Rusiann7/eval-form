@@ -47,11 +47,17 @@ if ($action === 'signup') {
                 echo json_encode(["success" => true]);
             }else{
                 echo json_encode(["success" => false,"error" => "Error: " . $conn->error]); 
+                http_response_code(500);
             }
         }else{
             echo json_encode(["success" => false,"error" => "Error: " . $conn->error]);
+            http_response_code(500);
         }
     }else{
+        http_response_code(400);
         echo json_encode(["success" => false,"error" => "Error", "message:" => "User already exist"]);
     }
+}else{
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }

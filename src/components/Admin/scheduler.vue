@@ -121,102 +121,99 @@
       </div>
     </header>
 
-    <!-- Page Header -->
-    <div class="page-header">
-      <h2>Scheduler</h2>
-      <p>Set due dates and deadlines for evaluation submissions</p>
-    </div>
-
-    <!-- Form Container -->
-    <div class="content-wrapper">
-      <div class="form-card">
-        <div class="form-header">
-          <h3 class="form-title">Set Due Date</h3>
-          <p class="form-subtitle">
-            Define the submission deadline for this assignment.
-          </p>
+  <div class="content">
+    <div class="container">
+      <main class="main-content">
+        <div class="card" style="margin-bottom: 40px">
+          <h1>Current Times</h1>
+          <br />
+          <h3>Student:</h3>
+          <h4>Time here</h4>
+          <h3>Teacher:</h3>
+          <h4>time here</h4>
         </div>
-        <form @submit.prevent="saveSettings" class="form">
-          <div class="form-grid">
-            <div class="form-group">
-              <label class="label" for="due-date">Due Date <span class="required">*</span></label>
-              <div class="input-container">
-                <span class="material-icons-outlined input-icon">
-                  calendar_today
-                </span>
-                <input
-                  class="input-field"
-                  id="due-date"
-                  name="due-date"
-                  type="date"
-                  v-model="formData.dueDate"
-                  required
-                />
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="label" for="due-time">Time <span class="required">*</span></label>
-              <div class="input-container">
-                <span class="material-icons-outlined input-icon">
-                  schedule
-                </span>
-                <input
-                  class="input-field"
-                  id="due-time"
-                  name="due-time"
-                  type="time"
-                  v-model="formData.dueTime"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="label">End Date (Optional)</label>
-            <p class="description">
-              Set a final cutoff date and time after which submissions are no
-              longer accepted.
+        <div class="card">
+          <header class="header">
+            <h1 class="title">Set Due Date</h1>
+            <p class="subtitle">
+              Define the submission deadline for this assignment.
             </p>
+          </header>
+          <form @submit.prevent="this.showtime()" class="form" method="POST">
             <div class="form-grid">
               <div class="form-group">
+                <label class="label" for="due-date">Due date</label>
                 <div class="input-container">
                   <span class="material-icons-outlined input-icon">
-                    event_busy
+                    calendar_today
                   </span>
                   <input
                     class="input-field"
-                    id="end-date"
-                    name="end-date"
+                    name="due-date"
                     type="date"
-                    v-model="formData.endDate"
+                    v-model="times.dateset"
+                    required
                   />
                 </div>
               </div>
               <div class="form-group">
+                <label class="label" for="due-time">Time</label>
                 <div class="input-container">
                   <span class="material-icons-outlined input-icon">
-                    access_time
+                    schedule
                   </span>
                   <input
                     class="input-field"
-                    id="end-time"
-                    name="end-time"
+                    name="due-time"
                     type="time"
-                    v-model="formData.endTime"
+                    v-model="times.timeset"
+                    required
                   />
                 </div>
               </div>
             </div>
-          </div>
-          <div class="checkbox-container">
-            <div class="checkbox-wrapper">
-              <input
-                class="checkbox"
-                id="countdown-timer"
-                name="countdown-timer"
-                type="checkbox"
-                v-model="formData.countdownTimer"
-              />
+            <div class="form-group">
+              <label class="label">End</label>
+              <p class="description">
+                Set a final cutoff date and time after which submissions are no
+                longer accepted.
+              </p>
+              <div class="form-grid">
+                <div>
+                  <div class="input-container">
+                    <span class="material-icons-outlined input-icon">
+                      event_busy
+                    </span>
+                    <input
+                      class="input-field"
+                      name="end-date"
+                      type="date"
+                      v-model="times.dateend"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div class="input-container">
+                    <span class="material-icons-outlined input-icon">
+                      access_time
+                    </span>
+                    <input
+                      class="input-field"
+                      name="end-time"
+                      type="time"
+                      v-model="times.timeend"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="button-container">
+              <button class="button" type="submit">
+                <span class="material-icons-outlined">save</span>
+                Save Settings
+              </button>
             </div>
             <div class="checkbox-label-container">
               <label class="checkbox-label" for="countdown-timer"
@@ -240,51 +237,89 @@
 </template>
 
 <script>
-import { removeToken } from "../../utils/auth";
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
 
 export default {
-  name: "Scheduler",
+  name: "schedule",
   data() {
     return {
+      timegetterphp: `${url2}/time.php`,
+      timesettierphp: `${url2}/startEvalSMTP.php`,
+      times: {
+        timeset: "",
+        dateset: "",
+        timeend: "",
+        dateend: "",
+      },
+      startendtime: {},
+      isLoading: false,
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
-      fullname:
-        JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
-        "User",
-      lastname:
-        JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
-        "Name",
-      formData: {
-        dueDate: "",
-        dueTime: "",
-        endDate: "",
-        endTime: "",
-        countdownTimer: false,
-      },
     };
   },
+
   methods: {
-    logout() {
+    showtime() {
+      console.log(this.times);
+    },
+    async setTime() {
       try {
-        removeToken();
-        this.$router.replace("/");
+        this.isLoading = true;
+
+        const response = await fetch(this.timesettierphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "setTime",
+            timess: this.times,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.getTime();
+        } else {
+          this.isLoading = false;
+        }
       } catch (error) {
-        console.error("Logout error:", error);
+        this.isLoading = false;
+        console.error(error);
       }
     },
-    navigateAndClose(route) {
-      this.$router.push(route);
-      // Close sidebar on mobile after navigation
-      if (window.innerWidth <= 768) {
-        document.getElementById('scheduler-nav-toggle').checked = false;
+
+    async getTime() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.timegetterphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getTime",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.startendtime = this.result;
+          this.isLoading = false;
+        } else {
+          this.isLoading = false;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
       }
     },
-    saveSettings() {
-      // Handle form submission
-      console.log("Saving settings:", this.formData);
-      // Add your API call here
-    },
+  },
+
+  mounted() {
+    //this.getTime();
   },
 };
 </script>
@@ -556,11 +591,11 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 
 .input-field {
-  padding-left: 2.75rem;
-  width: 100%;
-  border-radius: 8px;
-  border: 1.5px solid #e1e5e9;
-  background-color: #fff;
+  padding-left: 2.5rem;
+  width: 85%;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  background-color: #f9fafb;
   color: #111827;
   height: 2.75rem;
   font-size: 0.875rem;
