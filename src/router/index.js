@@ -147,7 +147,7 @@ const router = createRouter({ //create the routes and history
   },
 
   {
-    path: "/performance-graph",
+    path: "/performance-graph/:id",
     name: "PerformanceGraph",
     component: graph,
     meta: { title: "Performance Graph", requiresAuth: false },

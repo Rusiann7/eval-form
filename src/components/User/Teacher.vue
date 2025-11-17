@@ -1104,7 +1104,7 @@ header p {
 .class-card {
   background-color: #000;
   color: #fff;
-  border-radius: 15px;
+  border-radius: 10px;
   padding: 10px;
   cursor: pointer;
 }

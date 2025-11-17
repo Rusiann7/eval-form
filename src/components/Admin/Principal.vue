@@ -55,7 +55,19 @@
             <div class="buttons-grid">
               <button class="action-button">Previous Evaluation</button>
               <button class="action-button">Average Evaluation</button>
-              <button class="action-button">Show Performance Graph</button>
+              <button
+                class="action-button"
+                @click.prevent="
+                  $router.push({
+                    name: 'PerformanceGraph',
+                    params: {
+                      id: selectedStudent.teacher_id,
+                    },
+                  })
+                "
+              >
+                Show Performance Graph
+              </button>
               <button
                 class="action-button"
                 @click.prevent="
@@ -77,18 +89,6 @@
             <button class="logout-btn" @click="activeModal = 'student'">
               close
             </button>
-            <h2 class="ai-title">AI Summarizer</h2>
-
-            <div class="ai-container">
-              <div class="ai-response">
-                <textarea
-                  class="ai-textarea"
-                  placeholder="AI Response Here..."
-                  readonly
-                >
-                </textarea>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -105,6 +105,7 @@
     </div>
     <div class="menu">
       <div class="item">
+<<<<<<< HEAD
         <a href="#" class="sub-btn" @click.stop="showMenu1 = !showMenu1">
           <span>Student</span>
           <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -117,6 +118,11 @@
             >Individual Answers</a
           >
         </div>
+=======
+        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
+          >Student</a
+        >
+>>>>>>> a4f7fe1 (fixed the sidebar)
       </div>
       <div class="item">
         <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
@@ -126,9 +132,8 @@
           </svg>
         </a>
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" class="sub-item">Merged Answers</a>
           <a href="#" @click="click('teacher')" class="sub-item"
-            >Individual Answers</a
+            >Evaluation Answers</a
           >
           <a href="#" @click="click('evaluate')" class="sub-item"
             >Evaluate Teachers</a
@@ -161,9 +166,28 @@
         <a href="#" @click.prevent="navigateAndClose('/fileupload')">File Upload</a>
       </div>
       <div class="item">
+<<<<<<< HEAD
         <a href="#" @click.prevent="navigateAndClose('/changequestions')"
           >Question Change</a
         >
+=======
+        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
+
+        <div class="sub-menu" v-if="showMenu4">
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-student')"
+            class="sub-item"
+            >Chnage Student Questions</a
+          >
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-teacher')"
+            class="sub-item"
+            >Change Teacher Questions</a
+          >
+        </div>
+>>>>>>> a4f7fe1 (fixed the sidebar)
       </div>
     </div>
     <div class="sidebar-footer">
@@ -823,6 +847,7 @@ export default {
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
+<<<<<<< HEAD
       studentSearchQuery: "",
       studentSortBy: "name-asc",
       teacherSearchQuery: "",
@@ -831,6 +856,9 @@ export default {
       evaluateSortBy: "name-asc",
       deleteSearchQuery: "",
       deleteSortBy: "name-asc",
+=======
+      showMenu4: false,
+>>>>>>> a4f7fe1 (fixed the sidebar)
       subjects: { id: "", subject: "" },
     };
   },

@@ -3,36 +3,17 @@
   <div class="side-bar">
     <div class="menu">
       <div class="item">
-        <a
-          href="#"
-          class="sub-btn"
-          @click.stop="
-            $router.push('/principal');
-            showMenu1 = !showMenu1;
-          "
+        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
           >Student</a
         >
-        <div class="sub-menu" v-if="showMenu1">
-          <a href="#" class="sub-item">Merged Answers</a>
-          <a href="#" @click="click('student')" class="sub-item"
-            >Individual Answers</a
-          >
-        </div>
       </div>
       <div class="item">
-        <a
-          href="#"
-          class="sub-btn"
-          @click.stop="
-            $router.push('/principal');
-            showMenu2 = !showMenu2;
-          "
+        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
           >Teacher</a
         >
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" class="sub-item">Merged Answers</a>
           <a href="#" @click="click('teacher')" class="sub-item"
-            >Individual Answers</a
+            >Evaluation Answers</a
           >
           <a href="#" @click="click('evaluate')" class="sub-item"
             >Evaluate Teachers</a
@@ -40,12 +21,7 @@
         </div>
       </div>
       <div class="item">
-        <a
-          href="#"
-          @click.stop="
-            $router.push('/principal');
-            showMenu3 = !showMenu3;
-          "
+        <a href="#" @click.stop="$router.push('/principal')"
           >Account Management</a
         >
         <div class="sub-menu" v-if="showMenu3">
@@ -54,6 +30,9 @@
           >
           <a href="#" @click="click2('rmTeacher')" class="sub-item"
             >Delete Users</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Edit Users</a
           >
         </div>
       </div>
@@ -65,9 +44,22 @@
       </div>
 
       <div class="item">
-        <a href="#" @click.prevent="$router.push('/changequestions')"
-          >Question Change</a
-        >
+        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
+
+        <div class="sub-menu" v-if="showMenu4">
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-student')"
+            class="sub-item"
+            >Chnage Student Questions</a
+          >
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-teacher')"
+            class="sub-item"
+            >Change Teacher Questions</a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -104,6 +96,7 @@ export default {
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
+      showMenu4: false,
     };
   },
 };

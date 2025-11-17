@@ -29,6 +29,7 @@
     </div>
     <div class="menu">
       <div class="item">
+<<<<<<< HEAD
         <a href="#" class="sub-btn" @click.stop="navigateAndClose('/principal'); showMenu1 = !showMenu1">
           <span>Student</span>
           <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -39,6 +40,11 @@
           <a href="#" class="sub-item" @click="navigateAndClose('/principal')">Merged Answers</a>
           <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Individual Answers</a>
         </div>
+=======
+        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
+          >Student</a
+        >
+>>>>>>> a4f7fe1 (fixed the sidebar)
       </div>
       <div class="item">
         <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
@@ -48,6 +54,7 @@
           </svg>
         </a>
         <div class="sub-menu" v-if="showMenu2">
+<<<<<<< HEAD
           <a href="#" class="sub-item" @click="navigateAndClose('/principal')">Merged Answers</a>
           <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Individual Answers</a>
           <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Evaluate Teachers</a>
@@ -63,6 +70,30 @@
         <div class="sub-menu" v-if="showMenu3">
           <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Add Teachers</a>
           <a href="#" @click="navigateAndClose('/principal')" class="sub-item">Delete Users</a>
+=======
+          <a href="#" @click="click('teacher')" class="sub-item"
+            >Evaluation Answers</a
+          >
+          <a href="#" @click="click('evaluate')" class="sub-item"
+            >Evaluate Teachers</a
+          >
+        </div>
+      </div>
+      <div class="item">
+        <a href="#" @click.stop="$router.push('/principal')"
+          >Account Management</a
+        >
+        <div class="sub-menu" v-if="showMenu3">
+          <a href="#" @click="click2('crtTeacher')" class="sub-item"
+            >Add Teachers</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Delete Users</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Edit Users</a
+          >
+>>>>>>> a4f7fe1 (fixed the sidebar)
         </div>
       </div>
       <div class="item">
@@ -72,7 +103,26 @@
         <a href="#" @click.prevent="navigateAndClose('/fileupload')">File Upload</a>
       </div>
       <div class="item">
+<<<<<<< HEAD
         <a href="#" @click.prevent="navigateAndClose('/changequestions')">Question Change</a>
+=======
+        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
+
+        <div class="sub-menu" v-if="showMenu4">
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-student')"
+            class="sub-item"
+            >Chnage Student Questions</a
+          >
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-teacher')"
+            class="sub-item"
+            >Change Teacher Questions</a
+          >
+        </div>
+>>>>>>> a4f7fe1 (fixed the sidebar)
       </div>
     </div>
     <div class="sidebar-footer">
@@ -287,8 +337,12 @@ export default {
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
+<<<<<<< HEAD
       fullname: "",
       lastname: "",
+=======
+      showMenu4: false,
+>>>>>>> a4f7fe1 (fixed the sidebar)
     };
   },
 
