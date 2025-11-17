@@ -32,7 +32,7 @@
     <div class="stat-card">
       <h3>Verify your account:</h3>
       <br />
-      <button @click="verifyCode">Send Code</button>
+      <button @click="verifyCode" class="class-card">Send Code</button>
     </div>
   </div>
 
@@ -768,5 +768,13 @@ header p {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.class-card {
+  background-color: #000;
+  color: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
 }
 </style>
