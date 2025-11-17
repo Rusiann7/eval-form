@@ -46,7 +46,19 @@
             <div class="buttons-grid">
               <button class="action-button">Previous Evaluation</button>
               <button class="action-button">Average Evaluation</button>
-              <button class="action-button">Show Performance Graph</button>
+              <button
+                class="action-button"
+                @click.prevent="
+                  $router.push({
+                    name: 'PerformanceGraph',
+                    params: {
+                      id: selectedStudent.teacher_id,
+                    },
+                  })
+                "
+              >
+                Show Performance Graph
+              </button>
               <button
                 class="action-button"
                 @click.prevent="
@@ -68,18 +80,6 @@
             <button class="logout-btn" @click="activeModal = 'student'">
               close
             </button>
-            <h2 class="ai-title">AI Summarizer</h2>
-
-            <div class="ai-container">
-              <div class="ai-response">
-                <textarea
-                  class="ai-textarea"
-                  placeholder="AI Response Here..."
-                  readonly
-                >
-                </textarea>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -90,24 +90,17 @@
   <div class="side-bar">
     <div class="menu">
       <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu1 = !showMenu1"
+        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
           >Student</a
         >
-        <div class="sub-menu" v-if="showMenu1">
-          <a href="#" class="sub-item" @click="click('showInfo')">hidfhgrs</a>
-          <a href="#" @click="click('student')" class="sub-item"
-            >Individual Answers</a
-          >
-        </div>
       </div>
       <div class="item">
         <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
           >Teacher</a
         >
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" class="sub-item">Merged Answers</a>
           <a href="#" @click="click('teacher')" class="sub-item"
-            >Individual Answers</a
+            >Evaluation Answers</a
           >
           <a href="#" @click="click('evaluate')" class="sub-item"
             >Evaluate Teachers</a
@@ -136,9 +129,22 @@
       </div>
 
       <div class="item">
-        <a href="#" @click.prevent="$router.push('/changequestions')"
-          >Question Change</a
-        >
+        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
+
+        <div class="sub-menu" v-if="showMenu4">
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-student')"
+            class="sub-item"
+            >Chnage Student Questions</a
+          >
+          <a
+            href="#"
+            @click.prevent="$router.push('/changequestions-teacher')"
+            class="sub-item"
+            >Change Teacher Questions</a
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -457,6 +463,7 @@ export default {
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
+      showMenu4: false,
       subjects: { id: "", subject: "" },
     };
   },

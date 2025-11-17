@@ -45,30 +45,17 @@
   <div class="side-bar">
     <div class="menu">
       <div class="item">
-        <a
-          href="#"
-          class="sub-btn"
-          @click.stop="
-            $router.push('/principal');
-            showMenu1 = !showMenu1;
-          "
+        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
           >Student</a
         >
-        <div class="sub-menu" v-if="showMenu1">
-          <a href="#" class="sub-item">Merged Answers</a>
-          <a href="#" @click="click('student')" class="sub-item"
-            >Individual Answers</a
-          >
-        </div>
       </div>
       <div class="item">
         <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
           >Teacher</a
         >
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" class="sub-item">Merged Answers</a>
           <a href="#" @click="click('teacher')" class="sub-item"
-            >Individual Answers</a
+            >Evaluation Answers</a
           >
           <a href="#" @click="click('evaluate')" class="sub-item"
             >Evaluate Teachers</a
@@ -76,12 +63,7 @@
         </div>
       </div>
       <div class="item">
-        <a
-          href="#"
-          @click.stop="
-            $router.push('/principal');
-            showMenu3 = !showMenu3;
-          "
+        <a href="#" @click.stop="$router.push('/principal')"
           >Account Management</a
         >
         <div class="sub-menu" v-if="showMenu3">
@@ -90,6 +72,9 @@
           >
           <a href="#" @click="click2('rmTeacher')" class="sub-item"
             >Delete Users</a
+          >
+          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+            >Edit Users</a
           >
         </div>
       </div>
@@ -106,21 +91,20 @@
         <div class="sub-menu" v-if="showMenu4">
           <a
             href="#"
-            @click="$router.push('/changequestions-student')"
+            @click.prevent="$router.push('/changequestions-student')"
             class="sub-item"
-            >Chnage Teachers Questions</a
+            >Chnage Student Questions</a
           >
           <a
             href="#"
-            @click="$router.push('/changequestions-teacher')"
+            @click.prevent="$router.push('/changequestions-teacher')"
             class="sub-item"
-            >Change Students Questions</a
+            >Change Teacher Questions</a
           >
         </div>
       </div>
     </div>
   </div>
-
   <!--end of sidebar-->
 
   <div class="main-content">

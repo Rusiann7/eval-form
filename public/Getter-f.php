@@ -17,6 +17,7 @@ if ($action === 'getTeachers') {
     $sql5 = "SELECT
     t.*,
     u.is_deleted,
+    s.subjects AS subjects,
     CASE
         WHEN e.id IS NOT NULL THEN 'evaluated'
         ELSE 'not evaluated'
@@ -27,6 +28,8 @@ if ($action === 'getTeachers') {
         Users u ON t.usr_id = u.id
     LEFT JOIN
         EvaluationP e ON t.id = e.tcr_id AND e.evt_id = $id
+    LEFT JOIN
+        Subjects s ON t.subject = s.id
     WHERE u.is_deleted = 0;";
 
     $result = $conn->query($sql5);
@@ -41,7 +44,7 @@ if ($action === 'getTeachers') {
                 'id' => $row['id'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
-                'subject' => $row['subject'],
+                'subject' => $row['subjects'],
                 'quarter' => $row['quarter'],
                 'year' => $row['year'],
                 'evaluated' => $row['is_evaluated']

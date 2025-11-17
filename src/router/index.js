@@ -128,7 +128,7 @@ const routes = [
   },
 
   {
-    path: "/performance-graph",
+    path: "/performance-graph/:id",
     name: "PerformanceGraph",
     component: graph,
     meta: { title: "Performance Graph", requiresAuth: false },
