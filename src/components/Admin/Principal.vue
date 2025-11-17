@@ -18,37 +18,56 @@
               <div class="profile-details">
                 <div class="detail-item">
                   <label class="detail-label">Name</label>
-                  <p class="detail-value">John Doe</p>
+                  <p class="detail-value">
+                    {{ selectedStudent.firstname }}
+                    {{ selectedStudent.lastname }}
+                  </p>
                 </div>
                 <div class="detail-item">
                   <label class="detail-label">Quarter</label>
-                  <p class="detail-value">Q3</p>
+                  <p class="detail-value">Q{{ selectedStudent.quarter }}</p>
                 </div>
                 <div class="detail-item">
                   <label class="detail-label">Year</label>
-                  <p class="detail-value">2023</p>
+                  <p class="detail-value">{{ selectedStudent.year }}</p>
                 </div>
               </div>
             </div>
             <div class="info-section">
               <div class="info-item">
                 <label class="info-label">Subject</label>
-                <p class="info-value">Quarterly Performance Review</p>
+                <p class="info-value">{{ selectedStudent.subject }}</p>
               </div>
               <div class="info-item">
                 <label class="info-label">Sentiment</label>
-                <p class="info-value">Positive</p>
+                <p class="info-value">{{ selectedStudent.sentiment }}</p>
               </div>
             </div>
             <div class="buttons-grid">
               <button class="action-button">Previous Evaluation</button>
               <button class="action-button">Average Evaluation</button>
               <button class="action-button">Show Performance Graph</button>
-              <button class="action-button">Individual Evaluation</button>
+              <button
+                class="action-button"
+                @click.prevent="
+                  $router.push({
+                    name: 'printable-form',
+                    params: {
+                      id: selectedStudent.id,
+                      tcrid: selectedStudent.teacher_id,
+                      evtid: selectedStudent.eval_id,
+                    },
+                  })
+                "
+              >
+                Individual Evaluation
+              </button>
             </div>
           </div>
           <div class="right-column">
-            <button @click="click('student')">close</button>
+            <button class="logout-btn" @click="activeModal = 'student'">
+              close
+            </button>
             <h2 class="ai-title">AI Summarizer</h2>
 
             <div class="ai-container">
@@ -59,16 +78,6 @@
                   readonly
                 >
                 </textarea>
-              </div>
-              <div class="ai-input-container">
-                <input
-                  class="ai-input"
-                  placeholder="Ask a follow-up..."
-                  type="text"
-                />
-                <button class="ai-send-button">
-                  <span class="material-icons send-icon">send</span>
-                </button>
               </div>
             </div>
           </div>
@@ -197,19 +206,7 @@
             >Q{{ newStudent.quarter }} {{ newStudent.year }}</span
           >
           <br /><br />
-          <button
-            class="start"
-            @click.prevent="
-              $router.push({
-                name: 'printable-form',
-                params: {
-                  id: newStudent.id,
-                  tcrid: newStudent.teacher_id,
-                  evtid: newStudent.eval_id,
-                },
-              })
-            "
-          >
+          <button class="start" @click="openStudentModal(newStudent.id)">
             View Evaluation
           </button>
         </div>
@@ -217,27 +214,8 @@
     </div>
 
     <div v-if="activeModal === 'evaluate'">
-      <!-- Teacher Section -->
-      <div class="teacher-header">
-        <h3>Evaluate Teachers</h3>
-        <select class="dropdown">
-          <option>All Departments</option>
-          <option>Mathematics</option>
-          <option>Physics</option>
-          <option>English</option>
-          <option>MAPEH</option>
-          <option>Science</option>
-        </select>
-      </div>
-
       <!-- Teacher Cards -->
       <div class="teacher-container">
-        <div class="teacher-card">
-          <h3>Dr. Sarah Johnson</h3>
-          <p>Mathematics</p>
-          <span class="badge">⭐ 4.2</span>
-        </div>
-
         <div class="card" v-for="teacher in teachers" :key="teacher.id">
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
@@ -475,6 +453,7 @@ export default {
       activeTab1: "crtTeacher",
       selectedSubject: null,
       selectedQuarter: null,
+      selectedStudent: null,
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
@@ -505,6 +484,7 @@ export default {
             subject: teacher.subject,
             quarter: teacher.quarter,
             year: teacher.year,
+            sentiment: teacher.sentiment,
           }));
 
           this.count = result.total;
@@ -571,6 +551,7 @@ export default {
             subject: evaluation.teacher.subject,
             quarter: evaluation.teacher.quarter,
             year: evaluation.teacher.year,
+            sentiment: evaluation.teacher.sentiment,
           }));
 
           this.count2 = result.total;
@@ -606,6 +587,7 @@ export default {
             subject: evaluation.teacher.subject,
             quarter: evaluation.teacher.quarter,
             year: evaluation.teacher.year,
+            sentiment: evaluation.teacher.sentiment,
           }));
 
           this.count2 = result.total;
@@ -726,6 +708,13 @@ export default {
         this.$router.replace("/");
         return;
       }
+    },
+
+    openStudentModal(studentId) {
+      this.selectedStudent = this.newStudents.find(
+        (student) => student.id === studentId
+      );
+      this.activeModal = "showInfo";
     },
 
     toggleModal(modal) {

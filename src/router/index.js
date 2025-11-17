@@ -19,6 +19,7 @@ const fileUpload = () => import("../components/Admin/fileuploader.vue");
 const test = () => import("../components/Testing/test.vue");
 const graph = () => import("../components/Admin/perf-graph.vue");
 const modal = () => import("../components/Testing/modal.vue");
+const changeQuestiont = () => import("../components/Admin/ChangeQuestiont.vue");
 
 const routes = [
   {
@@ -106,7 +107,7 @@ const routes = [
   },
 
   {
-    path: "/changequestions",
+    path: "/changequestions-student",
     name: "Change-Questions",
     component: changeQuestions,
     meta: { title: "Change Questions", requiresAuth: false },
@@ -138,6 +139,13 @@ const routes = [
     name: "ModalItem",
     component: modal,
     meta: { title: "Item", requiresAuth: false },
+  },
+
+  {
+    path: "/changequestions-teacher",
+    name: "Change-Question-t",
+    component: changeQuestiont,
+    meta: { title: "Change Questions", requiresAuth: false },
   },
 ];
 

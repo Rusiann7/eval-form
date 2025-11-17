@@ -106,15 +106,15 @@
         <div class="sub-menu" v-if="showMenu4">
           <a
             href="#"
-            @click.prevent="$router.push('/changequestions-student')"
+            @click="$router.push('/changequestions-student')"
             class="sub-item"
-            >Chnage Student Questions</a
+            >Chnage Teachers Questions</a
           >
           <a
             href="#"
-            @click.prevent="$router.push('/changequestions-teacher')"
+            @click="$router.push('/changequestions-teacher')"
             class="sub-item"
-            >Change Teacher Questions</a
+            >Change Students Questions</a
           >
         </div>
       </div>
@@ -314,12 +314,12 @@ export default {
   name: "chQuestions",
   data() {
     return {
-      urlappphp: `${url2}/questions.php`,
-      chHeaderphp: `${url2}/headerChangerS.php`,
-      chQuestionphp: `https://star-panda-literally.ngrok-free.app/questionChange.php`,
-      rmQuestionphp: `${url2}/questionDelete.php`,
-      addQuestionphp: `${url2}/addQuestion.php`,
-      addheaderphp: `${url2}/addHeader.php`,
+      urlappphp: `${url2}/questiont.php`,
+      chHeaderphp: `${url2}/headerChangerT.php`,
+      chQuestionphp: `${url2}/questionChangeT.php`,
+      rmQuestionphp: `${url2}/questionDeleteT.php`,
+      addQuestionphp: `${url2}/addQuestionT.php`,
+      addheaderphp: `${url2}/addHeaderT.php`,
       headers: [],
       newQuestion: "",
       newHeader: "",
@@ -345,7 +345,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ action: "getQuestions" }),
+          body: JSON.stringify({ action: "getTeacherQuestions" }),
         });
 
         const result = await response.json();
