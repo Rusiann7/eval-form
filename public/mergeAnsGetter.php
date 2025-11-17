@@ -11,52 +11,77 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if($action === "student"){
+if ($action === "student") {
 
-    $id = $data['tcr_id'];
+    $id = intval($data['tcr_id']);
 
-    $sql = "SELECT * FROM Evaluation WHERE tcr_id = $id";
+    $sql = "SELECT id, created_at, avg, feedback FROM Evaluation WHERE tcr_id = $id";
     $result = $conn->query($sql);
 
+    if (!$result || $result->num_rows === 0) {
+        echo json_encode(["success" => false, "message" => "No evaluation found"]);
+        exit();
+    }
+
     $all_contents = [];
-    $session_id = [];
+    $session_ids = [];
 
-    if($result && $result->num_rows > 0){
-        while($orw1 = $result->fetch_assoc()){
-            $session_id[] = $row1;
+    while ($row1 = $result->fetch_assoc()) {
+        $sid = $row1['id'];
+        $session_ids[] = $sid;
 
-            $all_contents[$row1['id']] = [
-                "time" => $row1['time'],
-                "avg" => $row1['avg'],
-                "answer" => []
+        $all_contents[$sid] = [
+            "time"     => $row1['created_at'],
+            "avg"      => $row1['avg'],
+            "feedback" => $row1['feedback'],
+            "answer"   => []
+        ];
+    }
+
+    $session_id_list = implode(",", $session_ids);
+
+    $sql2 = "SELECT session_id, question_id, score 
+             FROM EvaluationAnswer 
+             WHERE session_id IN ($session_id_list)";
+    $result2 = $conn->query($sql2);
+
+    if ($result2 && $result2->num_rows > 0) {
+        while ($row2 = $result2->fetch_assoc()) {
+            $sid = $row2['session_id'];
+            $all_contents[$sid]["answer"][] = [
+                "question_id" => $row2['question_id'],
+                "score"       => intval($row2['score'])
             ];
         }
+    }
 
-        $session_id_list = implode(",", $session_id);
-        $sql2 = "SELECT session_id, question_id, score FROM EvaluaitonAnswer WHERE session_id IN ($session_id_list) GROUP BY session_id";
-        $result2 = $conn->query($sql2);
+    // merge scores by question_id
+    $qid = [];
 
-        if($result2 && $result2->num_rows > 0){
-            while($row2 = $result2->fetch_assoc()){
-
-                $all_contents[$row2['session_id']]["answer"][] = [
-                    "question_id" => $row2['question_id'],
-                    "score"       => $row2['score']
-                ];
-            }
-
-            $qid = [];
-
-            foreach($all_contents as $session_id => $session_data){
-                foreach($session_data as $answer){
-                    $question_id = $answer["question_id"];
-                    $score = $answer["score"];
-
-                    $qid[$question_id][] = $score;
-                }
-            }
-        }else{
-            echo json_encode(["success" => false, "message" => "error".$sql]);
+    foreach ($all_contents as $sid => $session_data) {
+        foreach ($session_data['answer'] as $answer) {
+            $qid[$answer["question_id"]][] = $answer["score"];
         }
     }
+
+    // compute averages
+    $final_avg = [];
+
+    foreach ($qid as $question_id => $scores) {
+        $final_avg[] = [
+            "question_id" => (string)$question_id,
+            "score" => array_sum($scores) / count($scores)
+        ];
+    }
+
+    echo json_encode([
+        "success" => true,
+        "merged"  => $final_avg
+    ]);
+    exit();
+
+} else {
+    echo json_encode(["success" => false, "message" => "Invalid action"]);
+    http_response_code(400);
 }
+

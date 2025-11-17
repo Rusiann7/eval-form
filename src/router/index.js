@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router' //vue router import
 import { isAuthenticated } from '../utils/auth' //auth import
 
+<<<<<<< HEAD
 const Student = () =>import('../components/User/Student.vue') //loads components 
 const Teacher = () => import('../components/User/Teacher.vue')
 const Principal = () => import('../components/Admin/Principal.vue')
@@ -13,6 +14,27 @@ const testSidebar = () => import('../components/Testing/testSidebar.vue')
 const pageError = () => import('../components/notFound.vue')
 const yes = () => import('../components/file.vue')
 const scheduler = () => import('../components/Admin/scheduler.vue')
+=======
+const Student = () => import("../components/User/Student.vue"); //loads components
+const Teacher = () => import("../components/User/Teacher.vue");
+const Principal = () => import("../components/Admin/Principal.vue");
+const newDashboard = () => import("../components/newDashboard.vue");
+const StEval = () => import("../components/evalforms/student.vue");
+const TcEval = () => import("../components/evalforms/teacher.vue");
+const printable = () => import("../components/evalforms/eval-form-student.vue");
+const printable1 = () =>
+  import("../components/evalforms/eval-form-teacher.vue");
+const testSidebar = () => import("../components/Testing/testSidebar.vue");
+const pageError = () => import("../components/notFound.vue");
+const yes = () => import("../components/file.vue");
+const scheduler = () => import("../components/Admin/scheduler.vue");
+const changeQuestions = () => import("../components/Admin/ChangeQuestions.vue");
+const fileUpload = () => import("../components/Admin/fileuploader.vue");
+const test = () => import("../components/Testing/test.vue");
+const graph = () => import("../components/Admin/perf-graph.vue");
+const modal = () => import("../components/Testing/modal.vue");
+const changeQuestiont = () => import("../components/Admin/ChangeQuestiont.vue");
+>>>>>>> 5380a09 (finished the question changer and started the split modal type)
 
 const routes = [
   {
@@ -100,7 +122,55 @@ const routes = [
   }
 ]
 
+<<<<<<< HEAD
 const router = createRouter({ //create the routes and history
+=======
+  {
+    path: "/changequestions-student",
+    name: "Change-Questions",
+    component: changeQuestions,
+    meta: { title: "Change Questions", requiresAuth: false },
+  },
+
+  {
+    path: "/fileupload",
+    name: "fileupload",
+    component: fileUpload,
+    meta: { title: "Upload", requiresAuth: false },
+  },
+
+  {
+    path: "/test",
+    name: "test",
+    component: test,
+    meta: { title: "Test", requiresAuth: false },
+  },
+
+  {
+    path: "/performance-graph",
+    name: "PerformanceGraph",
+    component: graph,
+    meta: { title: "Performance Graph", requiresAuth: false },
+  },
+
+  {
+    path: "/modal",
+    name: "ModalItem",
+    component: modal,
+    meta: { title: "Item", requiresAuth: false },
+  },
+
+  {
+    path: "/changequestions-teacher",
+    name: "Change-Question-t",
+    component: changeQuestiont,
+    meta: { title: "Change Questions", requiresAuth: false },
+  },
+];
+
+const router = createRouter({
+  //create the routes and history
+>>>>>>> 5380a09 (finished the question changer and started the split modal type)
   history: createWebHistory(),
   routes,
 })

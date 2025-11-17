@@ -35,11 +35,14 @@ if($action === 'getEvaluations'){
         t.quarter, 
         t.year, 
         t.id AS teacher_id,
-        s.subjects
+        s.subjects,
+        e.sentiment
         FROM 
         Teachers t 
         INNER JOIN 
         Subjects s ON t.subject = s.id
+        LEFT JOIN 
+        Evaluation e ON t.id = e.tcr_id
         WHERE t.id IN ($teacher_id_list);";
 
         $result2 = $conn->query($sql2);
@@ -54,6 +57,7 @@ if($action === 'getEvaluations'){
                             "subject" => $row2['subjects'],
                             "quarter" => $row2['quarter'],
                             "year" => $row2['year'],
+                            "sentiment" => $row2['sentiment']
                         ];
                     }
                 }
