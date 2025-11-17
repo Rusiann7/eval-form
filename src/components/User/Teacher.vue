@@ -65,7 +65,36 @@
   <!-- Page Title -->
   <div class="page-header">
     <h2>Teacher Portal</h2>
+<<<<<<< HEAD
     <p>Evaluate your colleagues and view feedback received from peers</p>
+=======
+    <p>Evaluate your colleagues</p>
+  </div>
+
+  <!--Verify Input-->
+  <div v-if="verified === '1'" class="stats-container">
+    <h3>Your account is now verified <span class="checkmark">✔</span></h3>
+  </div>
+
+  <!--Verify Status-->
+  <div class="stats-container" v-if="(verified === '0') & (active === 'code')">
+    <div class="stat-card">
+      <h3>Verify your account:</h3>
+      <br />
+      <button @click="verifyCode" class="class-card">Send Code</button>
+    </div>
+  </div>
+
+  <div class="stats-container" v-if="(verified === '0') & (active === 'input')">
+    <div class="stat-card">
+      <h3>Verify your account:</h3>
+      <br />
+      <form method="post" @submit.prevent="verifyInput">
+        <input type="text" v-model="verify" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+>>>>>>> cc803d6 (change button color in teacher)
   </div>
 
   <!-- Stats -->
@@ -1069,4 +1098,15 @@ header p {
   100% { transform: rotate(360deg); }
 }
 
+<<<<<<< HEAD
 </style>
+=======
+.class-card {
+  background-color: #000;
+  color: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  cursor: pointer;
+}
+</style>
+>>>>>>> cc803d6 (change button color in teacher)
