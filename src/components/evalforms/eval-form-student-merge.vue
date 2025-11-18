@@ -5,7 +5,7 @@
   </div>
 
   <div class="a4-page">
-    <div class="watermark">JAMES L. GORDON INTEGRATED SCHOOL</div>
+    <!--  <div class="watermark">JAMES L. GORDON INTEGRATED SCHOOL</div> -->
 
     <div class="header">
       <div class="logo-left">
@@ -15,7 +15,7 @@
         <h1>Republic of The Philippines</h1>
         <h2>Department of Education</h2>
         <h3>SCHOOLS DIVISION OF OLONGAPO CITY</h3>
-        <h4>JAMES L. GORDON INTEGRATED SCHOOL</h4>
+        <!-- <h4>JAMES L. GORDON INTEGRATED SCHOOL</h4> -->
       </div>
       <div class="logo-right">
         <img
@@ -29,7 +29,7 @@
       <div class="info-fields">
         <div class="info-field">
           <label for="student">Pangalan:</label>
-          <p>{{ name.firstname }} {{ name.lastname }}</p>
+          <p>{{ name.firstname }} {{ name.lastname }} ({{ name.stid }})</p>
         </div>
 
         <div class="info-field">
@@ -118,14 +118,17 @@
                 {{ question.question }}<br />
                 <!--tanong tagalog-->
               </td>
+
               <td class="rating-cell">
                 {{ answers[Number(question.question_id)] || "N/A" }}
               </td>
             </tr>
+            <tr></tr>
           </tbody>
         </table>
       </div>
       <p><strong>Comments/Suggestions:</strong></p>
+
       <p class="rating-cell">
         {{ answer.feedback || "N/A" }}
       </p>
@@ -155,22 +158,21 @@
 <script>
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
-//const url2 = "http://localhost:8000";
 
 export default {
   name: "printEval",
   data() {
     return {
-      urlappphp: `${url2}/questiont.php`,
+      urlappphp: `${url2}/questions.php`,
       urlappphp2: `${url2}/idGetter.php`,
-      urlappphp3: "https://star-panda-literally.ngrok-free.app/antGetter.php",
-      urlappphp4: `${url2}/evttGetter.php`,
+      urlappphp3: "https://star-panda-literally.ngrok-free.app/ansGetter.php",
+      urlappphp4: `${url2}/evtGetter.php`,
       name: {},
       month: "",
       headers: [],
+      answers: {},
       teacher: {},
       answer: {},
-      answers: {},
       date: new Date().getDate(),
       year: new Date().getFullYear(),
       isLoading: false,
@@ -187,7 +189,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ action: "getTeacherQuestions" }),
+          body: JSON.stringify({ action: "getQuestions" }),
         });
 
         const result = await response.json();
@@ -223,13 +225,12 @@ export default {
 
         if (result.success) {
           this.teacher = result.teacher;
-          this.month = result.month + " " + this.date + ", " + this.year;
           this.isLoading = false;
         } else {
-          console.error("Server error:", result.message);
+          console.log("Server error:", result.message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         this.isLoading = false;
       }
     },
@@ -242,8 +243,7 @@ export default {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
-            action: "antGetter",
-            id: this.$route.params.id,
+            action: "ansGetter",
             evt: this.$route.params.evtid,
             tcr: this.$route.params.tcrid,
           }),
@@ -262,12 +262,9 @@ export default {
           for (const ans of sessionData.answer) {
             this.answers[Number(ans.question_id)] = ans.score;
           }
-        } else {
-          console.error(error);
-          this.isLoading = false;
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         this.isLoading = false;
       }
     },
@@ -293,11 +290,10 @@ export default {
           this.name = result.student;
           this.isLoading = false;
         } else {
-          this.isLoading = false;
-          console.error("Server error:", result.message);
+          console.log("Server error:", result.message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         this.isLoading = false;
       }
     },
@@ -782,27 +778,12 @@ table.rating-table tr:nth-child(even) {
 }
 
 /* Print styles - FIXED HEADER/FOOTER THAT WORKS */
-/* 
-  IMPORTANT: For best print results, enable "Background graphics" in your browser's print settings:
-  - Chrome/Edge: Settings > More settings > Background graphics
-  - Firefox: Options > Print Background Colors
-  - Safari: Show Details > Print backgrounds
-*/
 @media print {
-  /* Force browsers to print backgrounds and colors */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-
   body {
     background: none;
     margin: 0;
     padding: 0;
     font-size: 0.8rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
   }
 
   .a4-page {
@@ -811,9 +792,6 @@ table.rating-table tr:nth-child(even) {
     width: 100%;
     height: 100%;
     page-break-after: always;
-    background: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
   }
 
   /* Header on every page - FIXED */
@@ -823,32 +801,9 @@ table.rating-table tr:nth-child(even) {
     left: 0;
     right: 0;
     padding: 0.2rem 0.5rem;
-    background: #f8f9fa !important;
-    background-color: #f8f9fa !important;
-    border-bottom: 2px solid #0044cc !important;
+    background: white;
     z-index: 1000;
-    height: auto;
-    min-height: 1.5rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .header h1 {
-    color: #003366 !important;
-  }
-
-  .header h2 {
-    color: #0044aa !important;
-  }
-
-  .header h3 {
-    color: #005588 !important;
-  }
-
-  .header h4 {
-    color: #cc0000 !important;
-    font-weight: bold !important;
-    text-transform: uppercase !important;
+    height: 1.5rem;
   }
 
   /* Footer on every page - FIXED */
@@ -858,31 +813,9 @@ table.rating-table tr:nth-child(even) {
     left: 0;
     right: 0;
     padding: 0.2rem 1rem;
-    background: #f8f9fa !important;
-    background-color: #f8f9fa !important;
-    border-top: 1px solid #0044cc !important;
+    background: white;
     z-index: 1000;
-    height: auto;
-    min-height: 1rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Logo containers */
-  .logo-left,
-  .logo-right,
-  .footer-logo {
-    background-color: #e6e6e6 !important;
-    border: 1px solid #ccc !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Watermark */
-  .watermark {
-    color: rgba(0, 0, 0, 0.05) !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    height: 1rem;
   }
 
   /* CRITICAL: Add margins to content to avoid cutting */
@@ -891,122 +824,16 @@ table.rating-table tr:nth-child(even) {
     margin: 0;
   }
 
-  /* Info fields */
-  .info-field label {
-    color: #2c3e50 !important;
-    font-weight: bold !important;
-  }
-
-  /* Rating scale */
-  .rating-scale {
-    background-color: #f8f9fa !important;
-    border: 1px solid #dee2e6 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .rating-scale h2 {
-    color: #2c3e50 !important;
-  }
-
-  /* Rating table */
-  table.rating-table {
-    border-collapse: collapse !important;
-  }
-
-  table.rating-table th {
-    background-color: #4a86e8 !important;
-    color: white !important;
-    border: 1px solid #dee2e6 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  table.rating-table td {
-    border: 1px solid #dee2e6 !important;
-  }
-
-  table.rating-table tr:nth-child(even) {
-    background-color: #f2f2f2 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Section headers */
-  .section-header {
-    background-color: #4a86e8 !important;
-    color: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .section-header .tagalog {
-    color: white !important;
-    display: block !important;
-  }
-
-  /* Text elements */
-  p,
-  strong {
-    color: #000 !important;
-  }
-
-  .info-field p {
-    color: #000 !important;
-  }
-
-  /* Indicator table */
-  .indicator-table {
-    border-collapse: collapse !important;
-    width: 100% !important;
-    border: 1px solid #dee2e6 !important;
-  }
-
-  .indicator-table thead {
-    display: table-header-group !important;
-  }
-
-  .indicator-table tbody {
-    display: table-row-group !important;
-  }
-
-  .indicator-table th {
-    border: 1px solid #dee2e6 !important;
-    background-color: #f8f9fa !important;
-    font-weight: bold !important;
-    padding: 0.5rem 0.4rem !important;
-    text-align: left !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .indicator-table td {
-    border: 1px solid #dee2e6 !important;
-    padding: 0.5rem 0.4rem !important;
-  }
-
-  .indicator-table tr {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  .indicator-table tr:nth-child(even) {
-    background-color: #f8f9fa !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Rating cell */
-  .rating-cell {
-    text-align: center !important;
-    border: 1px solid #dee2e6 !important;
-  }
-
   /* Prevent content from being cut off */
   .evaluation-section {
     page-break-inside: avoid;
     break-inside: avoid;
     margin: 1rem 0;
+  }
+
+  .indicator-table tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   /* Ensure tables don't break across pages awkwardly */
@@ -1022,21 +849,6 @@ table.rating-table tr:nth-child(even) {
   /* Hide loading screen when printing */
   .loading-screen {
     display: none !important;
-  }
-
-  /* Ensure all borders print */
-  .info-field,
-  .evaluation-section,
-  .rating-scale {
-    border: none;
-  }
-
-  /* Force visibility of all elements */
-  .header-content,
-  .footer-content,
-  .content > * {
-    visibility: visible !important;
-    display: block !important;
   }
 }
 

@@ -16,77 +16,150 @@
   <div class="main-modal" v-if="activeModal === 'showInfo'">
     <div class="modal-container">
       <div class="modal-content">
-        <div class="modal-grid">
-          <div class="left-column">
-            <div class="profile-section">
-              <div class="profile-image-container">
-                <div class="profile-image">
-                  <span class="material-icons profile-icon">image</span>
-                </div>
-              </div>
-              <div class="profile-details">
-                <div class="detail-item">
-                  <label class="detail-label">Name</label>
-                  <p class="detail-value">
-                    {{ selectedStudent.firstname }}
-                    {{ selectedStudent.lastname }}
-                  </p>
-                </div>
-                <div class="detail-item">
-                  <label class="detail-label">Quarter</label>
-                  <p class="detail-value">Q{{ selectedStudent.quarter }}</p>
-                </div>
-                <div class="detail-item">
-                  <label class="detail-label">Year</label>
-                  <p class="detail-value">{{ selectedStudent.year }}</p>
-                </div>
+        <div class="left-column">
+          <div class="profile-section">
+            <div class="profile-image-container">
+              <div class="profile-image">
+                <span class="material-icons profile-icon">image</span>
               </div>
             </div>
-            <div class="info-section">
-              <div class="info-item">
-                <label class="info-label">Subject</label>
-                <p class="info-value">{{ selectedStudent.subject }}</p>
+            <div class="profile-details">
+              <div class="detail-item">
+                <label class="detail-label">Name</label>
+                <p class="detail-value">
+                  {{ selectedStudent.firstname }}
+                  {{ selectedStudent.lastname }}
+                </p>
               </div>
-              <div class="info-item">
-                <label class="info-label">Sentiment</label>
-                <p class="info-value">{{ selectedStudent.sentiment }}</p>
+              <div class="detail-item">
+                <label class="detail-label">Quarter</label>
+                <p class="detail-value">Q{{ selectedStudent.quarter }}</p>
               </div>
-            </div>
-            <div class="buttons-grid">
-              <button class="action-button">Previous Evaluation</button>
-              <button class="action-button">Average Evaluation</button>
-              <button
-                class="action-button"
-                @click.prevent="
-                  $router.push({
-                    name: 'PerformanceGraph',
-                    params: {
-                      id: selectedStudent.teacher_id,
-                    },
-                  })
-                "
-              >
-                Show Performance Graph
-              </button>
-              <button
-                class="action-button"
-                @click.prevent="
-                  $router.push({
-                    name: 'printable-form',
-                    params: {
-                      id: selectedStudent.id,
-                      tcrid: selectedStudent.teacher_id,
-                      evtid: selectedStudent.eval_id,
-                    },
-                  })
-                "
-              >
-                Individual Evaluation
-              </button>
+              <div class="detail-item">
+                <label class="detail-label">Year</label>
+                <p class="detail-value">{{ selectedStudent.year }}</p>
+              </div>
             </div>
           </div>
-          <div class="right-column">
-            <button class="logout-btn" @click="activeModal = 'student'">
+          <div class="info-section">
+            <div class="info-item">
+              <label class="info-label">Subject</label>
+              <p class="info-value">{{ selectedStudent.subject }}</p>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Sentiment</label>
+              <p class="info-value">{{ selectedStudent.sentiment }}</p>
+            </div>
+          </div>
+          <div class="buttons-grid">
+            <button class="action-button">Average Evaluation</button>
+            <button
+              class="action-button"
+              @click.prevent="
+                $router.push({
+                  name: 'PerformanceGraph',
+                  params: {
+                    id: selectedStudent.teacher_id,
+                  },
+                })
+              "
+            >
+              Show Performance Graph
+            </button>
+            <button
+              class="action-button"
+              @click.prevent="
+                $router.push({
+                  name: 'printable-form',
+                  params: {
+                    id: selectedStudent.id,
+                    tcrid: selectedStudent.teacher_id,
+                    evtid: selectedStudent.eval_id,
+                  },
+                })
+              "
+            >
+              Individual Evaluation
+            </button>
+            <button class="action-button" @click="activeModal = 'student'">
+              close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--for teacher-->
+  <div class="loading-screen" v-if="activeModal === 'showInfot'">
+    <div class="modal-container">
+      <div class="modal-content">
+        <div class="left-column">
+          <div class="profile-section">
+            <div class="profile-image-container">
+              <div class="profile-image">
+                <span class="material-icons profile-icon">image</span>
+              </div>
+            </div>
+            <div class="profile-details">
+              <div class="detail-item">
+                <label class="detail-label">Name</label>
+                <p class="detail-value">
+                  {{ newSelectedteachers.firstname }}
+                  {{ newSelectedteachers.lastname }}
+                </p>
+              </div>
+              <div class="detail-item">
+                <label class="detail-label">Quarter</label>
+                <p class="detail-value">Q{{ newSelectedteachers.quarter }}</p>
+              </div>
+              <div class="detail-item">
+                <label class="detail-label">Year</label>
+                <p class="detail-value">{{ newSelectedteachers.year }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="info-section">
+            <div class="info-item">
+              <label class="info-label">Subject</label>
+              <p class="info-value">{{ newSelectedteachers.subject }}</p>
+            </div>
+            <div class="info-item">
+              <label class="info-label">Sentiment</label>
+              <p class="info-value">{{ newSelectedteachers.sentiment }}</p>
+            </div>
+          </div>
+          <div class="buttons-grid">
+            <button class="action-button">Average Evaluation</button>
+            <button
+              class="action-button"
+              @click.prevent="
+                $router.push({
+                  name: 'PerformanceGraph',
+                  params: {
+                    id: newSelectedteachers.teacher_id,
+                  },
+                })
+              "
+            >
+              Show Performance Graph
+            </button>
+            <button
+              class="action-button"
+              @click.prevent="
+                $router.push({
+                  name: 'printable-form1',
+                  params: {
+                    id: newSelectedteachers.id,
+                    tcrid: selectedStudent.teacher_id,
+                    evtid: selectedStudent.eval_id,
+                  },
+                })
+              "
+            >
+              Individual Evaluation
+            </button>
+            <button class="action-button" @click="activeModal = 'student'">
               close
             </button>
           </div>
@@ -106,6 +179,7 @@
     <div class="menu">
       <div class="item">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <a href="#" class="sub-btn" @click.stop="showMenu1 = !showMenu1">
           <span>Student</span>
           <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -120,6 +194,15 @@
         </div>
 =======
         <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
+=======
+        <a
+          href="#"
+          class="sub-btn"
+          @click.stop="
+            $router.push('/principal');
+            click('student');
+          "
+>>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
           >Student</a
         >
 >>>>>>> a4f7fe1 (fixed the sidebar)
@@ -154,7 +237,7 @@
           <a href="#" @click="click2('rmTeacher')" class="sub-item"
             >Delete Users</a
           >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+          <a href="#" @click="click2('editTeacher')" class="sub-item"
             >Edit Users</a
           >
         </div>
@@ -482,6 +565,7 @@
           <span class="badge"
             >Q{{ newteacher.quarter }} {{ newteacher.year }}</span
           >
+<<<<<<< HEAD
           <div class="card-button-wrapper">
             <button
               class="start"
@@ -502,6 +586,12 @@
         </div>
         <div v-if="filteredAndSortedTeachers.length === 0" class="no-results">
           <p>No evaluations found matching your search criteria.</p>
+=======
+          <br /><br />
+          <button class="start" @click="openStudentModal(newTeachers.id)">
+            View Evaluation
+          </button>
+>>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
         </div>
       </div>
     </div>
@@ -781,6 +871,109 @@
             </div>
           </div>
         </div>
+
+        <div class="teacher-container" v-if="activeTab1 === 'editTeacher'">
+          <div
+            class="card"
+            v-for="teacher in teachers"
+            :key="teacher.id"
+            v-if="!isEditing"
+          >
+            <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+            <p>{{ teacher.subject }}</p>
+            <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+            <br /><br />
+            <button class="start" @click.prevent="openTeacherModal(teacher.id)">
+              Edit Teacher
+            </button>
+          </div>
+
+          <div class="loading-screen" v-if="isEditing">
+            <div class="card">
+              <form method="post" @submit.prevent="editTeachers()">
+                <div v-if="isWrong" class="wrong">
+                  <p class="wrong">Wrong Credentials or Incomplete</p>
+                </div>
+                <div class="form-group">
+                  <label for="lsNm">Enter the First Name:</label>
+                  <input
+                    type="text"
+                    v-model="selectedTeachers.fn"
+                    placeholder="Enter First Name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="lsNm">Enter the Last Name:</label>
+                  <input
+                    type="text"
+                    v-model="selectedTeachers.ln"
+                    placeholder="Enter Last Name"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="lsNm">Enter the Email:</label>
+                  <input
+                    type="email"
+                    v-model="selectedTeachers.email"
+                    placeholder="Enter Email"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="lsNm">Enter the ID:</label>
+                  <input
+                    type="number"
+                    v-model="selectedTeachers.id"
+                    placeholder="Enter ID"
+                    required
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="lsNm">Choose Subject:</label>
+
+                  <select v-model="selectedTeachers.sub" class="" required>
+                    <option
+                      v-for="subject in subjects"
+                      :key="subject.id"
+                      :value="subject.id"
+                    >
+                      {{ subject.subjects }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="lsNm">Choose Quarter:</label>
+                  <select v-model="selectedTeachers.qrt" class="" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="lsNm">Enter Year:</label>
+                  <input
+                    type="number"
+                    v-model="selectedTeachers.yr"
+                    placeholder="Enter Year"
+                    required
+                  />
+                </div>
+                <div class="">
+                  <button type="submit" class="btn">Edit Teacher</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -800,6 +993,7 @@ import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "http://localhost:8000";
 
 export default {
   name: "Principal",
@@ -811,6 +1005,7 @@ export default {
       urlappphp4: `${url2}/rmTeacher.php`,
       urlappphp5: `${url2}/createTeacher.php`,
       subjecturl: `${url2}/subjectGetter.php`,
+      editteacherphp: `${url2}/`,
       teachers: [],
       teacherr: {
         fn: "",
@@ -831,6 +1026,7 @@ export default {
       isWrong: false,
       isSuccess: false,
       isFailed: false,
+      isEditing: false,
       fullname:
         JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
         "Student Name",
@@ -844,6 +1040,8 @@ export default {
       selectedSubject: null,
       selectedQuarter: null,
       selectedStudent: null,
+      selectedTeachers: null,
+      newSelectedteachers: null,
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
@@ -1125,6 +1323,7 @@ export default {
             quarter: teacher.quarter,
             year: teacher.year,
             sentiment: teacher.sentiment,
+            email: teacher.email,
           }));
 
           this.count = result.total;
@@ -1330,6 +1529,37 @@ export default {
       }
     },
 
+    async editTeachers() {
+      console.log(this.selectedTeachers);
+      try {
+        this.isLoading = true;
+        this.isEditing = true;
+
+        const response = await fetch(this.editteacherphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "editTeacher",
+            user: this.selectedTeachers,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+          this.isWrong = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.log(error);
+      }
+    },
+
     logout() {
       try {
         removeToken();
@@ -1355,6 +1585,29 @@ export default {
         (student) => student.id === studentId
       );
       this.activeModal = "showInfo";
+    },
+
+    openNewTeacherModal(newTeacherId) {
+      this.newSelectedteachers = this.newTeachers.find(
+        (teacher) => teacher.id === newTeacherId
+      );
+      this.activeModal = "showInfo1";
+    },
+
+    openTeacherModal(teacherId) {
+      const t = this.teachers.find((teacher) => teacher.id === teacherId);
+
+      this.selectedTeachers = {
+        fn: t.firstname,
+        ln: t.lastname,
+        email: t.email,
+        id: t.id,
+        sub: t.subject,
+        qrt: t.quarter,
+        yr: t.year,
+      };
+
+      this.isEditing = true;
     },
 
     toggleModal(modal) {

@@ -15,8 +15,6 @@ $action = $data['action'] ?? '';
 if($action === 'Ai'){
 
     $feedback = $data['feedback'];
-    //add the date here fgt
-    //kys
 
     global $yourApiKey;
 

@@ -153,8 +153,14 @@
 <script>
 import { removeToken, getToken } from "../../utils/auth";
 
+<<<<<<< HEAD
 const url1 = "https://rusiann7.helioho.st"
 const url2 = "https://star-panda-literally.ngrok-free.app"
+=======
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "http://localhost:8000";
+>>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
 
   export default {
     name: 'Teacher',

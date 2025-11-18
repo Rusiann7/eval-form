@@ -34,7 +34,14 @@ const test = () => import("../components/Testing/test.vue");
 const graph = () => import("../components/Admin/perf-graph.vue");
 const modal = () => import("../components/Testing/modal.vue");
 const changeQuestiont = () => import("../components/Admin/ChangeQuestiont.vue");
+<<<<<<< HEAD
 >>>>>>> 5380a09 (finished the question changer and started the split modal type)
+=======
+const printablemerge = () =>
+  import("../components/evalforms/eval-form-student-merge.vue");
+const printablemerge1 = () =>
+  import("../components/evalforms/eval-form-teacher-merge.vue");
+>>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
 
 const routes = [
   {
@@ -165,6 +172,20 @@ const router = createRouter({ //create the routes and history
     name: "Change-Question-t",
     component: changeQuestiont,
     meta: { title: "Change Questions", requiresAuth: false },
+  },
+
+  {
+    path: "/printable-form-students-merge/:tcrid/:evtid",
+    name: "printable-form2",
+    component: printablemerge,
+    meta: { title: "Printable Form", requiresAuth: false },
+  },
+
+  {
+    path: "/printable-form-teacher-merge/:tcrid/:evtid",
+    name: "printable-form3",
+    component: printablemerge1,
+    meta: { title: "Printable Form", requiresAuth: false },
   },
 ];
 
