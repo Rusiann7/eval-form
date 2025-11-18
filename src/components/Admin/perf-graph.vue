@@ -12,44 +12,151 @@
     <main class="main-grid">
       <section class="card">
         <h2 class="card-title">Graph of Performance</h2>
-        <div class="graph-placeholder">
-          <div class="placeholder-content">
-            <svg
-              class="placeholder-icon"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 18M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-              ></path>
-            </svg>
-            <p class="placeholder-text-lg">Template</p>
-            <p class="placeholder-text-sm">Placeholder for graph data</p>
-          </div>
-        </div>
+
+        <Bar :data="chartData" :options="chartOptions" />
       </section>
       <section class="card">
         <h2 class="card-title">A.I. Summarizer</h2>
         <div class="ai-response">
           <p class="response-text">A.I. Response Here</p>
         </div>
-        <div class="input-container">
-          <div class="input-wrapper">
-            <input class="text-input" placeholder="Text here" type="text" />
-            <button class="send-button" type="button">
-              <span class="material-icons-outlined send-icon">send</span>
-            </button>
-          </div>
-        </div>
       </section>
     </main>
   </div>
 </template>
+
+<script>
+import { Bar } from "vue-chartjs";
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+} from "chart.js";
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
+);
+
+const url1 = "https://rusiann7.helioho.st";
+const url2 = "https://star-panda-literally.ngrok-free.app";
+
+export default {
+  name: "graphPerformance",
+  components: { Bar },
+  data() {
+    return {
+      aiphp: `${url2}/chartGetter.php`,
+      chartphp: `${url2}/chartGetter.php`,
+      averages: [],
+      isLoading: false,
+      isSuccess: false,
+      isFailed: false,
+      chartData: {
+        labels: [],
+        datasets: [],
+      },
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2,
+        scales: {
+          x: { display: false },
+          y: { beginAtZero: true },
+        },
+      },
+      airesponse: null,
+    };
+  },
+
+  methods: {
+    async getChartData() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.chartphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "getChartData",
+            tcr_id: this.$route.params.id,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.averages = result.average.map((average) => ({
+            avg: average.average,
+          }));
+
+          console.log(this.averages);
+
+          this.chartData = {
+            labels: this.averages.map((_, i) => `Q${i + 1}`),
+            datasets: [
+              {
+                label: "Average",
+                data: this.averages.map((a) => a.avg),
+                backgroundColor: "rgba(75, 192, 192, 0.5)",
+              },
+            ],
+          };
+
+          this.isLoading = false;
+          this.isSuccess = true;
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async getAiResponse() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.aiphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "giveAi",
+            tcr_id: this.$route.params.id,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.airesponse = result.response;
+          this.isLoading = false;
+          this.isSuccess = true;
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+  },
+
+  mounted() {
+    this.getChartData();
+  },
+};
+</script>
 
 <style scoped>
 * {

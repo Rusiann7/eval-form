@@ -20,6 +20,10 @@ const test = () => import("../components/Testing/test.vue");
 const graph = () => import("../components/Admin/perf-graph.vue");
 const modal = () => import("../components/Testing/modal.vue");
 const changeQuestiont = () => import("../components/Admin/ChangeQuestiont.vue");
+const printablemerge = () =>
+  import("../components/evalforms/eval-form-student-merge.vue");
+const printablemerge1 = () =>
+  import("../components/evalforms/eval-form-teacher-merge.vue");
 
 const routes = [
   {
@@ -146,6 +150,20 @@ const routes = [
     name: "Change-Question-t",
     component: changeQuestiont,
     meta: { title: "Change Questions", requiresAuth: false },
+  },
+
+  {
+    path: "/printable-form-students-merge/:tcrid/:evtid",
+    name: "printable-form2",
+    component: printablemerge,
+    meta: { title: "Printable Form", requiresAuth: false },
+  },
+
+  {
+    path: "/printable-form-teacher-merge/:tcrid/:evtid",
+    name: "printable-form3",
+    component: printablemerge1,
+    meta: { title: "Printable Form", requiresAuth: false },
   },
 ];
 

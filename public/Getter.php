@@ -18,6 +18,7 @@ if ($action === 'getTeachers') {
     t.*,
     s.subjects AS subjects,
     u.is_deleted,
+    u.email,
     CASE
         WHEN e.id IS NOT NULL THEN 'evaluated'
         ELSE 'not evaluated'
@@ -44,6 +45,7 @@ if ($action === 'getTeachers') {
             $teachers[] = [
                 'id' => $row['id'],
                 'firstname' => $row['firstname'],
+                'email' => $row['email'],
                 'lastname' => $row['lastname'],
                 'subject' => $row['subjects'],
                 'quarter' => $row['quarter'],
