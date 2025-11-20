@@ -585,8 +585,8 @@
 import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
-//const url2 = "http://localhost:8000";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8000";
 
 export default {
   name: "Principal",
@@ -598,7 +598,7 @@ export default {
       urlappphp4: `${url2}/rmTeacher.php`,
       urlappphp5: `${url2}/createTeacher.php`,
       subjecturl: `${url2}/subjectGetter.php`,
-      editteacherphp: `${url2}/`,
+      editteacherphp: `${url2}/editTeacher.php`,
       teachers: [],
       teacherr: {
         fn: "",
