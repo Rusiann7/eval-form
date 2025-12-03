@@ -21,10 +21,12 @@ if($action === "getTime"){
 
         echo json_encode(["success" => true, "times" => $row ]);
     }else{
-        echo json_encode(["success" => false, "message" => "erro"]);
+        echo json_encode(["success" => false, "message" => "error"]);
         http_response_code(500);
     }
 }else{
     echo json_encode(["success" => false, "message" => "Invalid action"]);
     http_response_code(400);
 }
+
+$conn->close();

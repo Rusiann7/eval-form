@@ -599,6 +599,7 @@ export default {
       urlappphp5: `${url2}/createTeacher.php`,
       subjecturl: `${url2}/subjectGetter.php`,
       editteacherphp: `${url2}/editTeacher.php`,
+      airesponsephp: `${url2}/ai.php`,
       teachers: [],
       teacherr: {
         fn: "",
@@ -640,6 +641,7 @@ export default {
       showMenu3: false,
       showMenu4: false,
       subjects: { id: "", subject: "" },
+      airesponse: null,
     };
   },
 
@@ -785,7 +787,7 @@ export default {
     async rmTeachers(id) {
       try {
         alert("Are you sure you want to remove this teacher?");
-        this.isLoading;
+        this.isLoading = true;
 
         const response = await fetch(this.urlappphp4, {
           method: "POST",
@@ -901,6 +903,35 @@ export default {
       } catch (error) {
         this.isLoading = false;
         console.log(error);
+      }
+    },
+
+    async airesponse(id) {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.airesponsephp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "ai",
+            id: id,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.airesponse = result.response;
+          this.isLoading = false;
+          this.isSuccess = true;
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
       }
     },
 

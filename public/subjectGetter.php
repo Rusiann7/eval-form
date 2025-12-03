@@ -30,3 +30,4 @@ if($action === 'getSubjects'){
     http_response_code(400);
 }
 
+$conn->close();

@@ -85,3 +85,4 @@ if ($action === "student") {
     http_response_code(400);
 }
 
+$conn->close();

@@ -70,3 +70,5 @@ if( $action === 'getQuestions'){
     echo json_encode(["success" => false, "message" => "Invalid action"]);
     http_response_code(400);
 }
+
+$conn->close();
