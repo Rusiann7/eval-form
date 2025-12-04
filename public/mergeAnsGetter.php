@@ -13,7 +13,7 @@ $action = $data['action'] ?? '';
 
 if ($action === "student") {
 
-    $id = intval($data['tcr_id']);
+    $id = intval($data['tcr']);
 
     $sql = "SELECT id, created_at, avg, feedback FROM Evaluation WHERE tcr_id = $id";
     $result = $conn->query($sql);
@@ -76,7 +76,8 @@ if ($action === "student") {
 
     echo json_encode([
         "success" => true,
-        "merged"  => $final_avg
+        "answer"  => $final_avg,
+        "sessions" => $session_id_list
     ]);
     exit();
 

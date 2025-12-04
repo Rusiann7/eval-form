@@ -5,7 +5,7 @@
   </div>
 
   <div class="a4-page">
-    <div class="watermark">JAMES L. GORDON INTEGRATED SCHOOL</div>
+    <!--  <div class="watermark">JAMES L. GORDON INTEGRATED SCHOOL</div> -->
 
     <div class="header">
       <div class="logo-left">
@@ -15,7 +15,7 @@
         <h1>Republic of The Philippines</h1>
         <h2>Department of Education</h2>
         <h3>SCHOOLS DIVISION OF OLONGAPO CITY</h3>
-        <h4>JAMES L. GORDON INTEGRATED SCHOOL</h4>
+        <!-- <h4>JAMES L. GORDON INTEGRATED SCHOOL</h4> -->
       </div>
       <div class="logo-right">
         <img
@@ -29,7 +29,7 @@
       <div class="info-fields">
         <div class="info-field">
           <label for="student">Pangalan:</label>
-          <p>{{ name.firstname }} {{ name.lastname }}</p>
+          <p>{{ name.firstname }} {{ name.lastname }} ({{ name.stid }})</p>
         </div>
 
         <div class="info-field">
@@ -118,17 +118,15 @@
                 {{ question.question }}<br />
                 <!--tanong tagalog-->
               </td>
+
               <td class="rating-cell">
                 {{ answers[Number(question.question_id)] || "N/A" }}
               </td>
             </tr>
+            <tr></tr>
           </tbody>
         </table>
       </div>
-      <p><strong>Comments/Suggestions:</strong></p>
-      <p class="rating-cell">
-        {{ answer.feedback || "N/A" }}
-      </p>
     </div>
 
     <div class="footer">
@@ -162,14 +160,14 @@ export default {
     return {
       urlappphp: `${url2}/questiont.php`,
       urlappphp2: `${url2}/idGetter.php`,
-      urlappphp3: "https://star-panda-literally.ngrok-free.app/antGetter.php",
+      urlappphp3: `${url2}/mergeAntGetter.php`,
       urlappphp4: `${url2}/evttGetter.php`,
       name: {},
       month: "",
       headers: [],
+      answers: {},
       teacher: {},
       answer: {},
-      answers: {},
       date: new Date().getDate(),
       year: new Date().getFullYear(),
       isLoading: false,
@@ -222,13 +220,12 @@ export default {
 
         if (result.success) {
           this.teacher = result.teacher;
-          this.month = result.month + " " + this.date + ", " + this.year;
           this.isLoading = false;
         } else {
-          console.error("Server error:", result.message);
+          console.log("Server error:", result.message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         this.isLoading = false;
       }
     },
@@ -241,8 +238,7 @@ export default {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
-            action: "antGetter",
-            id: this.$route.params.id,
+            action: "teacher",
             evt: this.$route.params.evtid,
             tcr: this.$route.params.tcrid,
           }),
@@ -258,15 +254,14 @@ export default {
           this.isLoading = false;
 
           this.answers = {};
-          for (const ans of sessionData.answer) {
-            this.answers[Number(ans.question_id)] = ans.score;
+          for (const ans of result.answer) {
+            this.answers[Number(ans.question_id)] = Number(
+              ans.score.toFixed(1)
+            );
           }
-        } else {
-          console.error(error);
-          this.isLoading = false;
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         this.isLoading = false;
       }
     },
@@ -292,11 +287,10 @@ export default {
           this.name = result.student;
           this.isLoading = false;
         } else {
-          this.isLoading = false;
-          console.error("Server error:", result.message);
+          console.log("Server error:", result.message);
         }
       } catch (error) {
-        console.error(error);
+        console.log(error);
         this.isLoading = false;
       }
     },

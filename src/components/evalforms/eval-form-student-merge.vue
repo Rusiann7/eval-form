@@ -127,11 +127,6 @@
           </tbody>
         </table>
       </div>
-      <p><strong>Comments/Suggestions:</strong></p>
-
-      <p class="rating-cell">
-        {{ answer.feedback || "N/A" }}
-      </p>
     </div>
 
     <div class="footer">
@@ -165,7 +160,7 @@ export default {
     return {
       urlappphp: `${url2}/questions.php`,
       urlappphp2: `${url2}/idGetter.php`,
-      urlappphp3: "https://star-panda-literally.ngrok-free.app/ansGetter.php",
+      urlappphp3: `${url2}/mergeAnsGetter.php`,
       urlappphp4: `${url2}/evtGetter.php`,
       name: {},
       month: "",
@@ -243,7 +238,7 @@ export default {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
-            action: "ansGetter",
+            action: "student",
             evt: this.$route.params.evtid,
             tcr: this.$route.params.tcrid,
           }),
@@ -259,8 +254,10 @@ export default {
           this.isLoading = false;
 
           this.answers = {};
-          for (const ans of sessionData.answer) {
-            this.answers[Number(ans.question_id)] = ans.score;
+          for (const ans of result.answer) {
+            this.answers[Number(ans.question_id)] = Number(
+              ans.score.toFixed(1)
+            );
           }
         }
       } catch (error) {

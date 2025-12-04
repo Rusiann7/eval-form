@@ -24,6 +24,7 @@ const printablemerge = () =>
   import("../components/evalforms/eval-form-student-merge.vue");
 const printablemerge1 = () =>
   import("../components/evalforms/eval-form-teacher-merge.vue");
+const graphT = () => import("../components/Admin/perf-grapht.vue");
 
 const routes = [
   {
@@ -135,6 +136,13 @@ const routes = [
     path: "/performance-graph/:id",
     name: "PerformanceGraph",
     component: graph,
+    meta: { title: "Performance Graph", requiresAuth: false },
+  },
+
+  {
+    path: "/performance-graph/:id",
+    name: "PerformanceGraphT",
+    component: graphT,
     meta: { title: "Performance Graph", requiresAuth: false },
   },
 

@@ -9,11 +9,7 @@
       <div class="modal-content">
         <div class="left-column">
           <div class="profile-section">
-            <div class="profile-image-container">
-              <div class="profile-image">
-                <span class="material-icons profile-icon">image</span>
-              </div>
-            </div>
+            <div class="profile-image-container"></div>
             <div class="profile-details">
               <div class="detail-item">
                 <label class="detail-label">Name</label>
@@ -43,7 +39,20 @@
             </div>
           </div>
           <div class="buttons-grid">
-            <button class="action-button">Average Evaluation</button>
+            <button
+              class="action-button"
+              @click.prevent="
+                $router.push({
+                  name: 'printable-form2',
+                  params: {
+                    tcrid: selectedStudent.teacher_id,
+                    evtid: selectedStudent.eval_id,
+                  },
+                })
+              "
+            >
+              Average Evaluation
+            </button>
             <button
               class="action-button"
               @click.prevent="
@@ -121,12 +130,25 @@
             </div>
           </div>
           <div class="buttons-grid">
-            <button class="action-button">Average Evaluation</button>
             <button
               class="action-button"
               @click.prevent="
                 $router.push({
-                  name: 'PerformanceGraph',
+                  name: 'printable-form3',
+                  params: {
+                    tcrid: newSelectedteachers.teacher_id,
+                    evtid: newSelectedteachers.eval_id,
+                  },
+                })
+              "
+            >
+              Average Evaluation
+            </button>
+            <button
+              class="action-button"
+              @click.prevent="
+                $router.push({
+                  name: 'PerformanceGraphT',
                   params: {
                     id: newSelectedteachers.teacher_id,
                   },
@@ -142,8 +164,8 @@
                   name: 'printable-form1',
                   params: {
                     id: newSelectedteachers.id,
-                    tcrid: selectedStudent.teacher_id,
-                    evtid: selectedStudent.eval_id,
+                    tcrid: newSelectedteachers.teacher_id,
+                    evtid: newSelectedteachers.eval_id,
                   },
                 })
               "
@@ -327,7 +349,7 @@
         <div
           class="card"
           v-for="newteacher in newTeachers"
-          :key="newTeachers.id"
+          :key="newteacher.id"
         >
           <h3>{{ newteacher.firstname }} {{ newteacher.lastname }}</h3>
           <p>{{ newteacher.subject }}</p>
@@ -335,7 +357,7 @@
             >Q{{ newteacher.quarter }} {{ newteacher.year }}</span
           >
           <br /><br />
-          <button class="start" @click="openStudentModal(newTeachers.id)">
+          <button class="start" @click="openNewTeacherModal(newteacher.id)">
             View Evaluation
           </button>
         </div>
@@ -966,7 +988,7 @@ export default {
       this.newSelectedteachers = this.newTeachers.find(
         (teacher) => teacher.id === newTeacherId
       );
-      this.activeModal = "showInfo1";
+      this.activeModal = "showInfot";
     },
 
     openTeacherModal(teacherId) {
@@ -984,6 +1006,8 @@ export default {
 
       this.isEditing = true;
     },
+
+    openTeacherInfo(teacher_id) {},
 
     toggleModal(modal) {
       this.activeModal = modal;
