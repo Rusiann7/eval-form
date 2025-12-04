@@ -12,7 +12,7 @@ $action = $data['action'] ?? '';
 
 if($action === 'getTeacherQuestions'){
     
-    $sql1 = "SELECT id, header FROM HeaderT ORDER BY id ASC";
+    $sql1 = "SELECT id, header FROM HeaderT WHERE is_deleted = 0 ORDER BY id ASC";
     $result1 = $conn -> query($sql1);
 
     $all_headers = [];
@@ -31,7 +31,7 @@ if($action === 'getTeacherQuestions'){
         }
 
             $header_id_list = implode(",", $header_id);
-            $sql2 = "SELECT id, questions, questions_eng, header_id FROM QuestionT WHERE header_id IN ($header_id_list);";
+            $sql2 = "SELECT id, questions, header_id FROM QuestionT WHERE header_id IN ($header_id_list);";
             $result2 = $conn -> query($sql2);
 
             if($result2 && $result2->num_rows > 0){

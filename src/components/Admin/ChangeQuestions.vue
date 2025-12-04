@@ -193,7 +193,6 @@
                 @click="header.editing = !header.editing"
               >
                 <span class="material-icons">edit</span>
-                Edit
               </button>
 
               <button class="btn-section" @click="header.addQ = !header.addQ">
@@ -209,6 +208,9 @@
                   />
                 </svg>
                 Add question
+              </button>
+              <button class="btn-section" @click="delHeader(header.header_id)">
+                <span class="material-icons">delete</span>
               </button>
 
               <input
@@ -272,14 +274,12 @@
                     @click="question.editing = !question.editing"
                   >
                     <span class="material-icons">edit</span>
-                    Edit
                   </button>
                   <button
                     class="btn-question"
                     @click="rmQuestion(question.question_id)"
                   >
                     <span class="material-icons">delete</span>
-                    Remove
                   </button>
                 </div>
               </div>
@@ -301,10 +301,11 @@ export default {
     return {
       urlappphp: `${url2}/questions.php`,
       chHeaderphp: `${url2}/headerChangerS.php`,
-      chQuestionphp: `https://star-panda-literally.ngrok-free.app/questionChange.php`,
+      chQuestionphp: `${url2}/questionChange.php`,
       rmQuestionphp: `${url2}/questionDelete.php`,
       addQuestionphp: `${url2}/addQuestion.php`,
       addheaderphp: `${url2}/addHeader.php`,
+      delheaderphp: `${url2}/headerDel.php`,
       headers: [],
       newQuestion: "",
       newHeader: "",
@@ -490,6 +491,35 @@ export default {
           this.isLoading = false;
           this.isSuccess = true;
           this.isEditing = false;
+          this.getQuestions();
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
+
+    async delHeader(hId) {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.delheaderphp, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "deleteHeader",
+            header_id: hId,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
           this.getQuestions();
         } else {
           this.isLoading = false;

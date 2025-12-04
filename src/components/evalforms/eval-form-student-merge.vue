@@ -158,7 +158,7 @@ export default {
   name: "printEval",
   data() {
     return {
-      urlappphp: `${url2}/questions.php`,
+      urlappphp: `${url2}/questionsAll.php`,
       urlappphp2: `${url2}/idGetter.php`,
       urlappphp3: `${url2}/mergeAnsGetter.php`,
       urlappphp4: `${url2}/evtGetter.php`,

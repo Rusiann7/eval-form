@@ -122,8 +122,7 @@
         <tbody>
           <tr v-for="question in header.questions" :key="question.question_id">
             <td>
-              <strong> {{ question.question }}</strong> –
-              {{ question.question_eng }}
+              {{ question.question }}
             </td>
             <td class="rating-cell">
               <div class="rating-options">

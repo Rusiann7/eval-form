@@ -14,7 +14,7 @@ if($action === "delQuestion"){
     
     $id = $data['id'];
 
-    $sql = "DELETE FROM Questions WHERE id = $id";
+    $sql = "UPDATE Questions SET is_deleted = 0 WHERE id = $id";
 
     if($conn->query($sql) === true){
         echo json_encode(["success" => true]);

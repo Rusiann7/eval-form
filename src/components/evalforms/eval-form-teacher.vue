@@ -161,7 +161,7 @@ export default {
   name: "printEval",
   data() {
     return {
-      urlappphp: `${url2}/questiont.php`,
+      urlappphp: `${url2}/questiontAll.php`,
       urlappphp2: `${url2}/idGetter.php`,
       urlappphp3: "https://star-panda-literally.ngrok-free.app/antGetter.php",
       urlappphp4: `${url2}/evttGetter.php`,

@@ -1,6 +1,7 @@
-<?php 
+<?php
 
 require 'config.php';
+require 'functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -10,16 +11,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if($action === "delQuestion"){
-    
-    $id = $data['id'];
+if($action === "deleteHeader"){
+    $header_id = $data['header_id'];
 
-    $sql = "UPDATE QuestionT SET is_deleted = 1  WHERE id = $id";
+    $sql = "UPDATE HeaderT SET is_deleted = 0 WHERE id = $header_id;";
 
     if($conn->query($sql) === true){
         echo json_encode(["success" => true]);
     }else{
-        echo json_encode(["success" => false, "message" => "error"]);
+        echo json_encode(["success" => true, "message" => "error"]);
         http_response_code(500);
     }
 }else{

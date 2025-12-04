@@ -84,7 +84,7 @@
     >
       <!--title card yung blue i v-for din ito-->
       <h2 class="section-header">
-        {{ header.header }} <span class="tagalog">{{ header.header_p }}</span>
+        {{ header.header }}
       </h2>
       <table class="indicator-table">
         <thead>
