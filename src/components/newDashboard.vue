@@ -773,11 +773,14 @@ export default {
 }
 
 .container {
+  /* Responsive base font-size for readability across devices */
+  font-size: clamp(16px, 1.6vw, 20px);
+  line-height: 1.45;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px;
+  padding: 1rem 0.75rem;
   color: #fff;
   width: 100%;
   min-height: 100vh;
@@ -797,13 +800,13 @@ export default {
 }
 
 .logo-image {
-  width: 150px;
-  height: 150px;
+  width: 8rem; /* ~128px */
+  height: 8rem;
   border-radius: 50%;
   object-fit: cover;
-  border: 5px solid #fff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  margin-bottom: 20px;
+  border: 0.3rem solid #fff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.32);
+  margin-bottom: 1.25rem;
   background-color: #fff;
   display: flex;
   justify-content: center;
@@ -819,27 +822,27 @@ export default {
 }
 
 .logo h1 {
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 0.6rem;
   color: #fff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
 }
 
 .tagline {
-  font-size: 1.3rem;
-  margin-bottom: 10px;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  margin-bottom: 0.6rem;
   text-align: center;
-  max-width: 800px;
-  line-height: 1.5;
+  max-width: 900px;
+  line-height: 1.6;
   color: #e0f7fa;
   font-weight: 500;
 }
 
 .instruction {
   color: #e0e0e0;
-  margin-top: 20px;
-  font-size: 1.1rem;
+  margin-top: 0.8rem;
+  font-size: clamp(0.98rem, 1.4vw, 1.15rem);
   text-align: center;
 }
 
@@ -847,19 +850,20 @@ export default {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 2rem;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  padding: 30px;
-  width: 320px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 0.9rem;
+  padding: 1.6rem;
+  flex: 0 1 20rem; /* flexible base width */
+  max-width: calc(100% - 2rem);
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -871,10 +875,10 @@ export default {
 }
 
 .icon {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  height: 80px;
-  width: 80px;
+  font-size: 3.2rem;
+  margin-bottom: 1.1rem;
+  height: 5.2rem;
+  width: 5.2rem;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -898,29 +902,31 @@ export default {
 
 h2 {
   color: #2c3e50;
-  margin-bottom: 15px;
-  font-size: 1.8rem;
+  margin-bottom: 0.9rem;
+  font-size: clamp(1.4rem, 2.2vw, 2.2rem);
 }
 
 .card p {
   color: #555;
-  margin-bottom: 25px;
-  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
   flex-grow: 1;
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
 }
 
 .btn {
   display: inline-block;
   background: #2c3e50;
   color: white;
-  padding: 12px 30px;
+  padding: 1rem 1.8rem;
   border-radius: 50px;
   text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  font-weight: 700;
+  transition: all 0.25s ease;
   border: none;
   cursor: pointer;
-  width: 80%;
+  width: 85%;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
 }
 
 .btn:hover {
@@ -968,26 +974,26 @@ h2 {
 
 .modal-content {
   background: white;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 500px;
-  padding: 30px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-  transform: translateY(-50px);
-  transition: transform 0.5s ease;
+  border-radius: 1rem;
+  width: 94%;
+  max-width: 720px;
+  padding: 1.4rem;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
+  transform: translateY(-30px);
+  transition: transform 0.35s ease;
   position: relative;
-  max-height: 90vh;
+  max-height: 92vh;
   overflow-y: auto;
 }
 
 .close-modal {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 0.8rem;
+  right: 0.8rem;
   font-size: 1.5rem;
   color: #888;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.25s ease;
 }
 
 .close-modal:hover {
@@ -1001,7 +1007,7 @@ h2 {
 }
 
 .modal-icon {
-  font-size: 2.5rem;
+  font-size: clamp(1.6rem, 2.6vw, 2.5rem);
   margin-bottom: 15px;
 }
 
@@ -1020,29 +1026,31 @@ h2 {
 .modal-header h2 {
   color: #2c3e50;
   margin-bottom: 10px;
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
 }
 
 .modal-header p {
   color: #666;
+  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
 }
 
 /* Tab Styles */
 .tabs {
   display: flex;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ddd;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e6e6e6;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 12px;
+  padding: 0.7rem 0.6rem;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: clamp(1rem, 1.4vw, 1.05rem);
   font-weight: 600;
   color: #888;
-  transition: all 0.3s ease;
+  transition: all 0.22s ease;
   border-bottom: 3px solid transparent;
 }
 
@@ -1074,17 +1082,18 @@ h2 {
   display: block;
   margin-bottom: 8px;
   color: #444;
-  font-weight: 500;
+  font-weight: 600;
   text-align: left;
+  font-size: clamp(0.98rem, 1.2vw, 1.05rem);
 }
 
 .form-group input {
   width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
+  padding: 0.95rem 1rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 0.6rem;
+  font-size: clamp(1rem, 1.2vw, 1.05rem);
+  transition: border-color 0.2s ease;
 }
 
 .form-group input:focus {
@@ -1102,7 +1111,7 @@ h2 {
 .forgot-password a {
   color: #4a6da7;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: clamp(0.95rem, 1.2vw, 1rem);
 }
 
 .forgot-password a:hover {
@@ -1111,14 +1120,14 @@ h2 {
 
 .modal-btn {
   width: 100%;
-  padding: 14px;
+  padding: 1rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 0.7rem;
   color: white;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.22s ease, transform 0.15s ease;
 }
 
 .modal-btn:hover {
@@ -1172,10 +1181,10 @@ h2 {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
+  width: 3.2rem;
+  height: 3.2rem;
   animation: spin 1s linear infinite;
-  margin-bottom: 10px;
+  margin-bottom: 0.6rem;
   z-index: 3000;
 }
 
@@ -1203,44 +1212,65 @@ h2 {
 
   .card {
     width: 100%;
-    max-width: 350px;
-    margin-bottom: 20px;
+    max-width: 520px;
+    margin-bottom: 1rem;
+    padding: 1.25rem;
   }
 
   .logo h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   .tagline {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
   .modal-content {
-    width: 90%;
-    max-width: 400px;
+    width: calc(100% - 2rem);
+    max-width: 520px;
   }
 }
 
 @media (max-width: 600px) {
+  .container { font-size: 15.5px; }
+
   .logo h1 {
-    font-size: 1.8rem;
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
   }
 
   .tagline {
-    font-size: 0.9rem;
+    font-size: clamp(0.95rem, 2.8vw, 1.05rem);
   }
 
   .instruction {
-    font-size: 1rem;
+    font-size: 0.98rem;
   }
 
   .card {
-    padding: 20px;
+    padding: 0.9rem;
   }
 
   .logo-image {
-    width: 120px;
-    height: 120px;
+    width: 6.25rem;
+    height: 6.25rem;
   }
+}
+
+@media (min-width: 1100px) {
+  .cards-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .card { flex: 0 1 22.5rem; }
+  .modal-content { max-width: 820px; }
+}
+
+@media (min-width: 1600px) {
+  .container { font-size: 21px; }
 }
 </style>
