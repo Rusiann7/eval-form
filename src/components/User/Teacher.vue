@@ -1,11 +1,10 @@
 <template>
-
   <div v-if="isLoading" class="loading-screen">
     <div class="loading-spinner"></div>
     <p>Loading...</p>
   </div>
 
-<!-- Header -->
+  <!-- Header -->
   <header class="topbar">
     <div class="header-left">
       <input
@@ -65,42 +64,45 @@
   <!-- Page Title -->
   <div class="page-header">
     <h2>Teacher Portal</h2>
-<<<<<<< HEAD
     <p>Evaluate your colleagues and view feedback received from peers</p>
-=======
-    <p>Evaluate your colleagues</p>
   </div>
 
-  <!--Verify Input-->
+  <!-- Verify Status -->
   <div v-if="verified === '1'" class="stats-container">
     <h3>Your account is now verified <span class="checkmark">✔</span></h3>
   </div>
 
-  <!--Verify Status-->
-  <div class="stats-container" v-if="(verified === '0') & (active === 'code')">
+  <div class="stats-container" v-if="(verified === '0') && (active === 'code')">
     <div class="stat-card">
       <h3>Verify your account:</h3>
       <br />
-      <button @click="verifyCode" class="class-card">Send Code</button>
+      <button @click="verifyCode" class="verify-btn">Send Code</button>
     </div>
   </div>
 
-  <div class="stats-container" v-if="(verified === '0') & (active === 'input')">
+  <div class="stats-container" v-if="(verified === '0') && (active === 'input')">
     <div class="stat-card">
       <h3>Verify your account:</h3>
       <br />
       <form method="post" @submit.prevent="verifyInput">
-        <input type="text" v-model="verify" />
-        <button type="submit">Submit</button>
+        <input type="text" v-model="verify" class="verify-input" />
+        <button type="submit" class="verify-btn">Submit</button>
       </form>
     </div>
->>>>>>> cc803d6 (change button color in teacher)
   </div>
 
   <!-- Stats -->
   <div class="stats-container">
-    <div class="stat-card">👥<h3>{{ this.count }}</h3><p>Colleagues</p></div>
-    <div class="stat-card">✅<h3>2</h3><p>Completed</p></div>
+    <div class="stat-card">
+      <div class="stat-icon">👥</div>
+      <h3>{{ count }}</h3>
+      <p>Colleagues</p>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">✅</div>
+      <h3>2</h3>
+      <p>Completed</p>
+    </div>
   </div>
 
   <!-- Tabs -->
@@ -140,7 +142,7 @@
     >
       <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
       <p>{{ teacher.subject }}</p>
-      <span class="badge">Q{{ teacher.quarter }} {{teacher.year}}</span>
+      <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
       <br><br>
       <button class="btn btn-dark" @click.prevent="$router.push({name: 'teacher-eval', params: {id: teacher.id}})">Start Evaluation</button>
     </div>
@@ -153,137 +155,145 @@
 <script>
 import { removeToken, getToken } from "../../utils/auth";
 
-<<<<<<< HEAD
-const url1 = "https://rusiann7.helioho.st"
-const url2 = "https://star-panda-literally.ngrok-free.app"
-=======
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
-//const url2 = "http://localhost:8000";
->>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
 
-  export default {
-    name: 'Teacher',
-      data() {
-        return {
-          urlappphp: `${url2}/Getter.php`,
-          teachers: [],
-          count: 0,
-          isLoading: false,
-          fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
-          lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
-          searchQuery: "",
-          sortBy: "name",
+export default {
+  name: 'Teacher',
+  data() {
+    return {
+      urlappphp: `${url2}/Getter.php`,
+      teachers: [],
+      count: 0,
+      isLoading: false,
+      fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
+      lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
+      searchQuery: "",
+      sortBy: "name",
+      verified: '0',
+      active: 'code',
+      verify: ''
+    }
+  },
+
+  computed: {
+    filteredTeachers() {
+      // Start with a fresh copy of teachers array
+      let filtered = this.teachers.slice();
+
+      // Filter by search query
+      if (this.searchQuery.trim()) {
+        const query = this.searchQuery.toLowerCase().trim();
+        filtered = filtered.filter(
+          (teacher) =>
+            teacher.firstname.toLowerCase().includes(query) ||
+            teacher.lastname.toLowerCase().includes(query) ||
+            `${teacher.firstname} ${teacher.lastname}`
+              .toLowerCase()
+              .includes(query) ||
+            teacher.subject.toLowerCase().includes(query)
+        );
+      }
+
+      // Sort the filtered results - create a new sorted array
+      const sorted = [...filtered].sort((a, b) => {
+        if (this.sortBy === "name") {
+          const nameA = `${a.firstname} ${a.lastname}`.toLowerCase();
+          const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
+          return nameA.localeCompare(nameB);
+        } else if (this.sortBy === "subject") {
+          return a.subject.localeCompare(b.subject);
+        } else if (this.sortBy === "quarter") {
+          if (a.quarter !== b.quarter) {
+            return a.quarter - b.quarter;
+          }
+          return a.year - b.year;
         }
-      },
+        return 0;
+      });
 
-      computed: {
-        filteredTeachers() {
-          // Start with a fresh copy of teachers array
-          let filtered = this.teachers.slice();
+      return sorted;
+    },
+  },
 
-          // Filter by search query
-          if (this.searchQuery.trim()) {
-            const query = this.searchQuery.toLowerCase().trim();
-            filtered = filtered.filter(
-              (teacher) =>
-                teacher.firstname.toLowerCase().includes(query) ||
-                teacher.lastname.toLowerCase().includes(query) ||
-                `${teacher.firstname} ${teacher.lastname}`
-                  .toLowerCase()
-                  .includes(query) ||
-                teacher.subject.toLowerCase().includes(query)
-            );
-          }
+  methods: {
+    async getTeachers() {
+      this.isLoading = true;
+          
+      try {
+        const response = await fetch(this.urlappphp, {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getTeachers"})
+        });
 
-          // Sort the filtered results - create a new sorted array
-          const sorted = [...filtered].sort((a, b) => {
-            if (this.sortBy === "name") {
-              const nameA = `${a.firstname} ${a.lastname}`.toLowerCase();
-              const nameB = `${b.firstname} ${b.lastname}`.toLowerCase();
-              return nameA.localeCompare(nameB);
-            } else if (this.sortBy === "subject") {
-              return a.subject.localeCompare(b.subject);
-            } else if (this.sortBy === "quarter") {
-              if (a.quarter !== b.quarter) {
-                return a.quarter - b.quarter;
-              }
-              return a.year - b.year;
-            }
-            return 0;
-          });
+        const result = await response.json();
 
-          return sorted;
-        },
-      },
+        if (result.success) {
+          this.teachers = result.teachers.map(teacher => ({
+            id: teacher.id,
+            firstname: teacher.firstname,
+            lastname: teacher.lastname,
+            subject: teacher.subject,
+            quarter: teacher.quarter,
+            year: teacher.year
+          }));
 
-    methods: {
-      async getTeachers() {
-        this.isLoading = true;
-            
-        try {
-          const response = await fetch(this.urlappphp, {
-            method: 'POST',
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: "getTeachers"})
-          });
-
-          const result = await response.json();
-
-          if (result.success) {
-            this.teachers = result.teachers.map(teacher => ({
-              id: teacher.id,
-              firstname: teacher.firstname,
-              lastname: teacher.lastname,
-              subject: teacher.subject,
-              quarter: teacher.quarter,
-              year: teacher.year
-            }));
-
-            this.count = result.total;
-            this.isLoading = false;
-
-          }else {
-            console.error("Error fetching teachers:", result.message);
-          }
-
-        }catch(error){
-          console.error("Error fetching teachers:", error);
+          this.count = result.total;
           this.isLoading = false;
+
+        } else {
+          console.error("Error fetching teachers:", result.message);
         }
-      },
 
-      logout() {
-        try {
-          removeToken();
-          this.localUserData = {};
-          this.$router.replace("/");
-        }catch (error) {
-          console.error("Logout error:", error);
-        }
-      },
-
-      skipLogin(){
-        const token = getToken();
-
-        if (!token) {
-          console.error("No token found, redirecting to login.");
-          this.$router.replace("/new-Dashboard");
-        };
-      },
+      } catch(error) {
+        console.error("Error fetching teachers:", error);
+        this.isLoading = false;
+      }
     },
 
-    mounted(){
-      this.getTeachers();
-      this.skipLogin();
-      this.id = localStorage.getItem("userData") || "";
+    logout() {
+      try {
+        removeToken();
+        this.localUserData = {};
+        this.$router.replace("/");
+      } catch (error) {
+        console.error("Logout error:", error);
+      }
+    },
+
+    skipLogin() {
+      const token = getToken();
+
+      if (!token) {
+        console.error("No token found, redirecting to login.");
+        this.$router.replace("/new-Dashboard");
+      }
+    },
+    
+    verifyCode() {
+      // Implementation for verify code
+      this.active = 'input';
+    },
+    
+    verifyInput() {
+      // Implementation for verify input
+      this.verified = '1';
     }
+  },
+
+  mounted() {
+    this.getTeachers();
+    this.skipLogin();
+    this.id = localStorage.getItem("userData") || "";
   }
+}
 </script>
+
 <style scoped>
-/* Global */
+/* Global Styles */
 * {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -298,31 +308,35 @@ body {
   line-height: 1.6;
 }
 
-header {
-  text-align: center;
-  margin: 2.5rem 0 1.25rem;
-  padding: 0 1rem;
+/* Improved Typography - Larger Text */
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+p, span, label, button, input, select { 
+  font-size: 1rem; 
 }
 
-header h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+@media (min-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.5rem; }
+  p, span, label, button, input, select { 
+    font-size: 1.125rem; 
+  }
 }
 
-header p {
-  font-size: 1rem;
-  color: #555;
-  max-width: 600px;
-  margin: 0 auto;
+@media (min-width: 1024px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
 }
 
-/* Topbar (for portals) */
+/* Topbar */
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #eee;
   flex-wrap: wrap;
   gap: 1rem;
@@ -343,8 +357,10 @@ header p {
   gap: 1rem;
 }
 
-.title-row h1 {
-  flex: 1;
+.logo { 
+  font-weight: bold;
+  margin: 0;
+  font-size: 1.25rem;
 }
 
 .title-actions {
@@ -353,17 +369,10 @@ header p {
   gap: 0.75rem;
 }
 
-.logo { 
-  font-weight: bold;
-  font-size: 1.125rem;
-  margin: 0;
-}
-
 .portal-btn {
   background: #f3f4f6;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 12px;
-  font-size: 0.875rem;
   cursor: pointer;
   border: none;
   transition: background 0.2s;
@@ -373,57 +382,70 @@ header p {
   background: #e5e7eb;
 }
 
-.breadcrumb-container {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.breadcrumb {
-  background: #f1f3f5;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-}
-
 .user-section {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
+}
+
+.user-greeting {
+  font-weight: 500;
 }
 
 .desktop-only {
   display: inline-flex;
 }
 
+/* Menu System */
 .menu-checkbox {
   display: none;
 }
 
 .menu-toggle {
   display: none;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   border: 1px solid #d1d5db;
   background: rgba(255,255,255,0.95);
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s ease;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   position: relative;
   z-index: 45;
-  flex-shrink: 0;
 }
 
-.menu-checkbox:checked ~ .menu-toggle {
-  display: none;
+.menu-toggle span {
+  width: 20px;
+  height: 2.5px;
+  background: #111827;
+  border-radius: 999px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(320px, 90%);
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -6px 0 24px rgba(15,23,42,0.15);
+  padding: 5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 40;
 }
 
 .menu-checkbox:checked ~ .menu-panel {
@@ -436,62 +458,30 @@ header p {
   display: block;
 }
 
-.menu-toggle span {
-  width: 16px;
-  height: 2px;
-  background: #111827;
-  border-radius: 999px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.menu-toggle:focus-visible {
-  outline: 2px solid #111827;
-  outline-offset: 3px;
-}
-
-.menu-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: min(280px, 80%);
-  height: 100vh;
-  background: #ffffff;
-  border-left: 1px solid #e5e7eb;
-  box-shadow: -6px 0 24px rgba(15,23,42,0.15);
-  padding: 4.5rem 1.75rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  transform: translateX(100%);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-  z-index: 40;
-}
-
 .menu-header {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding-bottom: 1rem;
+  gap: 0.5rem;
+  padding-bottom: 1.5rem;
   border-bottom: 1px solid #e5e7eb;
 }
 
 .menu-title {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #111827;
 }
 
 .menu-subtitle {
-  font-size: 0.9rem;
   color: #4b5563;
 }
 
 .menu-close {
-  align-self: flex-end;
-  width: 36px;
-  height: 36px;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
@@ -499,17 +489,14 @@ header p {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
+  transition: background 0.2s ease;
   z-index: 41;
 }
 
 .menu-close span {
   position: absolute;
-  width: 16px;
-  height: 2px;
+  width: 20px;
+  height: 2.5px;
   background: #111827;
   border-radius: 999px;
 }
@@ -522,11 +509,6 @@ header p {
   transform: rotate(-45deg);
 }
 
-.menu-close:hover {
-  background: #eef2ff;
-  border-color: #d1d5db;
-}
-
 .menu-overlay {
   display: none;
   position: fixed;
@@ -537,19 +519,20 @@ header p {
   cursor: pointer;
 }
 
+/* Logout Button */
 .logout-btn {
   background: #fff;
   border: 1px solid #ccc;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   cursor: pointer;
   text-decoration: none;
   color: #000;
   transition: all 0.2s;
-  font-size: 0.875rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  font-weight: 500;
 }
 
 .logout-btn:hover {
@@ -564,124 +547,31 @@ header p {
 
 .menu-logout {
   width: 100%;
-  padding: 0.85rem 1rem;
-  border-radius: 12px;
-  font-size: 0.95rem;
-  justify-content: flex-start;
-}
-
-/* Role Cards */
-.role-container {
-  display: flex;
-  justify-content: center;
-  gap: 1.25rem;
-  margin: 2.5rem auto;
-  flex-wrap: wrap;
-  max-width: 1000px;
-  padding: 0 1rem;
-}
-
-.role-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 1.875rem 1.25rem;
-  width: min(280px, 100%);
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.role-card:hover { 
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  border-radius: 50%;
   padding: 1rem;
-  display: inline-block;
+  border-radius: 12px;
+  justify-content: flex-start;
+  margin-top: auto;
 }
 
-.student { background: #eaf1ff; color: #0066ff; }
-.teacher { background: #e9f9ee; color: #2ecc71; }
-.admin   { background: #f6eaff; color: #9b59b6; }
-
-.role-card h3 { 
-  margin: 0.625rem 0 0.5rem; 
-  font-size: 1.125rem; 
-}
-
-.role-card p { 
-  color: #555; 
-  font-size: 0.875rem; 
-  margin-bottom: 1.25rem; 
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  width: 100%;
-}
-
-.btn-student { 
-  background: #000; 
-  color: #fff; 
-}
-
-.btn-student:hover {
-  background: #333;
-}
-
-.btn-teacher { 
-  background: #f1f3f5; 
-  color: #000; 
-}
-
-.btn-teacher:hover {
-  background: #e9ecef;
-}
-
-.btn-admin   { 
-  background: #fff; 
-  border: 1px solid #ccc; 
-  color: #000; 
-}
-
-.btn-admin:hover {
-  background: #f8f9fa;
-}
-
-/* Page Headers */
+/* Page Header */
 .page-header { 
-  padding: 1.875rem 1.5rem 0.625rem; 
+  padding: 2rem 1.5rem 1rem; 
 }
 
 .page-header h2 { 
-  margin: 0; 
-  font-size: 1.25rem; 
-  margin-bottom: 0.5rem;
+  margin: 0 0 0.75rem; 
 }
 
 .page-header p { 
   color: #555; 
-  font-size: 0.875rem; 
+  line-height: 1.6;
 }
 
-/* Stats */
+/* Stats Container */
 .stats-container {
   display: flex;
-  gap: 1.25rem;
-  padding: 1.25rem 1.5rem;
+  gap: 1.5rem;
+  padding: 1.5rem;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -689,49 +579,112 @@ header p {
 
 .stat-card {
   flex: 1;
-  min-width: 150px;
+  min-width: 180px;
   background: #fff;
-  border-radius: 12px;
-  padding: 1.25rem;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
   text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .stat-card h3 { 
-  margin: 0.625rem 0 0; 
-  font-size: 1.125rem; 
+  margin: 0.5rem 0; 
+  font-size: 2rem;
 }
 
 .stat-card p { 
-  color: #555; 
-  font-size: 0.875rem; 
+  color: #666; 
+  margin: 0;
+}
+
+/* Verify Section */
+.checkmark {
+  color: #10b981;
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+
+.verify-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 0.875rem 1.75rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.verify-btn:hover {
+  background: #333;
+}
+
+.verify-input {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.verify-input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
 }
 
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 0.625rem;
+  gap: 0.75rem;
   padding: 0 1.5rem;
-  margin: 1.25rem 0;
+  margin: 1.5rem 0;
   flex-wrap: wrap;
+}
+
+.tab {
+  background: #f1f3f5;
+  padding: 0.875rem 1.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-weight: 500;
+}
+
+.tab:hover {
+  background: #e9ecef;
+}
+
+.tab.active { 
+  background: #000; 
+  color: #fff; 
 }
 
 /* Teacher Controls */
 .teacher-controls {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  margin: 0 1.5rem 1.5rem;
-  padding: 1rem;
+  gap: 1.25rem;
+  margin: 0 1.5rem 2rem;
+  padding: 1.5rem;
   background: #fff;
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .search-box {
@@ -742,17 +695,16 @@ header p {
 
 .search-icon {
   position: absolute;
-  left: 0.75rem;
+  left: 1rem;
   color: #6b7280;
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  padding: 1rem 1rem 1rem 3rem;
   border: 1px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 0.875rem;
+  border-radius: 12px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -770,15 +722,15 @@ header p {
 }
 
 .sort-select {
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   border: 1px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 0.875rem;
+  border-radius: 12px;
   background: #fff;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
   flex: 1;
-  min-width: 180px;
+  min-width: 200px;
+  font-size: 1rem;
 }
 
 .sort-select:focus {
@@ -787,160 +739,123 @@ header p {
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
 }
 
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 3rem 1rem;
-  color: #6b7280;
-}
-
-.no-results p {
-  font-size: 1rem;
-  margin: 0;
-}
-
-.tab {
-  background: #f1f3f5;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-}
-
-.tab:hover {
-  background: #e9ecef;
-}
-
-.tab.active { 
-  background: #000; 
-  color: #fff; 
-}
-
-/* Teacher Section */
-.teacher-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1.5rem;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.dropdown {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 0.875rem;
-  background: #fff;
-  cursor: pointer;
-}
-
-/* Teacher Cards */
+/* Teacher Container */
 .teacher-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.25rem;
-  padding: 0 1.5rem 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  padding: 0 1.5rem 3rem;
 }
 
 .teacher-card {
   border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 1.25rem;
+  border-radius: 16px;
+  padding: 1.75rem;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .teacher-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
 .teacher-card h3 { 
-  margin: 0; 
-  font-size: 1rem; 
+  margin: 0 0 0.5rem; 
 }
 
 .teacher-card p { 
   color: #555; 
-  margin: 0.5rem 0 0.75rem; 
-  font-size: 0.875rem; 
+  margin: 0 0 1rem; 
+  font-weight: 500;
 }
 
 .badge {
   display: inline-block;
   background: #f1f3f5;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
   border-radius: 20px;
-  margin: 0 0.5rem 0.75rem 0;
+  font-weight: 600;
 }
 
-.badge.rating { 
-  background: #ffe6e6; 
-  color: #c0392b; 
-  font-weight: bold; 
-}
-
-.card-buttons {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.card-buttons .btn {
-  flex: 1;
-  padding: 0.75rem;
-  font-size: 0.875rem;
+.btn {
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  width: 100%;
+  font-size: 1rem;
 }
 
 .btn-dark { 
   background: #000; 
   color: #fff; 
-  border: none;
 }
 
 .btn-dark:hover {
   background: #333;
+  transform: translateY(-2px);
 }
 
-.btn-light { 
-  background: #f1f3f5; 
-  color: #000; 
-  border: none;
+/* No Results */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 1rem;
+  color: #6b7280;
 }
 
-.btn-light:hover {
-  background: #e9ecef;
+.no-results p {
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  color: white;
+}
+
+.loading-spinner {
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 5px solid #ffffff;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .topbar {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     padding: 1rem;
   }
 
-  .header-left {
-    width: 100%;
-  }
-
   .title-row {
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .title-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    flex-wrap: wrap;
   }
 
   .title-actions .portal-btn {
@@ -950,7 +865,7 @@ header p {
   .user-section {
     width: 100%;
     justify-content: space-between;
-    gap: 0.75rem;
+    margin-top: 0.5rem;
   }
 
   .desktop-only {
@@ -961,44 +876,38 @@ header p {
     display: flex;
   }
 
-  .menu-checkbox:checked ~ .menu-toggle {
-    display: none !important;
-  }
-
   .user-greeting {
     display: none;
   }
   
   .page-header {
-    padding: 1.5rem 1rem 0.5rem;
-  }
-  
-  .teacher-header {
-    flex-direction: column;
-    align-items: flex-start;
+    padding: 1.5rem 1rem 0.75rem;
   }
   
   .stats-container {
     padding: 1rem;
+    gap: 1rem;
   }
   
   .stat-card {
-    min-width: calc(50% - 0.625rem);
+    min-width: calc(50% - 0.5rem);
+    padding: 1.5rem 1rem;
   }
   
   .tabs {
     padding: 0 1rem;
+    margin: 1rem 0;
   }
 
   .teacher-controls {
     margin: 0 1rem 1.5rem;
-    padding: 0.75rem;
+    padding: 1.25rem;
   }
 
   .filter-controls {
     flex-direction: column;
     align-items: stretch;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .sort-select {
@@ -1010,32 +919,15 @@ header p {
     padding: 0 1rem 2rem;
     grid-template-columns: 1fr;
   }
-  
-  .card-buttons {
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 480px) {
-  header {
-    margin: 2rem 0 1rem;
+  .topbar {
+    padding: 0.875rem;
   }
   
-  header h1 {
-    font-size: 1.25rem;
-  }
-  
-  .role-container {
-    margin: 2rem auto;
-  }
-  
-  .role-card {
-    width: 100%;
-    max-width: 280px;
-  }
-  
-  .stats-container {
-    gap: 1rem;
+  .logo {
+    font-size: 1.125rem;
   }
   
   .stat-card {
@@ -1047,72 +939,17 @@ header p {
   }
   
   .tab {
-    padding: 0.5rem 0.875rem;
-    font-size: 0.8125rem;
+    padding: 0.75rem 1rem;
+    flex: 1;
+    text-align: center;
   }
   
-  .teacher-header {
-    align-items: stretch;
+  .teacher-card {
+    padding: 1.5rem;
   }
   
-  .dropdown {
-    width: 100%;
+  .btn, .verify-btn {
+    padding: 0.875rem;
   }
 }
-
-/* Utility Classes */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Loading Screen */
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-  color: white;
-}
-
-.loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 0.75rem;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-<<<<<<< HEAD
-</style>
-=======
-.class-card {
-  background-color: #000;
-  color: #fff;
-  border-radius: 10px;
-  padding: 10px;
-  cursor: pointer;
-}
-</style>
->>>>>>> cc803d6 (change button color in teacher)
+</style> 
