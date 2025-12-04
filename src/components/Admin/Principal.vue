@@ -4,7 +4,7 @@
     <p>Loading...</p>
   </div>
 
-  <!-- Sidebar -->
+  <!-- Sidebar Toggle -->
   <input
     type="checkbox"
     id="principal-nav-toggle"
@@ -13,6 +13,7 @@
   />
   <label for="principal-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
 
+  <!-- Modals -->
   <div class="main-modal" v-if="activeModal === 'showInfo'">
     <div class="modal-container">
       <div class="modal-content">
@@ -82,7 +83,7 @@
               Individual Evaluation
             </button>
             <button class="action-button" @click="activeModal = 'student'">
-              close
+              Close
             </button>
           </div>
         </div>
@@ -90,8 +91,7 @@
     </div>
   </div>
 
-  <!--for teacher-->
-  <div class="loading-screen" v-if="activeModal === 'showInfot'">
+  <div class="main-modal" v-if="activeModal === 'showInfot'">
     <div class="modal-container">
       <div class="modal-content">
         <div class="left-column">
@@ -160,7 +160,7 @@
               Individual Evaluation
             </button>
             <button class="action-button" @click="activeModal = 'student'">
-              close
+              Close
             </button>
           </div>
         </div>
@@ -168,6 +168,7 @@
     </div>
   </div>
     
+  <!-- Sidebar -->
   <div class="side-bar">
     <div class="sidebar-header">
       <h3 class="sidebar-title">Principal Portal</h3>
@@ -178,68 +179,40 @@
     </div>
     <div class="menu">
       <div class="item">
-<<<<<<< HEAD
-<<<<<<< HEAD
         <a href="#" class="sub-btn" @click.stop="showMenu1 = !showMenu1">
           <span>Student</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </a>
         <div class="sub-menu" v-if="showMenu1">
-          <a href="#" class="sub-item" @click="click('showInfo')">hidfhgrs</a>
-          <a href="#" @click="click('student')" class="sub-item"
-            >Individual Answers</a
-          >
+          <a href="#" class="sub-item" @click="click('student')">Student Evaluations</a>
+          <a href="#" @click="click('showInfo')" class="sub-item">Individual Answers</a>
         </div>
-=======
-        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
-=======
-        <a
-          href="#"
-          class="sub-btn"
-          @click.stop="
-            $router.push('/principal');
-            click('student');
-          "
->>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
-          >Student</a
-        >
->>>>>>> a4f7fe1 (fixed the sidebar)
       </div>
       <div class="item">
         <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
           <span>Teacher</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu2 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu2 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </a>
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher')" class="sub-item"
-            >Evaluation Answers</a
-          >
-          <a href="#" @click="click('evaluate')" class="sub-item"
-            >Evaluate Teachers</a
-          >
+          <a href="#" @click="click('teacher')" class="sub-item">Teacher Evaluations</a>
+          <a href="#" @click="click('evaluate')" class="sub-item">Evaluate Teachers</a>
         </div>
       </div>
       <div class="item">
         <a href="#" class="sub-btn" @click.stop="showMenu3 = !showMenu3">
           <span>Account Management</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu3 }" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu3 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
         </a>
         <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher')" class="sub-item"
-            >Add Teachers</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Delete Users</a
-          >
-          <a href="#" @click="click2('editTeacher')" class="sub-item"
-            >Edit Users</a
-          >
+          <a href="#" @click="click2('crtTeacher')" class="sub-item">Add Teachers</a>
+          <a href="#" @click="click2('rmTeacher')" class="sub-item">Delete Users</a>
+          <a href="#" @click="click2('editTeacher')" class="sub-item">Edit Users</a>
         </div>
       </div>
       <div class="item">
@@ -249,33 +222,21 @@
         <a href="#" @click.prevent="navigateAndClose('/fileupload')">File Upload</a>
       </div>
       <div class="item">
-<<<<<<< HEAD
-        <a href="#" @click.prevent="navigateAndClose('/changequestions')"
-          >Question Change</a
-        >
-=======
-        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
-
+        <a href="#" class="sub-btn" @click.stop="showMenu4 = !showMenu4">
+          <span>Question Change</span>
+          <svg class="chevron-icon" :class="{ 'rotated': showMenu4 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </a>
         <div class="sub-menu" v-if="showMenu4">
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-student')"
-            class="sub-item"
-            >Chnage Student Questions</a
-          >
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-teacher')"
-            class="sub-item"
-            >Change Teacher Questions</a
-          >
+          <a href="#" @click.prevent="$router.push('/changequestions-student')" class="sub-item">Student Questions</a>
+          <a href="#" @click.prevent="$router.push('/changequestions-teacher')" class="sub-item">Teacher Questions</a>
         </div>
->>>>>>> a4f7fe1 (fixed the sidebar)
       </div>
     </div>
     <div class="sidebar-footer">
       <button class="logout-btn sidebar-logout" @click="logout()">
-        <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="logout-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
           <polyline points="16 17 21 12 16 7"></polyline>
           <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -309,7 +270,7 @@
       <div class="user-section">
         <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
         <button class="logout-btn desktop-only" @click="logout()">
-          <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="logout-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -338,26 +299,27 @@
     <!-- Stats -->
     <div class="stats-container">
       <div class="stat-card">
-        👥
+        <div class="stat-icon">👥</div>
         <h3>{{ this.count }}</h3>
         <p>Teachers</p>
       </div>
       <div class="stat-card">
-        🎓
+        <div class="stat-icon">🎓</div>
         <h3>{{ this.count2 }}</h3>
         <p>Students</p>
       </div>
     </div>
 
+    <!-- Student Evaluations -->
     <div v-if="activeModal === 'student'">
-      <div class="teacher-header">
+      <div class="section-header">
         <h3>Student Evaluations</h3>
       </div>
 
       <!-- Search and Sort Controls -->
       <div class="search-sort-container">
         <div class="search-wrapper">
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
@@ -403,7 +365,6 @@
           <span class="badge"
             >Q{{ newStudent.quarter }} {{ newStudent.year }}</span
           >
-<<<<<<< HEAD
           <div class="card-button-wrapper">
             <button
               class="start"
@@ -424,27 +385,20 @@
         </div>
         <div v-if="filteredAndSortedStudents.length === 0" class="no-results">
           <p>No evaluations found matching your search criteria.</p>
-=======
-          <br /><br />
-          <button class="start" @click="openStudentModal(newStudent.id)">
-            View Evaluation
-          </button>
->>>>>>> 5380a09 (finished the question changer and started the split modal type)
         </div>
       </div>
     </div>
 
+    <!-- Evaluate Teachers -->
     <div v-if="activeModal === 'evaluate'">
-<<<<<<< HEAD
-      <!-- Teacher Section -->
-      <div class="teacher-header">
+      <div class="section-header">
         <h3>Evaluate Teachers</h3>
       </div>
 
       <!-- Search and Sort Controls -->
       <div class="search-sort-container">
         <div class="search-wrapper">
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
@@ -486,11 +440,6 @@
           v-for="teacher in filteredAndSortedEvaluateTeachers"
           :key="`evaluate-${teacher.id}`"
         >
-=======
-      <!-- Teacher Cards -->
-      <div class="teacher-container">
-        <div class="card" v-for="teacher in teachers" :key="teacher.id">
->>>>>>> 5380a09 (finished the question changer and started the split modal type)
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
           <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
@@ -511,15 +460,16 @@
       </div>
     </div>
 
+    <!-- Teacher Evaluations -->
     <div v-if="activeModal === 'teacher'">
-      <div class="teacher-header">
+      <div class="section-header">
         <h3>Teacher Evaluations</h3>
       </div>
 
       <!-- Search and Sort Controls -->
       <div class="search-sort-container">
         <div class="search-wrapper">
-          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
@@ -565,7 +515,6 @@
           <span class="badge"
             >Q{{ newteacher.quarter }} {{ newteacher.year }}</span
           >
-<<<<<<< HEAD
           <div class="card-button-wrapper">
             <button
               class="start"
@@ -586,16 +535,11 @@
         </div>
         <div v-if="filteredAndSortedTeachers.length === 0" class="no-results">
           <p>No evaluations found matching your search criteria.</p>
-=======
-          <br /><br />
-          <button class="start" @click="openStudentModal(newTeachers.id)">
-            View Evaluation
-          </button>
->>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
         </div>
       </div>
     </div>
 
+    <!-- Account Management -->
     <div v-if="activeModal === 'manage'">
       <div class="content">
         <!-- Create Teacher Form -->
@@ -719,89 +663,20 @@
               </div>
             </div>
 
-            <div class="form-group">
-              <label for="lsNm">Enter the Email:</label>
-              <input
-                type="email"
-                v-model="teacherr.email"
-                placeholder="Enter Email"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="lsNm">Enter the ID:</label>
-              <input
-                type="number"
-                v-model="teacherr.id"
-                placeholder="Enter ID"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="lsNm">Choose Subject:</label>
-
-              <select v-model="teacherr.sub" class="" required>
-                <option
-                  v-for="subject in subjects"
-                  :key="subject.id"
-                  :value="subject.id"
-                >
-                  {{ subject.subjects }}
-                </option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="lsNm">Choose Quarter:</label>
-              <select v-model="teacherr.qrt" class="" required>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="lsNm">Enter Year:</label>
-              <input
-                type="number"
-                v-model="teacherr.yr"
-                placeholder="Enter Year"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="lsNm">Enter the Password:</label>
-              <input
-                type="password"
-                v-model="teacherr.ps"
-                placeholder="Enter Password"
-                minlength="8"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="lsNm">Enter the Confirm Password:</label>
-              <input
-                type="password"
-                v-model="teacherr.cpas"
-                placeholder="Confirm Password"
-                required
-              />
-            </div>
-            <div class="">
-              <button type="submit" class="btn">Create Teacher</button>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary">
+                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                Create Teacher Account
+              </button>
             </div>
           </form>
         </div>
 
         <!-- Delete Users Section -->
         <div v-if="activeTab1 === 'rmTeacher'">
-          <div class="teacher-header">
+          <div class="section-header">
             <h3>Delete Users</h3>
             <p class="section-description">Search and manage teacher accounts. Click remove to delete a teacher account.</p>
           </div>
@@ -809,7 +684,7 @@
           <!-- Search and Sort Controls -->
           <div class="search-sort-container">
             <div class="search-wrapper">
-              <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
               </svg>
@@ -858,7 +733,7 @@
                   class="btn-delete"
                   @click.prevent="rmTeachers(teacher.id)"
                 >
-                  <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                   </svg>
@@ -872,119 +747,152 @@
           </div>
         </div>
 
-        <div class="teacher-container" v-if="activeTab1 === 'editTeacher'">
-          <div
-            class="card"
-            v-for="teacher in teachers"
-            :key="teacher.id"
-            v-if="!isEditing"
-          >
-            <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-            <p>{{ teacher.subject }}</p>
-            <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-            <br /><br />
-            <button class="start" @click.prevent="openTeacherModal(teacher.id)">
-              Edit Teacher
-            </button>
+        <!-- Edit Teacher Section -->
+        <div v-if="activeTab1 === 'editTeacher'">
+          <div class="section-header">
+            <h3>Edit Teacher Accounts</h3>
+            <p class="section-description">Search and edit teacher account details.</p>
           </div>
 
-          <div class="loading-screen" v-if="isEditing">
-            <div class="card">
-              <form method="post" @submit.prevent="editTeachers()">
-                <div v-if="isWrong" class="wrong">
-                  <p class="wrong">Wrong Credentials or Incomplete</p>
-                </div>
-                <div class="form-group">
-                  <label for="lsNm">Enter the First Name:</label>
-                  <input
-                    type="text"
-                    v-model="selectedTeachers.fn"
-                    placeholder="Enter First Name"
-                    required
-                  />
-                </div>
+          <!-- Search and Sort Controls -->
+          <div class="search-sort-container">
+            <div class="search-wrapper">
+              <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input
+                type="text"
+                v-model="editSearchQuery"
+                placeholder="Search by name, subject, quarter, or year..."
+                class="search-input"
+              />
+            </div>
+          </div>
 
-                <div class="form-group">
-                  <label for="lsNm">Enter the Last Name:</label>
-                  <input
-                    type="text"
-                    v-model="selectedTeachers.ln"
-                    placeholder="Enter Last Name"
-                    required
-                  />
-                </div>
+          <!-- Results Count -->
+          <div class="results-count" v-if="filteredEditTeachers.length !== teachers.length">
+            <span>Showing {{ filteredEditTeachers.length }} of {{ teachers.length }} teachers</span>
+          </div>
 
-                <div class="form-group">
-                  <label for="lsNm">Enter the Email:</label>
-                  <input
-                    type="email"
-                    v-model="selectedTeachers.email"
-                    placeholder="Enter Email"
-                    required
-                  />
-                </div>
+          <div class="teacher-container">
+            <div
+              class="card"
+              v-for="teacher in filteredEditTeachers"
+              :key="teacher.id"
+              v-if="!isEditing"
+            >
+              <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+              <p>{{ teacher.subject }}</p>
+              <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+              <div class="card-button-wrapper">
+                <button class="update" @click.prevent="openTeacherModal(teacher.id)">
+                  Edit Teacher
+                </button>
+              </div>
+            </div>
 
-                <div class="form-group">
-                  <label for="lsNm">Enter the ID:</label>
-                  <input
-                    type="number"
-                    v-model="selectedTeachers.id"
-                    placeholder="Enter ID"
-                    required
-                  />
+            <div v-if="isEditing" class="edit-form-container">
+              <div class="card">
+                <div class="form-header">
+                  <h3 class="form-title">Edit Teacher Account</h3>
+                  <p class="form-subtitle">Update the details for {{ selectedTeachers.fn }} {{ selectedTeachers.ln }}</p>
                 </div>
+                <form method="post" @submit.prevent="editTeachers()">
+                  <div v-if="isWrong" class="wrong">
+                    <p class="wrong">Wrong Credentials or Incomplete Information</p>
+                  </div>
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="editFirstName">First Name <span class="required">*</span></label>
+                      <input
+                        id="editFirstName"
+                        type="text"
+                        v-model="selectedTeachers.fn"
+                        placeholder="Enter First Name"
+                        required
+                      />
+                    </div>
 
-                <div class="form-group">
-                  <label for="lsNm">Choose Subject:</label>
+                    <div class="form-group">
+                      <label for="editLastName">Last Name <span class="required">*</span></label>
+                      <input
+                        id="editLastName"
+                        type="text"
+                        v-model="selectedTeachers.ln"
+                        placeholder="Enter Last Name"
+                        required
+                      />
+                    </div>
 
-                  <select v-model="selectedTeachers.sub" class="" required>
-                    <option
-                      v-for="subject in subjects"
-                      :key="subject.id"
-                      :value="subject.id"
-                    >
-                      {{ subject.subjects }}
-                    </option>
-                  </select>
-                </div>
+                    <div class="form-group">
+                      <label for="editEmail">Email Address <span class="required">*</span></label>
+                      <input
+                        id="editEmail"
+                        type="email"
+                        v-model="selectedTeachers.email"
+                        placeholder="Enter Email"
+                        required
+                      />
+                    </div>
 
-                <div class="form-group">
-                  <label for="lsNm">Choose Quarter:</label>
-                  <select v-model="selectedTeachers.qrt" class="" required>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                  </select>
-                </div>
+                    <div class="form-group">
+                      <label for="editTeacherId">Teacher ID <span class="required">*</span></label>
+                      <input
+                        id="editTeacherId"
+                        type="number"
+                        v-model="selectedTeachers.id"
+                        placeholder="Enter ID"
+                        required
+                      />
+                    </div>
 
-                <div class="form-group">
-                  <label for="lsNm">Enter Year:</label>
-                  <input
-                    type="number"
-                    v-model="selectedTeachers.yr"
-                    placeholder="Enter Year"
-                    required
-                  />
-                </div>
-                <div class="">
-                  <button type="submit" class="btn">Edit Teacher</button>
-                </div>
-              </form>
+                    <div class="form-group">
+                      <label for="editSubject">Subject <span class="required">*</span></label>
+                      <select id="editSubject" v-model="selectedTeachers.sub" required>
+                        <option value="">Select Subject</option>
+                        <option
+                          v-for="subject in subjects"
+                          :key="subject.id"
+                          :value="subject.id"
+                        >
+                          {{ subject.subjects }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="editQuarter">Quarter <span class="required">*</span></label>
+                      <select id="editQuarter" v-model="selectedTeachers.qrt" required>
+                        <option value="1">Quarter 1</option>
+                        <option value="2">Quarter 2</option>
+                        <option value="3">Quarter 3</option>
+                        <option value="4">Quarter 4</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="editYear">Year <span class="required">*</span></label>
+                      <input
+                        id="editYear"
+                        type="number"
+                        v-model="selectedTeachers.yr"
+                        placeholder="Enter Year"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                    <button type="button" class="btn-secondary" @click="isEditing = false">Cancel</button>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
   </div>
 </template>
 
@@ -993,7 +901,6 @@ import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
-//const url2 = "http://localhost:8000";
 
 export default {
   name: "Principal",
@@ -1005,7 +912,7 @@ export default {
       urlappphp4: `${url2}/rmTeacher.php`,
       urlappphp5: `${url2}/createTeacher.php`,
       subjecturl: `${url2}/subjectGetter.php`,
-      editteacherphp: `${url2}/`,
+      editteacherphp: `${url2}/editTeacher.php`,
       teachers: [],
       teacherr: {
         fn: "",
@@ -1029,10 +936,10 @@ export default {
       isEditing: false,
       fullname:
         JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
-        "Student Name",
+        "Principal",
       lastname:
         JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
-        "Student Name",
+        "User",
       usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
       activeModal: "student",
       activeTab: "student",
@@ -1045,7 +952,7 @@ export default {
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
-<<<<<<< HEAD
+      showMenu4: false,
       studentSearchQuery: "",
       studentSortBy: "name-asc",
       teacherSearchQuery: "",
@@ -1054,10 +961,11 @@ export default {
       evaluateSortBy: "name-asc",
       deleteSearchQuery: "",
       deleteSortBy: "name-asc",
-=======
-      showMenu4: false,
->>>>>>> a4f7fe1 (fixed the sidebar)
-      subjects: { id: "", subject: "" },
+      editSearchQuery: "",
+      verify: "",
+      verified: "0",
+      active: "code",
+      subjects: [],
     };
   },
 
@@ -1297,6 +1205,30 @@ export default {
 
       return filtered;
     },
+
+    filteredEditTeachers() {
+      let filtered = this.teachers;
+
+      // Apply search filter
+      if (this.editSearchQuery.trim()) {
+        const query = this.editSearchQuery.toLowerCase().trim();
+        filtered = filtered.filter((teacher) => {
+          const fullName = `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
+          const subject = (teacher.subject || "").toLowerCase();
+          const quarter = String(teacher.quarter || "");
+          const year = String(teacher.year || "");
+          
+          return (
+            fullName.includes(query) ||
+            subject.includes(query) ||
+            quarter.includes(query) ||
+            year.includes(query)
+          );
+        });
+      }
+
+      return filtered;
+    },
   },
 
   methods: {
@@ -1334,35 +1266,6 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching teachers:", error);
-      }
-    },
-
-    async getStudentbyid() {
-      try {
-        this.isLoading = true;
-
-        const response = await fetch(this.urlappphp4, {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({
-            action: "getstudentbyid",
-            evt: this.$route.params.evtid,
-          }),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          this.name = result.student;
-          this.isLoading = false;
-        } else {
-          console.log("Server error:", result.message);
-        }
-      } catch (error) {
-        console.log(error);
-        this.isLoading = false;
       }
     },
 
@@ -1440,13 +1343,50 @@ export default {
 
     async rmTeachers(id) {
       try {
-        alert("Are you sure you want to remove this teacher?");
-        this.isLoading;
+        if (confirm("Are you sure you want to remove this teacher?")) {
+          this.isLoading = true;
 
-        const response = await fetch(this.urlappphp4, {
+          const response = await fetch(this.urlappphp4, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "rmTeachers", id: id }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            this.getTeachers();
+            this.isSuccess = true;
+            setTimeout(() => this.isSuccess = false, 3000);
+          } else {
+            this.isFailed = true;
+            setTimeout(() => this.isFailed = false, 3000);
+          }
+          this.isLoading = false;
+        }
+      } catch (error) {
+        console.error(error);
+        this.isLoading = false;
+      }
+    },
+
+    async createTeachers() {
+      if (this.teacherr.ps !== this.teacherr.cpas) {
+        this.isWrong = true;
+        setTimeout(() => this.isWrong = false, 3000);
+        return;
+      }
+
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp5, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "rmTeachers", id: id }),
+          body: JSON.stringify({
+            ...this.teacherr,
+            action: "createTeachers",
+          }),
         });
 
         const result = await response.json();
@@ -1454,57 +1394,26 @@ export default {
         if (result.success) {
           this.getTeachers();
           this.isSuccess = true;
-          this.isLoading = false;
+          setTimeout(() => this.isSuccess = false, 3000);
+          this.teacherr = {
+            fn: "",
+            ln: "",
+            email: "",
+            id: "",
+            yr: "",
+            ps: "",
+            cpas: "",
+            sub: "",
+            qrt: "",
+          };
         } else {
-          this.isLoading = false;
-          console.error(result.message);
+          this.isFailed = true;
+          setTimeout(() => this.isFailed = false, 3000);
         }
+        this.isLoading = false;
       } catch (error) {
         console.error(error);
-      }
-    },
-
-    async createTeachers() {
-      if (this.teacherr.ps === this.teacherr.cpas) {
-        try {
-          this.isLoading = true;
-
-          const response = await fetch(this.urlappphp5, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              ...this.teacherr,
-              action: "createTeachers",
-            }),
-          });
-
-          console.log(this.teacherr);
-
-          const result = await response.json();
-
-          if (result.success) {
-            this.getTeachers();
-            this.isLoading = false;
-            this.isSuccess = true;
-            this.teacherr = {
-              fn: "",
-              ln: "",
-              email: "",
-              id: "",
-              yr: "",
-              ps: "",
-              cpas: "",
-            };
-          } else {
-            this.isLoading = false;
-            this.isFailed = true;
-            console.error(error);
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        this.isWrong = true;
+        this.isLoading = false;
       }
     },
 
@@ -1522,7 +1431,6 @@ export default {
 
         if (result.success) {
           this.subjects = result.subjects;
-        } else {
         }
       } catch (error) {
         console.error("error");
@@ -1530,10 +1438,8 @@ export default {
     },
 
     async editTeachers() {
-      console.log(this.selectedTeachers);
       try {
         this.isLoading = true;
-        this.isEditing = true;
 
         const response = await fetch(this.editteacherphp, {
           method: "POST",
@@ -1547,13 +1453,17 @@ export default {
         const result = await response.json();
 
         if (result.success) {
-          this.isLoading = false;
+          this.getTeachers();
           this.isSuccess = true;
+          setTimeout(() => this.isSuccess = false, 3000);
+          this.isEditing = false;
         } else {
-          this.isLoading = false;
           this.isFailed = true;
+          setTimeout(() => this.isFailed = false, 3000);
           this.isWrong = true;
+          setTimeout(() => this.isWrong = false, 3000);
         }
+        this.isLoading = false;
       } catch (error) {
         this.isLoading = false;
         console.log(error);
@@ -1570,16 +1480,6 @@ export default {
       }
     },
 
-    // skipLogin() {
-    //   const token = getToken();
-
-    //   if (!token) {
-    //     console.error("No token found, redirecting to login.");
-    //     this.$router.replace("/");
-    //     return;
-    //   }
-    // },
-
     openStudentModal(studentId) {
       this.selectedStudent = this.newStudents.find(
         (student) => student.id === studentId
@@ -1591,33 +1491,27 @@ export default {
       this.newSelectedteachers = this.newTeachers.find(
         (teacher) => teacher.id === newTeacherId
       );
-      this.activeModal = "showInfo1";
+      this.activeModal = "showInfot";
     },
 
     openTeacherModal(teacherId) {
-      const t = this.teachers.find((teacher) => teacher.id === teacherId);
+      const teacher = this.teachers.find((teacher) => teacher.id === teacherId);
 
       this.selectedTeachers = {
-        fn: t.firstname,
-        ln: t.lastname,
-        email: t.email,
-        id: t.id,
-        sub: t.subject,
-        qrt: t.quarter,
-        yr: t.year,
+        fn: teacher.firstname,
+        ln: teacher.lastname,
+        email: teacher.email,
+        id: teacher.id,
+        sub: teacher.subject,
+        qrt: teacher.quarter,
+        yr: teacher.year,
       };
 
       this.isEditing = true;
     },
 
-    toggleModal(modal) {
-      this.activeModal = modal;
-    },
-
     click(tabName) {
-      this.activeTab = tabName;
-      this.toggleModal(tabName);
-      // Close sidebar on mobile after clicking
+      this.activeModal = tabName;
       if (window.innerWidth <= 768) {
         document.getElementById('principal-nav-toggle').checked = false;
       }
@@ -1626,7 +1520,6 @@ export default {
     click2(tabName) {
       this.activeTab1 = tabName;
       this.activeModal = "manage";
-      // Close sidebar on mobile after clicking
       if (window.innerWidth <= 768) {
         document.getElementById('principal-nav-toggle').checked = false;
       }
@@ -1634,11 +1527,19 @@ export default {
 
     navigateAndClose(route) {
       this.$router.push(route);
-      // Close sidebar on mobile after navigation
       if (window.innerWidth <= 768) {
         document.getElementById('principal-nav-toggle').checked = false;
       }
     },
+
+    verifyCode() {
+      this.active = 'input';
+    },
+
+    verifyInput() {
+      this.verified = '1';
+      this.active = 'code';
+    }
   },
 
   watch: {
@@ -1655,13 +1556,13 @@ export default {
           break;
         case "manage":
           this.getSubjects();
+          break;
       }
     },
   },
 
   mounted() {
     this.id = localStorage.getItem("userData") || "";
-    // this.skipLogin();
     this.getSteval();
     this.getTeachers();
   },
@@ -1674,7 +1575,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -1684,22 +1585,33 @@ body {
   display: flex;
   min-height: 100vh;
   overflow-x: hidden;
-}
-
-/* ===== HEADER & TYPOGRAPHY ===== */
-header {
-  text-align: center;
-  margin: 40px 0 20px;
-}
-
-header h1 {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-header p {
   font-size: 16px;
-  color: #555;
+}
+
+/* ===== IMPROVED TYPOGRAPHY - LARGER TEXT ===== */
+h1 { font-size: 1.875rem; }
+h2 { font-size: 1.625rem; }
+h3 { font-size: 1.375rem; }
+p, span, label, button, input, select { 
+  font-size: 1.0625rem; 
+}
+
+@media (min-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+  p, span, label, button, input, select { 
+    font-size: 1.125rem; 
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 2rem; }
+  p, span, label, button, input, select { 
+    font-size: 1.25rem; 
+  }
 }
 
 /* ===== TOPBAR STYLES ===== */
@@ -1707,7 +1619,7 @@ header p {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem;
+  padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #e5e7eb;
   flex-wrap: wrap;
   gap: 1rem;
@@ -1715,6 +1627,7 @@ header p {
   top: 0;
   background: white;
   z-index: 30;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .header-left {
@@ -1732,8 +1645,11 @@ header p {
   gap: 1rem;
 }
 
-.title-row h1 {
-  flex: 1;
+.logo {
+  font-weight: bold;
+  margin: 0;
+  color: #111827;
+  font-size: 1.25rem;
 }
 
 .title-actions {
@@ -1742,22 +1658,15 @@ header p {
   gap: 0.75rem;
 }
 
-.logo {
-  font-weight: bold;
-  font-size: 1.125rem;
-  margin: 0;
-  color: #111827;
-}
-
 .portal-btn {
   background: #f3f4f6;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 12px;
-  font-size: 0.875rem;
   cursor: pointer;
   border: none;
   transition: background 0.2s;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 .portal-btn:hover {
@@ -1767,14 +1676,14 @@ header p {
 .user-section {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
+  gap: 1.5rem;
   flex-wrap: wrap;
 }
 
 .user-greeting {
   color: #374151;
   white-space: nowrap;
+  font-weight: 500;
 }
 
 .desktop-only {
@@ -1783,26 +1692,26 @@ header p {
 
 .menu-toggle {
   display: none;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
   border: 1px solid #d1d5db;
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s ease;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   position: relative;
   z-index: 45;
   flex-shrink: 0;
 }
 
 .menu-toggle span {
-  width: 16px;
-  height: 2px;
+  width: 20px;
+  height: 2.5px;
   background: #111827;
   border-radius: 999px;
   transition: transform 0.25s ease, opacity 0.25s ease;
@@ -1820,7 +1729,7 @@ header p {
 .logout-btn {
   background: #f3f4f6;
   border: 1px solid #e5e7eb;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 12px;
   cursor: pointer;
   text-decoration: none;
@@ -1829,8 +1738,8 @@ header p {
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
+  gap: 0.75rem;
+  font-weight: 500;
 }
 
 .logout-btn:hover {
@@ -1844,1304 +1753,11 @@ header p {
   stroke: #dc2626;
 }
 
-/* ===== ROLE CARDS ===== */
-.role-container {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 40px auto;
-  flex-wrap: wrap;
-  max-width: 1000px;
-}
-
-.role-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 30px 20px;
-  width: 280px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.role-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.icon {
-  font-size: 40px;
-  margin-bottom: 15px;
-  border-radius: 50%;
-  padding: 15px;
-  display: inline-block;
-}
-
-.student {
-  background: #eaf1ff;
-  color: #0066ff;
-}
-.teacher {
-  background: #e9f9ee;
-  color: #2ecc71;
-}
-.admin {
-  background: #f6eaff;
-  color: #9b59b6;
-}
-
-.role-card h3 {
-  margin: 10px 0 5px;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.role-card p {
-  color: #555;
-  font-size: 14px;
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-/* ===== BUTTON STYLES ===== */
-.btn {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.btn:active {
-  transform: translateY(0);
-}
-
-.btn-student {
-  background: #000;
-  color: #fff;
-}
-
-.btn-teacher {
-  background: #f1f3f5;
-  color: #000;
-}
-
-.btn-admin {
-  background: #fff;
-  border: 1px solid #ccc;
-  color: #000;
-}
-
-/* ===== PAGE COMPONENTS ===== */
-.page-header {
-  padding: 1.5rem 1.5rem 0.625rem;
-}
-
-.page-header h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.page-header p {
-  color: #6b7280;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  line-height: 1.5;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  flex: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  /* Desktop styles - will be overridden by media queries */
-  margin-left: 280px;
-  width: calc(100% - 280px);
-  transition: margin-left 0.3s ease, width 0.3s ease;
-}
-
-/* ===== STATS CARDS ===== */
-.stats-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1.25rem 1.5rem;
-  flex-wrap: wrap;
-}
-
-.stat-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 1.5rem 1.25rem;
-  text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid #f3f4f6;
-}
-
-.stat-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.stat-card h3 {
-  margin: 0.75rem 0 0;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
-}
-
-.stat-card p {
-  color: #6b7280;
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-/* ===== TABS ===== */
-.tabs {
-  display: flex;
-  gap: 8px;
-  padding: 0 20px;
-  margin: 20px 0;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.tab {
-  background: #f1f3f5;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  text-align: center;
-  flex: 1 0 auto;
-  min-width: fit-content;
-  transition: all 0.3s ease;
-  border: none;
-  font-weight: 500;
-}
-
-.tab:hover {
-  background: #e9ecef;
-}
-
-.tab.active {
-  background: #000;
-  color: #fff;
-}
-
-/* ===== TEACHER COMPONENTS ===== */
-.teacher-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1.5rem;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-/* ===== SEARCH AND SORT ===== */
-.search-sort-container {
-  display: flex;
-  gap: 1rem;
-  padding: 0 1.5rem;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.search-wrapper {
-  position: relative;
-  flex: 1;
-  min-width: 250px;
-  display: flex;
-  align-items: center;
-}
-
-.search-icon {
-  position: absolute;
-  left: 0.875rem;
-  color: #6b7280;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  background: #fff;
-  transition: all 0.3s ease;
-}
-
-.search-input:focus {
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.search-input::placeholder {
-  color: #9ca3af;
-}
-
-.sort-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.sort-label {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #374151;
-  white-space: nowrap;
-}
-
-.sort-select {
-  padding: 0.75rem 0.875rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  background: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 180px;
-}
-
-.sort-select:focus {
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.results-count {
-  padding: 0.5rem 1.5rem;
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.5rem;
-}
-
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 3rem 1.5rem;
-  color: #6b7280;
-}
-
-.no-results p {
-  font-size: 1rem;
-  margin: 0;
-}
-
-.teacher-header h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: #111827;
-  margin: 0;
-}
-
-.dropdown {
-  padding: 0.625rem 0.875rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  background: #fff;
-  transition: border-color 0.3s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  min-width: 180px;
-}
-
-.dropdown:focus {
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.teacher-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.25rem;
-  padding: 0 1.5rem 2.5rem;
-}
-
-.teacher-card {
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-}
-
-.teacher-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.teacher-card h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.teacher-card p {
-  color: #555;
-  margin: 5px 0 10px;
-  font-size: 14px;
-}
-
-/* ===== CARD COMPONENTS ===== */
-.card {
-  border: 1px solid #e1e5e9;
-  border-radius: 12px;
-  padding: 1.25rem;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.card h3 {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.card p {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-bottom: 0.75rem;
-  line-height: 1.5;
-  flex: 1;
-}
-
-/* ===== BADGES ===== */
-.badge {
-  display: inline-block;
-  background: #f1f3f5;
-  padding: 4px 10px;
-  font-size: 12px;
-  border-radius: 20px;
-  margin: 0 5px 10px 0;
-  font-weight: 500;
-}
-
-.badge.rating {
-  background: #ffe6e6;
-  color: #c0392b;
-  font-weight: bold;
-}
-
-.badge.evaluated {
-  background: #e5e7eb;
-  color: #333;
-}
-
-.checkmark {
-  color: #27ae60;
-  font-weight: bold;
-  margin-left: 6px;
-}
-
-/* ===== BUTTON VARIANTS ===== */
-.btn-dark {
-  background: #000;
-  color: #fff;
-  border: none;
-}
-
-.btn-light {
-  background: #f1f3f5;
-  color: #000;
-  border: none;
-}
-
-.card button {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: all 0.3s ease;
-  margin-top: auto;
-}
-
-.student-card,
-.teacher-card,
-.teacher-card-evaluate {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-button-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-  padding-top: 1rem;
-}
-
-.card button:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.card .start {
-  background: #000;
-  color: #fff;
-  border-color: #000;
-}
-
-.card .start:hover {
-  background: #1a1a1a;
-}
-
-.card .update {
-  background: #fff;
-  color: #333;
-  border-color: #e1e5e9;
-}
-
-.card .update:hover {
-  background: #f9fafb;
-}
-
-/* ===== FORM STYLES ===== */
-.wrong {
-  color: #d32f2f;
-  background: #ffebee;
-  padding: 12px 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-weight: 600;
-  text-align: center;
-  border: 1px solid #ffcdd2;
-}
-
-.form-group {
-  margin-bottom: 20px;
-  align-items: center;
-  justify-content: center;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #444;
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  max-width: 500px;
-  padding: 0.75rem 0.9375rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  background: #fff;
-  transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  border-color: #4a6da7;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(74, 109, 167, 0.1);
-}
-
-.form-group input:hover,
-.form-group select:hover {
-  border-color: #c1c9d2;
-}
-
-/* ===== IMPROVED FORM STYLES ===== */
-.form-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.form-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 0.5rem 0;
-}
-
-.form-subtitle {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.create-teacher-form {
-  max-width: 900px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.form-group {
-  margin-bottom: 0;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #374151;
-  font-weight: 500;
-  font-size: 0.875rem;
-}
-
-.required {
-  color: #dc2626;
-  margin-left: 2px;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  max-width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  background: #fff;
-  transition: all 0.3s ease;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.form-actions {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 1rem;
-}
-
-.btn-primary {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 0.875rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.btn-primary:hover {
-  background: #1a1a1a;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.btn-icon {
-  flex-shrink: 0;
-}
-
-.section-description {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin: 0.5rem 0 0 0;
-  line-height: 1.5;
-}
-
-.delete-teacher-card {
-  display: flex;
-  flex-direction: column;
-}
-
-.btn-delete {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1.5px solid #dc2626;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.875rem;
-  transition: all 0.3s ease;
-  background: #fff;
-  color: #dc2626;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.btn-delete:hover {
-  background: #dc2626;
-  color: #fff;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.2);
-}
-
-/* ===== LOADING & FEEDBACK STATES ===== */
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-  color: white;
-}
-
-.loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 10px;
-  z-index: 3000;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.success,
-.error {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 20px 30px;
-  border-radius: 8px;
-  font-weight: 500;
-  z-index: 1000;
-  text-align: center;
-  min-width: 300px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.3s ease-out, timeout 6s linear forwards;
-}
-
-.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.success span,
-.error span {
-  display: block;
-}
-
-/* Progress bar for timeout */
-.success::after,
-.error::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  background: currentColor;
-  opacity: 0.3;
-  animation: progress 5s linear forwards;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-}
-
-@keyframes timeout {
-  0% {
-    opacity: 1;
-    visibility: visible;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-@keyframes progress {
-  0% {
-    width: 100%;
-  }
-  100% {
-    width: 0%;
-  }
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablet and Mobile - Must come before base styles to ensure proper override */
-@media (max-width: 768px) {
-  .topbar {
-    padding: 1rem;
-    gap: 1rem;
-  }
-
-  .header-left {
-    width: 100%;
-  }
-
-  .title-row {
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .title-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .title-actions .portal-btn {
-    display: none;
-  }
-
-  .user-section {
-    width: 100%;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .desktop-only {
-    display: none;
-  }
-
-  .menu-toggle {
-    display: flex;
-  }
-
-  .menu-checkbox:checked ~ .menu-toggle {
-    display: none !important;
-  }
-
-  .user-greeting {
-    display: none;
-  }
-
-  .side-bar {
-    transform: translateX(-100%);
-    box-shadow: 2px 0 24px rgba(15, 23, 42, 0.15);
-  }
-
-  .menu-checkbox:checked ~ .side-bar {
-    transform: translateX(0);
-  }
-
-  .sidebar-close {
-    display: flex;
-  }
-
-  .main-content {
-    margin-left: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .page-header {
-    padding: 1.25rem 1rem 0.5rem;
-  }
-
-  .page-header h2 {
-    font-size: 1.125rem;
-  }
-
-  .page-header p {
-    font-size: 0.8125rem;
-  }
-
-  .stats-container {
-    grid-template-columns: 1fr;
-    gap: 0.875rem;
-    padding: 1rem;
-  }
-
-  .stat-card {
-    padding: 1.25rem 1rem;
-  }
-
-  .stat-card h3 {
-    font-size: 1.25rem;
-  }
-
-  .teacher-header {
-    padding: 0 1rem;
-    margin-bottom: 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .teacher-header h3 {
-    font-size: 1rem;
-  }
-
-  .dropdown {
-    width: 100%;
-    min-width: unset;
-  }
-
-  .search-sort-container {
-    flex-direction: column;
-    padding: 0 1rem;
-    gap: 0.875rem;
-  }
-
-  .search-wrapper {
-    width: 100%;
-    min-width: unset;
-  }
-
-  .sort-wrapper {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .sort-select {
-    width: 100%;
-    min-width: unset;
-  }
-
-  .results-count {
-    padding: 0.5rem 1rem;
-  }
-
-  .teacher-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 1rem 2rem;
-  }
-
-  .card {
-    padding: 1rem;
-  }
-
-  .tabs {
-    padding: 0 1rem;
-    gap: 0.5rem;
-  }
-
-  .tab {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.8125rem;
-    flex: 1 0 calc(50% - 0.25rem);
-    max-width: calc(50% - 0.25rem);
-  }
-
-  .content {
-    padding: 1rem;
-  }
-
-  .form-group input,
-  .form-group select {
-    max-width: 100%;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
-  }
-
-  .form-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-  }
-
-  .form-title {
-    font-size: 1.25rem;
-  }
-
-  .form-actions {
-    justify-content: stretch;
-  }
-
-  .btn-primary {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .modal-container {
-    padding: 1rem;
-  }
-
-  .modal-content {
-    padding: 1.25rem;
-  }
-
-  .modal-grid {
-    gap: 1.5rem;
-  }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .topbar {
-    padding: 0.875rem 1rem;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .logo {
-    font-size: 1rem;
-  }
-
-  .user-section {
-    width: 100%;
-    justify-content: space-between;
-    gap: 0.5rem;
-    font-size: 0.8125rem;
-  }
-
-  .side-bar {
-    width: min(280px, 85%);
-  }
-
-  .sidebar-header {
-    padding: 1.25rem 1rem;
-  }
-
-  .sidebar-title {
-    font-size: 1rem;
-  }
-
-  .side-bar .menu .item a {
-    padding: 0.75rem 1rem;
-    font-size: 0.875rem;
-  }
-
-  .tabs {
-    padding: 0 1rem;
-    gap: 0.5rem;
-    margin: 1rem 0;
-  }
-
-  .tab {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-    flex: 1 0 100%;
-    max-width: 100%;
-    border-radius: 12px;
-  }
-
-  .teacher-header {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .role-card,
-  .stat-card {
-    width: 100%;
-    min-width: auto;
-  }
-
-  .page-header {
-    padding: 1rem 0.875rem 0.5rem;
-  }
-
-  .page-header h2 {
-    font-size: 1.125rem;
-  }
-
-  .stats-container {
-    padding: 0.875rem;
-    gap: 0.75rem;
-  }
-
-  .stat-card {
-    padding: 1rem 0.875rem;
-  }
-
-  .stat-card h3 {
-    font-size: 1.125rem;
-  }
-
-  .stat-card p {
-    font-size: 0.8125rem;
-  }
-
-  .teacher-header {
-    padding: 0 0.875rem;
-    margin-bottom: 0.875rem;
-  }
-
-  .search-sort-container {
-    padding: 0 0.875rem;
-  }
-
-  .results-count {
-    padding: 0.5rem 0.875rem;
-    font-size: 0.8125rem;
-  }
-
-  .teacher-container {
-    padding: 0 0.875rem 1.5rem;
-    gap: 0.875rem;
-  }
-
-  .card {
-    padding: 0.875rem;
-  }
-
-  .card h3 {
-    font-size: 0.9375rem;
-  }
-
-  .card p {
-    font-size: 0.8125rem;
-  }
-
-  .card button {
-    padding: 0.625rem 0.875rem;
-    font-size: 0.8125rem;
-  }
-
-  .content {
-    padding: 0.875rem;
-  }
-
-  .form-group input,
-  .form-group select {
-    max-width: 100%;
-    font-size: 0.875rem;
-    padding: 0.625rem 0.75rem;
-  }
-
-  .modal-container {
-    padding: 0.75rem;
-  }
-
-  .modal-content {
-    padding: 1rem;
-  }
-
-  .modal-grid {
-    gap: 1rem;
-  }
-
-  .profile-image {
-    width: 8rem;
-    height: 8rem;
-  }
-
-  .profile-icon {
-    font-size: 3rem;
-  }
-}
-
-/* Small mobile */
-@media (max-width: 360px) {
-  .topbar {
-    padding: 0.75rem 0.875rem;
-  }
-
-  .user-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .logout-btn {
-    align-self: stretch;
-    text-align: center;
-    justify-content: center;
-  }
-
-  .side-bar {
-    width: 100%;
-  }
-
-  .success,
-  .error {
-    min-width: 280px;
-    padding: 1rem 1.25rem;
-    left: 0.625rem;
-    right: 0.625rem;
-    transform: translateX(0);
-    margin: 0 auto;
-  }
-}
-
-/* Large screens */
-@media (min-width: 1200px) {
-  .topbar {
-    padding: 1.25rem 3.75rem;
-  }
-
-  .logo {
-    font-size: 1.25rem;
-  }
-
-  .tabs {
-    padding: 0 3.75rem;
-    gap: 0.75rem;
-  }
-
-  .tab {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9375rem;
-  }
-
-  .page-header {
-    padding: 2rem 3.75rem 1rem;
-  }
-
-  .stats-container {
-    padding: 1.5rem 3.75rem;
-    gap: 1.5rem;
-  }
-
-  .teacher-header {
-    padding: 0 3.75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .teacher-container {
-    padding: 0 3.75rem 3rem;
-    gap: 1.5rem;
-  }
-
-  .content {
-    padding: 1.5rem 3.75rem;
-  }
-}
-
-/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-/* High contrast support */
-@media (prefers-contrast: high) {
-  .form-group input,
-  .form-group select,
-  .dropdown {
-    border-width: 2px;
-  }
-
-  .wrong {
-    border: 2px solid #d32f2f;
-  }
-
-  .badge {
-    border: 1px solid currentColor;
-  }
-}
-
-/* Focus visibility for accessibility */
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-.tab:focus-visible {
-  outline: 2px solid #4a6da7;
-  outline-offset: 2px;
-}
-
-/* Loading states */
-.card button:disabled,
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none !important;
-}
-
-.card button:disabled:hover,
-.btn:disabled:hover {
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* Overlay for background */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 998;
-}
-
-/* Menu Checkbox */
+/* ===== SIDEBAR STYLES ===== */
 .menu-checkbox {
   display: none;
 }
 
-/* Menu Overlay */
 .menu-overlay {
   display: none;
   position: fixed;
@@ -3157,17 +1773,15 @@ select:focus-visible,
   display: block;
 }
 
-/* Hide overlay on desktop where sidebar is always visible */
 @media (min-width: 769px) {
   .menu-overlay {
     display: none !important;
   }
 }
 
-/* Sidebar */
 .side-bar {
   background: #ffffff;
-  width: 280px;
+  width: 320px;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -3183,7 +1797,7 @@ select:focus-visible,
 }
 
 .sidebar-header {
-  padding: 1.5rem 1.25rem;
+  padding: 1.75rem 1.5rem;
   border-bottom: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
@@ -3193,16 +1807,16 @@ select:focus-visible,
 }
 
 .sidebar-title {
-  font-size: 1.125rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #111827;
   margin: 0;
 }
 
 .sidebar-close {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   border: 1px solid #e5e7eb;
   background: #ffffff;
   display: none;
@@ -3215,7 +1829,7 @@ select:focus-visible,
 
 .sidebar-close span {
   position: absolute;
-  width: 14px;
+  width: 18px;
   height: 2px;
   background: #111827;
   border-radius: 999px;
@@ -3236,7 +1850,7 @@ select:focus-visible,
 
 .side-bar .menu {
   width: 100%;
-  padding: 0.75rem 0;
+  padding: 1rem 0;
   flex: 1;
 }
 
@@ -3252,8 +1866,8 @@ select:focus-visible,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.875rem 1.25rem;
-  font-size: 0.9375rem;
+  padding: 1rem 1.5rem;
+  font-size: 1.0625rem;
   font-weight: 500;
   border-bottom: 1px solid #f3f4f6;
   transition: all 0.2s ease;
@@ -3288,13 +1902,13 @@ select:focus-visible,
   background: #f9fafb;
   position: relative;
   border-left: 3px solid #e5e7eb;
-  margin-left: 1.25rem;
+  margin-left: 1.5rem;
 }
 
 .side-bar .menu .item .sub-menu a {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  font-size: 0.875rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  font-size: 1rem;
   color: #6b7280;
   border-bottom: 1px solid #f3f4f6;
   pointer-events: auto;
@@ -3309,16 +1923,16 @@ select:focus-visible,
 }
 
 .sidebar-footer {
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   border-top: 1px solid #e5e7eb;
   background: #f9fafb;
 }
 
 .sidebar-logout {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9375rem;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 1.0625rem;
   justify-content: flex-start;
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -3330,35 +1944,543 @@ select:focus-visible,
   border-color: #d1d5db;
 }
 
-.content {
-  padding: 1.25rem 1.5rem;
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  flex: 1;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  margin-left: 320px;
+  width: calc(100% - 320px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
-button {
-  position: relative;
-  z-index: 1000;
-  padding: 10px 20px;
-  margin: 10px;
-  cursor: pointer;
+/* ===== PAGE HEADER ===== */
+.page-header { 
+  padding: 2rem 1.75rem 1.25rem; 
 }
 
-.page-header,
-.teacher-header,
-.stats-container,
-.teacher-container,
-.role-container {
+.page-header h2 { 
+  margin: 0 0 0.75rem; 
+  color: #111827;
+  font-weight: 700;
+}
+
+.page-header p { 
+  color: #6b7280; 
+  line-height: 1.6;
+  max-width: 800px;
+}
+
+/* ===== STATS CONTAINER ===== */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem 1.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #f3f4f6;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card h3 {
+  margin: 0.75rem 0 0;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.stat-card p {
+  color: #6b7280;
+  font-size: 1.125rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  padding: 0 1.75rem 1.25rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.section-header h3 {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+}
+
+.section-description {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===== SEARCH AND SORT ===== */
+.search-sort-container {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 1.75rem 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.search-wrapper {
   position: relative;
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.125rem;
+  color: #6b7280;
+  pointer-events: none;
   z-index: 1;
 }
 
+.search-input {
+  width: 100%;
+  padding: 1rem 1.125rem 1rem 3.25rem;
+  border: 1.5px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1.0625rem;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #000;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sort-label {
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sort-select {
+  padding: 1rem 1.125rem;
+  border: 1.5px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1.0625rem;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.sort-select:focus {
+  border-color: #000;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.results-count {
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+/* ===== TEACHER CONTAINER ===== */
+.teacher-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.75rem;
+  padding: 0 1.75rem 3rem;
+}
+
+.card {
+  border: 1px solid #e1e5e9;
+  border-radius: 16px;
+  padding: 1.75rem;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.card p {
+  font-size: 1.0625rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block;
+  background: #f1f3f5;
+  padding: 0.5rem 1.125rem;
+  font-size: 0.9375rem;
+  border-radius: 20px;
+  margin: 0 5px 10px 0;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ===== CARD BUTTONS ===== */
+.card-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.card .start,
+.card .update,
+.btn-delete {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid #e1e5e9;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.0625rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.card .start {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+.card .start:hover {
+  background: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card .update {
+  background: #fff;
+  color: #333;
+  border-color: #e1e5e9;
+}
+
+.card .update:hover {
+  background: #f9fafb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-delete {
+  background: #fff;
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+}
+
+.btn-icon {
+  flex-shrink: 0;
+}
+
+/* ===== NO RESULTS ===== */
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 1.75rem;
+  color: #6b7280;
+  background: #f9fafb;
+  border-radius: 16px;
+  border: 1px dashed #e5e7eb;
+}
+
+.no-results p {
+  font-size: 1.25rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ===== FORM STYLES ===== */
+.content {
+  padding: 1.5rem 1.75rem;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.form-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.75rem 0;
+}
+
+.form-subtitle {
+  font-size: 1.125rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.create-teacher-form {
+  max-width: 1000px;
+}
+
+.wrong {
+  color: #d32f2f;
+  background: #ffebee;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #ffcdd2;
+  font-size: 1.0625rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.form-group {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #374151;
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+
+.required {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem 1.125rem;
+  border: 1.5px solid #e1e5e9;
+  border-radius: 12px;
+  font-size: 1.0625rem;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #000;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.btn-primary {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-primary:hover {
+  background: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.125rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-secondary:hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-form-container {
+  grid-column: 1 / -1;
+}
+
+/* ===== FEEDBACK MESSAGES ===== */
+.success,
+.error {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1.25rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  z-index: 1000;
+  text-align: center;
+  min-width: 350px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.3s ease-out;
+  font-size: 1.0625rem;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ===== LOADING SCREEN ===== */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  color: white;
+}
+
+.loading-spinner {
+  border: 5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 5px solid #ffffff;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* ===== MODAL STYLES ===== */
 .main-modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3392,49 +2514,30 @@ button {
 .modal-content {
   width: 100%;
   max-width: 72rem;
-  border-radius: 0.5rem;
+  border-radius: 16px;
   background-color: #f8fafc;
-  padding: 1.5rem;
+  padding: 2rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   overflow-y: auto;
   max-height: 90vh;
 }
 
-@media (min-width: 640px) {
-  .modal-content {
-    padding: 2rem;
-  }
-}
-
-.modal-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-}
-
-@media (min-width: 1024px) {
-  .modal-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-  }
-}
-
 .left-column {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .profile-section {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 @media (min-width: 640px) {
   .profile-section {
     grid-template-columns: auto 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
   }
 }
 
@@ -3451,17 +2554,17 @@ button {
 }
 
 .profile-image {
-  width: 10rem;
-  height: 10rem;
+  width: 12rem;
+  height: 12rem;
   background-color: #e2e8f0;
-  border-radius: 0.5rem;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .profile-icon {
-  font-size: 3.75rem;
+  font-size: 4.5rem;
   color: #9ca3af;
 }
 
@@ -3469,54 +2572,56 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .detail-item {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .detail-label {
-  font-weight: 500;
+  font-weight: 600;
   color: #6b7280;
   display: block;
+  font-size: 1.0625rem;
 }
 
 .detail-value {
-  margin-top: 0.25rem;
-  font-weight: 600;
-  font-size: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
   color: #111827;
 }
 
 .info-section {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .info-item {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .info-label {
-  font-weight: 500;
+  font-weight: 600;
   color: #6b7280;
   display: block;
+  font-size: 1.0625rem;
 }
 
 .info-value {
-  margin-top: 0.25rem;
-  font-weight: 600;
-  font-size: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
   color: #111827;
 }
 
 .buttons-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  padding-top: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem;
+  padding-top: 1.5rem;
 }
 
 .action-button {
@@ -3524,127 +2629,284 @@ button {
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
+  padding: 1rem 1.25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
   color: #374151;
   background-color: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1.5px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .action-button:hover {
   background-color: #f3f4f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .action-button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 0 0 3px #0f172a, 0 0 0 5px rgba(15, 23, 42, 0.1);
 }
 
-.right-column {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .side-bar {
+    transform: translateX(-100%);
+    box-shadow: 2px 0 24px rgba(15, 23, 42, 0.15);
+  }
+  
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .sidebar-close {
+    display: flex;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .teacher-container {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
 }
 
-.ai-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 1rem;
-  color: #111827;
+@media (max-width: 768px) {
+  .topbar {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .title-row {
+    flex-wrap: wrap;
+  }
+  
+  .title-actions .portal-btn {
+    display: none;
+  }
+  
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  .user-greeting {
+    display: none;
+  }
+  
+  .page-header {
+    padding: 1.5rem 1rem 1rem;
+  }
+  
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1.5rem 1rem;
+  }
+  
+  .section-header,
+  .search-sort-container {
+    padding: 0 1rem 1rem;
+  }
+  
+  .search-sort-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .search-wrapper {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .sort-wrapper {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .sort-select {
+    width: 100%;
+    min-width: unset;
+  }
+  
+  .results-count {
+    padding: 0.5rem 1rem;
+  }
+  
+  .teacher-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 1rem 2rem;
+  }
+  
+  .card {
+    padding: 1.25rem;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
+  .form-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
+  
+  .form-title {
+    font-size: 1.5rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .modal-container {
+    padding: 1rem;
+  }
+  
+  .modal-content {
+    padding: 1.5rem;
+  }
+  
+  .profile-section {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .profile-details {
+    text-align: center;
+  }
+  
+  .buttons-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .side-bar {
+    width: min(300px, 85%);
+  }
 }
 
-.ai-container {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  height: 100%;
+/* Mobile */
+@media (max-width: 480px) {
+  .logo {
+    font-size: 1.125rem;
+  }
+  
+  h1 { font-size: 1.625rem; }
+  h2 { font-size: 1.375rem; }
+  h3 { font-size: 1.25rem; }
+  
+  .stat-card h3 {
+    font-size: 1.75rem;
+  }
+  
+  .stat-icon {
+    font-size: 2.5rem;
+  }
+  
+  .card h3 {
+    font-size: 1.125rem;
+  }
+  
+  .card p {
+    font-size: 1rem;
+  }
+  
+  .success,
+  .error {
+    min-width: 280px;
+    padding: 1rem 1.25rem;
+    left: 0.625rem;
+    right: 0.625rem;
+    transform: translateX(0);
+    margin: 0 auto;
+  }
+  
+  .side-bar {
+    width: 100%;
+  }
+  
+  .profile-image {
+    width: 10rem;
+    height: 10rem;
+    margin: 0 auto;
+  }
+  
+  .profile-icon {
+    font-size: 4rem;
+  }
 }
 
-.ai-response {
-  flex-grow: 1;
-  margin-bottom: 1rem;
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .form-group input,
+  .form-group select,
+  .dropdown {
+    border-width: 2px;
+  }
+  
+  .wrong {
+    border: 2px solid #d32f2f;
+  }
+  
+  .badge {
+    border: 1px solid currentColor;
+  }
 }
 
-.ai-textarea {
-  width: 100%;
-  height: 100%;
-  resize: none;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  color: #4b5563;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  font-family: inherit; /* Add this */
+/* Focus visibility for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.action-button:focus-visible {
+  outline: 2px solid #4a6da7;
+  outline-offset: 2px;
 }
 
-.ai-textarea:focus {
-  outline: none;
-  box-shadow: none;
+/* Loading states */
+.card button:disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
-.ai-input-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.card button:disabled:hover,
+.btn:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
 }
-
-.ai-input {
-  flex-grow: 1;
-  width: 100%;
-  padding: 0.5rem 1rem;
-  background-color: #f3f4f6;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
-  transition: all 0.2s ease-in-out;
-}
-
-.ai-input:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #0f172a;
-  border-color: #0f172a;
-}
-
-.ai-input::placeholder {
-  color: #6b7280;
-}
-
-.ai-send-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: #0f172a;
-  border: none;
-  border-radius: 0.375rem;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-}
-
-.ai-send-button:hover {
-  background-color: #1e293b;
-}
-
-.ai-send-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px rgba(15, 23, 42, 0.1);
-}
-
-.send-icon {
-  font-size: 1.125rem;
-}
-</style>
+</style> 
