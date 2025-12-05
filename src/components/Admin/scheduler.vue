@@ -278,7 +278,7 @@ export default {
 <style scoped>
 /* ===== BASE STYLES ===== */
 * {
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -330,7 +330,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 .content {
   background-color: #f9fafb;
   min-height: 100vh;
-  width: 100%;
+  max-width: 100%;
   padding: 1rem;
 }
 
@@ -346,7 +346,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   justify-content: center;
   min-height: 100vh;
   padding: 1rem;
-  width: 100%;
+  max-width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -658,47 +658,47 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   .container {
     padding: 1rem;
   }
-  
+
   .main-content {
     padding: 0.5rem;
   }
-  
+
   .card {
     padding: 1.5rem;
     margin-bottom: 2rem;
   }
-  
+
   .titles h1 {
     font-size: 1.75rem;
   }
-  
+
   .titles h3 {
     font-size: 1.1rem;
   }
-  
+
   .title {
     font-size: 1.75rem;
   }
-  
+
   .subtitle {
     font-size: 1rem;
   }
-  
+
   .label {
     font-size: 1rem;
   }
-  
+
   .input-field {
     height: 3rem;
     font-size: 1rem;
     padding-left: 3rem;
   }
-  
+
   .input-icon {
     left: 1rem;
     font-size: 1.25rem;
   }
-  
+
   .button {
     padding: 1rem 1.5rem;
     font-size: 1rem;
@@ -709,16 +709,16 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   .container {
     padding: 1.5rem;
   }
-  
+
   .side-bar {
     height: auto;
     position: relative;
   }
-  
+
   .content {
     margin-left: 0;
   }
-  
+
   .card {
     max-width: 800px;
     margin: 0 auto 2.5rem;
@@ -729,7 +729,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   .main-content {
     max-width: 1400px;
   }
-  
+
   .card {
     padding: 3rem;
   }
@@ -776,8 +776,12 @@ select:focus {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== SUCCESS/ERROR MESSAGES ===== */
@@ -821,4 +825,4 @@ select:focus {
     transform: translateX(-50%) translateY(0);
   }
 }
-</style> 
+</style>

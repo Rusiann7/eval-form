@@ -123,13 +123,10 @@
             </div>
           </div>
           <div class="captcha-container">
-            <div
-              ref="turnstileWidgetStudent"
-              class="cf-turnstile"
-            ></div>
+            <div ref="turnstileWidgetStudent" class="cf-turnstile"></div>
           </div>
           <button type="submit" class="modal-btn" :disabled="isLoading">
-            {{ isLoading ? 'Logging in...' : 'Login' }}
+            {{ isLoading ? "Logging in..." : "Login" }}
           </button>
         </form>
       </div>
@@ -196,7 +193,7 @@
             />
           </div>
           <button type="submit" class="modal-btn" :disabled="isLoading">
-            {{ isLoading ? 'Creating Account...' : 'Create Account' }}
+            {{ isLoading ? "Creating Account..." : "Create Account" }}
           </button>
         </form>
       </div>
@@ -249,14 +246,11 @@
             </div>
           </div>
           <div class="captcha-container">
-            <div
-              class="cf-turnstile"
-              ref="turnstileWidgetTeacher"
-            ></div>
+            <div class="cf-turnstile" ref="turnstileWidgetTeacher"></div>
           </div>
 
           <button type="submit" class="modal-btn" :disabled="isLoading">
-            {{ isLoading ? 'Logging in...' : 'Login to Teacher Portal' }}
+            {{ isLoading ? "Logging in..." : "Login to Teacher Portal" }}
           </button>
         </form>
       </div>
@@ -306,14 +300,11 @@
             </div>
           </div>
           <div class="captcha-container">
-            <div
-              ref="turnstileWidgetAdmin"
-              class="cf-turnstile"
-            ></div>
+            <div ref="turnstileWidgetAdmin" class="cf-turnstile"></div>
           </div>
 
           <button type="submit" class="modal-btn" :disabled="isLoading">
-            {{ isLoading ? 'Logging in...' : 'Login to Admin Portal' }}
+            {{ isLoading ? "Logging in..." : "Login to Admin Portal" }}
           </button>
         </form>
       </div>
@@ -342,7 +333,7 @@
           />
         </div>
         <button type="submit" class="modal-btn" :disabled="isLoading">
-          {{ isLoading ? 'Sending...' : 'Send Reset Code' }}
+          {{ isLoading ? "Sending..." : "Send Reset Code" }}
         </button>
       </form>
     </div>
@@ -369,7 +360,7 @@
           />
         </div>
         <button type="submit" class="modal-btn" :disabled="isLoading">
-          {{ isLoading ? 'Verifying...' : 'Enter Reset Code' }}
+          {{ isLoading ? "Verifying..." : "Enter Reset Code" }}
         </button>
       </form>
     </div>
@@ -405,7 +396,7 @@
           />
         </div>
         <button type="submit" class="modal-btn" :disabled="isLoading">
-          {{ isLoading ? 'Updating...' : 'Reset Password' }}
+          {{ isLoading ? "Updating..." : "Reset Password" }}
         </button>
       </form>
     </div>
@@ -416,14 +407,10 @@
 import { setToken, getToken } from "../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
-<<<<<<< HEAD
-const url2 = "https://rusiann7.helioho.st";
-
-=======
+//const url2 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
 //const url2 = "https://rusiann7.helioho.st";
 //const url2 = "http://localhost:8000";
->>>>>>> d84161d (fixed the csv import)
 export default {
   name: "newDashboard",
   data() {
@@ -625,7 +612,7 @@ export default {
             email: this.newPassword.email,
           }),
         });
-        
+
         const result = await response.json();
 
         if (result.success) {
@@ -693,7 +680,7 @@ export default {
       this.activeTab = "login";
       this.isWrong = false;
       this.isLoading = false;
-      
+
       // Reset form data
       this.studentl = { id: "", ps: "" };
       this.teacherl = { id: "", ps: "" };
@@ -733,7 +720,8 @@ export default {
     if (!document.querySelector('link[href*="font-awesome"]')) {
       const link = document.createElement("link");
       link.rel = "stylesheet";
-      link.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css";
+      link.href =
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css";
       document.head.appendChild(link);
     }
 
@@ -806,28 +794,64 @@ body {
 }
 
 /* ===== IMPROVED TYPOGRAPHY - LARGER TEXT ===== */
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-p, span, label, button, input, select, a { 
-  font-size: 1.125rem; 
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+p,
+span,
+label,
+button,
+input,
+select,
+a {
+  font-size: 1.125rem;
 }
 
 @media (min-width: 768px) {
-  h1 { font-size: 3rem; }
-  h2 { font-size: 2.5rem; }
-  h3 { font-size: 2rem; }
-  p, span, label, button, input, select, a { 
-    font-size: 1.25rem; 
+  h1 {
+    font-size: 3rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 2rem;
+  }
+  p,
+  span,
+  label,
+  button,
+  input,
+  select,
+  a {
+    font-size: 1.25rem;
   }
 }
 
 @media (min-width: 1024px) {
-  h1 { font-size: 3.5rem; }
-  h2 { font-size: 2.75rem; }
-  h3 { font-size: 2.25rem; }
-  p, span, label, button, input, select, a { 
-    font-size: 1.375rem; 
+  h1 {
+    font-size: 3.5rem;
+  }
+  h2 {
+    font-size: 2.75rem;
+  }
+  h3 {
+    font-size: 2.25rem;
+  }
+  p,
+  span,
+  label,
+  button,
+  input,
+  select,
+  a {
+    font-size: 1.375rem;
   }
 }
 
@@ -871,7 +895,6 @@ p, span, label, button, input, select, a {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  /* Ensure perfect circle on all devices */
   aspect-ratio: 1 / 1;
   position: relative;
 }
@@ -1335,8 +1358,12 @@ p, span, label, button, input, select, a {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== ERROR MESSAGE ===== */
@@ -1368,15 +1395,15 @@ p, span, label, button, input, select, a {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
   }
-  
+
   .logo h1 {
     font-size: 3rem;
   }
-  
+
   .tagline {
     font-size: 1.5rem;
   }
-  
+
   .instruction {
     font-size: 1.25rem;
   }
@@ -1388,46 +1415,46 @@ p, span, label, button, input, select, a {
     padding: 1.5rem 1rem;
     min-height: calc(100vh - 2rem);
   }
-  
+
   .logo-image {
     width: 150px;
     height: 150px;
     border-width: 5px;
   }
-  
+
   .logo-image img {
     width: 82%;
     height: 82%;
   }
-  
+
   .logo h1 {
     font-size: 2.5rem;
   }
-  
+
   .tagline {
     font-size: 1.25rem;
   }
-  
+
   .instruction {
     font-size: 1.125rem;
   }
-  
+
   .cards-container {
     grid-template-columns: 1fr;
     max-width: 500px;
     gap: 1.5rem;
   }
-  
+
   .card {
     padding: 2rem;
   }
-  
+
   .icon {
     width: 80px;
     height: 80px;
     font-size: 3rem;
   }
-  
+
   .modal-content {
     padding: 2rem;
     width: 95%;
@@ -1440,82 +1467,82 @@ p, span, label, button, input, select, a {
     padding: 1rem 0.75rem;
     min-height: calc(100vh - 1rem);
   }
-  
+
   .logo-image {
     width: 120px;
     height: 120px;
     border-width: 4px;
     margin-bottom: 1rem;
   }
-  
+
   .logo-image img {
     width: 80%;
     height: 80%;
   }
-  
+
   .logo h1 {
     font-size: 2.2rem;
   }
-  
+
   .tagline {
     font-size: 1.1rem;
   }
-  
+
   .instruction {
     font-size: 1rem;
   }
-  
+
   .cards-container {
     grid-template-columns: 1fr;
     max-width: 350px;
     margin: 0 auto;
     gap: 1rem;
   }
-  
+
   .card {
     padding: 1.75rem;
   }
-  
+
   .card h2 {
     font-size: 1.75rem;
   }
-  
+
   .card p {
     font-size: 1rem;
   }
-  
+
   .btn {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
   }
-  
+
   .modal-content {
     padding: 1.5rem;
   }
-  
+
   .modal-header h2 {
     font-size: 1.75rem;
   }
-  
+
   .modal-header p {
     font-size: 1rem;
   }
-  
+
   .tab-btn {
     padding: 0.875rem;
     font-size: 1rem;
   }
-  
+
   .form-group input {
     padding: 0.875rem 1rem;
     font-size: 1rem;
   }
-  
+
   .modal-btn {
     padding: 1rem;
     font-size: 1.125rem;
   }
-  
+
   .close-modal {
     top: 1rem;
     right: 1rem;
@@ -1529,28 +1556,28 @@ p, span, label, button, input, select, a {
     width: 100px;
     height: 100px;
   }
-  
+
   .logo-image img {
     width: 78%;
     height: 78%;
   }
-  
+
   .logo h1 {
     font-size: 1.8rem;
   }
-  
+
   .tagline {
     font-size: 1rem;
   }
-  
+
   .instruction {
     font-size: 0.9rem;
   }
-  
+
   .cards-container {
     max-width: 320px;
   }
-  
+
   .card {
     padding: 1.5rem;
   }
@@ -1563,11 +1590,11 @@ p, span, label, button, input, select, a {
     height: 100px;
     margin-bottom: 0.5rem;
   }
-  
+
   .logo h1 {
     font-size: 2rem;
   }
-  
+
   .container {
     padding: 1rem;
   }
@@ -1579,11 +1606,11 @@ p, span, label, button, input, select, a {
     border: 3px solid #000;
     background-color: #fff;
   }
-  
+
   .card {
     border: 2px solid #e5e7eb;
   }
-  
+
   .form-group input {
     border-width: 2px;
   }
@@ -1597,4 +1624,4 @@ input:focus-visible,
   outline: 2px solid #4a6da7;
   outline-offset: 2px;
 }
-</style> 
+</style>

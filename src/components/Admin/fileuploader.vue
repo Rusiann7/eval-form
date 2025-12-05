@@ -78,8 +78,12 @@
         <h1 class="title">File Upload</h1>
         <div class="upload-area">
           <span class="material-icons upload-icon">upload_file</span>
-          <br />
-          <input type="file" @change="file = $event.target.files[0]" />
+
+          <input
+            class="input-shyte"
+            type="file"
+            @change="file = $event.target.files[0]"
+          />
         </div>
         <div class="buttons">
           <button class="btn btn-primary" @click="Upload">Upload</button>
@@ -146,7 +150,7 @@ export default {
 <style scoped>
 /* Base Styles - Consistent with the first component */
 * {
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -224,6 +228,7 @@ body {
 /* Upload Area */
 .upload-area {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 16rem;
@@ -236,6 +241,11 @@ body {
   margin: 1rem auto;
 }
 
+.input-shyte {
+  position: relative;
+  top: 0.5rem;
+  left: 3.7rem;
+}
 .upload-area:hover {
   background-color: #f3f4f6;
   border-color: #9ca3af;
@@ -417,12 +427,12 @@ body {
 .main-content {
   margin-left: 0;
   flex: 1;
-  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  max-width: 100%;
   padding: 1rem;
 }
 
@@ -438,20 +448,20 @@ body {
   .container {
     padding: 1.5rem;
   }
-  
+
   .title {
     font-size: 1.75rem;
   }
-  
+
   .upload-area {
     width: 14rem;
     height: 14rem;
   }
-  
+
   .upload-icon {
     font-size: 4rem;
   }
-  
+
   .btn {
     width: 100%;
     max-width: 20rem;
@@ -464,17 +474,17 @@ body {
   .container {
     padding: 2.5rem;
   }
-  
+
   .side-bar {
     height: auto;
     position: relative;
   }
-  
+
   .main-content {
     margin-left: 0;
     padding: 1.5rem;
   }
-  
+
   .upload-area {
     width: 18rem;
     height: 18rem;
@@ -486,12 +496,12 @@ body {
   .container {
     max-width: 1200px;
   }
-  
+
   .upload-area {
     width: 24rem;
     height: 24rem;
   }
-  
+
   .upload-icon {
     font-size: 6rem;
   }
@@ -561,4 +571,4 @@ a:focus {
     height: 0.75rem;
   }
 }
-</style> 
+</style>

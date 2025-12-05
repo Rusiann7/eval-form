@@ -564,7 +564,7 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html {
@@ -584,7 +584,8 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, sans-serif;
   background-color: #ffffff;
   color: #000000;
   -webkit-font-smoothing: antialiased;
@@ -598,7 +599,7 @@ body {
 }
 
 .material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 /* Layout */
@@ -734,7 +735,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 @media (min-width: 640px) {
@@ -967,7 +969,7 @@ input:focus {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
+  max-width: 100%;
   padding-top: 1rem;
 }
 
@@ -1105,27 +1107,27 @@ input:focus {
   .container {
     padding: 1rem;
   }
-  
+
   .header-buttons {
     width: 100%;
     justify-content: center;
   }
-  
+
   .section-actions {
     justify-content: center;
   }
-  
+
   .btn-section,
   .btn-question {
     padding: 0.5rem 0.75rem;
     font-size: 0.9rem;
   }
-  
+
   .title-text {
     font-size: 1.25rem;
     text-align: center;
   }
-  
+
   .question-text p {
     font-size: 1.1rem;
   }
@@ -1136,18 +1138,18 @@ input:focus {
   .container {
     padding: 1.5rem;
   }
-  
+
   .side-bar {
     height: auto;
     position: relative;
   }
-  
+
   .main-content {
     margin-left: 0;
   }
-  
+
   .section-header {
     flex-wrap: wrap;
   }
 }
-</style> 
+</style>

@@ -82,7 +82,7 @@
               Individual Evaluation
             </button>
             <button class="action-button" @click="activeModal = 'student'">
-              close
+              Close
             </button>
           </div>
         </div>
@@ -96,11 +96,6 @@
       <div class="modal-content">
         <div class="left-column">
           <div class="profile-section">
-            <div class="profile-image-container">
-              <div class="profile-image">
-                <span class="material-icons profile-icon">image</span>
-              </div>
-            </div>
             <div class="profile-details">
               <div class="detail-item">
                 <label class="detail-label">Name</label>
@@ -173,7 +168,7 @@
               Individual Evaluation
             </button>
             <button class="action-button" @click="activeModal = 'student'">
-              close
+              Close
             </button>
           </div>
         </div>
@@ -608,7 +603,8 @@ import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://star-panda-literally.ngrok-free.app";
-const url2 = "http://localhost:8000";
+//const url2 = "http://localhost:8000";
+const url2 = "https://rusiann7.helioho.st";
 
 export default {
   name: "Principal",
@@ -1057,7 +1053,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 html {
@@ -1193,7 +1189,8 @@ body {
   border-radius: 1rem;
   padding: 2rem;
   text-align: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: 2px solid #f3f4f6;
   transition: all 0.3s ease;
 }
@@ -1493,7 +1490,7 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -1700,8 +1697,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .success,
@@ -1792,27 +1793,27 @@ body {
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .logo {
     font-size: 1.25rem;
   }
-  
+
   .breadcrumb {
     font-size: 0.9rem;
     padding: 0.375rem 0.75rem;
   }
-  
+
   .user-info {
     width: 100%;
     justify-content: space-between;
     font-size: 1rem;
   }
-  
+
   .logout-btn {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
   }
-  
+
   .page-header,
   .teacher-header,
   .stats-container,
@@ -1821,37 +1822,37 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  
+
   .page-header h2 {
     font-size: 1.75rem;
   }
-  
+
   .teacher-header h3 {
     font-size: 1.5rem;
   }
-  
+
   .card h3 {
     font-size: 1.25rem;
   }
-  
+
   .card p {
     font-size: 1rem;
   }
-  
+
   .teacher-container {
     grid-template-columns: 1fr;
   }
-  
+
   .modal-content {
     padding: 1.5rem;
     margin: 0.5rem;
   }
-  
+
   .profile-image {
     width: 10rem;
     height: 10rem;
   }
-  
+
   .detail-value,
   .info-value {
     font-size: 1.1rem;
@@ -1863,16 +1864,16 @@ body {
   .topbar {
     padding: 1.25rem 1.5rem;
   }
-  
+
   .side-bar {
     height: auto;
     position: relative;
   }
-  
+
   .main-content {
     margin-left: 0;
   }
-  
+
   .teacher-container {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1903,4 +1904,4 @@ select:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-</style> 
+</style>

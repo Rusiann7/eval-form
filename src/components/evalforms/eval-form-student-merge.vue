@@ -239,7 +239,7 @@ export default {
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
             action: "student",
-            evt: this.$route.params.evtid,
+            evt: 6,
             tcr: this.$route.params.tcrid,
           }),
         });
@@ -321,7 +321,7 @@ export default {
 body {
   margin: 0;
   padding: 1rem;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
@@ -620,8 +620,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design for Tablets and Mobile */
@@ -630,7 +634,7 @@ body {
     padding: 0.5rem;
     font-size: 15px;
   }
-  
+
   .a4-page {
     width: 100%;
     min-height: auto;
@@ -642,71 +646,72 @@ body {
     padding: 0;
     font-size: 14px;
   }
-  
+
   .a4-page {
     box-shadow: none;
     width: 100%;
   }
-  
+
   .header {
     flex-direction: column;
     text-align: center;
     padding: 0.75rem;
     gap: 0.75rem;
   }
-  
-  .logo-left, .logo-right {
+
+  .logo-left,
+  .logo-right {
     width: 3.5rem;
     height: 3.5rem;
     margin: 0;
   }
-  
+
   .header-content {
     width: 100%;
     order: 2;
   }
-  
+
   .logo-left {
     order: 1;
   }
-  
+
   .logo-right {
     order: 3;
   }
-  
+
   .content {
     padding: 1rem;
   }
-  
+
   .info-fields {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .section-header {
     font-size: 1.25rem;
     padding: 0.75rem;
   }
-  
+
   .indicator-table {
     display: block;
     overflow-x: auto;
     font-size: 0.95rem;
   }
-  
+
   .indicator-table td:first-child,
   .indicator-table td:last-child {
     width: auto;
     min-width: 50%;
   }
-  
+
   .footer {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
     gap: 0.75rem;
   }
-  
+
   .footer-logo {
     width: 3rem;
     height: 3rem;
@@ -717,42 +722,42 @@ body {
   body {
     font-size: 13px;
   }
-  
+
   .header h1 {
     font-size: 1.1rem;
   }
-  
+
   .header h2 {
     font-size: 1rem;
   }
-  
+
   .header h3 {
     font-size: 0.9rem;
   }
-  
+
   .section-header {
     font-size: 1.15rem;
     padding: 0.6rem;
   }
-  
+
   .info-field label,
   .info-field p {
     font-size: 1rem;
   }
-  
+
   .rating-scale h2 {
     font-size: 1.15rem;
   }
-  
+
   .rating-table {
     font-size: 0.9rem;
   }
-  
+
   .rating-table th,
   .rating-table td {
     padding: 0.5rem;
   }
-  
+
   .indicator-table th,
   .indicator-table td {
     padding: 0.6rem 0.4rem;
@@ -768,7 +773,7 @@ body {
     font-size: 12pt; /* Use points for print */
     line-height: 1.3;
   }
-  
+
   .a4-page {
     box-shadow: none;
     margin: 0;
@@ -776,42 +781,42 @@ body {
     height: auto;
     page-break-after: always;
   }
-  
+
   /* Hide loading screen when printing */
   .loading-screen {
     display: none !important;
   }
-  
+
   /* Ensure proper page breaks */
   .evaluation-section {
     page-break-inside: avoid;
     margin: 1rem 0;
   }
-  
+
   .indicator-table {
     page-break-inside: auto;
   }
-  
+
   .indicator-table tr {
     page-break-inside: avoid;
   }
-  
+
   /* Adjust spacing for print */
   .header {
     padding: 0.3rem 0.5rem;
     border-bottom-width: 1px;
   }
-  
+
   .content {
     padding: 0.5rem 1rem;
   }
-  
+
   .footer {
     padding: 0.4rem 1rem;
     margin-top: 1rem;
     font-size: 9pt;
   }
-  
+
   /* Ensure logos print properly */
   .logo-left img,
   .logo-right img,
@@ -820,7 +825,7 @@ body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   /* Remove hover effects for print */
   .indicator-table tbody tr:hover {
     background-color: inherit;
@@ -850,4 +855,4 @@ img {
   max-width: 100%;
   height: auto;
 }
-</style> 
+</style>
