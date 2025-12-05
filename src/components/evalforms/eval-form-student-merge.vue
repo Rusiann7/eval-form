@@ -309,7 +309,7 @@ export default {
 /* Set page size to A4 */
 @page {
   size: A4;
-  margin: 0mm; /* Remove margins to maximize space */
+  margin: 20mm 10mm; /* Add margins for print safety */
 }
 
 * {
@@ -320,15 +320,15 @@ export default {
 
 body {
   margin: 0;
-  padding: 0;
-  font-family: "Arial", sans-serif;
+  padding: 1rem;
+  font-family: 'Arial', sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 16px; /* Base font size */
+  line-height: 1.5;
 }
 
 .a4-page {
@@ -338,14 +338,16 @@ body {
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 100%;
+  margin: 0 auto;
 }
 
-/* Header styles - will be repeated on each page */
+/* Header styles */
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   text-align: center;
-  padding: 0.3rem 0.5rem;
+  padding: 0.5rem 1rem;
   border-bottom: 2px solid #0044cc;
   background-color: #f8f9fa;
   position: relative;
@@ -355,13 +357,11 @@ body {
 
 .logo-left,
 .logo-right {
-  width: 3.75rem;
-  height: 3.75rem;
-  background-color: #e6e6e6;
+  width: 4rem;
+  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
   margin: 0 0.3rem;
   flex-shrink: 0;
 }
@@ -370,6 +370,7 @@ body {
 .logo-right img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
 }
 
 .header-content {
@@ -378,7 +379,7 @@ body {
 }
 
 .header h1 {
-  font-size: 0.875rem;
+  font-size: 1.25rem; /* Increased from 0.875rem */
   margin: 0.2rem 0;
   font-weight: bold;
   color: #003366;
@@ -386,97 +387,104 @@ body {
 }
 
 .header h2 {
-  font-size: 0.75rem;
+  font-size: 1.125rem; /* Increased from 0.75rem */
   margin: 0.1rem 0;
-  font-weight: normal;
+  font-weight: 600;
   color: #0044aa;
   line-height: 1.2;
 }
 
 .header h3 {
-  font-size: 0.7rem;
+  font-size: 1rem; /* Increased from 0.7rem */
   margin: 0.1rem 0;
-  font-weight: normal;
+  font-weight: 600;
   color: #005588;
   line-height: 1.2;
 }
 
-.header h4 {
-  font-size: 0.875rem;
-  margin: 0.3rem 0 0.1rem 0;
-  font-weight: bold;
-  color: #cc0000;
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-
 .content {
-  padding: 0.2rem 1rem;
+  padding: 1rem 1.5rem; /* Increased padding */
 }
 
 .info-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.6rem;
-  margin-bottom: 0.2rem;
-  margin-top: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem; /* Increased gap */
+  margin-bottom: 1.5rem; /* Increased margin */
+  margin-top: 1rem; /* Increased margin */
 }
 
 .info-field {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .info-field label {
   display: block;
   font-weight: bold;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.3rem;
   color: #2c3e50;
-  font-size: 1rem;
+  font-size: 1.1rem; /* Increased from 1rem */
 }
 
-.info-field input,
-.info-field select {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
+.info-field p {
+  font-size: 1.1rem; /* Added font size for p tags */
+  padding: 0.4rem 0;
+  color: #333;
 }
 
 .evaluation-section {
-  margin: 1.25rem 0;
+  margin: 1.5rem 0; /* Increased margin */
   page-break-inside: avoid;
 }
 
 .section-header {
   background-color: #4a86e8;
   color: white;
-  padding: 0.6rem;
+  padding: 0.75rem 1rem; /* Increased padding */
   border-radius: 0.3rem 0.3rem 0 0;
   margin-bottom: 0;
-  font-size: 1.25rem;
+  font-size: 1.35rem; /* Increased from 1.25rem */
   font-weight: bold;
+}
+
+.tagalog {
+  display: block;
+  font-size: 1.1rem; /* Added size for tagalog */
+  font-weight: normal;
+  margin-top: 0.2rem;
 }
 
 .indicator-table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 0.9rem;
+  font-size: 1rem; /* Increased from 0.9rem */
+}
+
+.indicator-table thead {
+  background-color: #f0f7ff;
+}
+
+.indicator-table th,
+.indicator-table td {
+  padding: 0.75rem 0.5rem; /* Increased padding */
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #dee2e6;
 }
 
 .indicator-table td:first-child {
   width: 70%;
   word-wrap: break-word;
-  padding: 0.5rem 0.4rem;
-  font-size: 0.875rem;
-  vertical-align: top;
+  font-size: 1rem; /* Increased from 0.875rem */
+  line-height: 1.4;
 }
 
 .indicator-table td:last-child {
   width: 30%;
-  vertical-align: top;
-  padding: 0.5rem 0.4rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
 }
 
 .indicator-table tr {
@@ -488,61 +496,72 @@ body {
   background-color: #f8f9fa;
 }
 
-.rating-cell {
-  width: 30%;
-  vertical-align: top;
-  justify-content: center;
-  align-items: center;
+.indicator-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.rating-scale {
+  background-color: #f8f9fa;
+  padding: 1rem; /* Increased padding */
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.rating-scale h2 {
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
   text-align: center;
-}
-
-.rating-options {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
-
-.rating-option {
-  text-align: center;
-  flex: 1;
-  min-width: 45px;
-}
-
-.rating-option input {
-  margin: 0.2rem 0;
-  transform: scale(1.1);
-}
-
-.rating-value {
+  font-size: 1.35rem; /* Increased from 1.25rem */
   font-weight: bold;
-  font-size: 0.8rem;
-  margin-bottom: 0.1rem;
 }
 
-.rating-label {
-  font-size: 0.6rem;
-  color: #666;
-  line-height: 1.1;
+.rating-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75rem;
+  font-size: 1rem; /* Increased from 0.875rem */
 }
 
-/* Smaller footer */
+.rating-table th,
+.rating-table td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 0.5rem; /* Increased padding */
+  text-align: center;
+}
+
+.rating-table th {
+  background-color: #4a86e8;
+  color: white;
+  font-size: 1.1rem; /* Increased from 1rem */
+  font-weight: 600;
+}
+
+.rating-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.rating-scale p strong {
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+/* Footer styles */
 .footer {
-  padding: 0.3rem 1rem;
+  padding: 0.75rem 1.5rem; /* Increased padding */
   border-top: 1px solid #0044cc;
   background-color: #f8f9fa;
-  font-size: 0.5rem;
-  margin-top: 0.6rem;
+  font-size: 0.9rem; /* Increased from 0.5rem */
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1rem; /* Increased gap */
 }
 
 .footer-logo {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: #e6e6e6;
+  width: 3.5rem; /* Increased from 2.5rem */
+  height: 3.5rem; /* Increased from 2.5rem */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -553,6 +572,7 @@ body {
 .footer-logo img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
 }
 
 .footer-content {
@@ -561,22 +581,12 @@ body {
 }
 
 .footer-line {
-  margin: 0.06rem 0;
-  line-height: 1.2;
+  margin: 0.3rem 0; /* Increased margin */
+  line-height: 1.4;
 }
 
-.watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  font-size: 1.875rem;
-  color: rgba(0, 0, 0, 0.05);
-  pointer-events: none;
-  z-index: -1;
-  text-align: center;
-  white-space: nowrap;
-  font-weight: bold;
+.footer-line strong {
+  font-size: 0.95rem;
 }
 
 .loading-screen {
@@ -598,254 +608,222 @@ body {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid #ffffff;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 3rem;
+  height: 3rem;
   animation: spin 1s linear infinite;
-  margin-bottom: 0.6rem;
-  z-index: 3000;
+  margin-bottom: 1rem;
+}
+
+.loading-screen p {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.rating-scale {
-  background-color: #f8f9fa;
-  padding: 0.75rem;
-  border-radius: 0.3rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #dee2e6;
-}
-
-.rating-scale h2 {
-  color: #2c3e50;
-  margin-bottom: 0.6rem;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-table.rating-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-}
-
-table.rating-table th,
-table.rating-table td {
-  border: 1px solid #dee2e6;
-  padding: 0.5rem;
-  text-align: center;
-  font-weight: bold;
-}
-
-table.rating-table th {
-  background-color: #4a86e8;
-  color: white;
-  font-size: 1rem;
-}
-
-table.rating-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Responsive Design for Screen */
-@media screen and (max-width: 768px) {
+/* Responsive Design for Tablets and Mobile */
+@media screen and (max-width: 1024px) {
   body {
-    padding: 1rem;
-    align-items: flex-start;
+    padding: 0.5rem;
+    font-size: 15px;
   }
-
+  
   .a4-page {
     width: 100%;
     min-height: auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
+}
 
+@media screen and (max-width: 768px) {
+  body {
+    padding: 0;
+    font-size: 14px;
+  }
+  
+  .a4-page {
+    box-shadow: none;
+    width: 100%;
+  }
+  
   .header {
     flex-direction: column;
     text-align: center;
-    padding: 1rem;
+    padding: 0.75rem;
+    gap: 0.75rem;
   }
-
-  .logo-left,
-  .logo-right {
-    width: 4rem;
-    height: 4rem;
-    margin: 0.5rem 0;
+  
+  .logo-left, .logo-right {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0;
   }
-
+  
   .header-content {
     width: 100%;
+    order: 2;
   }
-
+  
+  .logo-left {
+    order: 1;
+  }
+  
+  .logo-right {
+    order: 3;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
   .info-fields {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-
+  
+  .section-header {
+    font-size: 1.25rem;
+    padding: 0.75rem;
+  }
+  
   .indicator-table {
     display: block;
     overflow-x: auto;
-    table-layout: auto;
+    font-size: 0.95rem;
   }
-
+  
   .indicator-table td:first-child,
   .indicator-table td:last-child {
     width: auto;
-    min-width: 150px;
+    min-width: 50%;
   }
-
-  .rating-options {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .rating-option {
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-    gap: 0.5rem;
-  }
-
+  
   .footer {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+    gap: 0.75rem;
   }
-
-  .watermark {
-    font-size: 1.5rem;
+  
+  .footer-logo {
+    width: 3rem;
+    height: 3rem;
   }
 }
 
 @media screen and (max-width: 480px) {
   body {
-    padding: 0.5rem;
+    font-size: 13px;
+  }
+  
+  .header h1 {
+    font-size: 1.1rem;
+  }
+  
+  .header h2 {
+    font-size: 1rem;
+  }
+  
+  .header h3 {
     font-size: 0.9rem;
   }
-
-  .content {
-    padding: 0.5rem;
-  }
-
-  .header h1 {
-    font-size: 0.8rem;
-  }
-
-  .header h2 {
-    font-size: 0.7rem;
-  }
-
-  .header h3 {
-    font-size: 0.65rem;
-  }
-
-  .header h4 {
-    font-size: 0.8rem;
-  }
-
+  
   .section-header {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    padding: 0.6rem;
+  }
+  
+  .info-field label,
+  .info-field p {
+    font-size: 1rem;
+  }
+  
+  .rating-scale h2 {
+    font-size: 1.15rem;
+  }
+  
+  .rating-table {
+    font-size: 0.9rem;
+  }
+  
+  .rating-table th,
+  .rating-table td {
     padding: 0.5rem;
   }
-
-  .rating-scale h2 {
-    font-size: 1.1rem;
-  }
-
-  .indicator-table {
-    font-size: 0.8rem;
-  }
-
-  table.rating-table {
-    font-size: 0.8rem;
-  }
-
-  table.rating-table th,
-  table.rating-table td {
-    padding: 0.3rem;
+  
+  .indicator-table th,
+  .indicator-table td {
+    padding: 0.6rem 0.4rem;
   }
 }
 
-/* Print styles - FIXED HEADER/FOOTER THAT WORKS */
+/* Print styles - optimized for A4 */
 @media print {
   body {
     background: none;
     margin: 0;
     padding: 0;
-    font-size: 0.8rem;
+    font-size: 12pt; /* Use points for print */
+    line-height: 1.3;
   }
-
+  
   .a4-page {
     box-shadow: none;
     margin: 0;
-    width: 100%;
-    height: 100%;
+    width: 210mm;
+    height: auto;
     page-break-after: always;
   }
-
-  /* Header on every page - FIXED */
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 0.2rem 0.5rem;
-    background: white;
-    z-index: 1000;
-    height: 1.5rem;
-  }
-
-  /* Footer on every page - FIXED */
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0.2rem 1rem;
-    background: white;
-    z-index: 1000;
-    height: 1rem;
-  }
-
-  /* CRITICAL: Add margins to content to avoid cutting */
-  .content {
-    padding: 2rem 1rem 1.5rem 1rem;
-    margin: 0;
-  }
-
-  /* Prevent content from being cut off */
-  .evaluation-section {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin: 1rem 0;
-  }
-
-  .indicator-table tr {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* Ensure tables don't break across pages awkwardly */
-  .indicator-table {
-    page-break-inside: auto;
-  }
-
-  /* Add extra space before sections that might break */
-  .evaluation-section:first-child {
-    margin-top: 0;
-  }
-
+  
   /* Hide loading screen when printing */
   .loading-screen {
     display: none !important;
+  }
+  
+  /* Ensure proper page breaks */
+  .evaluation-section {
+    page-break-inside: avoid;
+    margin: 1rem 0;
+  }
+  
+  .indicator-table {
+    page-break-inside: auto;
+  }
+  
+  .indicator-table tr {
+    page-break-inside: avoid;
+  }
+  
+  /* Adjust spacing for print */
+  .header {
+    padding: 0.3rem 0.5rem;
+    border-bottom-width: 1px;
+  }
+  
+  .content {
+    padding: 0.5rem 1rem;
+  }
+  
+  .footer {
+    padding: 0.4rem 1rem;
+    margin-top: 1rem;
+    font-size: 9pt;
+  }
+  
+  /* Ensure logos print properly */
+  .logo-left img,
+  .logo-right img,
+  .footer-logo img {
+    filter: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Remove hover effects for print */
+  .indicator-table tbody tr:hover {
+    background-color: inherit;
   }
 }
 
@@ -861,4 +839,15 @@ table.rating-table tr:nth-child(even) {
   white-space: nowrap;
   border: 0;
 }
-</style>
+
+/* Improve table readability on all devices */
+th {
+  font-weight: 600;
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style> 
