@@ -159,68 +159,201 @@ export default {
 </script>
 
 <style scoped>
+/* Base Styles - Consistent with other components */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #ffffff;
   color: #000000;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 20px;
+  }
+}
+
+body {
+  line-height: 1.6;
+}
+
+/* Container */
 .container {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 1rem;
+  padding: 1.5rem;
+  width: 100%;
 }
 
-@media (min-width: 640px) {
-  .container {
-    padding: 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .container {
     padding: 2rem;
   }
 }
 
+@media (min-width: 1024px) {
+  .container {
+    padding: 2.5rem;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+}
+
+/* Main Grid */
 .main-grid {
   flex: 1;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem;
+  gap: 2rem;
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
   .main-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 2.5rem;
   }
 }
 
+@media (min-width: 1400px) {
+  .main-grid {
+    gap: 3rem;
+  }
+}
+
+/* Cards */
 .card {
   background-color: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 2px solid #e2e8f0;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px -1px rgba(0, 0, 0, 0.1),
+    0 4px 8px -1px rgba(0, 0, 0, 0.06);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 400px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px -2px rgba(0, 0, 0, 0.15),
+    0 8px 16px -2px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 2.5rem;
+    min-height: 450px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .card {
+    min-height: 500px;
+  }
+}
+
+/* Card Title */
+.card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .card-title {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .card-title {
+    font-size: 2.25rem;
+    text-align: left;
+  }
+}
+
+/* Chart Container */
+.chart-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8fafc;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  min-height: 300px;
+}
+
+@media (min-width: 768px) {
+  .chart-container {
+    padding: 2rem;
+  }
+}
+
+/* AI Response Section */
+.ai-response {
+  flex: 1;
+  background-color: #f8fafc;
+  border-radius: 0.75rem;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
 }
 
-.card-title {
+@media (min-width: 768px) {
+  .ai-response {
+    padding: 2rem;
+  }
+}
+
+.response-text {
+  color: #374151;
   font-size: 1.25rem;
-  font-weight: 600;
-  color: #000000;
-  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0;
 }
 
+@media (min-width: 768px) {
+  .response-text {
+    font-size: 1.5rem;
+    line-height: 1.8;
+  }
+}
+
+@media (min-width: 1024px) {
+  .response-text {
+    text-align: left;
+    font-size: 1.375rem;
+  }
+}
+
+/* Graph Placeholder */
 .graph-placeholder {
   flex: 1;
   display: flex;
@@ -228,7 +361,8 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: #f8fafc;
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 2rem;
 }
 
 .placeholder-content {
@@ -237,38 +371,50 @@ export default {
 }
 
 .placeholder-icon {
-  width: 4rem;
-  height: 4rem;
-  margin: 0 auto 1rem auto;
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto 1.5rem auto;
   color: #94a3b8;
 }
 
 .placeholder-text-lg {
-  font-size: 1.125rem;
-  font-weight: 500;
-  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #374151;
 }
 
 .placeholder-text-sm {
-  font-size: 0.875rem;
+  font-size: 1.1rem;
+  color: #6b7280;
 }
 
-.ai-response {
-  flex: 1;
-  background-color: #f8fafc;
-  border-radius: 0.5rem;
-  padding: 1rem;
+/* Chart.js Customization */
+:deep(canvas) {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 350px;
 }
 
-.response-text {
-  color: #64748b;
+@media (min-width: 768px) {
+  :deep(canvas) {
+    max-height: 400px;
+  }
 }
 
+@media (min-width: 1400px) {
+  :deep(canvas) {
+    max-height: 450px;
+  }
+}
+
+/* Input Container */
 .input-container {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
 }
 
 .input-wrapper {
@@ -278,48 +424,168 @@ export default {
 
 .text-input {
   width: 100%;
-  padding-left: 1rem;
-  padding-right: 3rem;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
-  border-radius: 0.5rem;
-  border: 1px solid #cbd5e0;
-  background-color: #f7fafc;
+  padding: 1rem 1rem 1rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 0.75rem;
+  border: 2px solid #cbd5e0;
+  background-color: #ffffff;
   color: #000000;
-  transition: all 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  min-height: 3.5rem;
 }
 
 .text-input::placeholder {
   color: #94a3b8;
+  font-size: 1rem;
 }
 
 .text-input:focus {
   outline: none;
-  ring: 2px solid #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
   border-color: #000000;
 }
 
 .send-button {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 1rem;
+  padding: 0.5rem;
   color: #64748b;
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.15s ease-in-out;
+  transition: color 0.2s ease-in-out;
+  border-radius: 50%;
 }
 
 .send-button:hover {
   color: #000000;
+  background-color: #f3f4f6;
 }
 
 .send-icon {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
-</style>
+
+/* Loading States */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+}
+
+.loading-spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  border-top: 4px solid #000000;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+}
+
+.loading-text {
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .main-grid {
+    gap: 1.5rem;
+  }
+  
+  .card {
+    padding: 1.5rem;
+    min-height: 350px;
+  }
+  
+  .card-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .response-text {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+  
+  .placeholder-text-lg {
+    font-size: 1.25rem;
+  }
+  
+  .placeholder-text-sm {
+    font-size: 1rem;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1023px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .main-grid {
+    gap: 2rem;
+  }
+  
+  .card {
+    min-height: 400px;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus,
+input:focus {
+  outline: 3px solid #000000;
+  outline-offset: 2px;
+}
+
+/* Success/Error Messages */
+.success-message,
+.error-message {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  z-index: 1000;
+  text-align: center;
+  min-width: 300px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+}
+
+.success-message {
+  background-color: #10b981;
+  color: #ffffff;
+  border: 2px solid #059669;
+}
+
+.error-message {
+  background-color: #ef4444;
+  color: #ffffff;
+  border: 2px solid #dc2626;
+}
+</style> 
