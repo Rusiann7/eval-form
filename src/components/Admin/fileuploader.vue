@@ -78,9 +78,11 @@
         <h1 class="title">File Upload</h1>
         <div class="upload-area">
           <span class="material-icons upload-icon">upload_file</span>
+          <br />
+          <input type="file" @change="file = $event.target.files[0]" />
         </div>
         <div class="buttons">
-          <button class="btn btn-primary">Send</button>
+          <button class="btn btn-primary" @click="Upload">Upload</button>
           <button class="btn btn-secondary">View Upload Guidelines</button>
         </div>
       </div>
@@ -89,15 +91,54 @@
 </template>
 
 <script>
+const url1 = "https://rusiann7.helioho.st";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8000";
+
 export default {
   name: "file",
   data() {
     return {
+      urlappphp: `${url2}/CSVImport.php`,
       showMenu1: false,
       showMenu2: false,
       showMenu3: false,
       showMenu4: false,
+      isLoading: false,
+      isSuccess: false,
+      isFailed: false,
+      file: null,
     };
+  },
+
+  methods: {
+    async Upload() {
+      try {
+        this.isLoading = true;
+
+        const form = new FormData();
+        form.append("action", "uploadCSV");
+        form.append("file", this.file);
+
+        const response = await fetch(this.urlappphp, {
+          method: "POST",
+          body: form,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.isSuccess = true;
+        } else {
+          this.isLoading = false;
+          this.isFailed = true;
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error(error);
+      }
+    },
   },
 };
 </script>

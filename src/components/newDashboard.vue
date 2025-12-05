@@ -416,8 +416,14 @@
 import { setToken, getToken } from "../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
+<<<<<<< HEAD
 const url2 = "https://rusiann7.helioho.st";
 
+=======
+const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "https://rusiann7.helioho.st";
+//const url2 = "http://localhost:8000";
+>>>>>>> d84161d (fixed the csv import)
 export default {
   name: "newDashboard",
   data() {
