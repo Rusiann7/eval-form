@@ -5,14 +5,79 @@
   </div>
 
   <!-- Header -->
-  <header class="topbar">
-    <div>
-      <span class="logo">Teacher Evaluation System</span>
-      <p class="breadcrumb">Teacher Portal</p>
+  <header>
+    <div class="header-left">
+      <input
+        type="checkbox"
+        id="teacher-nav-toggle"
+        class="menu-checkbox"
+        aria-hidden="true"
+      />
+      <div class="title-row">
+        <h1>Teacher Evaluation System</h1>
+        <div class="title-actions">
+          <button class="portal-btn">Teacher Portal</button>
+          <label
+            for="teacher-nav-toggle"
+            class="menu-toggle"
+            aria-label="Toggle menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </label>
+        </div>
+      </div>
+      <label for="teacher-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+      <div class="menu-panel" role="dialog" aria-labelledby="teacher-nav-title">
+        <div class="menu-header">
+          <p id="teacher-nav-title" class="menu-title">Teacher Portal</p>
+          <p class="menu-subtitle">Welcome, {{ fullname }} {{ lastname }}</p>
+        </div>
+        <label for="teacher-nav-toggle" class="menu-close" aria-label="Close menu">
+          <span></span>
+          <span></span>
+        </label>
+        <button class="logout-btn menu-logout" @click="logout()">
+          <svg
+            class="logout-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
     </div>
-    <div class="user-info">
-      <span>Welcome, {{ fullname }} {{ lastname }}</span>
-      <button class="logout-btn" @click="logout()">Logout</button>
+    <div class="user-section">
+      <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
+      <button class="logout-btn desktop-only" @click="logout()">
+        <svg
+          class="logout-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Logout
+      </button>
     </div>
   </header>
 
@@ -22,27 +87,43 @@
     <p>Evaluate your colleagues</p>
   </div>
 
-  <!--Verify Input-->
-  <div v-if="verified === '1'" class="stats-container">
-    <h3>Your account is now verified <span class="checkmark">✔</span></h3>
-  </div>
-
   <!--Verify Status-->
-  <div class="stats-container" v-if="(verified === '0') & (active === 'code')">
-    <div class="stat-card">
-      <h3>Verify your account:</h3>
-      <br />
-      <button @click="verifyCode" class="class-card">Send Code</button>
+  <div v-if="verified === '1'" class="verify-container">
+    <div class="verify-card verified">
+      <div class="verify-header">
+        <p class="verify-title">Account Verification</p>
+        <p class="verify-subtitle">Your account is now verified</p>
+      </div>
+      <div class="verify-status">
+        <span class="checkmark">✔</span>
+      </div>
     </div>
   </div>
 
-  <div class="stats-container" v-if="(verified === '0') & (active === 'input')">
-    <div class="stat-card">
-      <h3>Verify your account:</h3>
-      <br />
-      <form method="post" @submit.prevent="verifyInput">
-        <input type="text" v-model="verify" />
-        <button type="submit">Submit</button>
+  <div v-if="(verified === '0') & (active === 'code')" class="verify-container">
+    <div class="verify-card">
+      <div class="verify-header">
+        <p class="verify-title">Account Verification</p>
+        <p class="verify-subtitle">Verify your account to continue</p>
+      </div>
+      <button @click="verifyCode" class="verify-btn">Send Code</button>
+    </div>
+  </div>
+
+  <div v-if="(verified === '0') & (active === 'input')" class="verify-container">
+    <div class="verify-card">
+      <div class="verify-header">
+        <p class="verify-title">Account Verification</p>
+        <p class="verify-subtitle">Enter the verification code sent to your email</p>
+      </div>
+      <form method="post" @submit.prevent="verifyInput" class="verify-form">
+        <input
+          type="text"
+          v-model="verify"
+          placeholder="Enter verification code"
+          class="verify-input"
+        />
+        <button type="submit" class="verify-btn">Submit</button>
       </form>
     </div>
   </div>
@@ -61,40 +142,79 @@
     </div>
   </div>
 
+  <!-- Search & Filters -->
+  <div class="teacher-controls">
+    <div class="search-box">
+      <svg
+        class="search-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="Search teachers by name or subject..."
+        class="search-input"
+      />
+    </div>
+    <div class="filter-controls">
+      <select v-model="sortBy" class="sort-select">
+        <option value="name">Sort by Name</option>
+        <option value="subject">Sort by Subject</option>
+        <option value="quarter">Sort by Quarter</option>
+      </select>
+      <label class="toggle-label">
+        <input
+          type="checkbox"
+          v-model="hideEvaluated"
+          class="toggle-checkbox"
+        />
+        <span class="toggle-text">Hide Evaluated</span>
+      </label>
+    </div>
+  </div>
+
   <!-- Teacher Cards -->
   <div class="teacher-container">
     <div
       class="teacher-card"
-      v-for="teacher in teachers.filter((t) => t.evaluated === 'evaluated')"
-      :key="teacher.id"
+      v-for="(teacher, idx) in filteredTeachers"
+      :key="`t-${teacher.id}-${idx}`"
     >
-      <h3>
+      <h3 v-if="teacher.evaluated === 'evaluated'">
         {{ teacher.firstname }} {{ teacher.lastname
         }}<span class="checkmark">✔</span>
       </h3>
+      <h3 v-else>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
       <p>{{ teacher.subject }}</p>
       <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-      <br /><br />
-      <span class="badge evaluated">Evaluated</span>
-    </div>
-
-    <div
-      class="teacher-card"
-      v-for="teacher in teachers.filter((t) => t.evaluated === 'not evaluated')"
-      :key="teacher.id"
-    >
-      <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-      <p>{{ teacher.subject }}</p>
-      <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-      <br /><br />
+      <span v-if="teacher.evaluated === 'evaluated'" class="badge evaluated"
+        >Evaluated</span
+      >
+      <br v-if="teacher.evaluated !== 'evaluated'" /><br
+        v-if="teacher.evaluated !== 'evaluated'"
+      />
       <button
-        class="btn btn-dark"
+        v-if="teacher.evaluated !== 'evaluated'"
+        class="start"
         @click.prevent="
           $router.push({ name: 'teacher-eval', params: { id: teacher.id } })
         "
       >
         Start Evaluation
       </button>
+    </div>
+    <div v-if="filteredTeachers.length === 0" class="no-results">
+      <p>No teachers found matching your search criteria.</p>
     </div>
   </div>
 </template>
@@ -128,6 +248,9 @@ export default {
       verified: 0,
       active: "code",
       isLoading: false,
+      searchQuery: "",
+      sortBy: "name",
+      hideEvaluated: false,
     };
   },
 
@@ -254,6 +377,41 @@ export default {
     },
   },
 
+  computed: {
+    filteredTeachers() {
+      let list = this.teachers.slice();
+
+      if (this.searchQuery.trim()) {
+        const q = this.searchQuery.toLowerCase().trim();
+        list = list.filter(
+          (t) =>
+            `${t.firstname} ${t.lastname}`.toLowerCase().includes(q) ||
+            t.subject.toLowerCase().includes(q)
+        );
+      }
+
+      if (this.hideEvaluated) {
+        list = list.filter((t) => t.evaluated !== "evaluated");
+      }
+
+      return [...list].sort((a, b) => {
+        if (this.sortBy === "name") {
+          const aName = `${a.firstname} ${a.lastname}`.toLowerCase();
+          const bName = `${b.firstname} ${b.lastname}`.toLowerCase();
+          return aName.localeCompare(bName);
+        }
+        if (this.sortBy === "subject") {
+          return a.subject.localeCompare(b.subject);
+        }
+        if (this.sortBy === "quarter") {
+          if (a.year !== b.year) return a.year - b.year;
+          return a.quarter - b.quarter;
+        }
+        return 0;
+      });
+    },
+  },
+
   mounted() {
     this.getTeachers();
     this.skipLogin();
@@ -279,76 +437,235 @@ body {
 }
 
 header {
-  text-align: center;
-  margin: 2.5rem 0 1.25rem;
-  padding: 0 1rem;
-}
-
-header h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-header p {
-  font-size: 1rem;
-  color: #555;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-/* Topbar (for portals) */
-.topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
-.logo {
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+}
+
+.title-row h1 {
+  flex: 1;
+}
+
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+header h1 {
+  font-size: 1.25rem;
   font-weight: bold;
-  font-size: 1.125rem;
+  margin: 0;
 }
 
-.breadcrumb-container {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.breadcrumb {
-  background: #f1f3f5;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-}
-
-.user-info {
+.user-section {
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 0.875rem;
   flex-wrap: wrap;
+}
+
+.menu-checkbox {
+  display: none;
+}
+
+.menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 45;
+  flex-shrink: 0;
+}
+
+.menu-toggle span {
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.menu-toggle:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 3px;
+}
+
+.menu-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: min(280px, 80%);
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -6px 0 24px rgba(15, 23, 42, 0.15);
+  padding: 4.5rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  z-index: 40;
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.menu-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.menu-subtitle {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.menu-close {
+  align-self: flex-end;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 41;
+}
+
+.menu-close span {
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: #111827;
+  border-radius: 999px;
+}
+
+.menu-close span:first-child {
+  transform: rotate(45deg);
+}
+
+.menu-close span:last-child {
+  transform: rotate(-45deg);
+}
+
+.menu-close:hover {
+  background: #eef2ff;
+  border-color: #d1d5db;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(1px);
+  z-index: 35;
+  cursor: pointer;
+}
+
+.menu-logout {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  justify-content: flex-start;
+}
+
+.menu-checkbox:checked ~ .menu-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-checkbox:checked ~ .menu-overlay {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 30;
+  cursor: pointer;
+}
+.portal-btn {
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.portal-btn:hover {
+  background: #e5e7eb;
 }
 
 .logout-btn {
-  background: #fff;
-  border: 1px solid #ccc;
+  border: none;
+  background: #f3f4f6;
   padding: 0.5rem 1rem;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
-  text-decoration: none;
-  color: #000;
-  transition: all 0.2s;
-  font-size: 0.875rem;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .logout-btn:hover {
-  background: #f8f9fa;
+  background: #e5e7eb;
+}
+
+.logout-icon {
+  color: #dc2626;
+  stroke: #dc2626;
 }
 
 /* Role Cards */
@@ -362,95 +679,6 @@ header p {
   padding: 0 1rem;
 }
 
-.role-card {
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 1.875rem 1.25rem;
-  width: min(280px, 100%);
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.role-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  border-radius: 50%;
-  padding: 1rem;
-  display: inline-block;
-}
-
-.student {
-  background: #eaf1ff;
-  color: #0066ff;
-}
-.teacher {
-  background: #e9f9ee;
-  color: #2ecc71;
-}
-.admin {
-  background: #f6eaff;
-  color: #9b59b6;
-}
-
-.role-card h3 {
-  margin: 0.625rem 0 0.5rem;
-  font-size: 1.125rem;
-}
-
-.role-card p {
-  color: #555;
-  font-size: 0.875rem;
-  margin-bottom: 1.25rem;
-}
-
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: bold;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s;
-  width: 100%;
-}
-
-.btn-student {
-  background: #000;
-  color: #fff;
-}
-
-.btn-student:hover {
-  background: #333;
-}
-
-.btn-teacher {
-  background: #f1f3f5;
-  color: #000;
-}
-
-.btn-teacher:hover {
-  background: #e9ecef;
-}
-
-.btn-admin {
-  background: #fff;
-  border: 1px solid #ccc;
-  color: #000;
-}
-
-.btn-admin:hover {
-  background: #f8f9fa;
-}
-
 /* Page Headers */
 .page-header {
   padding: 1.875rem 1.5rem 0.625rem;
@@ -458,13 +686,13 @@ header p {
 
 .page-header h2 {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
   margin-bottom: 0.5rem;
 }
 
 .page-header p {
   color: #555;
-  font-size: 0.875rem;
+  font-size: 0.975rem;
 }
 
 /* Stats */
@@ -494,12 +722,113 @@ header p {
 
 .stat-card h3 {
   margin: 0.625rem 0 0;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 }
 
 .stat-card p {
   color: #555;
-  font-size: 0.875rem;
+  font-size: 0.975rem;
+}
+
+/* Verify Account Section */
+.verify-container {
+  padding: 1.25rem 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.verify-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.verify-card.verified {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.verify-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.25rem;
+}
+
+.verify-card.verified .verify-header {
+  border-bottom-color: #10b981;
+}
+
+.verify-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.verify-subtitle {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+.verify-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.verify-status .checkmark {
+  font-size: 2rem;
+  color: #10b981;
+}
+
+.verify-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.verify-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.verify-input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.verify-btn:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.verify-btn:active {
+  transform: translateY(0);
 }
 
 /* Tabs */
@@ -541,6 +870,92 @@ header p {
   gap: 1rem;
 }
 
+.teacher-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.25rem 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  min-width: 180px;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.toggle-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #000;
+}
+
+.toggle-text {
+  font-weight: 500;
+}
+
 .dropdown {
   padding: 0.5rem 1rem;
   border: 1px solid #ccc;
@@ -553,9 +968,22 @@ header p {
 /* Teacher Cards */
 .teacher-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 350px));
   gap: 1.25rem;
   padding: 0 1.5rem 2.5rem;
+  justify-content: start;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.no-results p {
+  font-size: 1rem;
+  margin: 0;
 }
 
 .teacher-card {
@@ -574,20 +1002,44 @@ header p {
 
 .teacher-card h3 {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
 .teacher-card p {
   color: #555;
   margin: 0.5rem 0 0.75rem;
-  font-size: 0.875rem;
+  font-size: 0.95rem;
+}
+
+.teacher-card button {
+  width: auto;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.teacher-card .start {
+  background: #000;
+  color: #fff;
+}
+
+.teacher-card .start:hover {
+  background: #333;
 }
 
 .badge {
   display: inline-block;
   background: #f1f3f5;
   padding: 0.25rem 0.75rem;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   border-radius: 20px;
   margin: 0 0.5rem 0.75rem 0;
 }
@@ -632,20 +1084,53 @@ header p {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .topbar {
+  header {
+    padding: 1rem;
     flex-direction: column;
     align-items: flex-start;
-    padding: 1rem;
   }
 
-  .breadcrumb-container {
+  .header-left {
     width: 100%;
-    justify-content: flex-start;
   }
 
-  .user-info {
+  .title-row {
     width: 100%;
     justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .title-actions .portal-btn {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .menu-checkbox:checked ~ .title-row .menu-toggle {
+    display: none !important;
+  }
+
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .user-greeting {
+    display: none;
   }
 
   .page-header {
@@ -657,12 +1142,36 @@ header p {
     align-items: flex-start;
   }
 
+  .teacher-controls {
+    margin: 1rem 1rem 1.25rem;
+    padding: 0.75rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .sort-select {
+    width: 100%;
+    min-width: unset;
+  }
+
   .stats-container {
     padding: 1rem;
   }
 
   .stat-card {
     min-width: calc(50% - 0.625rem);
+  }
+
+  .verify-container {
+    padding: 1rem;
+  }
+
+  .verify-card {
+    padding: 1.5rem;
   }
 
   .tabs {
@@ -677,15 +1186,22 @@ header p {
   .card-buttons {
     flex-direction: column;
   }
+
+  .teacher-card button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
-  header {
-    margin: 2rem 0 1rem;
+  header h1 {
+    font-size: 1.125rem;
   }
 
-  header h1 {
-    font-size: 1.25rem;
+  .user-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
   }
 
   .role-container {
@@ -703,6 +1219,22 @@ header p {
 
   .stat-card {
     min-width: 100%;
+  }
+
+  .verify-container {
+    padding: 0.75rem;
+  }
+
+  .verify-card {
+    padding: 1.25rem;
+  }
+
+  .verify-title {
+    font-size: 1.1rem;
+  }
+
+  .verify-subtitle {
+    font-size: 0.85rem;
   }
 
   .tabs {
@@ -771,11 +1303,4 @@ header p {
   }
 }
 
-.class-card {
-  background-color: #000;
-  color: #fff;
-  border-radius: 10px;
-  padding: 10px;
-  cursor: pointer;
-}
 </style>

@@ -176,8 +176,17 @@
     </div>
   </div>
 
-  <!--sidebar-->
-  <div class="side-bar">
+  <!--sidebar (drawer)-->
+  <div v-if="isNavOpen" class="nav-overlay" @click="closeNav"></div>
+  <div class="side-bar" :class="{ open: isNavOpen }">
+    <div class="nav-header">
+      <div>
+        <p class="nav-title">Principal Portal</p>
+      </div>
+      <button class="nav-close" @click="closeNav" aria-label="Close menu">
+        <span class="material-icons">close</span>
+      </button>
+    </div>
     <div class="menu">
       <div class="item">
         <a
@@ -186,62 +195,92 @@
           @click.stop="
             $router.push('/principal');
             click('student');
+            closeNav();
           "
           >Student</a
         >
       </div>
       <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
-          >Teacher</a
-        >
+        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
+          Teacher
+          <span class="material-icons chevron">{{
+            showMenu2 ? "expand_less" : "expand_more"
+          }}</span>
+        </a>
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher')" class="sub-item"
+          <a href="#" @click="click('teacher'); closeNav()" class="sub-item"
             >Evaluation Answers</a
           >
-          <a href="#" @click="click('evaluate')" class="sub-item"
+          <a href="#" @click="click('evaluate'); closeNav()" class="sub-item"
             >Evaluate Teachers</a
           >
         </div>
       </div>
       <div class="item">
-        <a href="#" @click.stop="showMenu3 = !showMenu3">Account Management</a>
+        <a href="#" @click.stop="showMenu3 = !showMenu3">
+          Account Management
+          <span class="material-icons chevron">{{
+            showMenu3 ? "expand_less" : "expand_more"
+          }}</span>
+        </a>
         <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher')" class="sub-item"
+          <a href="#" @click="click2('crtTeacher'); closeNav()" class="sub-item"
             >Add Teachers</a
           >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
+          <a href="#" @click="click2('rmTeacher'); closeNav()" class="sub-item"
             >Delete Users</a
           >
-          <a href="#" @click="click2('editTeacher')" class="sub-item"
+          <a href="#" @click="click2('editTeacher'); closeNav()" class="sub-item"
             >Edit Users</a
           >
         </div>
       </div>
       <div class="item">
-        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
+        <a href="#" @click.prevent="$router.push('/scheduler'); closeNav()"
+          >Scheduler</a
+        >
       </div>
       <div class="item">
-        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
+        <a href="#" @click.prevent="$router.push('/fileupload'); closeNav()"
+          >File Upload</a
+        >
       </div>
 
       <div class="item">
-        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
+        <a href="#" @click.prevent="showMenu4 = !showMenu4">
+          Question Change
+          <span class="material-icons chevron">{{
+            showMenu4 ? "expand_less" : "expand_more"
+          }}</span>
+        </a>
 
         <div class="sub-menu" v-if="showMenu4">
           <a
             href="#"
-            @click.prevent="$router.push('/changequestions-student')"
+            @click.prevent="
+              $router.push('/changequestions-student');
+              closeNav();
+            "
             class="sub-item"
-            >Chnage Student Questions</a
+            >Change Student Questions</a
           >
           <a
             href="#"
-            @click.prevent="$router.push('/changequestions-teacher')"
+            @click.prevent="
+              $router.push('/changequestions-teacher');
+              closeNav();
+            "
             class="sub-item"
             >Change Teacher Questions</a
           >
         </div>
       </div>
+    </div>
+    <div class="menu-footer">
+      <button class="logout-btn menu-logout" @click="logout()">
+        <span class="material-icons logout-icon">logout</span>
+        Logout
+      </button>
     </div>
   </div>
   <!--end of sidebar-->
@@ -250,10 +289,15 @@
   <div class="main-content">
     <!-- Header -->
     <header class="topbar">
-      <div>
-        <span class="logo">Teacher Evaluation System</span>
-        <br />
-        <span class="breadcrumb">Principal Portal</span>
+      <div class="topbar-left">
+        <button class="menu-trigger" @click="isNavOpen = true" aria-label="Open menu">
+          <span class="material-icons">menu</span>
+        </button>
+        <div>
+          <span class="logo">Teacher Evaluation System</span>
+          <br />
+          <span class="breadcrumb">Principal Portal</span>
+        </div>
       </div>
       <div class="user-info">
         <span>Welcome, {{ fullname }} {{ lastname }}</span>
@@ -660,6 +704,7 @@ export default {
       showMenu4: false,
       subjects: { id: "", subject: "" },
       airesponse: null,
+      isNavOpen: false,
     };
   },
 
@@ -1018,6 +1063,10 @@ export default {
       this.activeTab1 = tabName;
       this.activeModal = "manage";
     },
+
+    closeNav() {
+      this.isNavOpen = false;
+    },
   },
 
   watch: {
@@ -1103,6 +1152,34 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.menu-trigger {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.menu-trigger:hover {
+  background: #f3f4f6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.menu-trigger:active {
+  transform: translateY(1px);
+}
+
 .logo {
   font-weight: 700;
   font-size: 1.5rem;
@@ -1142,6 +1219,10 @@ body {
   font-size: 1rem;
   transition: all 0.2s ease;
   white-space: nowrap;
+}
+
+.topbar .logout-btn {
+  display: none;
 }
 
 .logout-btn:hover {
@@ -1408,39 +1489,69 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* ===== SIDEBAR ===== */
-.side-bar {
-  background: #f8f9fa;
-  width: 100%;
-  height: auto;
-  position: relative;
-  border-right: none;
-  border-bottom: 1px solid #ddd;
-  z-index: 100;
+/* ===== SIDEBAR (DRAWER) ===== */
+.nav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 180;
 }
 
-@media (min-width: 1024px) {
-  .side-bar {
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-right: 1px solid #ddd;
-    border-bottom: none;
-  }
+.side-bar {
+  background: #ffffff;
+  width: 320px;
+  max-width: 90vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-right: 1px solid #e5e7eb;
+  z-index: 200;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-bar.open {
+  transform: translateX(0);
+}
+
+.nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111827;
+}
+
+.nav-close {
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .side-bar .menu {
   width: 100%;
   margin-top: 0;
-  padding: 1rem 0;
-}
-
-@media (min-width: 1024px) {
-  .side-bar .menu {
-    margin-top: 80px;
-  }
+  padding: 0.5rem 0 0;
+  flex: 1;
+  overflow-y: auto;
 }
 
 .side-bar .menu .item {
@@ -1451,36 +1562,80 @@ body {
 .side-bar .menu .item a {
   color: rgb(0, 0, 0);
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 1rem 1.5rem;
-  line-height: 1.5;
-  font-size: 1.1rem;
-  font-weight: 500;
+  line-height: 1.4;
+  font-size: 1rem;
+  font-weight: 600;
   border-bottom: 1px solid #eee;
   transition: all 0.2s ease;
 }
 
 .side-bar .menu .item a:hover {
-  background: rgba(0, 0, 0, 0.898);
-  color: white;
-  padding-left: 2rem;
+  background: #f3f4f6;
+  color: #000;
+  padding-left: 1.75rem;
 }
 
 .side-bar .menu .item .sub-menu {
-  background: #e9ecef;
+  background: #f9fafb;
   position: relative;
   z-index: 1000;
 }
 
 .side-bar .menu .item .sub-menu a {
-  padding-left: 3rem;
-  font-size: 1rem;
-  border-bottom: 1px solid #ddd;
+  padding-left: 2.75rem;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #eee;
+  font-weight: 500;
 }
 
 .side-bar .menu .item .sub-menu a:hover {
-  background: rgba(0, 0, 0, 0.898);
-  color: white;
+  background: #eef2ff;
+  color: #000;
+}
+
+.chevron {
+  font-size: 1.1rem;
+  color: #6b7280;
+}
+
+.menu-footer {
+  padding: 1rem 1.25rem 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.menu-logout {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Hide mobile drawer on desktop */
+@media (min-width: 1024px) {
+  .menu-trigger {
+    display: none;
+  }
+
+  .nav-overlay {
+    display: none !important;
+  }
+
+  .side-bar {
+    transform: translateX(0);
+    box-shadow: none;
+    position: fixed;
+    width: 280px;
+  }
+
+  .nav-close {
+    display: none;
+  }
+
+  .topbar .logout-btn {
+    display: none;
+  }
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -1809,9 +1964,8 @@ body {
     font-size: 1rem;
   }
 
-  .logout-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
+  .topbar .logout-btn {
+    display: none;
   }
 
   .page-header,
@@ -1863,6 +2017,10 @@ body {
 @media (min-width: 641px) and (max-width: 1023px) {
   .topbar {
     padding: 1.25rem 1.5rem;
+  }
+
+  .topbar .logout-btn {
+    display: none;
   }
 
   .side-bar {

@@ -5,6 +5,7 @@ const Student = () => import("../components/User/Student.vue"); //loads componen
 const Teacher = () => import("../components/User/Teacher.vue");
 const Principal = () => import("../components/Admin/Principal.vue");
 const newDashboard = () => import("../components/newDashboard.vue");
+const RegisterStudent = () => import("../components/Register/Student.vue");
 const StEval = () => import("../components/evalforms/student.vue");
 const TcEval = () => import("../components/evalforms/teacher.vue");
 const printable = () => import("../components/evalforms/eval-form-student.vue");
@@ -32,6 +33,13 @@ const routes = [
     name: "Dashboard", //component
     component: newDashboard, //component to be loaded
     meta: { title: "Dashboard", requiresAuth: false }, //meta data
+  },
+
+  {
+    path: "/register/student",
+    name: "RegisterStudent",
+    component: RegisterStudent,
+    meta: { title: "Register Student", requiresAuth: false },
   },
 
   {

@@ -74,24 +74,7 @@
         <p>Login or create a new account</p>
       </div>
 
-      <div class="tabs">
-        <button
-          class="tab-btn"
-          :class="{ active: activeTab === 'login' }"
-          @click="activeTab = 'login'"
-        >
-          Login
-        </button>
-        <button
-          class="tab-btn"
-          :class="{ active: activeTab === 'register' }"
-          @click="activeTab = 'register'"
-        >
-          Register
-        </button>
-      </div>
-
-      <div class="tab-content" v-if="activeTab === 'login'">
+      <div class="tab-content">
         <!--login-->
         <form method="post" @submit.prevent="login">
           <div class="form-group">
@@ -121,79 +104,15 @@
                 >Forgot Password?</a
               >
             </div>
+            <div class="forgot-password">
+              <a @click="goToRegister" style="cursor: pointer">Create Account</a>
+            </div>
           </div>
           <div class="captcha-container">
             <div ref="turnstileWidgetStudent" class="cf-turnstile"></div>
           </div>
           <button type="submit" class="modal-btn" :disabled="isLoading">
             {{ isLoading ? "Logging in..." : "Login" }}
-          </button>
-        </form>
-      </div>
-
-      <div class="tab-content" v-if="activeTab === 'register'">
-        <!--register-->
-        <form method="post" @submit.prevent="signup()">
-          <div v-if="isWrong" class="wrong">
-            <p class="wrong">Wrong Credentials or Incomplete</p>
-          </div>
-          <div class="form-group">
-            <label for="studentName">First Name:</label>
-            <input
-              type="text"
-              v-model="studentr.fn"
-              placeholder="Enter your first name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentName">Last Name:</label>
-            <input
-              type="text"
-              v-model="studentr.ln"
-              placeholder="Enter your last name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentEmail">Email Address:</label>
-            <input
-              type="email"
-              v-model="studentr.em"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentIdRegister">Student ID:</label>
-            <input
-              type="text"
-              v-model="studentr.id"
-              placeholder="Enter your student ID"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentPasswordRegister">Password:</label>
-            <input
-              type="password"
-              v-model="studentr.pass"
-              minlength="8"
-              placeholder="Create a password"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentConfirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              v-model="studentr.conpass"
-              placeholder="Confirm your password"
-              required
-            />
-          </div>
-          <button type="submit" class="modal-btn" :disabled="isLoading">
-            {{ isLoading ? "Creating Account..." : "Create Account" }}
           </button>
         </form>
       </div>
@@ -425,7 +344,6 @@ export default {
       password: `${url2}/password.php`,
       code: `${url2}/code.php`,
       studentl: { id: "", ps: "" },
-      studentr: { fn: "", ln: "", em: "", id: "", pass: "", conpass: "" },
       teacherl: { id: "", ps: "" },
       admin: { id: "", ps: "" },
       newPassword: {
@@ -511,50 +429,6 @@ export default {
       } catch (error) {
         console.error("Login error:", error);
         this.isLoading = false;
-        alert("An error occurred. Please try again.");
-      }
-    },
-
-    async signup() {
-      if (this.studentr.pass !== this.studentr.conpass) {
-        this.isWrong = true;
-        alert("Passwords do not match!");
-        return;
-      }
-
-      try {
-        this.isLoading = true;
-
-        const response = await fetch(this.signupphp, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...this.studentr,
-            action: "signup",
-          }),
-        });
-
-        const result = await response.json();
-        if (result.success) {
-          alert("Account created successfully! Please login.");
-          this.activeTab = "login";
-          this.studentr = {
-            fn: "",
-            ln: "",
-            em: "",
-            id: "",
-            pass: "",
-            conpass: "",
-          };
-        } else {
-          alert(result.error || "Registration failed. Please try again.");
-        }
-        this.isLoading = false;
-      } catch (error) {
-        this.isLoading = false;
-        console.error("Signup error:", error);
         alert("An error occurred. Please try again.");
       }
     },
@@ -712,6 +586,10 @@ export default {
           });
         }
       }
+    },
+    goToRegister() {
+      this.closeModal();
+      this.$router.push("/register/student");
     },
   },
 
@@ -887,33 +765,23 @@ a {
   width: 180px;
   height: 180px;
   border-radius: 50%;
-  border: 6px solid #fff;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   margin-bottom: 1.5rem;
-  background-color: white;
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   aspect-ratio: 1 / 1;
-  position: relative;
 }
 
 /* Logo image that fits perfectly in the circle */
 .logo-image img {
-  /* Make image fill the circle */
-  width: 85%;
-  height: 85%;
-  /* Maintain aspect ratio and fit inside */
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  /* Remove any default margins/padding */
   margin: 0;
   padding: 0;
-  /* Center the image perfectly */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .logo h1 {
@@ -1241,9 +1109,23 @@ a {
 
 .remember-forgot {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-bottom: 1.5rem;
+  gap: 1rem;
+  width: 100%;
+}
+
+.forgot-password {
+  flex: 1;
+}
+
+.forgot-password:first-child {
+  text-align: left;
+}
+
+.forgot-password:last-child {
+  text-align: right;
 }
 
 .forgot-password a {
@@ -1251,6 +1133,7 @@ a {
   text-decoration: none;
   font-size: 1rem;
   font-weight: 500;
+  display: inline-block;
 }
 
 .forgot-password a:hover {
