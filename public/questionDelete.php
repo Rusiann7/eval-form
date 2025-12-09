@@ -14,7 +14,11 @@ if($action === "delQuestion"){
     
     $id = $data['id'];
 
+<<<<<<< HEAD
     $sql = "DELETE FROM Questions WHERE id = $id";
+=======
+    $sql = "UPDATE Questions SET is_deleted = 1 WHERE id = $id";
+>>>>>>> Development
 
     if($conn->query($sql) === true){
         echo json_encode(["success" => true]);
@@ -25,4 +29,10 @@ if($action === "delQuestion"){
 }else{
     echo json_encode(["success" => false, "message" => "Invalid action"]);
     http_response_code(400);
+<<<<<<< HEAD
 }
+=======
+}
+
+$conn->close();
+>>>>>>> Development

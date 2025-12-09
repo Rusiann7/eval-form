@@ -164,9 +164,9 @@ export default {
   name: "printEval",
   data() {
     return {
-      urlappphp: `${url2}/questions.php`,
+      urlappphp: `${url2}/questionsAll.php`,
       urlappphp2: `${url2}/idGetter.php`,
-      urlappphp3: "https://star-panda-literally.ngrok-free.app/ansGetter.php",
+      urlappphp3: `${url2}/ansGetter.php`,
       urlappphp4: `${url2}/evtGetter.php`,
       name: {},
       month: "",
@@ -314,7 +314,7 @@ export default {
 /* Set page size to A4 */
 @page {
   size: A4;
-  margin: 0mm; /* Remove margins to maximize space */
+  margin: 15mm 10mm; /* Adjusted margins for better print layout */
 }
 
 * {
@@ -325,15 +325,15 @@ export default {
 
 body {
   margin: 0;
-  padding: 0;
-  font-family: "Arial", sans-serif;
+  padding: 1rem;
+  font-family: 'Arial', sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .a4-page {
@@ -343,145 +343,248 @@ body {
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 100%;
+  margin: 0 auto;
 }
 
-/* Header styles - will be repeated on each page */
+/* Header styles */
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   text-align: center;
-  padding: 0.3rem 0.5rem;
+  padding: 0.75rem 1rem; /* Increased padding */
   border-bottom: 2px solid #0044cc;
   background-color: #f8f9fa;
   position: relative;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.75rem; /* Increased gap */
 }
 
 .logo-left,
 .logo-right {
-  width: 3.75rem;
-  height: 3.75rem;
-  background-color: #e6e6e6;
+  width: 4.5rem; /* Increased size */
+  height: 4.5rem; /* Increased size */
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ccc;
-  margin: 0 0.3rem;
+  margin: 0 0.5rem;
   flex-shrink: 0;
+  background-color: #ffffff; /* Changed from #e6e6e6 to white */
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.25rem;
 }
 
 .logo-left img,
 .logo-right img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
 }
 
 .header-content {
   flex: 1;
-  min-width: 200px;
+  min-width: 220px; /* Slightly increased */
 }
 
 .header h1 {
-  font-size: 0.875rem;
+  font-size: 1.35rem; /* Increased */
   margin: 0.2rem 0;
   font-weight: bold;
   color: #003366;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .header h2 {
-  font-size: 0.75rem;
-  margin: 0.1rem 0;
-  font-weight: normal;
+  font-size: 1.2rem; /* Increased */
+  margin: 0.15rem 0;
+  font-weight: 600;
   color: #0044aa;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .header h3 {
-  font-size: 0.7rem;
-  margin: 0.1rem 0;
-  font-weight: normal;
+  font-size: 1.05rem; /* Increased */
+  margin: 0.15rem 0;
+  font-weight: 600;
   color: #005588;
-  line-height: 1.2;
-}
-
-.header h4 {
-  font-size: 0.875rem;
-  margin: 0.3rem 0 0.1rem 0;
-  font-weight: bold;
-  color: #cc0000;
-  text-transform: uppercase;
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
 .content {
-  padding: 0.2rem 1rem;
+  padding: 1.5rem 1.75rem; /* Increased padding */
 }
 
+/* Info fields section */
 .info-fields {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.6rem;
-  margin-bottom: 0.2rem;
-  margin-top: 0.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.25rem; /* Increased gap */
+  margin-bottom: 2rem; /* Increased margin */
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.5rem;
+  border: 1px solid #e0e0e0;
 }
 
 .info-field {
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .info-field label {
   display: block;
   font-weight: bold;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.4rem;
   color: #2c3e50;
-  font-size: 1rem;
+  font-size: 1.15rem; /* Increased */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.info-field input,
-.info-field select {
+.info-field p {
+  font-size: 1.2rem; /* Increased */
+  padding: 0.5rem 0;
+  color: #333;
+  font-weight: 500;
+  min-height: 1.8rem;
+  border-bottom: 1px dashed #ccc;
+}
+
+/* Rating scale section */
+.rating-scale {
+  background-color: #f0f7ff;
+  padding: 1.25rem; /* Increased padding */
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid #cce0ff;
+  box-shadow: 0 2px 4px rgba(0, 68, 204, 0.1);
+}
+
+.rating-scale h2 {
+  color: #003366;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.4rem; /* Increased */
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.rating-table {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  font-size: 0.9rem;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 1.1rem; /* Increased */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.evaluation-section {
-  margin: 1.25rem 0;
-  page-break-inside: avoid;
-}
-
-.section-header {
-  background-color: #4a86e8;
-  color: white;
-  padding: 0.6rem;
-  border-radius: 0.3rem 0.3rem 0 0;
-  margin-bottom: 0;
-  font-size: 1.25rem;
+.rating-table th,
+.rating-table td {
+  border: 2px solid #0044cc;
+  padding: 0.85rem 0.5rem; /* Increased padding */
+  text-align: center;
   font-weight: bold;
 }
 
+.rating-table th {
+  background-color: #0044cc;
+  color: white;
+  font-size: 1.15rem; /* Increased */
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.rating-table tr:nth-child(even) {
+  background-color: #f0f7ff;
+}
+
+.rating-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.rating-scale p strong {
+  font-size: 1.15rem;
+  color: #003366;
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ccc;
+}
+
+/* Evaluation sections */
+.evaluation-section {
+  margin: 2rem 0; /* Increased margin */
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.section-header {
+  background: linear-gradient(135deg, #4a86e8, #2c5aa0);
+  color: white;
+  padding: 1rem 1.25rem; /* Increased padding */
+  border-radius: 0.5rem 0.5rem 0 0;
+  margin-bottom: 0;
+  font-size: 1.4rem; /* Increased */
+  font-weight: bold;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.tagalog {
+  font-size: 1.15rem; /* Increased */
+  font-weight: normal;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* Indicator table */
 .indicator-table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
-  font-size: 0.9rem;
+  font-size: 1.05rem; /* Increased */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.indicator-table thead {
+  background-color: #e6f0ff;
+}
+
+.indicator-table th,
+.indicator-table td {
+  padding: 0.85rem 0.75rem; /* Increased padding */
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #d0d0d0;
+}
+
+.indicator-table th {
+  font-weight: 600;
+  color: #003366;
+  font-size: 1.1rem;
+  text-align: center;
+  background-color: #e6f0ff;
 }
 
 .indicator-table td:first-child {
   width: 70%;
   word-wrap: break-word;
-  padding: 0.5rem 0.4rem;
-  font-size: 0.875rem;
-  vertical-align: top;
+  font-size: 1.05rem; /* Increased */
+  line-height: 1.5;
+  color: #333;
 }
 
 .indicator-table td:last-child {
   width: 30%;
-  vertical-align: top;
-  padding: 0.5rem 0.4rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.25rem; /* Increased */
+  color: #0044cc;
+  background-color: #f8f9fa;
 }
 
 .indicator-table tr {
@@ -493,292 +596,325 @@ body {
   background-color: #f8f9fa;
 }
 
-.rating-cell {
-  width: 30%;
-  vertical-align: top;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+.indicator-table tr:nth-child(odd) {
+  background-color: #ffffff;
 }
 
-.rating-options {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 0.3rem;
+.indicator-table tbody tr:hover {
+  background-color: #e9ecef;
 }
 
-.rating-option {
-  text-align: center;
-  flex: 1;
-  min-width: 45px;
-}
-
-.rating-option input {
-  margin: 0.2rem 0;
-  transform: scale(1.1);
-}
-
-.rating-value {
+/* Comments/Suggestions section */
+.content > p:first-of-type {
+  font-size: 1.2rem;
   font-weight: bold;
-  font-size: 0.8rem;
-  margin-bottom: 0.1rem;
+  color: #003366;
+  margin: 2rem 0 0.5rem 0;
+  padding-top: 1rem;
+  border-top: 2px solid #0044cc;
+  text-transform: uppercase;
 }
 
-.rating-label {
-  font-size: 0.6rem;
-  color: #666;
-  line-height: 1.1;
-}
-
-/* Smaller footer */
-.footer {
-  padding: 0.3rem 1rem;
-  border-top: 1px solid #0044cc;
+.content > p.rating-cell {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  padding: 1rem;
+  margin: 0.5rem 0 2rem 0;
   background-color: #f8f9fa;
-  font-size: 0.5rem;
-  margin-top: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  min-height: 100px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Footer styles */
+.footer {
+  padding: 1rem 1.5rem; /* Increased padding */
+  border-top: 2px solid #0044cc;
+  background-color: #f8f9fa;
+  font-size: 0.95rem; /* Increased from 0.5rem */
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 1.25rem; /* Increased gap */
 }
 
 .footer-logo {
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: #e6e6e6;
+  width: 4rem; /* Increased from 2.5rem */
+  height: 4rem; /* Increased from 2.5rem */
   display: flex;
   align-items: center;
   justify-content: center;
   border: 1px solid #ccc;
   flex-shrink: 0;
+  background-color: white;
+  border-radius: 4px;
+  padding: 0.25rem;
 }
 
 .footer-logo img {
   max-width: 100%;
   max-height: 100%;
+  object-fit: contain;
 }
 
 .footer-content {
   flex: 1;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .footer-line {
-  margin: 0.06rem 0;
-  line-height: 1.2;
+  margin: 0.35rem 0; /* Increased margin */
+  line-height: 1.5;
+  color: #333;
 }
 
-.watermark {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(-45deg);
-  font-size: 1.875rem;
-  color: rgba(0, 0, 0, 0.05);
-  pointer-events: none;
-  z-index: -1;
-  text-align: center;
-  white-space: nowrap;
-  font-weight: bold;
+.footer-line strong {
+  font-size: 1rem;
+  color: #003366;
+  min-width: 100px;
+  display: inline-block;
 }
 
+/* Loading screen */
 .loading-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.85);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 3000;
+  z-index: 9999;
   color: white;
 }
 
 .loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  border: 5px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  border-top: 4px solid #ffffff;
-  width: 2.5rem;
-  height: 2.5rem;
+  border-top: 5px solid #ffffff;
+  width: 4rem;
+  height: 4rem;
   animation: spin 1s linear infinite;
-  margin-bottom: 0.6rem;
-  z-index: 3000;
+  margin-bottom: 1.5rem;
+}
+
+.loading-screen p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
 }
 
 @keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-.rating-scale {
-  background-color: #f8f9fa;
-  padding: 0.75rem;
-  border-radius: 0.3rem;
-  margin-bottom: 0.5rem;
-  border: 1px solid #dee2e6;
-}
-
-.rating-scale h2 {
-  color: #2c3e50;
-  margin-bottom: 0.6rem;
-  text-align: center;
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-
-table.rating-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 0.5rem;
-  font-size: 0.875rem;
-}
-
-table.rating-table th,
-table.rating-table td {
-  border: 1px solid #dee2e6;
-  padding: 0.5rem;
-  text-align: center;
-  font-weight: bold;
-}
-
-table.rating-table th {
-  background-color: #4a86e8;
-  color: white;
-  font-size: 1rem;
-}
-
-table.rating-table tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-/* Responsive Design for Screen */
-@media screen and (max-width: 768px) {
+/* Responsive Design */
+@media screen and (max-width: 1200px) {
   body {
-    padding: 1rem;
-    align-items: flex-start;
+    padding: 0.75rem;
+    font-size: 15px;
   }
+  
+  .content {
+    padding: 1.25rem 1.5rem;
+  }
+}
 
+@media screen and (max-width: 992px) {
   .a4-page {
     width: 100%;
     min-height: auto;
+  }
+  
+  .header {
+    padding: 0.75rem;
+  }
+  
+  .logo-left, .logo-right {
+    width: 4rem;
+    height: 4rem;
+  }
+  
+  .header h1 {
+    font-size: 1.25rem;
+  }
+  
+  .header h2 {
+    font-size: 1.1rem;
+  }
+  
+  .header h3 {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding: 0.5rem;
+    font-size: 14px;
+    align-items: flex-start;
+  }
+  
+  .a4-page {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-
+  
   .header {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+    gap: 1rem;
   }
-
-  .logo-left,
-  .logo-right {
-    width: 4rem;
-    height: 4rem;
-    margin: 0.5rem 0;
+  
+  .logo-left, .logo-right {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0;
   }
-
+  
   .header-content {
     width: 100%;
+    order: 2;
   }
-
+  
+  .logo-left {
+    order: 1;
+  }
+  
+  .logo-right {
+    order: 3;
+  }
+  
+  .content {
+    padding: 1rem;
+  }
+  
   .info-fields {
     grid-template-columns: 1fr;
     gap: 1rem;
+    padding: 0.75rem;
   }
-
+  
+  .section-header {
+    font-size: 1.25rem;
+    padding: 0.85rem;
+    flex-direction: column;
+  }
+  
   .indicator-table {
     display: block;
     overflow-x: auto;
-    table-layout: auto;
+    font-size: 1rem;
   }
-
+  
   .indicator-table td:first-child,
   .indicator-table td:last-child {
     width: auto;
-    min-width: 150px;
+    min-width: 60%;
   }
-
-  .rating-options {
-    flex-direction: column;
-    gap: 0.5rem;
+  
+  .indicator-table td:last-child {
+    min-width: 40%;
   }
-
-  .rating-option {
-    flex-direction: row;
-    justify-content: flex-start;
-    text-align: left;
-    gap: 0.5rem;
-  }
-
+  
   .footer {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+    gap: 1rem;
   }
-
-  .watermark {
-    font-size: 1.5rem;
+  
+  .footer-logo {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+  
+  .footer-line strong {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.25rem;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 576px) {
   body {
-    padding: 0.5rem;
+    padding: 0.25rem;
+    font-size: 13px;
+  }
+  
+  .header h1 {
+    font-size: 1.1rem;
+  }
+  
+  .header h2 {
+    font-size: 1rem;
+  }
+  
+  .header h3 {
     font-size: 0.9rem;
   }
-
-  .content {
-    padding: 0.5rem;
-  }
-
-  .header h1 {
-    font-size: 0.8rem;
-  }
-
-  .header h2 {
-    font-size: 0.7rem;
-  }
-
-  .header h3 {
-    font-size: 0.65rem;
-  }
-
-  .header h4 {
-    font-size: 0.8rem;
-  }
-
+  
   .section-header {
-    font-size: 1.1rem;
-    padding: 0.5rem;
+    font-size: 1.15rem;
+    padding: 0.75rem;
   }
-
+  
+  .tagalog {
+    font-size: 1rem;
+  }
+  
+  .info-field label {
+    font-size: 1.05rem;
+  }
+  
+  .info-field p {
+    font-size: 1.1rem;
+  }
+  
   .rating-scale h2 {
+    font-size: 1.2rem;
+  }
+  
+  .rating-table {
+    font-size: 1rem;
+  }
+  
+  .rating-table th,
+  .rating-table td {
+    padding: 0.6rem 0.4rem;
+  }
+  
+  .indicator-table th,
+  .indicator-table td {
+    padding: 0.7rem 0.5rem;
+  }
+  
+  .indicator-table td:first-child {
+    font-size: 1rem;
+  }
+  
+  .indicator-table td:last-child {
+    font-size: 1.15rem;
+  }
+  
+  .content > p:first-of-type {
     font-size: 1.1rem;
   }
-
-  .indicator-table {
-    font-size: 0.8rem;
-  }
-
-  table.rating-table {
-    font-size: 0.8rem;
-  }
-
-  table.rating-table th,
-  table.rating-table td {
-    padding: 0.3rem;
+  
+  .content > p.rating-cell {
+    font-size: 1rem;
+    padding: 0.75rem;
   }
 }
 
+<<<<<<< HEAD
 /* Print styles - FIXED HEADER/FOOTER THAT WORKS */
 /* 
   IMPORTANT: For best print results, enable "Background graphics" in your browser's print settings:
@@ -786,6 +922,9 @@ table.rating-table tr:nth-child(even) {
   - Firefox: Options > Print Background Colors
   - Safari: Show Details > Print backgrounds
 */
+=======
+/* Print styles - optimized for A4 printing */
+>>>>>>> Development
 @media print {
   /* Force browsers to print backgrounds and colors */
   * {
@@ -798,17 +937,25 @@ table.rating-table tr:nth-child(even) {
     background: none;
     margin: 0;
     padding: 0;
+<<<<<<< HEAD
     font-size: 0.8rem;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+=======
+    font-size: 11pt;
+    line-height: 1.4;
+    width: 210mm;
+    height: 297mm;
+>>>>>>> Development
   }
-
+  
   .a4-page {
     box-shadow: none;
     margin: 0;
-    width: 100%;
-    height: 100%;
+    width: 210mm;
+    min-height: 297mm;
     page-break-after: always;
+<<<<<<< HEAD
     background: white !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
@@ -968,12 +1115,32 @@ table.rating-table tr:nth-child(even) {
   .indicator-table td {
     border: 1px solid #dee2e6 !important;
     padding: 0.5rem 0.4rem !important;
+=======
+    position: relative;
   }
-
+  
+  /* Hide loading screen when printing */
+  .loading-screen {
+    display: none !important;
+  }
+  
+  /* Ensure proper page breaks and avoid splitting sections */
+  .evaluation-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin: 1.5rem 0;
+>>>>>>> Development
+  }
+  
+  .indicator-table {
+    page-break-inside: auto;
+  }
+  
   .indicator-table tr {
     page-break-inside: avoid;
     break-inside: avoid;
   }
+<<<<<<< HEAD
 
   .indicator-table tr:nth-child(even) {
     background-color: #f8f9fa !important;
@@ -997,16 +1164,67 @@ table.rating-table tr:nth-child(even) {
   /* Ensure tables don't break across pages awkwardly */
   .indicator-table {
     page-break-inside: auto;
+=======
+  
+  /* Adjust spacing for print */
+  .header {
+    padding: 0.4rem 0.75rem;
+    border-bottom-width: 1px;
+>>>>>>> Development
   }
-
-  /* Add extra space before sections that might break */
-  .evaluation-section:first-child {
-    margin-top: 0;
+  
+  .content {
+    padding: 1rem 1.25rem;
   }
-
-  /* Hide loading screen when printing */
-  .loading-screen {
-    display: none !important;
+  
+  .info-fields {
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+  
+  .rating-scale {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+  }
+  
+  .footer {
+    padding: 0.75rem 1rem;
+    margin-top: 1.5rem;
+    font-size: 9pt;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  /* Ensure logos print properly */
+  .logo-left img,
+  .logo-right img,
+  .footer-logo img {
+    filter: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Remove hover effects for print */
+  .indicator-table tbody tr:hover {
+    background-color: inherit;
+  }
+  
+  /* Force black text for better print contrast */
+  * {
+    color: black !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  /* Ensure background colors print */
+  .section-header,
+  .rating-table th,
+  .indicator-table thead {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   /* Ensure all borders print */
@@ -1037,4 +1255,37 @@ table.rating-table tr:nth-child(even) {
   white-space: nowrap;
   border: 0;
 }
-</style>
+
+/* Improve table readability on all devices */
+th {
+  font-weight: 600;
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Add print button styling for screen only */
+@media screen {
+  .print-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    background-color: #0044cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .print-button:hover {
+    background-color: #0033aa;
+  }
+}
+</style> 

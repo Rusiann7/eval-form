@@ -13,7 +13,7 @@ $action = $data['action'] ?? '';
 
 if( $action === 'getQuestions'){
 
-    $sql1 = "SELECT id, header, identifier FROM Headers WHERE is_deleted = 0 ORDER BY id ASC";
+    $sql1 = "SELECT id, header, identifier FROM Headers ORDER BY id ASC";
     $result1 = $conn->query($sql1);
 
     $all_headers = [];
@@ -34,7 +34,7 @@ if( $action === 'getQuestions'){
 
             $header_id_list = implode(",", $header_id);
             $identifiers_list = "'" . implode("','", $identifiers) . "'";
-            $sql2= "SELECT id, questions, header_id, header_version FROM Questions WHERE header_id IN ($header_id_list) AND header_version IN ($identifiers_list) AND is_deleted = 0;";
+            $sql2= "SELECT id, questions, header_id, header_version FROM Questions WHERE header_id IN ($header_id_list) AND header_version IN ($identifiers_list);";
             $result2 = $conn -> query($sql2);
 
             if($result2 && $result2->num_rows > 0){

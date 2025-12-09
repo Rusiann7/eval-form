@@ -5,7 +5,11 @@
   </div>
 
   <!-- Header -->
+<<<<<<< HEAD
   <header class="topbar">
+=======
+  <header>
+>>>>>>> Development
     <div class="header-left">
       <input
         type="checkbox"
@@ -14,7 +18,11 @@
         aria-hidden="true"
       />
       <div class="title-row">
+<<<<<<< HEAD
         <h1 class="logo">Teacher Evaluation System</h1>
+=======
+        <h1>Teacher Evaluation System</h1>
+>>>>>>> Development
         <div class="title-actions">
           <button class="portal-btn">Teacher Portal</button>
           <label
@@ -28,6 +36,10 @@
           </label>
         </div>
       </div>
+<<<<<<< HEAD
+=======
+      <label for="teacher-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+>>>>>>> Development
       <div class="menu-panel" role="dialog" aria-labelledby="teacher-nav-title">
         <div class="menu-header">
           <p id="teacher-nav-title" class="menu-title">Teacher Portal</p>
@@ -38,7 +50,21 @@
           <span></span>
         </label>
         <button class="logout-btn menu-logout" @click="logout()">
+<<<<<<< HEAD
           <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+=======
+          <svg
+            class="logout-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+>>>>>>> Development
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -46,12 +72,29 @@
           Logout
         </button>
       </div>
+<<<<<<< HEAD
       <label for="teacher-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+=======
+>>>>>>> Development
     </div>
     <div class="user-section">
       <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
       <button class="logout-btn desktop-only" @click="logout()">
+<<<<<<< HEAD
         <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+=======
+        <svg
+          class="logout-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+>>>>>>> Development
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
           <polyline points="16 17 21 12 16 7"></polyline>
           <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -67,6 +110,7 @@
     <p>Evaluate your colleagues and view feedback received from peers</p>
   </div>
 
+<<<<<<< HEAD
   <!-- Verify Status -->
   <div v-if="verified === '1'" class="stats-container">
     <h3>Your account is now verified <span class="checkmark">✔</span></h3>
@@ -86,6 +130,44 @@
       <br />
       <form method="post" @submit.prevent="verifyInput">
         <input type="text" v-model="verify" class="verify-input" />
+=======
+  <!--Verify Status-->
+  <div v-if="verified === '1'" class="verify-container">
+    <div class="verify-card verified">
+      <div class="verify-header">
+        <p class="verify-title">Account Verification</p>
+        <p class="verify-subtitle">Your account is now verified</p>
+      </div>
+      <div class="verify-status">
+        <span class="checkmark">✔</span>
+      </div>
+    </div>
+  </div>
+
+  <div v-if="(verified === '0') & (active === 'code')" class="verify-container">
+    <div class="verify-card">
+      <div class="verify-header">
+        <p class="verify-title">Account Verification</p>
+        <p class="verify-subtitle">Verify your account to continue</p>
+      </div>
+      <button @click="verifyCode" class="verify-btn">Send Code</button>
+    </div>
+  </div>
+
+  <div v-if="(verified === '0') & (active === 'input')" class="verify-container">
+    <div class="verify-card">
+      <div class="verify-header">
+        <p class="verify-title">Account Verification</p>
+        <p class="verify-subtitle">Enter the verification code sent to your email</p>
+      </div>
+      <form method="post" @submit.prevent="verifyInput" class="verify-form">
+        <input
+          type="text"
+          v-model="verify"
+          placeholder="Enter verification code"
+          class="verify-input"
+        />
+>>>>>>> Development
         <button type="submit" class="verify-btn">Submit</button>
       </form>
     </div>
@@ -105,6 +187,7 @@
     </div>
   </div>
 
+<<<<<<< HEAD
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab active">Evaluate Colleagues</div>
@@ -114,13 +197,33 @@
   <div class="teacher-controls">
     <div class="search-box">
       <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+=======
+  <!-- Search & Filters -->
+  <div class="teacher-controls">
+    <div class="search-box">
+      <svg
+        class="search-icon"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+>>>>>>> Development
         <circle cx="11" cy="11" r="8"></circle>
         <path d="m21 21-4.35-4.35"></path>
       </svg>
       <input
         type="text"
         v-model="searchQuery"
+<<<<<<< HEAD
         placeholder="Search colleagues by name or subject..."
+=======
+        placeholder="Search teachers by name or subject..."
+>>>>>>> Development
         class="search-input"
       />
     </div>
@@ -130,6 +233,17 @@
         <option value="subject">Sort by Subject</option>
         <option value="quarter">Sort by Quarter</option>
       </select>
+<<<<<<< HEAD
+=======
+      <label class="toggle-label">
+        <input
+          type="checkbox"
+          v-model="hideEvaluated"
+          class="toggle-checkbox"
+        />
+        <span class="toggle-text">Hide Evaluated</span>
+      </label>
+>>>>>>> Development
     </div>
   </div>
 
@@ -137,6 +251,7 @@
   <div class="teacher-container">
     <div
       class="teacher-card"
+<<<<<<< HEAD
       v-for="(teacher, index) in filteredTeachers"
       :key="`teacher-${teacher.id}-${index}`"
     >
@@ -148,6 +263,36 @@
     </div>
     <div v-if="filteredTeachers.length === 0" class="no-results">
       <p>No colleagues found matching your search criteria.</p>
+=======
+      v-for="(teacher, idx) in filteredTeachers"
+      :key="`t-${teacher.id}-${idx}`"
+    >
+      <h3 v-if="teacher.evaluated === 'evaluated'">
+        {{ teacher.firstname }} {{ teacher.lastname
+        }}<span class="checkmark">✔</span>
+      </h3>
+      <h3 v-else>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+      <p>{{ teacher.subject }}</p>
+      <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+      <span v-if="teacher.evaluated === 'evaluated'" class="badge evaluated"
+        >Evaluated</span
+      >
+      <br v-if="teacher.evaluated !== 'evaluated'" /><br
+        v-if="teacher.evaluated !== 'evaluated'"
+      />
+      <button
+        v-if="teacher.evaluated !== 'evaluated'"
+        class="start"
+        @click.prevent="
+          $router.push({ name: 'teacher-eval', params: { id: teacher.id } })
+        "
+      >
+        Start Evaluation
+      </button>
+>>>>>>> Development
+    </div>
+    <div v-if="filteredTeachers.length === 0" class="no-results">
+      <p>No teachers found matching your search criteria.</p>
     </div>
   </div>
 </template>
@@ -157,6 +302,7 @@ import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "http://localhost:8000";
 
 export default {
   name: 'Teacher',
@@ -166,6 +312,7 @@ export default {
       teachers: [],
       count: 0,
       isLoading: false,
+<<<<<<< HEAD
       fullname: JSON.parse(localStorage.getItem("userData") || "{}").fullname || "Teacher Name",
       lastname: JSON.parse(localStorage.getItem("userData") || "{}").lastname || "Teacher Name",
       searchQuery: "",
@@ -214,6 +361,12 @@ export default {
 
       return sorted;
     },
+=======
+      searchQuery: "",
+      sortBy: "name",
+      hideEvaluated: false,
+    };
+>>>>>>> Development
   },
 
   methods: {
@@ -284,6 +437,41 @@ export default {
     }
   },
 
+  computed: {
+    filteredTeachers() {
+      let list = this.teachers.slice();
+
+      if (this.searchQuery.trim()) {
+        const q = this.searchQuery.toLowerCase().trim();
+        list = list.filter(
+          (t) =>
+            `${t.firstname} ${t.lastname}`.toLowerCase().includes(q) ||
+            t.subject.toLowerCase().includes(q)
+        );
+      }
+
+      if (this.hideEvaluated) {
+        list = list.filter((t) => t.evaluated !== "evaluated");
+      }
+
+      return [...list].sort((a, b) => {
+        if (this.sortBy === "name") {
+          const aName = `${a.firstname} ${a.lastname}`.toLowerCase();
+          const bName = `${b.firstname} ${b.lastname}`.toLowerCase();
+          return aName.localeCompare(bName);
+        }
+        if (this.sortBy === "subject") {
+          return a.subject.localeCompare(b.subject);
+        }
+        if (this.sortBy === "quarter") {
+          if (a.year !== b.year) return a.year - b.year;
+          return a.quarter - b.quarter;
+        }
+        return 0;
+      });
+    },
+  },
+
   mounted() {
     this.getTeachers();
     this.skipLogin();
@@ -308,6 +496,7 @@ body {
   line-height: 1.6;
 }
 
+<<<<<<< HEAD
 /* Improved Typography - Larger Text */
 h1 { font-size: 1.75rem; }
 h2 { font-size: 1.5rem; }
@@ -338,6 +527,15 @@ p, span, label, button, input, select {
   align-items: center;
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid #eee;
+=======
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+>>>>>>> Development
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -347,6 +545,12 @@ p, span, label, button, input, select {
   flex-direction: column;
   gap: 0.75rem;
   flex-wrap: wrap;
+<<<<<<< HEAD
+}
+
+.title-row {
+=======
+  position: relative;
 }
 
 .title-row {
@@ -355,6 +559,32 @@ p, span, label, button, input, select {
   justify-content: space-between;
   width: 100%;
   gap: 1rem;
+}
+
+.title-row h1 {
+  flex: 1;
+}
+
+.title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.user-section {
+>>>>>>> Development
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 1rem;
+<<<<<<< HEAD
 }
 
 .logo { 
@@ -398,12 +628,18 @@ p, span, label, button, input, select {
 }
 
 /* Menu System */
+=======
+  flex-wrap: wrap;
+}
+
+>>>>>>> Development
 .menu-checkbox {
   display: none;
 }
 
 .menu-toggle {
   display: none;
+<<<<<<< HEAD
   width: 44px;
   height: 44px;
   border-radius: 10px;
@@ -423,21 +659,60 @@ p, span, label, button, input, select {
 .menu-toggle span {
   width: 20px;
   height: 2.5px;
+=======
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  z-index: 45;
+  flex-shrink: 0;
+}
+
+.menu-toggle span {
+  width: 16px;
+  height: 2px;
+>>>>>>> Development
   background: #111827;
   border-radius: 999px;
   transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
+<<<<<<< HEAD
+=======
+.menu-toggle:focus-visible {
+  outline: 2px solid #111827;
+  outline-offset: 3px;
+}
+
+>>>>>>> Development
 .menu-panel {
   position: fixed;
   top: 0;
   right: 0;
+<<<<<<< HEAD
   width: min(320px, 90%);
   height: 100vh;
   background: #ffffff;
   border-left: 1px solid #e5e7eb;
   box-shadow: -6px 0 24px rgba(15,23,42,0.15);
   padding: 5rem 2rem 2rem;
+=======
+  width: min(280px, 80%);
+  height: 100vh;
+  background: #ffffff;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -6px 0 24px rgba(15, 23, 42, 0.15);
+  padding: 4.5rem 1.75rem 2rem;
+>>>>>>> Development
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -448,6 +723,7 @@ p, span, label, button, input, select {
   z-index: 40;
 }
 
+<<<<<<< HEAD
 .menu-checkbox:checked ~ .menu-panel {
   transform: translateX(0);
   opacity: 1;
@@ -463,25 +739,46 @@ p, span, label, button, input, select {
   flex-direction: column;
   gap: 0.5rem;
   padding-bottom: 1.5rem;
+=======
+.menu-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+>>>>>>> Development
   border-bottom: 1px solid #e5e7eb;
 }
 
 .menu-title {
+<<<<<<< HEAD
   font-size: 1.4rem;
+=======
+  font-size: 1.2rem;
+>>>>>>> Development
   font-weight: 700;
   color: #111827;
 }
 
 .menu-subtitle {
+<<<<<<< HEAD
+=======
+  font-size: 0.9rem;
+>>>>>>> Development
   color: #4b5563;
 }
 
 .menu-close {
+<<<<<<< HEAD
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
   width: 44px;
   height: 44px;
+=======
+  align-self: flex-end;
+  width: 36px;
+  height: 36px;
+>>>>>>> Development
   border-radius: 10px;
   border: 1px solid #e5e7eb;
   background: #f9fafb;
@@ -489,14 +786,26 @@ p, span, label, button, input, select {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+<<<<<<< HEAD
   transition: background 0.2s ease;
+=======
+  transition: background 0.2s ease, border-color 0.2s ease;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+>>>>>>> Development
   z-index: 41;
 }
 
 .menu-close span {
   position: absolute;
+<<<<<<< HEAD
   width: 20px;
   height: 2.5px;
+=======
+  width: 16px;
+  height: 2px;
+>>>>>>> Development
   background: #111827;
   border-radius: 999px;
 }
@@ -509,6 +818,14 @@ p, span, label, button, input, select {
   transform: rotate(-45deg);
 }
 
+<<<<<<< HEAD
+=======
+.menu-close:hover {
+  background: #eef2ff;
+  border-color: #d1d5db;
+}
+
+>>>>>>> Development
 .menu-overlay {
   display: none;
   position: fixed;
@@ -519,6 +836,7 @@ p, span, label, button, input, select {
   cursor: pointer;
 }
 
+<<<<<<< HEAD
 /* Logout Button */
 .logout-btn {
   background: #fff;
@@ -533,10 +851,64 @@ p, span, label, button, input, select {
   align-items: center;
   gap: 0.75rem;
   font-weight: 500;
+=======
+.menu-logout {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  justify-content: flex-start;
+}
+
+.menu-checkbox:checked ~ .menu-panel {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-checkbox:checked ~ .menu-overlay {
+  display: block;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 30;
+  cursor: pointer;
+}
+.portal-btn {
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.portal-btn:hover {
+  background: #e5e7eb;
+}
+
+.logout-btn {
+  border: none;
+  background: #f3f4f6;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+>>>>>>> Development
 }
 
 .logout-btn:hover {
-  background: #f8f9fa;
+  background: #e5e7eb;
+}
+
+.logout-icon {
+  color: #dc2626;
+  stroke: #dc2626;
 }
 
 .logout-icon {
@@ -545,6 +917,7 @@ p, span, label, button, input, select {
   stroke: #dc2626;
 }
 
+<<<<<<< HEAD
 .menu-logout {
   width: 100%;
   padding: 1rem;
@@ -568,6 +941,25 @@ p, span, label, button, input, select {
 }
 
 /* Stats Container */
+=======
+/* Page Headers */
+.page-header {
+  padding: 1.875rem 1.5rem 0.625rem;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  color: #555;
+  font-size: 0.975rem;
+}
+
+/* Stats */
+>>>>>>> Development
 .stats-container {
   display: flex;
   gap: 1.5rem;
@@ -592,6 +984,7 @@ p, span, label, button, input, select {
   transform: translateY(-5px);
 }
 
+<<<<<<< HEAD
 .stat-icon {
   font-size: 2.5rem;
   margin-bottom: 1rem;
@@ -629,21 +1022,129 @@ p, span, label, button, input, select {
 
 .verify-btn:hover {
   background: #333;
+=======
+.stat-card h3 {
+  margin: 0.625rem 0 0;
+  font-size: 1.25rem;
+}
+
+.stat-card p {
+  color: #555;
+  font-size: 0.975rem;
+}
+
+/* Verify Account Section */
+.verify-container {
+  padding: 1.25rem 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.verify-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.verify-card.verified {
+  border-color: #10b981;
+  background: #f0fdf4;
+}
+
+.verify-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 1.25rem;
+}
+
+.verify-card.verified .verify-header {
+  border-bottom-color: #10b981;
+}
+
+.verify-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.verify-subtitle {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+.verify-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.verify-status .checkmark {
+  font-size: 2rem;
+  color: #10b981;
+}
+
+.verify-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+>>>>>>> Development
 }
 
 .verify-input {
   width: 100%;
+<<<<<<< HEAD
   padding: 0.875rem;
   border: 1px solid #d1d5db;
   border-radius: 10px;
   margin-bottom: 1rem;
   font-size: 1rem;
+=======
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+>>>>>>> Development
 }
 
 .verify-input:focus {
   outline: none;
   border-color: #000;
+<<<<<<< HEAD
   box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+=======
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.verify-btn:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+.verify-btn:active {
+  transform: translateY(0);
+>>>>>>> Development
 }
 
 /* Tabs */
@@ -687,6 +1188,21 @@ p, span, label, button, input, select {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+<<<<<<< HEAD
+=======
+.teacher-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.25rem 1.5rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+>>>>>>> Development
 .search-box {
   position: relative;
   display: flex;
@@ -695,16 +1211,27 @@ p, span, label, button, input, select {
 
 .search-icon {
   position: absolute;
+<<<<<<< HEAD
   left: 1rem;
+=======
+  left: 0.75rem;
+>>>>>>> Development
   color: #6b7280;
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
+<<<<<<< HEAD
   padding: 1rem 1rem 1rem 3rem;
   border: 1px solid #d1d5db;
   border-radius: 12px;
+=======
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+>>>>>>> Development
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -722,9 +1249,55 @@ p, span, label, button, input, select {
 }
 
 .sort-select {
+<<<<<<< HEAD
   padding: 1rem;
   border: 1px solid #d1d5db;
   border-radius: 12px;
+=======
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  flex: 1;
+  min-width: 180px;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.toggle-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #000;
+}
+
+.toggle-text {
+  font-weight: 500;
+}
+
+.dropdown {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.875rem;
+>>>>>>> Development
   background: #fff;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -742,9 +1315,28 @@ p, span, label, button, input, select {
 /* Teacher Container */
 .teacher-container {
   display: grid;
+<<<<<<< HEAD
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 1.5rem;
   padding: 0 1.5rem 3rem;
+=======
+  grid-template-columns: repeat(auto-fill, minmax(280px, 350px));
+  gap: 1.25rem;
+  padding: 0 1.5rem 2.5rem;
+  justify-content: start;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6b7280;
+}
+
+.no-results p {
+  font-size: 1rem;
+  margin: 0;
+>>>>>>> Development
 }
 
 .teacher-card {
@@ -761,6 +1353,7 @@ p, span, label, button, input, select {
   box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
+<<<<<<< HEAD
 .teacher-card h3 { 
   margin: 0 0 0.5rem; 
 }
@@ -769,12 +1362,52 @@ p, span, label, button, input, select {
   color: #555; 
   margin: 0 0 1rem; 
   font-weight: 500;
+=======
+.teacher-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.teacher-card p {
+  color: #555;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.95rem;
+}
+
+.teacher-card button {
+  width: auto;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+}
+
+.teacher-card .start {
+  background: #000;
+  color: #fff;
+}
+
+.teacher-card .start:hover {
+  background: #333;
+>>>>>>> Development
 }
 
 .badge {
   display: inline-block;
   background: #f1f3f5;
+<<<<<<< HEAD
   padding: 0.5rem 1rem;
+=======
+  padding: 0.25rem 0.75rem;
+  font-size: 0.82rem;
+>>>>>>> Development
   border-radius: 20px;
   font-weight: 600;
 }
@@ -810,9 +1443,200 @@ p, span, label, button, input, select {
   color: #6b7280;
 }
 
+<<<<<<< HEAD
 .no-results p {
   font-size: 1.125rem;
   margin: 0;
+=======
+.btn-light:hover {
+  background: #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .title-row {
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .title-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .title-actions .portal-btn {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .menu-checkbox:checked ~ .title-row .menu-toggle {
+    display: none !important;
+  }
+
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .user-greeting {
+    display: none;
+  }
+
+  .page-header {
+    padding: 1.5rem 1rem 0.5rem;
+  }
+
+  .teacher-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .teacher-controls {
+    margin: 1rem 1rem 1.25rem;
+    padding: 0.75rem;
+  }
+
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .sort-select {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .stats-container {
+    padding: 1rem;
+  }
+
+  .stat-card {
+    min-width: calc(50% - 0.625rem);
+  }
+
+  .verify-container {
+    padding: 1rem;
+  }
+
+  .verify-card {
+    padding: 1.5rem;
+  }
+
+  .tabs {
+    padding: 0 1rem;
+  }
+
+  .teacher-container {
+    padding: 0 1rem 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  .card-buttons {
+    flex-direction: column;
+  }
+
+  .teacher-card button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.125rem;
+  }
+
+  .user-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .role-container {
+    margin: 2rem auto;
+  }
+
+  .role-card {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .stats-container {
+    gap: 1rem;
+  }
+
+  .stat-card {
+    min-width: 100%;
+  }
+
+  .verify-container {
+    padding: 0.75rem;
+  }
+
+  .verify-card {
+    padding: 1.25rem;
+  }
+
+  .verify-title {
+    font-size: 1.1rem;
+  }
+
+  .verify-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .tabs {
+    gap: 0.5rem;
+  }
+
+  .tab {
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .teacher-header {
+    align-items: stretch;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+}
+
+/* Utility Classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+>>>>>>> Development
 }
 
 /* Loading Screen */
@@ -921,6 +1745,7 @@ p, span, label, button, input, select {
   }
 }
 
+<<<<<<< HEAD
 @media (max-width: 480px) {
   .topbar {
     padding: 0.875rem;
@@ -953,3 +1778,6 @@ p, span, label, button, input, select {
   }
 }
 </style> 
+=======
+</style>
+>>>>>>> Development

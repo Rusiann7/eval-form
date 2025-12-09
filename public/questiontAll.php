@@ -1,5 +1,4 @@
 <?php
-//question getter
 
 require 'config.php';
 
@@ -11,10 +10,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $data = json_decode(file_get_contents('php://input'), true) ?? [];
 $action = $data['action'] ?? '';
 
-if( $action === 'getQuestions'){
-
-    $sql1 = "SELECT id, header, identifier FROM Headers WHERE is_deleted = 0 ORDER BY id ASC";
-    $result1 = $conn->query($sql1);
+if($action === 'getTeacherQuestions'){
+    
+    $sql1 = "SELECT id, header FROM HeaderT WHERE ORDER BY id ASC";
+    $result1 = $conn -> query($sql1);
 
     $all_headers = [];
     $header_id = [];
@@ -23,7 +22,6 @@ if( $action === 'getQuestions'){
     if($result1 && $result1->num_rows > 0){
         while($row1 = $result1 ->fetch_assoc()){
             $header_id[] = $row1['id'];
-            $identifiers[] = $row1['identifier'];
 
             $all_headers[] = [
                 "header_id" => $row1['id'],
@@ -33,8 +31,7 @@ if( $action === 'getQuestions'){
         }
 
             $header_id_list = implode(",", $header_id);
-            $identifiers_list = "'" . implode("','", $identifiers) . "'";
-            $sql2= "SELECT id, questions, header_id, header_version FROM Questions WHERE header_id IN ($header_id_list) AND header_version IN ($identifiers_list) AND is_deleted = 0;";
+            $sql2 = "SELECT id, questions, header_id FROM QuestionT WHERE header_id IN ($header_id_list);";
             $result2 = $conn -> query($sql2);
 
             if($result2 && $result2->num_rows > 0){
@@ -52,18 +49,17 @@ if( $action === 'getQuestions'){
                 $questionCount += $result2->num_rows;
             }
 
-         echo json_encode([
+        echo json_encode([
             "count" => $questionCount,
-            "header_ver" => $identifiers[0],
             "success" => true,
             "headers" => $all_headers,
         ]);
-
     }else {
         echo json_encode([
-            "success" => false, 
+            "success" => false,
+            "message" => "no headers fetched"
         ]);
-        http_response_code(400);
+        http_response_code(500);
     }
 }else{
     echo json_encode(["success" => false, "message" => "Invalid action"]);

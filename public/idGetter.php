@@ -14,7 +14,10 @@ if($action === 'getteacherbyid'){
 
     $idd = $data['id'];
 
-    $sql = "SELECT * FROM Teachers WHERE id = $idd";
+    $sql = "SELECT t.firstname, t.lastname, s.subjects AS subject, t.subject AS sub_id
+    FROM Teachers t 
+    INNER JOIN Subjects s ON  s.id = t.subject
+    WHERE t.id = $idd";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0){
@@ -46,3 +49,5 @@ if($action === 'getteacherbyid'){
     echo json_encode(["success" => false, "message" => "Invalid action"]);
     http_response_code(400);
 }
+
+$conn->close();

@@ -127,11 +127,14 @@
           </tbody>
         </table>
       </div>
+<<<<<<< HEAD
       <p><strong>Comments/Suggestions:</strong></p>
 
       <p class="rating-cell">
         {{ answer.feedback || "N/A" }}
       </p>
+=======
+>>>>>>> Development
     </div>
 
     <div class="footer">
@@ -163,9 +166,15 @@ export default {
   name: "printEval",
   data() {
     return {
+<<<<<<< HEAD
       urlappphp: `${url2}/questions.php`,
       urlappphp2: `${url2}/idGetter.php`,
       urlappphp3: "https://star-panda-literally.ngrok-free.app/ansGetter.php",
+=======
+      urlappphp: `${url2}/questionsAll.php`,
+      urlappphp2: `${url2}/idGetter.php`,
+      urlappphp3: `${url2}/mergeAnsGetter.php`,
+>>>>>>> Development
       urlappphp4: `${url2}/evtGetter.php`,
       name: {},
       month: "",
@@ -243,8 +252,13 @@ export default {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
+<<<<<<< HEAD
             action: "ansGetter",
             evt: this.$route.params.evtid,
+=======
+            action: "student",
+            evt: 6,
+>>>>>>> Development
             tcr: this.$route.params.tcrid,
           }),
         });
@@ -259,8 +273,15 @@ export default {
           this.isLoading = false;
 
           this.answers = {};
+<<<<<<< HEAD
           for (const ans of sessionData.answer) {
             this.answers[Number(ans.question_id)] = ans.score;
+=======
+          for (const ans of result.answer) {
+            this.answers[Number(ans.question_id)] = Number(
+              ans.score.toFixed(1)
+            );
+>>>>>>> Development
           }
         }
       } catch (error) {
@@ -312,7 +333,11 @@ export default {
 /* Set page size to A4 */
 @page {
   size: A4;
+<<<<<<< HEAD
   margin: 0mm; /* Remove margins to maximize space */
+=======
+  margin: 20mm 10mm; /* Add margins for print safety */
+>>>>>>> Development
 }
 
 * {
@@ -323,15 +348,24 @@ export default {
 
 body {
   margin: 0;
+<<<<<<< HEAD
   padding: 0;
+=======
+  padding: 1rem;
+>>>>>>> Development
   font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+<<<<<<< HEAD
   font-size: 1rem;
   line-height: 1.4;
+=======
+  font-size: 16px; /* Base font size */
+  line-height: 1.5;
+>>>>>>> Development
 }
 
 .a4-page {
@@ -341,6 +375,7 @@ body {
   position: relative;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 100%;
+<<<<<<< HEAD
 }
 
 /* Header styles - will be repeated on each page */
@@ -349,6 +384,18 @@ body {
   align-items: center;
   text-align: center;
   padding: 0.3rem 0.5rem;
+=======
+  margin: 0 auto;
+}
+
+/* Header styles */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 0.5rem 1rem;
+>>>>>>> Development
   border-bottom: 2px solid #0044cc;
   background-color: #f8f9fa;
   position: relative;
@@ -358,6 +405,7 @@ body {
 
 .logo-left,
 .logo-right {
+<<<<<<< HEAD
   width: 3.75rem;
   height: 3.75rem;
   background-color: #e6e6e6;
@@ -365,6 +413,13 @@ body {
   align-items: center;
   justify-content: center;
   border: 1px solid #ccc;
+=======
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+>>>>>>> Development
   margin: 0 0.3rem;
   flex-shrink: 0;
 }
@@ -373,6 +428,10 @@ body {
 .logo-right img {
   max-width: 100%;
   max-height: 100%;
+<<<<<<< HEAD
+=======
+  object-fit: contain;
+>>>>>>> Development
 }
 
 .header-content {
@@ -381,7 +440,11 @@ body {
 }
 
 .header h1 {
+<<<<<<< HEAD
   font-size: 0.875rem;
+=======
+  font-size: 1.25rem; /* Increased from 0.875rem */
+>>>>>>> Development
   margin: 0.2rem 0;
   font-weight: bold;
   color: #003366;
@@ -389,21 +452,34 @@ body {
 }
 
 .header h2 {
+<<<<<<< HEAD
   font-size: 0.75rem;
   margin: 0.1rem 0;
   font-weight: normal;
+=======
+  font-size: 1.125rem; /* Increased from 0.75rem */
+  margin: 0.1rem 0;
+  font-weight: 600;
+>>>>>>> Development
   color: #0044aa;
   line-height: 1.2;
 }
 
 .header h3 {
+<<<<<<< HEAD
   font-size: 0.7rem;
   margin: 0.1rem 0;
   font-weight: normal;
+=======
+  font-size: 1rem; /* Increased from 0.7rem */
+  margin: 0.1rem 0;
+  font-weight: 600;
+>>>>>>> Development
   color: #005588;
   line-height: 1.2;
 }
 
+<<<<<<< HEAD
 .header h4 {
   font-size: 0.875rem;
   margin: 0.3rem 0 0.1rem 0;
@@ -415,10 +491,15 @@ body {
 
 .content {
   padding: 0.2rem 1rem;
+=======
+.content {
+  padding: 1rem 1.5rem; /* Increased padding */
+>>>>>>> Development
 }
 
 .info-fields {
   display: grid;
+<<<<<<< HEAD
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 0.6rem;
   margin-bottom: 0.2rem;
@@ -427,11 +508,22 @@ body {
 
 .info-field {
   margin-bottom: 0.2rem;
+=======
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem; /* Increased gap */
+  margin-bottom: 1.5rem; /* Increased margin */
+  margin-top: 1rem; /* Increased margin */
+}
+
+.info-field {
+  margin-bottom: 0.5rem;
+>>>>>>> Development
 }
 
 .info-field label {
   display: block;
   font-weight: bold;
+<<<<<<< HEAD
   margin-bottom: 0.2rem;
   color: #2c3e50;
   font-size: 1rem;
@@ -448,12 +540,28 @@ body {
 
 .evaluation-section {
   margin: 1.25rem 0;
+=======
+  margin-bottom: 0.3rem;
+  color: #2c3e50;
+  font-size: 1.1rem; /* Increased from 1rem */
+}
+
+.info-field p {
+  font-size: 1.1rem; /* Added font size for p tags */
+  padding: 0.4rem 0;
+  color: #333;
+}
+
+.evaluation-section {
+  margin: 1.5rem 0; /* Increased margin */
+>>>>>>> Development
   page-break-inside: avoid;
 }
 
 .section-header {
   background-color: #4a86e8;
   color: white;
+<<<<<<< HEAD
   padding: 0.6rem;
   border-radius: 0.3rem 0.3rem 0 0;
   margin-bottom: 0;
@@ -461,25 +569,68 @@ body {
   font-weight: bold;
 }
 
+=======
+  padding: 0.75rem 1rem; /* Increased padding */
+  border-radius: 0.3rem 0.3rem 0 0;
+  margin-bottom: 0;
+  font-size: 1.35rem; /* Increased from 1.25rem */
+  font-weight: bold;
+}
+
+.tagalog {
+  display: block;
+  font-size: 1.1rem; /* Added size for tagalog */
+  font-weight: normal;
+  margin-top: 0.2rem;
+}
+
+>>>>>>> Development
 .indicator-table {
   width: 100%;
   border-collapse: collapse;
   table-layout: fixed;
+<<<<<<< HEAD
   font-size: 0.9rem;
+=======
+  font-size: 1rem; /* Increased from 0.9rem */
+}
+
+.indicator-table thead {
+  background-color: #f0f7ff;
+}
+
+.indicator-table th,
+.indicator-table td {
+  padding: 0.75rem 0.5rem; /* Increased padding */
+  text-align: left;
+  vertical-align: top;
+  border: 1px solid #dee2e6;
+>>>>>>> Development
 }
 
 .indicator-table td:first-child {
   width: 70%;
   word-wrap: break-word;
+<<<<<<< HEAD
   padding: 0.5rem 0.4rem;
   font-size: 0.875rem;
   vertical-align: top;
+=======
+  font-size: 1rem; /* Increased from 0.875rem */
+  line-height: 1.4;
+>>>>>>> Development
 }
 
 .indicator-table td:last-child {
   width: 30%;
+<<<<<<< HEAD
   vertical-align: top;
   padding: 0.5rem 0.4rem;
+=======
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+>>>>>>> Development
 }
 
 .indicator-table tr {
@@ -491,6 +642,7 @@ body {
   background-color: #f8f9fa;
 }
 
+<<<<<<< HEAD
 .rating-cell {
   width: 30%;
   vertical-align: top;
@@ -546,6 +698,74 @@ body {
   width: 2.5rem;
   height: 2.5rem;
   background-color: #e6e6e6;
+=======
+.indicator-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.rating-scale {
+  background-color: #f8f9fa;
+  padding: 1rem; /* Increased padding */
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #dee2e6;
+}
+
+.rating-scale h2 {
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+  text-align: center;
+  font-size: 1.35rem; /* Increased from 1.25rem */
+  font-weight: bold;
+}
+
+.rating-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0.75rem;
+  font-size: 1rem; /* Increased from 0.875rem */
+}
+
+.rating-table th,
+.rating-table td {
+  border: 1px solid #dee2e6;
+  padding: 0.75rem 0.5rem; /* Increased padding */
+  text-align: center;
+}
+
+.rating-table th {
+  background-color: #4a86e8;
+  color: white;
+  font-size: 1.1rem; /* Increased from 1rem */
+  font-weight: 600;
+}
+
+.rating-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.rating-scale p strong {
+  font-size: 1.1rem;
+  color: #2c3e50;
+}
+
+/* Footer styles */
+.footer {
+  padding: 0.75rem 1.5rem; /* Increased padding */
+  border-top: 1px solid #0044cc;
+  background-color: #f8f9fa;
+  font-size: 0.9rem; /* Increased from 0.5rem */
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem; /* Increased gap */
+}
+
+.footer-logo {
+  width: 3.5rem; /* Increased from 2.5rem */
+  height: 3.5rem; /* Increased from 2.5rem */
+>>>>>>> Development
   display: flex;
   align-items: center;
   justify-content: center;
@@ -556,6 +776,10 @@ body {
 .footer-logo img {
   max-width: 100%;
   max-height: 100%;
+<<<<<<< HEAD
+=======
+  object-fit: contain;
+>>>>>>> Development
 }
 
 .footer-content {
@@ -564,6 +788,7 @@ body {
 }
 
 .footer-line {
+<<<<<<< HEAD
   margin: 0.06rem 0;
   line-height: 1.2;
 }
@@ -580,6 +805,14 @@ body {
   text-align: center;
   white-space: nowrap;
   font-weight: bold;
+=======
+  margin: 0.3rem 0; /* Increased margin */
+  line-height: 1.4;
+}
+
+.footer-line strong {
+  font-size: 0.95rem;
+>>>>>>> Development
 }
 
 .loading-screen {
@@ -601,11 +834,23 @@ body {
   border: 4px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
   border-top: 4px solid #ffffff;
+<<<<<<< HEAD
   width: 2.5rem;
   height: 2.5rem;
   animation: spin 1s linear infinite;
   margin-bottom: 0.6rem;
   z-index: 3000;
+=======
+  width: 3rem;
+  height: 3rem;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.loading-screen p {
+  font-size: 1.2rem;
+  font-weight: bold;
+>>>>>>> Development
 }
 
 @keyframes spin {
@@ -617,6 +862,7 @@ body {
   }
 }
 
+<<<<<<< HEAD
 .rating-scale {
   background-color: #f8f9fa;
   padding: 0.75rem;
@@ -663,29 +909,78 @@ table.rating-table tr:nth-child(even) {
   body {
     padding: 1rem;
     align-items: flex-start;
+=======
+/* Responsive Design for Tablets and Mobile */
+@media screen and (max-width: 1024px) {
+  body {
+    padding: 0.5rem;
+    font-size: 15px;
+>>>>>>> Development
   }
 
   .a4-page {
     width: 100%;
     min-height: auto;
+<<<<<<< HEAD
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+=======
+  }
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    padding: 0;
+    font-size: 14px;
+  }
+
+  .a4-page {
+    box-shadow: none;
+    width: 100%;
+>>>>>>> Development
   }
 
   .header {
     flex-direction: column;
     text-align: center;
+<<<<<<< HEAD
     padding: 1rem;
+=======
+    padding: 0.75rem;
+    gap: 0.75rem;
+>>>>>>> Development
   }
 
   .logo-left,
   .logo-right {
+<<<<<<< HEAD
     width: 4rem;
     height: 4rem;
     margin: 0.5rem 0;
+=======
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0;
+>>>>>>> Development
   }
 
   .header-content {
     width: 100%;
+<<<<<<< HEAD
+=======
+    order: 2;
+  }
+
+  .logo-left {
+    order: 1;
+  }
+
+  .logo-right {
+    order: 3;
+  }
+
+  .content {
+    padding: 1rem;
+>>>>>>> Development
   }
 
   .info-fields {
@@ -693,15 +988,28 @@ table.rating-table tr:nth-child(even) {
     gap: 1rem;
   }
 
+<<<<<<< HEAD
   .indicator-table {
     display: block;
     overflow-x: auto;
     table-layout: auto;
+=======
+  .section-header {
+    font-size: 1.25rem;
+    padding: 0.75rem;
+  }
+
+  .indicator-table {
+    display: block;
+    overflow-x: auto;
+    font-size: 0.95rem;
+>>>>>>> Development
   }
 
   .indicator-table td:first-child,
   .indicator-table td:last-child {
     width: auto;
+<<<<<<< HEAD
     min-width: 150px;
   }
 
@@ -715,21 +1023,34 @@ table.rating-table tr:nth-child(even) {
     justify-content: flex-start;
     text-align: left;
     gap: 0.5rem;
+=======
+    min-width: 50%;
+>>>>>>> Development
   }
 
   .footer {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
+<<<<<<< HEAD
   }
 
   .watermark {
     font-size: 1.5rem;
+=======
+    gap: 0.75rem;
+  }
+
+  .footer-logo {
+    width: 3rem;
+    height: 3rem;
+>>>>>>> Development
   }
 }
 
 @media screen and (max-width: 480px) {
   body {
+<<<<<<< HEAD
     padding: 0.5rem;
     font-size: 0.9rem;
   }
@@ -778,17 +1099,70 @@ table.rating-table tr:nth-child(even) {
 }
 
 /* Print styles - FIXED HEADER/FOOTER THAT WORKS */
+=======
+    font-size: 13px;
+  }
+
+  .header h1 {
+    font-size: 1.1rem;
+  }
+
+  .header h2 {
+    font-size: 1rem;
+  }
+
+  .header h3 {
+    font-size: 0.9rem;
+  }
+
+  .section-header {
+    font-size: 1.15rem;
+    padding: 0.6rem;
+  }
+
+  .info-field label,
+  .info-field p {
+    font-size: 1rem;
+  }
+
+  .rating-scale h2 {
+    font-size: 1.15rem;
+  }
+
+  .rating-table {
+    font-size: 0.9rem;
+  }
+
+  .rating-table th,
+  .rating-table td {
+    padding: 0.5rem;
+  }
+
+  .indicator-table th,
+  .indicator-table td {
+    padding: 0.6rem 0.4rem;
+  }
+}
+
+/* Print styles - optimized for A4 */
+>>>>>>> Development
 @media print {
   body {
     background: none;
     margin: 0;
     padding: 0;
+<<<<<<< HEAD
     font-size: 0.8rem;
+=======
+    font-size: 12pt; /* Use points for print */
+    line-height: 1.3;
+>>>>>>> Development
   }
 
   .a4-page {
     box-shadow: none;
     margin: 0;
+<<<<<<< HEAD
     width: 100%;
     height: 100%;
     page-break-after: always;
@@ -846,10 +1220,64 @@ table.rating-table tr:nth-child(even) {
     margin-top: 0;
   }
 
+=======
+    width: 210mm;
+    height: auto;
+    page-break-after: always;
+  }
+
+>>>>>>> Development
   /* Hide loading screen when printing */
   .loading-screen {
     display: none !important;
   }
+<<<<<<< HEAD
+=======
+
+  /* Ensure proper page breaks */
+  .evaluation-section {
+    page-break-inside: avoid;
+    margin: 1rem 0;
+  }
+
+  .indicator-table {
+    page-break-inside: auto;
+  }
+
+  .indicator-table tr {
+    page-break-inside: avoid;
+  }
+
+  /* Adjust spacing for print */
+  .header {
+    padding: 0.3rem 0.5rem;
+    border-bottom-width: 1px;
+  }
+
+  .content {
+    padding: 0.5rem 1rem;
+  }
+
+  .footer {
+    padding: 0.4rem 1rem;
+    margin-top: 1rem;
+    font-size: 9pt;
+  }
+
+  /* Ensure logos print properly */
+  .logo-left img,
+  .logo-right img,
+  .footer-logo img {
+    filter: none !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Remove hover effects for print */
+  .indicator-table tbody tr:hover {
+    background-color: inherit;
+  }
+>>>>>>> Development
 }
 
 /* Utility classes */
@@ -864,4 +1292,18 @@ table.rating-table tr:nth-child(even) {
   white-space: nowrap;
   border: 0;
 }
+<<<<<<< HEAD
+=======
+
+/* Improve table readability on all devices */
+th {
+  font-weight: 600;
+}
+
+/* Ensure images don't overflow */
+img {
+  max-width: 100%;
+  height: auto;
+}
+>>>>>>> Development
 </style>

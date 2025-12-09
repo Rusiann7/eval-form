@@ -6,12 +6,12 @@
 
   <div class="container">
     <div class="logo">
-      <!-- LOGO CHANGE - Lines below -->
+      <!-- Perfect Circle Logo -->
       <div class="logo-image">
         <img src="../assets/logo2.png" alt="Project EVAL Logo" />
       </div>
       <h1>EduRate</h1>
-      <p class="tagline">“Reflect, Improve, Inspire!”</p>
+      <p class="tagline">"Reflect, Improve, Inspire!"</p>
       <p class="instruction">
         Select your role to access the evaluation platform
       </p>
@@ -33,7 +33,9 @@
       </div>
 
       <div class="card teacher">
-        <div class="icon"></div>
+        <div class="icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
         <h2>Teacher</h2>
         <p>
           Evaluate your colleagues and peers to foster professional growth and
@@ -45,7 +47,9 @@
       </div>
 
       <div class="card admin">
-        <div class="icon"></div>
+        <div class="icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
         <h2>Admin</h2>
         <p>
           Evaluate teachers, manage assessments, and oversee the evaluation
@@ -62,31 +66,15 @@
   <div class="modal student-modal" v-if="activeModal === 'student'">
     <div class="modal-content">
       <span class="close-modal" @click="closeModal()">&times;</span>
-      <!--ito yung button sa close palitan ng method-->
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
         <h2>Student Portal</h2>
         <p>Login or create a new account</p>
       </div>
 
-      <div class="tabs">
-        <button
-          class="tab-btn"
-          :class="{ active: activeTab === 'login' }"
-          @click="activeTab = 'login'"
-        >
-          Login
-        </button>
-        <button
-          class="tab-btn"
-          :class="{ active: activeTab === 'register' }"
-          @click="activeTab = 'register'"
-        >
-          Register
-        </button>
-      </div>
-
-      <div class="tab-content" v-if="activeTab === 'login'">
+      <div class="tab-content">
         <!--login-->
         <form method="post" @submit.prevent="login">
           <div class="form-group">
@@ -116,93 +104,16 @@
                 >Forgot Password?</a
               >
             </div>
+            <div class="forgot-password">
+              <a @click="goToRegister" style="cursor: pointer">Create Account</a>
+            </div>
           </div>
-          <div
-            style="
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%;
-              padding: 10px 0;
-            "
-          >
-            <div
-              ref="turnstileWidgetStudent"
-              class="cf-turnstile"
-              style="
-                width: 100% !important;
-                max-width: 100% !important;
-                display: flex;
-                justify-content: center;
-              "
-            ></div>
+          <div class="captcha-container">
+            <div ref="turnstileWidgetStudent" class="cf-turnstile"></div>
           </div>
-          <button type="submit" class="modal-btn">Login</button>
-        </form>
-      </div>
-
-      <div class="tab-content" v-if="activeTab === 'register'">
-        <!--register-->
-        <form method="post" @submit.prevent="signup()">
-          <div v-if="isWrong" class="wrong">
-            <p class="wrong">Wrong Credentials or Incomplete</p>
-          </div>
-          <div class="form-group">
-            <label for="studentName">First Name:</label>
-            <input
-              type="text"
-              v-model="studentr.fn"
-              placeholder="Enter your first name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentName">Last Name:</label>
-            <input
-              type="text"
-              v-model="studentr.ln"
-              placeholder="Enter your last name"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentEmail">Email Address:</label>
-            <input
-              type="email"
-              v-model="studentr.em"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentIdRegister">Student ID:</label>
-            <input
-              type="text"
-              v-model="studentr.id"
-              placeholder="Enter your student ID"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentPasswordRegister">Password:</label>
-            <input
-              type="password"
-              v-model="studentr.pass"
-              minlength="8"
-              placeholder="Create a password"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="studentConfirmPassword">Confirm Password:</label>
-            <input
-              type="password"
-              v-model="studentr.conpass"
-              placeholder="Confirm your password"
-              required
-            />
-          </div>
-          <button type="submit" class="modal-btn">Create Account</button>
+          <button type="submit" class="modal-btn" :disabled="isLoading">
+            {{ isLoading ? "Logging in..." : "Login" }}
+          </button>
         </form>
       </div>
     </div>
@@ -213,17 +124,17 @@
     <div class="modal-content">
       <span class="close-modal" @click="closeModal()">&times;</span>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">
+          <i class="fas fa-chalkboard-teacher"></i>
+        </div>
         <h2>Teacher Portal</h2>
         <p>Login to your account</p>
-        <br />
-        <p>
+        <p class="modal-note">
           <i>If you do not have an account yet visit the admin office.</i>
         </p>
-        <br />
       </div>
 
-      <div class="tab-content" v-if="activeTab === 'login'">
+      <div class="tab-content">
         <form method="post" @submit.prevent="login">
           <div v-if="isWrong" class="wrong">
             <p class="wrong">Wrong Credentials or Incomplete</p>
@@ -253,29 +164,12 @@
               >
             </div>
           </div>
-          <div
-            style="
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%;
-              padding: 10px 0;
-            "
-          >
-            <div
-              class="cf-turnstile"
-              ref="turnstileWidgetTeacher"
-              style="
-                width: 100% !important;
-                max-width: 100% !important;
-                display: flex;
-                justify-content: center;
-              "
-            ></div>
+          <div class="captcha-container">
+            <div class="cf-turnstile" ref="turnstileWidgetTeacher"></div>
           </div>
 
-          <button type="submit" class="modal-btn">
-            Login to Teacher Portal
+          <button type="submit" class="modal-btn" :disabled="isLoading">
+            {{ isLoading ? "Logging in..." : "Login to Teacher Portal" }}
           </button>
         </form>
       </div>
@@ -287,12 +181,14 @@
     <div class="modal-content">
       <span class="close-modal" @click="closeModal()">&times;</span>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
         <h2>Administrator Portal</h2>
         <p>Login to your account</p>
       </div>
 
-      <div class="tab-content active">
+      <div class="tab-content">
         <form method="post" @submit.prevent="login">
           <div v-if="isWrong" class="wrong">
             <p class="wrong">Wrong Credentials or Incomplete</p>
@@ -322,39 +218,26 @@
               >
             </div>
           </div>
-          <div
-            style="
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%;
-              padding: 10px 0;
-            "
-          >
-            <div
-              ref="turnstileWidgetAdmin"
-              class="cf-turnstile"
-              style="
-                width: 100% !important;
-                max-width: 100% !important;
-                display: flex;
-                justify-content: center;
-              "
-            ></div>
+          <div class="captcha-container">
+            <div ref="turnstileWidgetAdmin" class="cf-turnstile"></div>
           </div>
 
-          <button type="submit" class="modal-btn">Login to Admin Portal</button>
+          <button type="submit" class="modal-btn" :disabled="isLoading">
+            {{ isLoading ? "Logging in..." : "Login to Admin Portal" }}
+          </button>
         </form>
       </div>
     </div>
   </div>
 
   <!-- Forgot Password Modal -->
-  <div class="modal" v-if="activeModal === 'fgps'">
+  <div class="modal forgot-modal" v-if="activeModal === 'fgps'">
     <div class="modal-content">
       <span class="close-modal" @click="closeModal()">&times;</span>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">
+          <i class="fas fa-key"></i>
+        </div>
         <h2>Reset Password</h2>
         <p>Enter your email to receive a password reset code</p>
       </div>
@@ -368,16 +251,20 @@
             required
           />
         </div>
-        <button type="submit" class="modal-btn">Send Reset Code</button>
+        <button type="submit" class="modal-btn" :disabled="isLoading">
+          {{ isLoading ? "Sending..." : "Send Reset Code" }}
+        </button>
       </form>
     </div>
   </div>
 
-  <div class="modal" v-if="activeModal === 'code'">
+  <div class="modal code-modal" v-if="activeModal === 'code'">
     <div class="modal-content">
       <span class="close-modal" @click="closeModal()">&times;</span>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
         <h2>Reset Password</h2>
         <p>We have sent an E-Mail to your inbox containing the code</p>
       </div>
@@ -391,16 +278,20 @@
             required
           />
         </div>
-        <button type="submit" class="modal-btn">Enter Reset Code</button>
+        <button type="submit" class="modal-btn" :disabled="isLoading">
+          {{ isLoading ? "Verifying..." : "Enter Reset Code" }}
+        </button>
       </form>
     </div>
   </div>
 
-  <div class="modal" v-if="activeModal === 'password'">
+  <div class="modal password-modal" v-if="activeModal === 'password'">
     <div class="modal-content">
       <span class="close-modal" @click="closeModal()">&times;</span>
       <div class="modal-header">
-        <div class="modal-icon"></div>
+        <div class="modal-icon">
+          <i class="fas fa-lock"></i>
+        </div>
         <h2>Reset Password</h2>
         <p>Enter your new password</p>
       </div>
@@ -412,19 +303,20 @@
             v-model="newPassword.newPasswords"
             placeholder="Enter your new password"
             required
-          /><!--vmodel dito-->
-          <br />
-          <br />
-
-          <label for="condirmpass">Confirm Password</label>
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirmpass">Confirm Password</label>
           <input
             type="password"
             v-model="newPassword.confirmPassword"
             placeholder="Confirm your new password"
             required
-          /><!--vmodel dito-->
+          />
         </div>
-        <button type="submit" class="modal-btn">Reset Password</button>
+        <button type="submit" class="modal-btn" :disabled="isLoading">
+          {{ isLoading ? "Updating..." : "Reset Password" }}
+        </button>
       </form>
     </div>
   </div>
@@ -434,7 +326,12 @@
 import { setToken, getToken } from "../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
+//const url2 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
+<<<<<<< HEAD
+=======
+//const url2 = "https://rusiann7.helioho.st";
+>>>>>>> Development
 //const url2 = "http://localhost:8000";
 export default {
   name: "newDashboard",
@@ -450,7 +347,6 @@ export default {
       password: `${url2}/password.php`,
       code: `${url2}/code.php`,
       studentl: { id: "", ps: "" },
-      studentr: { fn: "", ln: "", em: "", id: "", pass: "", conpass: "" },
       teacherl: { id: "", ps: "" },
       admin: { id: "", ps: "" },
       newPassword: {
@@ -468,6 +364,7 @@ export default {
   methods: {
     async login() {
       if (!this.captcha) {
+        alert("Please complete the captcha verification");
         return;
       }
 
@@ -515,7 +412,7 @@ export default {
         if (result.success) {
           this.isWrong = false;
           if (result.token) {
-            setToken(result.token); //verify the token
+            setToken(result.token);
           } else {
             console.error("No token received from server.");
             this.isLoading = false;
@@ -526,57 +423,16 @@ export default {
           this[type] = { id: "", ps: "" };
 
           this.isLoading = false;
-          this.$router.replace(site); //router routes the user to the page
+          this.$router.replace(site);
         } else {
-          this.responseMessage = result.error;
           this.isWrong = true;
           this.isLoading = false;
+          alert(result.error || "Login failed. Please try again.");
         }
       } catch (error) {
         console.error("Login error:", error);
         this.isLoading = false;
-      }
-    },
-
-    async signup() {
-      if (this.studentr.pass === this.studentr.conpass) {
-        try {
-          this.isLoading = true;
-
-          const response = await fetch(this.signupphp, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              ...this.studentr,
-              action: "signup",
-            }),
-          });
-
-          const result = await response.json();
-          if (result.success) {
-            this.responseMessage = result.message;
-            this.activeTab = "login";
-            this.isLoading = false;
-            this.studentr = {
-              fn: "",
-              ln: "",
-              em: "",
-              id: "",
-              pass: "",
-              conpass: "",
-            };
-          } else {
-            this.isLoading = false;
-            console.error("server error: ", error);
-          }
-        } catch (error) {
-          this.isLoading = false;
-          console.error("Signup error:", error);
-        }
-      } else {
-        this.isWrong = true;
+        alert("An error occurred. Please try again.");
       }
     },
 
@@ -600,43 +456,55 @@ export default {
         if (result.success) {
           this.isLoading = false;
           this.activeModal = "code";
+          alert("Reset code sent to your email!");
+        } else {
+          this.isLoading = false;
+          alert(result.error || "Failed to send reset code.");
         }
       } catch (error) {
-        console.error("Signup error:", error);
+        this.isLoading = false;
+        console.error("Forgot password error:", error);
+        alert("An error occurred. Please try again.");
       }
     },
 
     async passwords() {
-      if (this.newPassword.newPasswords === this.newPassword.confirmPassword) {
-        try {
-          this.isLoading = true;
-
-          const response = await fetch(this.password, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              action: "password",
-              passwordss: this.newPassword.newPasswords,
-              conpassword: this.newPassword.confirmPassword,
-              email: this.newPassword.email,
-            }),
-          });
-          const result = await response.json();
-
-          if (result.success) {
-            this.isLoading = false;
-            this.activeModal = "student";
-            this.activeTab = "login";
-          }
-        } catch (error) {
-          console.error("Signup error:", error);
-        }
-      } else {
-        this.newPassword = { newPasswords: "", confirmPassword: "" };
-        alert("Password missmatch");
+      if (this.newPassword.newPasswords !== this.newPassword.confirmPassword) {
+        alert("Passwords do not match!");
         return;
+      }
+
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.password, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "password",
+            passwordss: this.newPassword.newPasswords,
+            conpassword: this.newPassword.confirmPassword,
+            email: this.newPassword.email,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.isLoading = false;
+          this.activeModal = "student";
+          this.activeTab = "login";
+          alert("Password reset successful! Please login.");
+        } else {
+          this.isLoading = false;
+          alert(result.error || "Password reset failed.");
+        }
+      } catch (error) {
+        this.isLoading = false;
+        console.error("Password reset error:", error);
+        alert("An error occurred. Please try again.");
       }
     },
 
@@ -661,17 +529,14 @@ export default {
         if (result.success) {
           this.isLoading = false;
           this.activeModal = "password";
-        }
-      } catch (error) {}
-    },
-
-    async captchaVerify() {
-      try {
-        if (document.cookie.includes("cf_verified=1")) {
-          this.captcha = true;
+        } else {
+          this.isLoading = false;
+          alert(result.error || "Invalid code. Please try again.");
         }
       } catch (error) {
-        console.error("Error verifying captcha:", error);
+        this.isLoading = false;
+        console.error("Code verification error:", error);
+        alert("An error occurred. Please try again.");
       }
     },
 
@@ -689,28 +554,59 @@ export default {
 
     toggleModal(modal) {
       this.activeModal = modal;
+      this.activeTab = "login";
       this.isWrong = false;
+      this.isLoading = false;
+
+      // Reset form data
+      this.studentl = { id: "", ps: "" };
+      this.teacherl = { id: "", ps: "" };
+      this.admin = { id: "", ps: "" };
+      this.newPassword = {
+        newPasswords: "",
+        confirmPassword: "",
+        email: "",
+        code: "",
+      };
     },
 
     closeModal() {
-      this.activeModal = null;
+      this.activeModal = "";
       this.activeTab = "login";
+      this.isWrong = false;
+      this.isLoading = false;
     },
 
     notify() {
-      if (Notification.permission === "granted") {
-        console.log("Notification: ", Notification.permission);
-      } else {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            console.log("Notification: ", Notification.permission);
-          }
-        });
+      if ("Notification" in window) {
+        if (Notification.permission === "granted") {
+          console.log("Notification permission granted");
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+              console.log("Notification permission granted");
+            }
+          });
+        }
       }
+    },
+    goToRegister() {
+      this.closeModal();
+      this.$router.push("/register/student");
     },
   },
 
   mounted() {
+    // Load Font Awesome if not already loaded
+    if (!document.querySelector('link[href*="font-awesome"]')) {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href =
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css";
+      document.head.appendChild(link);
+    }
+
+    // Load Cloudflare Turnstile if not already loaded
     if (!document.querySelector('script[src*="cloudflare.com/turnstile"]')) {
       const script = document.createElement("script");
       script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js";
@@ -751,10 +647,10 @@ export default {
 
           window.turnstile.render(ref, {
             sitekey: "0x4AAAAAAB75cNLp9r6mKKXd",
-            callback: () => (
-              (document.cookie = "cf_verified=1; path=/; max-age=10800"),
-              (this.captcha = true)
-            ),
+            callback: () => {
+              document.cookie = "cf_verified=1; path=/; max-age=10800";
+              this.captcha = true;
+            },
             theme: "light",
           });
         }, 300);
@@ -765,6 +661,7 @@ export default {
 </script>
 
 <style scoped>
+/* ===== CSS RESET & BASE STYLES ===== */
 * {
   margin: 0;
   padding: 0;
@@ -772,6 +669,74 @@ export default {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+body {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* ===== IMPROVED TYPOGRAPHY - LARGER TEXT ===== */
+h1 {
+  font-size: 2.5rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.75rem;
+}
+p,
+span,
+label,
+button,
+input,
+select,
+a {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 2rem;
+  }
+  p,
+  span,
+  label,
+  button,
+  input,
+  select,
+  a {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+  h2 {
+    font-size: 2.75rem;
+  }
+  h3 {
+    font-size: 2.25rem;
+  }
+  p,
+  span,
+  label,
+  button,
+  input,
+  select,
+  a {
+    font-size: 1.375rem;
+  }
+}
+
+/* ===== MAIN CONTAINER ===== */
 .container {
   /* Responsive base font-size for readability across devices */
   font-size: clamp(16px, 1.6vw, 20px);
@@ -780,26 +745,34 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
   padding: 1rem 0.75rem;
+=======
+  padding: 2rem 1rem;
+>>>>>>> Development
   color: #fff;
   width: 100%;
   min-height: 100vh;
-  background-image: linear-gradient(rgba(12, 89, 4, 0.8), rgba(3, 66, 78, 0.9));
+  background: linear-gradient(135deg, #0c5904 0%, #03424e 100%);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
 }
 
+/* ===== UPDATED LOGO SECTION WITH PERFECT CIRCLE ===== */
 .logo {
-  margin-bottom: 40px;
+  margin-bottom: 3rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: 1200px;
 }
 
+/* Perfect circle logo container */
 .logo-image {
+<<<<<<< HEAD
   width: 8rem; /* ~128px */
   height: 8rem;
   border-radius: 50%;
@@ -808,20 +781,32 @@ export default {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.32);
   margin-bottom: 1.25rem;
   background-color: #fff;
+=======
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+>>>>>>> Development
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  aspect-ratio: 1 / 1;
 }
 
-/* Added for logo image styling */
+/* Logo image that fits perfectly in the circle */
 .logo-image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  margin: 0;
+  padding: 0;
 }
 
 .logo h1 {
+<<<<<<< HEAD
   font-size: clamp(1.8rem, 4vw, 3.4rem);
   font-weight: 700;
   margin-bottom: 0.6rem;
@@ -835,28 +820,66 @@ export default {
   text-align: center;
   max-width: 900px;
   line-height: 1.6;
+=======
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: #fff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.tagline {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  max-width: 800px;
+  line-height: 1.4;
+>>>>>>> Development
   color: #e0f7fa;
-  font-weight: 500;
+  font-weight: 600;
+  word-wrap: break-word;
+  padding: 0 0.5rem;
 }
 
 .instruction {
   color: #e0e0e0;
+<<<<<<< HEAD
   margin-top: 0.8rem;
   font-size: clamp(0.98rem, 1.4vw, 1.15rem);
+=======
+  margin-top: 1.5rem;
+  font-size: 1.375rem;
+>>>>>>> Development
   text-align: center;
+  font-weight: 500;
+  word-wrap: break-word;
+  padding: 0 0.5rem;
 }
 
+/* ===== CARDS CONTAINER ===== */
 .cards-container {
+<<<<<<< HEAD
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
   width: 100%;
   margin-top: 1.25rem;
+=======
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 1rem;
+>>>>>>> Development
 }
 
 .card {
   background: rgba(255, 255, 255, 0.98);
+<<<<<<< HEAD
   border-radius: 0.9rem;
   padding: 1.6rem;
   flex: 0 1 20rem; /* flexible base width */
@@ -864,21 +887,36 @@ export default {
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
   transition: transform 0.28s ease, box-shadow 0.28s ease;
+=======
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+>>>>>>> Development
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .icon {
+<<<<<<< HEAD
   font-size: 3.2rem;
   margin-bottom: 1.1rem;
   height: 5.2rem;
   width: 5.2rem;
+=======
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  height: 100px;
+  width: 100px;
+>>>>>>> Development
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -886,79 +924,102 @@ export default {
 }
 
 .student .icon {
-  background-color: rgba(74, 109, 167, 0.2);
+  background-color: rgba(74, 109, 167, 0.15);
   color: #4a6da7;
 }
 
 .teacher .icon {
-  background-color: rgba(71, 167, 106, 0.2);
+  background-color: rgba(71, 167, 106, 0.15);
   color: #47a76a;
 }
 
 .admin .icon {
-  background-color: rgba(199, 80, 80, 0.2);
+  background-color: rgba(199, 80, 80, 0.15);
   color: #c75050;
 }
 
-h2 {
+.card h2 {
   color: #2c3e50;
+<<<<<<< HEAD
   margin-bottom: 0.9rem;
   font-size: clamp(1.4rem, 2.2vw, 2.2rem);
+=======
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: 700;
+>>>>>>> Development
 }
 
 .card p {
   color: #555;
+<<<<<<< HEAD
   margin-bottom: 1.25rem;
   line-height: 1.7;
   flex-grow: 1;
   font-size: clamp(1rem, 1.4vw, 1.12rem);
+=======
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  font-size: 1.125rem;
+>>>>>>> Development
 }
 
 .btn {
   display: inline-block;
-  background: #2c3e50;
   color: white;
+<<<<<<< HEAD
   padding: 1rem 1.8rem;
+=======
+  padding: 1rem 2rem;
+>>>>>>> Development
   border-radius: 50px;
   text-decoration: none;
   font-weight: 700;
   transition: all 0.25s ease;
   border: none;
   cursor: pointer;
+<<<<<<< HEAD
   width: 85%;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
+=======
+  width: 100%;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+>>>>>>> Development
 }
 
 .btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .student .btn {
-  background: #4a6da7;
+  background: linear-gradient(135deg, #4a6da7 0%, #3a5a8f 100%);
 }
 
 .student .btn:hover {
-  background: #3a5a8f;
+  background: linear-gradient(135deg, #3a5a8f 0%, #2a4a7f 100%);
 }
 
 .teacher .btn {
-  background: #47a76a;
+  background: linear-gradient(135deg, #47a76a 0%, #3a8f58 100%);
 }
 
 .teacher .btn:hover {
-  background: #3a8f58;
+  background: linear-gradient(135deg, #3a8f58 0%, #2a7f48 100%);
 }
 
 .admin .btn {
-  background: #c75050;
+  background: linear-gradient(135deg, #c75050 0%, #a83c3c 100%);
 }
 
 .admin .btn:hover {
-  background: #a83c3c;
+  background: linear-gradient(135deg, #a83c3c 0%, #982c2c 100%);
 }
 
-/* Modal Styles */
+/* ===== MODAL STYLES ===== */
 .modal {
   display: flex;
   position: fixed;
@@ -966,14 +1027,16 @@ h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.85);
   justify-content: center;
   align-items: center;
   z-index: 2000;
+  padding: 1rem;
 }
 
 .modal-content {
   background: white;
+<<<<<<< HEAD
   border-radius: 1rem;
   width: 94%;
   max-width: 720px;
@@ -981,34 +1044,76 @@ h2 {
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
   transform: translateY(-30px);
   transition: transform 0.35s ease;
+=======
+  border-radius: 20px;
+  width: 90%;
+  max-width: 550px;
+  padding: 2.5rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+>>>>>>> Development
   position: relative;
   max-height: 92vh;
   overflow-y: auto;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .close-modal {
   position: absolute;
+<<<<<<< HEAD
   top: 0.8rem;
   right: 0.8rem;
   font-size: 1.5rem;
   color: #888;
   cursor: pointer;
   transition: color 0.25s ease;
+=======
+  top: 1.25rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  line-height: 1;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+>>>>>>> Development
 }
 
 .close-modal:hover {
   color: #333;
+  background: #f5f5f5;
 }
 
 .modal-header {
   text-align: center;
-  margin-bottom: 20px;
-  padding: 0 10px;
+  margin-bottom: 2rem;
+  padding: 0 0.5rem;
 }
 
 .modal-icon {
+<<<<<<< HEAD
   font-size: clamp(1.6rem, 2.6vw, 2.5rem);
   margin-bottom: 15px;
+=======
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: inherit;
+>>>>>>> Development
 }
 
 .student-modal .modal-icon {
@@ -1023,31 +1128,65 @@ h2 {
   color: #c75050;
 }
 
+.forgot-modal .modal-icon,
+.code-modal .modal-icon,
+.password-modal .modal-icon {
+  color: #666;
+}
+
 .modal-header h2 {
   color: #2c3e50;
+<<<<<<< HEAD
   margin-bottom: 10px;
   font-size: clamp(1.1rem, 2vw, 1.8rem);
+=======
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+>>>>>>> Development
 }
 
 .modal-header p {
   color: #666;
+<<<<<<< HEAD
   font-size: clamp(0.98rem, 1.2vw, 1.12rem);
+=======
+  font-size: 1.125rem;
+>>>>>>> Development
 }
 
-/* Tab Styles */
+.modal-note {
+  font-size: 1rem !important;
+  color: #888 !important;
+  margin-top: 0.5rem;
+}
+
+/* ===== TAB STYLES ===== */
 .tabs {
   display: flex;
+<<<<<<< HEAD
   margin-bottom: 1rem;
   border-bottom: 1px solid #e6e6e6;
+=======
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #eee;
+>>>>>>> Development
 }
 
 .tab-btn {
   flex: 1;
+<<<<<<< HEAD
   padding: 0.7rem 0.6rem;
   background: none;
   border: none;
   cursor: pointer;
   font-size: clamp(1rem, 1.4vw, 1.05rem);
+=======
+  padding: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.125rem;
+>>>>>>> Development
   font-weight: 600;
   color: #888;
   transition: all 0.22s ease;
@@ -1074,101 +1213,175 @@ h2 {
   border-bottom-color: #c75050;
 }
 
+/* ===== FORM STYLES ===== */
 .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
   color: #444;
   font-weight: 600;
   text-align: left;
+<<<<<<< HEAD
   font-size: clamp(0.98rem, 1.2vw, 1.05rem);
+=======
+  font-size: 1.125rem;
+>>>>>>> Development
 }
 
 .form-group input {
   width: 100%;
+<<<<<<< HEAD
   padding: 0.95rem 1rem;
   border: 1px solid #e3e3e3;
   border-radius: 0.6rem;
   font-size: clamp(1rem, 1.2vw, 1.05rem);
   transition: border-color 0.2s ease;
+=======
+  padding: 1rem 1.25rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  font-size: 1.125rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+>>>>>>> Development
 }
 
 .form-group input:focus {
   border-color: #4a6da7;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 109, 167, 0.1);
 }
 
 .remember-forgot {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+  width: 100%;
+}
+
+.forgot-password {
+  flex: 1;
+}
+
+.forgot-password:first-child {
+  text-align: left;
+}
+
+.forgot-password:last-child {
+  text-align: right;
 }
 
 .forgot-password a {
   color: #4a6da7;
   text-decoration: none;
+<<<<<<< HEAD
   font-size: clamp(0.95rem, 1.2vw, 1rem);
+=======
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-block;
+>>>>>>> Development
 }
 
 .forgot-password a:hover {
   text-decoration: underline;
 }
 
+.captcha-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.cf-turnstile {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex;
+  justify-content: center;
+}
+
 .modal-btn {
   width: 100%;
+<<<<<<< HEAD
   padding: 1rem;
   border: none;
   border-radius: 0.7rem;
   color: white;
   font-size: clamp(1rem, 1.6vw, 1.15rem);
   font-weight: 700;
+=======
+  padding: 1.25rem;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+>>>>>>> Development
   cursor: pointer;
   transition: background 0.22s ease, transform 0.15s ease;
 }
 
-.modal-btn:hover {
+.modal-btn:hover:not(:disabled) {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .student-modal .modal-btn {
-  background: #4a6da7;
+  background: linear-gradient(135deg, #4a6da7 0%, #3a5a8f 100%);
 }
 
-.student-modal .modal-btn:hover {
-  background: #3a5a8f;
+.student-modal .modal-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3a5a8f 0%, #2a4a7f 100%);
 }
 
 .teacher-modal .modal-btn {
-  background: #47a76a;
+  background: linear-gradient(135deg, #47a76a 0%, #3a8f58 100%);
 }
 
-.teacher-modal .modal-btn:hover {
-  background: #3a8f58;
+.teacher-modal .modal-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #3a8f58 0%, #2a7f48 100%);
 }
 
 .admin-modal .modal-btn {
-  background: #c75050;
+  background: linear-gradient(135deg, #c75050 0%, #a83c3c 100%);
 }
 
-.admin-modal .modal-btn:hover {
-  background: #a83c3c;
+.admin-modal .modal-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #a83c3c 0%, #982c2c 100%);
 }
 
-.switch-form a:hover {
-  text-decoration: underline;
+.forgot-modal .modal-btn,
+.code-modal .modal-btn,
+.password-modal .modal-btn {
+  background: linear-gradient(135deg, #666 0%, #555 100%);
 }
 
+.forgot-modal .modal-btn:hover:not(:disabled),
+.code-modal .modal-btn:hover:not(:disabled),
+.password-modal .modal-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #555 0%, #444 100%);
+}
+
+/* ===== LOADING SCREEN ===== */
 .loading-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1178,14 +1391,22 @@ h2 {
 }
 
 .loading-spinner {
-  border: 4px solid rgba(255, 255, 255, 0.3);
+  border: 5px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
+<<<<<<< HEAD
   border-top: 4px solid #ffffff;
   width: 3.2rem;
   height: 3.2rem;
   animation: spin 1s linear infinite;
   margin-bottom: 0.6rem;
   z-index: 3000;
+=======
+  border-top: 5px solid #ffffff;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.5rem;
+>>>>>>> Development
 }
 
 @keyframes spin {
@@ -1197,20 +1418,87 @@ h2 {
   }
 }
 
+/* ===== ERROR MESSAGE ===== */
 .wrong {
-  color: red;
-  margin-bottom: 10px;
-  font-weight: bold;
+  color: #d32f2f;
+  background: #ffebee;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
   text-align: center;
+  border: 1px solid #ffcdd2;
+  font-size: 1.125rem;
 }
 
-@media (max-width: 900px) {
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+  .logo-image {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+/* Laptop/Desktop */
+@media (max-width: 1024px) {
   .cards-container {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .logo h1 {
+    font-size: 3rem;
+  }
+
+  .tagline {
+    font-size: 1.5rem;
+  }
+
+  .instruction {
+    font-size: 1.25rem;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem 1rem;
+    min-height: calc(100vh - 2rem);
+  }
+
+  .logo-image {
+    width: 150px;
+    height: 150px;
+    border-width: 5px;
+  }
+
+  .logo-image img {
+    width: 82%;
+    height: 82%;
+  }
+
+  .logo h1 {
+    font-size: 2.5rem;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+  }
+
+  .instruction {
+    font-size: 1.125rem;
+  }
+
+  .cards-container {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+    gap: 1.5rem;
   }
 
   .card {
+<<<<<<< HEAD
     width: 100%;
     max-width: 520px;
     margin-bottom: 1rem;
@@ -1240,12 +1528,55 @@ h2 {
 
   .tagline {
     font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+=======
+    padding: 2rem;
+  }
+
+  .icon {
+    width: 80px;
+    height: 80px;
+    font-size: 3rem;
+  }
+
+  .modal-content {
+    padding: 2rem;
+    width: 95%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: 1rem 0.75rem;
+    min-height: calc(100vh - 1rem);
+  }
+
+  .logo-image {
+    width: 120px;
+    height: 120px;
+    border-width: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .logo-image img {
+    width: 80%;
+    height: 80%;
+  }
+
+  .logo h1 {
+    font-size: 2.2rem;
+  }
+
+  .tagline {
+    font-size: 1.1rem;
+>>>>>>> Development
   }
 
   .instruction {
     font-size: 0.98rem;
   }
 
+<<<<<<< HEAD
   .card {
     padding: 0.9rem;
   }
@@ -1272,5 +1603,138 @@ h2 {
 
 @media (min-width: 1600px) {
   .container { font-size: 21px; }
+=======
+  .cards-container {
+    grid-template-columns: 1fr;
+    max-width: 350px;
+    margin: 0 auto;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1.75rem;
+  }
+
+  .card h2 {
+    font-size: 1.75rem;
+  }
+
+  .card p {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .modal-header p {
+    font-size: 1rem;
+  }
+
+  .tab-btn {
+    padding: 0.875rem;
+    font-size: 1rem;
+  }
+
+  .form-group input {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+
+  .modal-btn {
+    padding: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .close-modal {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.75rem;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .logo-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .logo-image img {
+    width: 78%;
+    height: 78%;
+  }
+
+  .logo h1 {
+    font-size: 1.8rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .instruction {
+    font-size: 0.9rem;
+  }
+
+  .cards-container {
+    max-width: 320px;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+}
+
+/* For landscape orientation on mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .logo-image {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 0.5rem;
+  }
+
+  .logo h1 {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .logo-image {
+    border: 3px solid #000;
+    background-color: #fff;
+  }
+
+  .card {
+    border: 2px solid #e5e7eb;
+  }
+
+  .form-group input {
+    border-width: 2px;
+  }
+}
+
+/* Focus visibility for accessibility */
+button:focus-visible,
+input:focus-visible,
+.tab-btn:focus-visible,
+.close-modal:focus-visible {
+  outline: 2px solid #4a6da7;
+  outline-offset: 2px;
+>>>>>>> Development
 }
 </style>

@@ -19,6 +19,7 @@ const Student = () => import("../components/User/Student.vue"); //loads componen
 const Teacher = () => import("../components/User/Teacher.vue");
 const Principal = () => import("../components/Admin/Principal.vue");
 const newDashboard = () => import("../components/newDashboard.vue");
+const RegisterStudent = () => import("../components/Register/Student.vue");
 const StEval = () => import("../components/evalforms/student.vue");
 const TcEval = () => import("../components/evalforms/teacher.vue");
 const printable = () => import("../components/evalforms/eval-form-student.vue");
@@ -35,13 +36,20 @@ const graph = () => import("../components/Admin/perf-graph.vue");
 const modal = () => import("../components/Testing/modal.vue");
 const changeQuestiont = () => import("../components/Admin/ChangeQuestiont.vue");
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 5380a09 (finished the question changer and started the split modal type)
 =======
+=======
+>>>>>>> Development
 const printablemerge = () =>
   import("../components/evalforms/eval-form-student-merge.vue");
 const printablemerge1 = () =>
   import("../components/evalforms/eval-form-teacher-merge.vue");
+<<<<<<< HEAD
 >>>>>>> cea0093 (added the chartjs and implemented the chartjs in the file also added some changes to the api calls url)
+=======
+const graphT = () => import("../components/Admin/perf-grapht.vue");
+>>>>>>> Development
 
 const routes = [
   {
@@ -52,8 +60,20 @@ const routes = [
   },
 
   {
+<<<<<<< HEAD
     path: '/student',
     name: 'Student',
+=======
+    path: "/register/student",
+    name: "RegisterStudent",
+    component: RegisterStudent,
+    meta: { title: "Register Student", requiresAuth: false },
+  },
+
+  {
+    path: "/student",
+    name: "Student",
+>>>>>>> Development
     component: Student,
     meta: {title: 'Student Form', requiresAuth: true }
   },
@@ -157,6 +177,13 @@ const router = createRouter({ //create the routes and history
     path: "/performance-graph/:id",
     name: "PerformanceGraph",
     component: graph,
+    meta: { title: "Performance Graph", requiresAuth: false },
+  },
+
+  {
+    path: "/performance-graph/:id",
+    name: "PerformanceGraphT",
+    component: graphT,
     meta: { title: "Performance Graph", requiresAuth: false },
   },
 
