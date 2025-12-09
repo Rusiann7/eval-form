@@ -8,6 +8,11 @@
     rel="stylesheet"
   />
 
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
   <div class="container">
     <main class="main-grid">
       <section class="card">
@@ -241,7 +246,7 @@ export default {
 
       const { GoogleGenAI } = await import("@google/genai");
       this.gemini = new GoogleGenAI({
-        apiKey: "AIzaSyAmMVmT2-qZoXprFv5A4hx-v4fAlF1t2xU",
+        apiKey: "AIzaSyDsxzdngcvRJmU3LqlUIHffsDHFjUnlTcQ",
       });
       const res = await this.gemini.models.generateContent({
         model: "gemini-2.5-flash",
@@ -578,28 +583,29 @@ body {
 }
 
 /* Loading States */
-.loading {
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 2rem;
+  align-items: center;
+  z-index: 3000;
+  color: white;
 }
 
 .loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 5px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  border-top: 4px solid #000000;
-  width: 50px;
-  height: 50px;
+  border-top: 5px solid #ffffff;
+  width: 60px;
+  height: 60px;
   animation: spin 1s linear infinite;
   margin-bottom: 1.5rem;
-}
-
-.loading-text {
-  font-size: 1.25rem;
-  color: #6b7280;
 }
 
 @keyframes spin {
