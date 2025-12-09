@@ -75,107 +75,152 @@
     </div>
   </div>
 
-  <!--end of sidebar-->
-
-  <div class="content">
-    <div class="container">
-      <main class="main-content">
-        <div class="card" style="margin-bottom: 40px">
-          <div class="titles">
-            <h1>Current Times</h1>
-            <br />
-            <h3>Time Start: {{ startendtime.time_start }}</h3>
-            <h3>Date Start: {{ startendtime.date_start }}</h3>
-            <h3>Time End: {{ startendtime.time_end }}</h3>
-            <h3>Date End: {{ startendtime.date_end }}</h3>
+  <!-- Main content container -->
+  <div class="main-content">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="header-left">
+        <div class="title-row">
+          <h1 class="logo">Teacher Evaluation System</h1>
+          <div class="title-actions">
+            <button class="portal-btn">Principal Portal</button>
+            <label
+              for="scheduler-nav-toggle"
+              class="menu-toggle"
+              aria-label="Toggle menu"
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </label>
           </div>
         </div>
-        <div class="card">
-          <header class="header">
-            <h1 class="title">Set Due Date</h1>
-            <p class="subtitle">
-              Define the submission deadline for this assignment.
-            </p>
-          </header>
-          <form @submit.prevent="this.setTime()" class="form" method="POST">
-            <div class="form-grid">
-              <div class="form-group">
-                <label class="label" for="due-date">Due date</label>
-                <div class="input-container">
-                  <span class="material-icons-outlined input-icon">
-                    calendar_today
-                  </span>
-                  <input
-                    class="input-field"
-                    name="due-date"
-                    type="date"
-                    v-model="times.dateset"
-                    required
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="label" for="due-time">Time</label>
-                <div class="input-container">
-                  <span class="material-icons-outlined input-icon">
-                    schedule
-                  </span>
-                  <input
-                    class="input-field"
-                    name="due-time"
-                    type="time"
-                    v-model="times.timeset"
-                    required
-                  />
-                </div>
-              </div>
+      </div>
+      <div class="user-section">
+        <span class="user-greeting"
+          >Welcome, {{ fullname }} {{ lastname }}</span
+        >
+        <button class="logout-btn desktop-only" @click="logout()">
+          <svg
+            class="logout-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="container">
+        <main class="main-content">
+          <div class="card" style="margin-bottom: 40px">
+            <div class="titles">
+              <h1>Current Times</h1>
+              <br />
+              <h3>Time Start: {{ startendtime.time_start }}</h3>
+              <h3>Date Start: {{ startendtime.date_start }}</h3>
+              <h3>Time End: {{ startendtime.time_end }}</h3>
+              <h3>Date End: {{ startendtime.date_end }}</h3>
             </div>
-            <div class="form-group">
-              <label class="label">End</label>
-              <p class="description">
-                Set a final cutoff date and time after which submissions are no
-                longer accepted.
+          </div>
+          <div class="card">
+            <header class="header">
+              <h1 class="title">Set Due Date</h1>
+              <p class="subtitle">
+                Define the submission deadline for this assignment.
               </p>
+            </header>
+            <form @submit.prevent="this.setTime()" class="form" method="POST">
               <div class="form-grid">
-                <div>
+                <div class="form-group">
+                  <label class="label" for="due-date">Due date</label>
                   <div class="input-container">
                     <span class="material-icons-outlined input-icon">
-                      event_busy
+                      calendar_today
                     </span>
                     <input
                       class="input-field"
-                      name="end-date"
+                      name="due-date"
                       type="date"
-                      v-model="times.dateend"
+                      v-model="times.dateset"
                       required
                     />
                   </div>
                 </div>
-                <div>
+                <div class="form-group">
+                  <label class="label" for="due-time">Time</label>
                   <div class="input-container">
                     <span class="material-icons-outlined input-icon">
-                      access_time
+                      schedule
                     </span>
                     <input
                       class="input-field"
-                      name="end-time"
+                      name="due-time"
                       type="time"
-                      v-model="times.timeend"
+                      v-model="times.timeset"
                       required
                     />
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="button-container">
-              <button class="button" type="submit">
-                <span class="material-icons-outlined">save</span>
-                Save Settings
-              </button>
-            </div>
-          </form>
-        </div>
-      </main>
+              <div class="form-group">
+                <label class="label">End</label>
+                <p class="description">
+                  Set a final cutoff date and time after which submissions are
+                  no longer accepted.
+                </p>
+                <div class="form-grid">
+                  <div>
+                    <div class="input-container">
+                      <span class="material-icons-outlined input-icon">
+                        event_busy
+                      </span>
+                      <input
+                        class="input-field"
+                        name="end-date"
+                        type="date"
+                        v-model="times.dateend"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <div class="input-container">
+                      <span class="material-icons-outlined input-icon">
+                        access_time
+                      </span>
+                      <input
+                        class="input-field"
+                        name="end-time"
+                        type="time"
+                        v-model="times.timeend"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="button-container">
+                <button class="button" type="submit">
+                  <span class="material-icons-outlined">save</span>
+                  Save Settings
+                </button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
     </div>
   </div>
 </template>
@@ -612,6 +657,13 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   padding-left: 2rem;
 }
 
+.side-bar .menu .item .sub-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .side-bar .menu .item i {
   margin-right: 15px;
 }
@@ -824,5 +876,210 @@ select:focus {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
+}
+
+.sidebar-logout {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 1.0625rem;
+  justify-content: flex-start;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.sidebar-logout:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .side-bar {
+    transform: translateX(-100%);
+    box-shadow: 2px 0 24px rgba(15, 23, 42, 0.15);
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .sidebar-close {
+    display: flex;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .title-row {
+    flex-wrap: wrap;
+  }
+
+  .title-actions .portal-btn {
+    display: none;
+  }
+
+  .user-section {
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .user-greeting {
+    display: none;
+  }
+
+  .content {
+    padding: 1.5rem 1rem;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+
+  .current-times-card,
+  .form-card {
+    padding: 1.75rem;
+  }
+
+  .times-display {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .time-section {
+    padding: 1.25rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .input-field {
+    height: 3rem;
+  }
+
+  .side-bar {
+    width: min(300px, 85%);
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .content {
+    padding: 1rem;
+  }
+
+  .current-times-card,
+  .form-card {
+    padding: 1.5rem;
+  }
+
+  .card-title,
+  .form-card .title {
+    font-size: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 1.25rem;
+  }
+
+  .times-display {
+    gap: 1rem;
+  }
+
+  .time-section {
+    padding: 1rem;
+  }
+
+  .time-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .time-value {
+    width: 100%;
+    text-align: left;
+    padding: 0.5rem;
+  }
+
+  .form-section {
+    padding: 1rem;
+  }
+
+  .button {
+    padding: 1rem 1.5rem;
+    font-size: 1.125rem;
+  }
+
+  .side-bar {
+    width: 100%;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .input-field,
+  .checkbox {
+    border-width: 2px;
+  }
+
+  .time-value {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Focus visibility for accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+.checkbox:focus-visible {
+  outline: 2px solid #4a6da7;
+  outline-offset: 2px;
+}
+
+/* Material icons adjustments */
+.material-icons-outlined {
+  font-size: 1.25rem;
+}
+
+/* Date and time input adjustments */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
+  opacity: 0.7;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 </style>

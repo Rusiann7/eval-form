@@ -32,7 +32,6 @@
 
 <script>
 import { Bar } from "vue-chartjs";
-
 import {
   Chart as ChartJS,
   Title,
