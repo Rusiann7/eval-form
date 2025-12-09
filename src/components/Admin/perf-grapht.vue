@@ -8,6 +8,11 @@
     rel="stylesheet"
   />
 
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
   <div class="container">
     <main class="main-grid">
       <section class="card">
@@ -18,7 +23,7 @@
       <section class="card">
         <h2 class="card-title">A.I. Summarizer</h2>
         <div class="ai-response">
-          <p class="response-text">A.I. Response Here</p>
+          <p class="response-text">{{ geminiOutput }}</p>
         </div>
       </section>
     </main>
@@ -27,6 +32,7 @@
 
 <script>
 import { Bar } from "vue-chartjs";
+
 import {
   Chart as ChartJS,
   Title,
@@ -54,8 +60,12 @@ export default {
   components: { Bar },
   data() {
     return {
-      aiphp: `${url2}/chartGetter.php`,
+      aiphp: `${url2}/chartGettert.php`,
       chartphp: `${url2}/chartGettert.php`,
+      urlappphp: `${url2}/questiontAll.php`,
+      urlappphp3: `${url2}/mergeAntGetter.php`,
+      gemini: null,
+      geminiOutput: "",
       averages: [],
       isLoading: false,
       isSuccess: false,
@@ -74,6 +84,10 @@ export default {
         },
       },
       airesponse: null,
+      headers: [],
+      answers: {},
+      teacher: {},
+      answer: {},
     };
   },
 
@@ -122,38 +136,134 @@ export default {
       }
     },
 
-    async getAiResponse() {
+    async getQuestions() {
       try {
         this.isLoading = true;
 
-        const response = await fetch(this.aiphp, {
+        const response = await fetch(this.urlappphp, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ action: "getTeacherQuestions" }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.headers = result.headers;
+          this.isLoading = false;
+        } else {
+          console.error("server error:", error);
+        }
+      } catch (error) {
+        console.error(error);
+        this.isLoading = false;
+      }
+    },
+
+    async getAnswers() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp3, {
+          method: "POST",
+          headers: { "Content-type": "application/json" },
           body: JSON.stringify({
-            action: "giveAi",
-            tcr_id: this.$route.params.id,
+            action: "teacher",
+            evt: this.$route.params.evtid,
+            tcr: this.$route.params.id,
           }),
         });
 
         const result = await response.json();
 
         if (result.success) {
-          this.airesponse = result.response;
+          const sessionData = Object.values(result.answer)[0];
+
+          this.month = sessionData.time;
+          this.answer = sessionData;
           this.isLoading = false;
-          this.isSuccess = true;
-        } else {
-          this.isLoading = false;
-          this.isFailed = true;
+
+          this.answers = {};
+          for (const ans of result.answer) {
+            this.answers[Number(ans.question_id)] = Number(
+              ans.score.toFixed(1)
+            );
+          }
         }
       } catch (error) {
+        console.log(error);
         this.isLoading = false;
-        console.error(error);
       }
+    },
+
+    async runAI() {
+      if (
+        !this.headers.length &&
+        !Object.keys(this.answers).length &&
+        !this.averages.length
+      ) {
+        console.warn("AI skipped: missing data.");
+        return;
+      }
+
+      const allQuestions = [];
+      this.headers.forEach((header) => {
+        if (header.questions && Array.isArray(header.questions)) {
+          header.questions.forEach((question) => {
+            allQuestions.push({
+              question_id: question.question_id,
+              question: question.question,
+              header: header.header,
+            });
+          });
+        }
+      });
+
+      const payload = {
+        categories: this.headers.map((header) => ({
+          category: header.header,
+          question_count: header.questions ? header.questions.length : 0,
+        })),
+        questions: allQuestions,
+        answers: this.answers,
+        averages: this.averages.map((avg) => avg.avg),
+      };
+
+      const prompt = `Summarize teacher performance based strictly on the provided dataset.
+
+      DATA:
+      ${JSON.stringify(payload, null, 2)}
+
+        REQUIREMENTS:
+        - Identify strengths and weaknesses based only on the numbers.
+        - Provide a short bullet summary that a school admin can instantly understand.
+        - DO NOT invent data.
+        - Base the entire evaluation only on the correlations between questions, answers, and averages.
+        - Be concise but accurate.
+        `;
+
+      const { GoogleGenAI } = await import("@google/genai");
+      this.gemini = new GoogleGenAI({
+        apiKey: "AIzaSyDsxzdngcvRJmU3LqlUIHffsDHFjUnlTcQ",
+      });
+      const res = await this.gemini.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+      });
+      this.geminiOutput = res.text;
     },
   },
 
   mounted() {
-    this.getChartData();
+    Promise.all([this.getChartData(), this.getQuestions(), this.getAnswers()])
+      .then(() => {
+        this.runAI();
+      })
+      .catch((error) => {
+        console.error("Error loading data:", error);
+      });
   },
 };
 </script>
@@ -164,7 +274,8 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Inter", "Roboto", "Segoe UI", Tahoma, Geneva, Verdana,
+    sans-serif;
   background-color: #ffffff;
   color: #000000;
   -webkit-font-smoothing: antialiased;
@@ -472,33 +583,38 @@ body {
 }
 
 /* Loading States */
-.loading {
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 2rem;
+  align-items: center;
+  z-index: 3000;
+  color: white;
 }
 
 .loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 5px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  border-top: 4px solid #000000;
-  width: 50px;
-  height: 50px;
+  border-top: 5px solid #ffffff;
+  width: 60px;
+  height: 60px;
   animation: spin 1s linear infinite;
   margin-bottom: 1.5rem;
 }
 
-.loading-text {
-  font-size: 1.25rem;
-  color: #6b7280;
-}
-
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Mobile-specific adjustments */
@@ -508,30 +624,30 @@ body {
     height: auto;
     min-height: 100vh;
   }
-  
+
   .main-grid {
     gap: 1.5rem;
   }
-  
+
   .card {
     padding: 1.5rem;
     min-height: 350px;
   }
-  
+
   .card-title {
     font-size: 1.5rem;
     text-align: center;
   }
-  
+
   .response-text {
     font-size: 1.1rem;
     text-align: center;
   }
-  
+
   .placeholder-text-lg {
     font-size: 1.25rem;
   }
-  
+
   .placeholder-text-sm {
     font-size: 1rem;
   }
@@ -542,11 +658,11 @@ body {
   .container {
     padding: 1.5rem;
   }
-  
+
   .main-grid {
     gap: 2rem;
   }
-  
+
   .card {
     min-height: 400px;
   }
@@ -588,4 +704,4 @@ input:focus {
   color: #ffffff;
   border: 2px solid #dc2626;
 }
-</style> 
+</style>

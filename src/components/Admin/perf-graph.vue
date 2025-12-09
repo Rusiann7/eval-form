@@ -8,6 +8,11 @@
     rel="stylesheet"
   />
 
+  <div v-if="isLoading" class="loading-screen">
+    <div class="loading-spinner"></div>
+    <p>Loading...</p>
+  </div>
+
   <div class="container">
     <main class="main-grid">
       <section class="card">
@@ -203,11 +208,6 @@ export default {
         return;
       }
 
-      console.log("headers:", this.headers);
-      console.log("answers:", this.answers);
-      console.log("averages:", this.averages);
-
-      // FLATTEN THE HEADERS: Extract all questions from the nested structure
       const allQuestions = [];
       this.headers.forEach((header) => {
         if (header.questions && Array.isArray(header.questions)) {
@@ -215,55 +215,50 @@ export default {
             allQuestions.push({
               question_id: question.question_id,
               question: question.question,
-              header: header.header, // Keep track of which header/category
+              header: header.header,
             });
           });
         }
       });
 
-      console.log("All flattened questions:", allQuestions);
-
-      // Create a better structured payload for the AI
       const payload = {
         categories: this.headers.map((header) => ({
           category: header.header,
           question_count: header.questions ? header.questions.length : 0,
         })),
         questions: allQuestions,
-        answers: this.answers, // This maps question_id to score
-        averages: this.averages.map((avg) => avg.avg), // Extract just the numbers
+        answers: this.answers,
+        averages: this.averages.map((avg) => avg.avg),
       };
 
       const prompt = `Summarize teacher performance based strictly on the provided dataset.
 
-DATA:
-${JSON.stringify(payload, null, 2)}
+      DATA:
+      ${JSON.stringify(payload, null, 2)}
 
-REQUIREMENTS:
-- Identify strengths and weaknesses based only on the numbers.
-- Provide a short bullet summary that a school admin can instantly understand.
-- DO NOT invent data.
-- Base the entire evaluation only on the correlations between questions, answers, and averages.
-- Be concise but accurate.`;
+        REQUIREMENTS:
+        - Identify strengths and weaknesses based only on the numbers.
+        - Provide a short bullet summary that a school admin can instantly understand.
+        - DO NOT invent data.
+        - Base the entire evaluation only on the correlations between questions, answers, and averages.
+        - Be concise but accurate.
+        `;
 
       const { GoogleGenAI } = await import("@google/genai");
       this.gemini = new GoogleGenAI({
-        apiKey: "AIzaSyBGagPvWweoWdakt8_zmOoP-03OMlELBzI",
+        apiKey: "AIzaSyDsxzdngcvRJmU3LqlUIHffsDHFjUnlTcQ",
       });
       const res = await this.gemini.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
       });
       this.geminiOutput = res.text;
-      console.log("AI SUMMARY:", this.geminiOutput);
     },
   },
 
   mounted() {
-    // Call all async functions and wait for them to complete
     Promise.all([this.getChartData(), this.getQuestions(), this.getAnswers()])
       .then(() => {
-        // Now run AI after all data is loaded
         this.runAI();
       })
       .catch((error) => {
@@ -588,28 +583,29 @@ body {
 }
 
 /* Loading States */
-.loading {
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100%;
-  padding: 2rem;
+  align-items: center;
+  z-index: 3000;
+  color: white;
 }
 
 .loading-spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
+  border: 5px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  border-top: 4px solid #000000;
-  width: 50px;
-  height: 50px;
+  border-top: 5px solid #ffffff;
+  width: 60px;
+  height: 60px;
   animation: spin 1s linear infinite;
   margin-bottom: 1.5rem;
-}
-
-.loading-text {
-  font-size: 1.25rem;
-  color: #6b7280;
 }
 
 @keyframes spin {
