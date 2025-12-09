@@ -203,11 +203,6 @@ export default {
         return;
       }
 
-      console.log("headers:", this.headers);
-      console.log("answers:", this.answers);
-      console.log("averages:", this.averages);
-
-      // FLATTEN THE HEADERS: Extract all questions from the nested structure
       const allQuestions = [];
       this.headers.forEach((header) => {
         if (header.questions && Array.isArray(header.questions)) {
@@ -215,55 +210,50 @@ export default {
             allQuestions.push({
               question_id: question.question_id,
               question: question.question,
-              header: header.header, // Keep track of which header/category
+              header: header.header,
             });
           });
         }
       });
 
-      console.log("All flattened questions:", allQuestions);
-
-      // Create a better structured payload for the AI
       const payload = {
         categories: this.headers.map((header) => ({
           category: header.header,
           question_count: header.questions ? header.questions.length : 0,
         })),
         questions: allQuestions,
-        answers: this.answers, // This maps question_id to score
-        averages: this.averages.map((avg) => avg.avg), // Extract just the numbers
+        answers: this.answers,
+        averages: this.averages.map((avg) => avg.avg),
       };
 
       const prompt = `Summarize teacher performance based strictly on the provided dataset.
 
-DATA:
-${JSON.stringify(payload, null, 2)}
+      DATA:
+      ${JSON.stringify(payload, null, 2)}
 
-REQUIREMENTS:
-- Identify strengths and weaknesses based only on the numbers.
-- Provide a short bullet summary that a school admin can instantly understand.
-- DO NOT invent data.
-- Base the entire evaluation only on the correlations between questions, answers, and averages.
-- Be concise but accurate.`;
+        REQUIREMENTS:
+        - Identify strengths and weaknesses based only on the numbers.
+        - Provide a short bullet summary that a school admin can instantly understand.
+        - DO NOT invent data.
+        - Base the entire evaluation only on the correlations between questions, answers, and averages.
+        - Be concise but accurate.
+        `;
 
       const { GoogleGenAI } = await import("@google/genai");
       this.gemini = new GoogleGenAI({
-        apiKey: "AIzaSyBGagPvWweoWdakt8_zmOoP-03OMlELBzI",
+        apiKey: "AIzaSyAmMVmT2-qZoXprFv5A4hx-v4fAlF1t2xU",
       });
       const res = await this.gemini.models.generateContent({
         model: "gemini-2.5-flash",
         contents: prompt,
       });
       this.geminiOutput = res.text;
-      console.log("AI SUMMARY:", this.geminiOutput);
     },
   },
 
   mounted() {
-    // Call all async functions and wait for them to complete
     Promise.all([this.getChartData(), this.getQuestions(), this.getAnswers()])
       .then(() => {
-        // Now run AI after all data is loaded
         this.runAI();
       })
       .catch((error) => {

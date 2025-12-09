@@ -13,8 +13,9 @@ $table = $_POST['role'] ?? '';
 
 if($action === "uploadCSV"){
     if ($_FILES && isset($_FILES['file'])) {
-        if (mime_content_type($_FILES['file']['tmp_name']) !== 'text/csv') {
+       if (mime_content_type($_FILES['file']['tmp_name']) !== 'text/plain') {
             echo "Not a CSV file.";
+            http_response_code(400);
             exit;
         }
         $csvFile = $_FILES['file']['tmp_name'];
@@ -35,9 +36,11 @@ if($action === "uploadCSV"){
             // example output (remove if useless)
             echo "$email | $fname | $lname | $id<br>";
 
-            $password = $lname . $id;
+            $password = trim($lname) . trim($id);
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $randomString = getRandomString(10);
+            echo $password;
+            echo $hash;
 
             $sql = "INSERT INTO Users (Email, password, reset) 
             VALUE ('$email', '$hash', '$randomString')";
@@ -46,8 +49,8 @@ if($action === "uploadCSV"){
 
                 $user_id = $conn->insert_id;
 
-                $sql = "INSERT INTO Students (firstname, lastname, stud_id, usr_id)
-                VALUE ('$fname', '$lname', $id, $user_id)";
+                $sql = "INSERT INTO Students (firstname, lastname, stud_id, usr_id, teacher)
+                VALUE ('$fname', '$lname', $id, $user_id, 10)";
 
                 if($conn->query($sql) === true){
                     echo json_encode(["success" => true]);

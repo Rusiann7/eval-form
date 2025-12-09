@@ -642,7 +642,7 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  max-width: 100%;
   padding-top: 1rem;
 }
 
