@@ -845,7 +845,6 @@ a {
   text-align: center;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
->>>>>>> Development
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -866,7 +865,6 @@ a {
   margin-bottom: 1.5rem;
   height: 100px;
   width: 100px;
->>>>>>> Development
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -896,7 +894,6 @@ a {
   margin-bottom: 1rem;
   font-size: 2rem;
   font-weight: 700;
->>>>>>> Development
 }
 
 .card p {
@@ -909,7 +906,6 @@ a {
   line-height: 1.6;
   flex-grow: 1;
   font-size: 1.125rem;
->>>>>>> Development
 }
 
 .btn {
@@ -917,7 +913,6 @@ a {
   color: white;
   padding: 1rem 1.8rem;
   padding: 1rem 2rem;
->>>>>>> Development
   border-radius: 50px;
   text-decoration: none;
   font-weight: 700;
@@ -931,7 +926,7 @@ a {
   font-size: 1.125rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
->>>>>>> Development
+
 }
 
 .btn:hover {
@@ -1414,7 +1409,6 @@ a {
 
 @media (min-width: 1600px) {
   .container { font-size: 21px; }
-=======
   .cards-container {
     grid-template-columns: 1fr;
     max-width: 350px;
@@ -1546,6 +1540,5 @@ input:focus-visible,
 .close-modal:focus-visible {
   outline: 2px solid #4a6da7;
   outline-offset: 2px;
->>>>>>> Development
 }
 </style>
