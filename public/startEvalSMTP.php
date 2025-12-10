@@ -63,12 +63,12 @@ if($action === "setTime"){
 
         $maill = smtp($email, $body, $altbody);
         
-        if($maill){
-            echo json_encode(["success" => true]);
-        }else{
-            echo json_encode(["success" => false, "messsage" => "error"]);
-            http_response_code(500);
-        }
+        //if($maill){
+            //echo json_encode(["success" => true]);
+        //}else{
+           // echo json_encode(["success" => false, "messsage" => "error"]);
+            //http_response_code(500);
+       // }
         
     }else{
         echo json_encode(["success" => false, "message" => "error"]);

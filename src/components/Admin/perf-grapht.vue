@@ -246,7 +246,7 @@ export default {
 
       const { GoogleGenAI } = await import("@google/genai");
       this.gemini = new GoogleGenAI({
-        apiKey: "AIzaSyDsxzdngcvRJmU3LqlUIHffsDHFjUnlTcQ",
+        apiKey: "AIzaSyDpAiyG5Cm_pNIzIOcH6pM_vOGCjfeOMw0",
       });
       const res = await this.gemini.models.generateContent({
         model: "gemini-2.5-flash",

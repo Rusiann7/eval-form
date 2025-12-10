@@ -12,7 +12,7 @@ $action = $data['action'] ?? '';
 
 if($action === "getTime"){
 
-    $sql = "SELECT * FROM Schedules WHERE is_deleted = 0 LIMIT 1;";
+    $sql = "SELECT * FROM Schedules WHERE is_deleted = 0 ORDER BY id DESC LIMIT 1;";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0){

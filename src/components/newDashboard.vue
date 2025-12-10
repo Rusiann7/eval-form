@@ -105,7 +105,9 @@
               >
             </div>
             <div class="forgot-password">
-              <a @click="goToRegister" style="cursor: pointer">Create Account</a>
+              <a @click="goToRegister" style="cursor: pointer"
+                >Create Account</a
+              >
             </div>
           </div>
           <div class="captcha-container">
@@ -808,13 +810,8 @@ a {
 
 .instruction {
   color: #e0e0e0;
-<<<<<<< Updated upstream
-  margin-top: 1.5rem;
-  font-size: 1.375rem;
-=======
   margin-top: 0.8rem;
   font-size: clamp(0.98rem, 1.4vw, 1.15rem);
->>>>>>> Stashed changes
   text-align: center;
   font-weight: 500;
   word-wrap: break-word;
@@ -833,8 +830,6 @@ a {
 
 .card {
   background: rgba(255, 255, 255, 0.98);
-<<<<<<< Updated upstream
-=======
   border-radius: 0.9rem;
   padding: 1.6rem;
   flex: 0 1 20rem; /* flexible base width */
@@ -842,7 +837,6 @@ a {
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
   transition: transform 0.28s ease, box-shadow 0.28s ease;
->>>>>>> Stashed changes
   border-radius: 20px;
   padding: 2.5rem;
   text-align: center;
@@ -860,13 +854,10 @@ a {
 }
 
 .icon {
-<<<<<<< Updated upstream
-=======
   font-size: 3.2rem;
   margin-bottom: 1.1rem;
   height: 5.2rem;
   width: 5.2rem;
->>>>>>> Stashed changes
   font-size: 4rem;
   margin-bottom: 1.5rem;
   height: 100px;
@@ -894,12 +885,9 @@ a {
 
 .card h2 {
   color: #2c3e50;
-<<<<<<< Updated upstream
-=======
 
   margin-bottom: 0.9rem;
   font-size: clamp(1.4rem, 2.2vw, 2.2rem);
->>>>>>> Stashed changes
   margin-bottom: 1rem;
   font-size: 2rem;
   font-weight: 700;
@@ -907,13 +895,10 @@ a {
 
 .card p {
   color: #555;
-<<<<<<< Updated upstream
-=======
   margin-bottom: 1.25rem;
   line-height: 1.7;
   flex-grow: 1;
   font-size: clamp(1rem, 1.4vw, 1.12rem);
->>>>>>> Stashed changes
   margin-bottom: 2rem;
   line-height: 1.6;
   flex-grow: 1;
@@ -923,10 +908,7 @@ a {
 .btn {
   display: inline-block;
   color: white;
-<<<<<<< Updated upstream
-=======
   padding: 1rem 1.8rem;
->>>>>>> Stashed changes
   padding: 1rem 2rem;
   border-radius: 50px;
   text-decoration: none;
@@ -934,12 +916,9 @@ a {
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
-<<<<<<< Updated upstream
-=======
 
   width: 85%;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
->>>>>>> Stashed changes
   width: 100%;
   font-size: 1.125rem;
   text-transform: uppercase;
@@ -1417,11 +1396,7 @@ a {
   }
 
   .instruction {
-<<<<<<< Updated upstream
-    font-size: 1rem;
-=======
     font-size: 0.98rem;
->>>>>>> Stashed changes
   }
 
   .cards-container {
