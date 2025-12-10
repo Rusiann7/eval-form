@@ -902,12 +902,6 @@ export default {
           body: JSON.stringify({ action: "rmTeachers", id: id }),
         });
 
-        const response = await fetch(this.urlappphp4, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action: "rmTeachers", id: id }),
-        });
-
         const result = await response.json();
 
         if (result.success) {
