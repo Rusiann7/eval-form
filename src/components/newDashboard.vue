@@ -105,7 +105,9 @@
               >
             </div>
             <div class="forgot-password">
-              <a @click="goToRegister" style="cursor: pointer">Create Account</a>
+              <a @click="goToRegister" style="cursor: pointer"
+                >Create Account</a
+              >
             </div>
           </div>
           <div class="captcha-container">
@@ -328,10 +330,7 @@ import { setToken, getToken } from "../utils/auth";
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
-<<<<<<< HEAD
-=======
 //const url2 = "https://rusiann7.helioho.st";
->>>>>>> Development
 //const url2 = "http://localhost:8000";
 export default {
   name: "newDashboard",
@@ -745,11 +744,7 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
-  padding: 1rem 0.75rem;
-=======
   padding: 2rem 1rem;
->>>>>>> Development
   color: #fff;
   width: 100%;
   min-height: 100vh;
@@ -772,23 +767,12 @@ a {
 
 /* Perfect circle logo container */
 .logo-image {
-<<<<<<< HEAD
-  width: 8rem; /* ~128px */
-  height: 8rem;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 0.3rem solid #fff;
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.32);
-  margin-bottom: 1.25rem;
-  background-color: #fff;
-=======
   width: 180px;
   height: 180px;
   border-radius: 50%;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   margin-bottom: 1.5rem;
   background-color: transparent;
->>>>>>> Development
   display: flex;
   justify-content: center;
   align-items: center;
@@ -806,21 +790,6 @@ a {
 }
 
 .logo h1 {
-<<<<<<< HEAD
-  font-size: clamp(1.8rem, 4vw, 3.4rem);
-  font-weight: 700;
-  margin-bottom: 0.6rem;
-  color: #fff;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-}
-
-.tagline {
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  margin-bottom: 0.6rem;
-  text-align: center;
-  max-width: 900px;
-  line-height: 1.6;
-=======
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
@@ -836,7 +805,6 @@ a {
   text-align: center;
   max-width: 800px;
   line-height: 1.4;
->>>>>>> Development
   color: #e0f7fa;
   font-weight: 600;
   word-wrap: break-word;
@@ -845,13 +813,8 @@ a {
 
 .instruction {
   color: #e0e0e0;
-<<<<<<< HEAD
   margin-top: 0.8rem;
   font-size: clamp(0.98rem, 1.4vw, 1.15rem);
-=======
-  margin-top: 1.5rem;
-  font-size: 1.375rem;
->>>>>>> Development
   text-align: center;
   font-weight: 500;
   word-wrap: break-word;
@@ -860,26 +823,16 @@ a {
 
 /* ===== CARDS CONTAINER ===== */
 .cards-container {
-<<<<<<< HEAD
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-  width: 100%;
-  margin-top: 1.25rem;
-=======
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 2rem;
   width: 100%;
   max-width: 1200px;
   margin-top: 1rem;
->>>>>>> Development
 }
 
 .card {
   background: rgba(255, 255, 255, 0.98);
-<<<<<<< HEAD
   border-radius: 0.9rem;
   padding: 1.6rem;
   flex: 0 1 20rem; /* flexible base width */
@@ -887,7 +840,6 @@ a {
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
   transition: transform 0.28s ease, box-shadow 0.28s ease;
-=======
   border-radius: 20px;
   padding: 2.5rem;
   text-align: center;
@@ -906,12 +858,10 @@ a {
 }
 
 .icon {
-<<<<<<< HEAD
   font-size: 3.2rem;
   margin-bottom: 1.1rem;
   height: 5.2rem;
   width: 5.2rem;
-=======
   font-size: 4rem;
   margin-bottom: 1.5rem;
   height: 100px;
@@ -940,10 +890,9 @@ a {
 
 .card h2 {
   color: #2c3e50;
-<<<<<<< HEAD
+
   margin-bottom: 0.9rem;
   font-size: clamp(1.4rem, 2.2vw, 2.2rem);
-=======
   margin-bottom: 1rem;
   font-size: 2rem;
   font-weight: 700;
@@ -952,12 +901,10 @@ a {
 
 .card p {
   color: #555;
-<<<<<<< HEAD
   margin-bottom: 1.25rem;
   line-height: 1.7;
   flex-grow: 1;
   font-size: clamp(1rem, 1.4vw, 1.12rem);
-=======
   margin-bottom: 2rem;
   line-height: 1.6;
   flex-grow: 1;
@@ -968,9 +915,7 @@ a {
 .btn {
   display: inline-block;
   color: white;
-<<<<<<< HEAD
   padding: 1rem 1.8rem;
-=======
   padding: 1rem 2rem;
 >>>>>>> Development
   border-radius: 50px;
@@ -979,10 +924,9 @@ a {
   transition: all 0.25s ease;
   border: none;
   cursor: pointer;
-<<<<<<< HEAD
+
   width: 85%;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
-=======
   width: 100%;
   font-size: 1.125rem;
   text-transform: uppercase;
@@ -1036,21 +980,11 @@ a {
 
 .modal-content {
   background: white;
-<<<<<<< HEAD
-  border-radius: 1rem;
-  width: 94%;
-  max-width: 720px;
-  padding: 1.4rem;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.28);
-  transform: translateY(-30px);
-  transition: transform 0.35s ease;
-=======
   border-radius: 20px;
   width: 90%;
   max-width: 550px;
   padding: 2.5rem;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
->>>>>>> Development
   position: relative;
   max-height: 92vh;
   overflow-y: auto;
@@ -1070,14 +1004,6 @@ a {
 
 .close-modal {
   position: absolute;
-<<<<<<< HEAD
-  top: 0.8rem;
-  right: 0.8rem;
-  font-size: 1.5rem;
-  color: #888;
-  cursor: pointer;
-  transition: color 0.25s ease;
-=======
   top: 1.25rem;
   right: 1.5rem;
   font-size: 2rem;
@@ -1091,7 +1017,6 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
->>>>>>> Development
 }
 
 .close-modal:hover {
@@ -1106,14 +1031,9 @@ a {
 }
 
 .modal-icon {
-<<<<<<< HEAD
-  font-size: clamp(1.6rem, 2.6vw, 2.5rem);
-  margin-bottom: 15px;
-=======
   font-size: 3rem;
   margin-bottom: 1rem;
   color: inherit;
->>>>>>> Development
 }
 
 .student-modal .modal-icon {
@@ -1136,22 +1056,13 @@ a {
 
 .modal-header h2 {
   color: #2c3e50;
-<<<<<<< HEAD
-  margin-bottom: 10px;
-  font-size: clamp(1.1rem, 2vw, 1.8rem);
-=======
   margin-bottom: 0.5rem;
   font-size: 2rem;
->>>>>>> Development
 }
 
 .modal-header p {
   color: #666;
-<<<<<<< HEAD
-  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
-=======
   font-size: 1.125rem;
->>>>>>> Development
 }
 
 .modal-note {
@@ -1163,30 +1074,17 @@ a {
 /* ===== TAB STYLES ===== */
 .tabs {
   display: flex;
-<<<<<<< HEAD
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #e6e6e6;
-=======
   margin-bottom: 2rem;
   border-bottom: 2px solid #eee;
->>>>>>> Development
 }
 
 .tab-btn {
   flex: 1;
-<<<<<<< HEAD
-  padding: 0.7rem 0.6rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: clamp(1rem, 1.4vw, 1.05rem);
-=======
   padding: 1rem;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 1.125rem;
->>>>>>> Development
   font-weight: 600;
   color: #888;
   transition: all 0.22s ease;
@@ -1224,28 +1122,16 @@ a {
   color: #444;
   font-weight: 600;
   text-align: left;
-<<<<<<< HEAD
-  font-size: clamp(0.98rem, 1.2vw, 1.05rem);
-=======
   font-size: 1.125rem;
->>>>>>> Development
 }
 
 .form-group input {
   width: 100%;
-<<<<<<< HEAD
-  padding: 0.95rem 1rem;
-  border: 1px solid #e3e3e3;
-  border-radius: 0.6rem;
-  font-size: clamp(1rem, 1.2vw, 1.05rem);
-  transition: border-color 0.2s ease;
-=======
   padding: 1rem 1.25rem;
   border: 2px solid #ddd;
   border-radius: 12px;
   font-size: 1.125rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
->>>>>>> Development
 }
 
 .form-group input:focus {
@@ -1278,13 +1164,9 @@ a {
 .forgot-password a {
   color: #4a6da7;
   text-decoration: none;
-<<<<<<< HEAD
-  font-size: clamp(0.95rem, 1.2vw, 1rem);
-=======
   font-size: 1rem;
   font-weight: 500;
   display: inline-block;
->>>>>>> Development
 }
 
 .forgot-password a:hover {
@@ -1309,21 +1191,12 @@ a {
 
 .modal-btn {
   width: 100%;
-<<<<<<< HEAD
-  padding: 1rem;
-  border: none;
-  border-radius: 0.7rem;
-  color: white;
-  font-size: clamp(1rem, 1.6vw, 1.15rem);
-  font-weight: 700;
-=======
   padding: 1.25rem;
   border: none;
   border-radius: 12px;
   color: white;
   font-size: 1.25rem;
   font-weight: 600;
->>>>>>> Development
   cursor: pointer;
   transition: background 0.22s ease, transform 0.15s ease;
 }
@@ -1393,20 +1266,11 @@ a {
 .loading-spinner {
   border: 5px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-<<<<<<< HEAD
-  border-top: 4px solid #ffffff;
-  width: 3.2rem;
-  height: 3.2rem;
-  animation: spin 1s linear infinite;
-  margin-bottom: 0.6rem;
-  z-index: 3000;
-=======
   border-top: 5px solid #ffffff;
   width: 60px;
   height: 60px;
   animation: spin 1s linear infinite;
   margin-bottom: 1.5rem;
->>>>>>> Development
 }
 
 @keyframes spin {
@@ -1498,37 +1362,6 @@ a {
   }
 
   .card {
-<<<<<<< HEAD
-    width: 100%;
-    max-width: 520px;
-    margin-bottom: 1rem;
-    padding: 1.25rem;
-  }
-
-  .logo h1 {
-    font-size: 2.2rem;
-  }
-
-  .tagline {
-    font-size: 1.05rem;
-  }
-
-  .modal-content {
-    width: calc(100% - 2rem);
-    max-width: 520px;
-  }
-}
-
-@media (max-width: 600px) {
-  .container { font-size: 15.5px; }
-
-  .logo h1 {
-    font-size: clamp(1.6rem, 6vw, 2.2rem);
-  }
-
-  .tagline {
-    font-size: clamp(0.95rem, 2.8vw, 1.05rem);
-=======
     padding: 2rem;
   }
 
@@ -1569,32 +1402,10 @@ a {
 
   .tagline {
     font-size: 1.1rem;
->>>>>>> Development
   }
 
   .instruction {
     font-size: 0.98rem;
-  }
-
-<<<<<<< HEAD
-  .card {
-    padding: 0.9rem;
-  }
-
-  .logo-image {
-    width: 6.25rem;
-    height: 6.25rem;
-  }
-}
-
-@media (min-width: 1100px) {
-  .cards-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    align-items: start;
-    max-width: 1200px;
-    margin: 0 auto;
   }
 
   .card { flex: 0 1 22.5rem; }

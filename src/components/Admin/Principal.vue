@@ -19,29 +19,6 @@
       <div class="modal-content">
         <div class="left-column">
           <div class="profile-section">
-<<<<<<< HEAD
-            <div class="profile-image-container">
-              <div class="profile-image">
-                <span class="material-icons profile-icon">image</span>
-              </div>
-            </div>
-            <div class="profile-details">
-              <div class="detail-item">
-                <label class="detail-label">Name</label>
-                <p class="detail-value">
-                  {{ selectedStudent.firstname }}
-                  {{ selectedStudent.lastname }}
-                </p>
-              </div>
-              <div class="detail-item">
-                <label class="detail-label">Quarter</label>
-                <p class="detail-value">Q{{ selectedStudent.quarter }}</p>
-              </div>
-              <div class="detail-item">
-                <label class="detail-label">Year</label>
-                <p class="detail-value">{{ selectedStudent.year }}</p>
-              </div>
-=======
             <div class="profile-image-container"></div>
             <div class="profile-details">
               <div class="detail-item">
@@ -59,7 +36,6 @@
                 <label class="detail-label">Year</label>
                 <p class="detail-value">{{ selectedStudent.year }}</p>
               </div>
->>>>>>> Development
             </div>
           </div>
           <div class="info-section">
@@ -73,9 +49,6 @@
             </div>
           </div>
           <div class="buttons-grid">
-<<<<<<< HEAD
-            <button class="action-button">Average Evaluation</button>
-=======
             <button
               class="action-button"
               @click.prevent="
@@ -90,7 +63,6 @@
             >
               Average Evaluation
             </button>
->>>>>>> Development
             <button
               class="action-button"
               @click.prevent="
@@ -128,24 +100,12 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-  <div class="main-modal" v-if="activeModal === 'showInfot'">
-=======
   <!--for teacher-->
   <div class="loading-screen" v-if="activeModal === 'showInfot'">
->>>>>>> Development
     <div class="modal-container">
       <div class="modal-content">
         <div class="left-column">
           <div class="profile-section">
-<<<<<<< HEAD
-            <div class="profile-image-container">
-              <div class="profile-image">
-                <span class="material-icons profile-icon">image</span>
-              </div>
-            </div>
-=======
->>>>>>> Development
             <div class="profile-details">
               <div class="detail-item">
                 <label class="detail-label">Name</label>
@@ -175,17 +135,10 @@
             </div>
           </div>
           <div class="buttons-grid">
-<<<<<<< HEAD
-            <button class="action-button">Average Evaluation</button>
-=======
->>>>>>> Development
             <button
               class="action-button"
               @click.prevent="
                 $router.push({
-<<<<<<< HEAD
-                  name: 'PerformanceGraph',
-=======
                   name: 'printable-form3',
                   params: {
                     tcrid: newSelectedteachers.teacher_id,
@@ -201,7 +154,6 @@
               @click.prevent="
                 $router.push({
                   name: 'PerformanceGraphT',
->>>>>>> Development
                   params: {
                     id: newSelectedteachers.teacher_id,
                   },
@@ -217,13 +169,8 @@
                   name: 'printable-form1',
                   params: {
                     id: newSelectedteachers.id,
-<<<<<<< HEAD
-                    tcrid: selectedStudent.teacher_id,
-                    evtid: selectedStudent.eval_id,
-=======
                     tcrid: newSelectedteachers.teacher_id,
                     evtid: newSelectedteachers.eval_id,
->>>>>>> Development
                   },
                 })
               "
@@ -234,34 +181,6 @@
               Close
             </button>
           </div>
-<<<<<<< HEAD
-        </div>
-      </div>
-    </div>
-  </div>
-    
-  <!-- Sidebar -->
-  <div class="side-bar">
-    <div class="sidebar-header">
-      <h3 class="sidebar-title">Principal Portal</h3>
-      <label for="principal-nav-toggle" class="sidebar-close" aria-label="Close menu">
-        <span></span>
-        <span></span>
-      </label>
-    </div>
-    <div class="menu">
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu1 = !showMenu1">
-          <span>Student</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu1 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </a>
-        <div class="sub-menu" v-if="showMenu1">
-          <a href="#" class="sub-item" @click="click('student')">Student Evaluations</a>
-          <a href="#" @click="click('showInfo')" class="sub-item">Individual Answers</a>
-=======
->>>>>>> Development
         </div>
       </div>
     </div>
@@ -280,37 +199,6 @@
     </div>
     <div class="menu">
       <div class="item">
-<<<<<<< HEAD
-        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
-          <span>Teacher</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu2 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </a>
-        <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher')" class="sub-item">Teacher Evaluations</a>
-          <a href="#" @click="click('evaluate')" class="sub-item">Evaluate Teachers</a>
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu3 = !showMenu3">
-          <span>Account Management</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu3 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </a>
-        <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher')" class="sub-item">Add Teachers</a>
-          <a href="#" @click="click2('rmTeacher')" class="sub-item">Delete Users</a>
-          <a href="#" @click="click2('editTeacher')" class="sub-item">Edit Users</a>
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="navigateAndClose('/scheduler')">Scheduler</a>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="navigateAndClose('/fileupload')">File Upload</a>
-=======
         <a
           href="#"
           class="sub-btn"
@@ -330,10 +218,22 @@
           }}</span>
         </a>
         <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher'); closeNav()" class="sub-item"
+          <a
+            href="#"
+            @click="
+              click('teacher');
+              closeNav();
+            "
+            class="sub-item"
             >Evaluation Answers</a
           >
-          <a href="#" @click="click('evaluate'); closeNav()" class="sub-item"
+          <a
+            href="#"
+            @click="
+              click('evaluate');
+              closeNav();
+            "
+            class="sub-item"
             >Evaluate Teachers</a
           >
         </div>
@@ -346,50 +246,56 @@
           }}</span>
         </a>
         <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher'); closeNav()" class="sub-item"
+          <a
+            href="#"
+            @click="
+              click2('crtTeacher');
+              closeNav();
+            "
+            class="sub-item"
             >Add Teachers</a
           >
-          <a href="#" @click="click2('rmTeacher'); closeNav()" class="sub-item"
+          <a
+            href="#"
+            @click="
+              click2('rmTeacher');
+              closeNav();
+            "
+            class="sub-item"
             >Delete Users</a
           >
-          <a href="#" @click="click2('editTeacher'); closeNav()" class="sub-item"
+          <a
+            href="#"
+            @click="
+              click2('editTeacher');
+              closeNav();
+            "
+            class="sub-item"
             >Edit Users</a
           >
         </div>
       </div>
       <div class="item">
-        <a href="#" @click.prevent="$router.push('/scheduler'); closeNav()"
+        <a
+          href="#"
+          @click.prevent="
+            $router.push('/scheduler');
+            closeNav();
+          "
           >Scheduler</a
         >
       </div>
       <div class="item">
-        <a href="#" @click.prevent="$router.push('/fileupload'); closeNav()"
+        <a
+          href="#"
+          @click.prevent="
+            $router.push('/fileupload');
+            closeNav();
+          "
           >File Upload</a
         >
->>>>>>> Development
       </div>
       <div class="item">
-<<<<<<< HEAD
-        <a href="#" class="sub-btn" @click.stop="showMenu4 = !showMenu4">
-          <span>Question Change</span>
-          <svg class="chevron-icon" :class="{ 'rotated': showMenu4 }" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-        </a>
-        <div class="sub-menu" v-if="showMenu4">
-          <a href="#" @click.prevent="$router.push('/changequestions-student')" class="sub-item">Student Questions</a>
-          <a href="#" @click.prevent="$router.push('/changequestions-teacher')" class="sub-item">Teacher Questions</a>
-        </div>
-      </div>
-    </div>
-    <div class="sidebar-footer">
-      <button class="logout-btn sidebar-logout" @click="logout()">
-        <svg class="logout-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-          <polyline points="16 17 21 12 16 7"></polyline>
-          <line x1="21" y1="12" x2="9" y2="12"></line>
-        </svg>
-=======
         <a href="#" @click.prevent="showMenu4 = !showMenu4">
           Question Change
           <span class="material-icons chevron">{{
@@ -422,7 +328,6 @@
     <div class="menu-footer">
       <button class="logout-btn menu-logout" @click="logout()">
         <span class="material-icons logout-icon">logout</span>
->>>>>>> Development
         Logout
       </button>
     </div>
@@ -432,32 +337,18 @@
   <div class="main-content">
     <!-- Header -->
     <header class="topbar">
-<<<<<<< HEAD
-      <div class="header-left">
-        <div class="title-row">
-          <h1 class="logo">Teacher Evaluation System</h1>
-          <div class="title-actions">
-            <button class="portal-btn">Principal Portal</button>
-            <label
-              for="principal-nav-toggle"
-              class="menu-toggle"
-              aria-label="Toggle menu"
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </label>
-          </div>
-=======
       <div class="topbar-left">
-        <button class="menu-trigger" @click="isNavOpen = true" aria-label="Open menu">
+        <button
+          class="menu-trigger"
+          @click="isNavOpen = true"
+          aria-label="Open menu"
+        >
           <span class="material-icons">menu</span>
         </button>
         <div>
           <span class="logo">Teacher Evaluation System</span>
           <br />
           <span class="breadcrumb">Principal Portal</span>
->>>>>>> Development
         </div>
       </div>
       <div class="user-section">
@@ -558,94 +449,19 @@
           <span class="badge"
             >Q{{ newStudent.quarter }} {{ newStudent.year }}</span
           >
-<<<<<<< HEAD
-          <div class="card-button-wrapper">
-            <button
-              class="start"
-              @click.prevent="
-                $router.push({
-                  name: 'printable-form',
-                  params: {
-                    id: newStudent.id,
-                    tcrid: newStudent.teacher_id,
-                    evtid: newStudent.eval_id,
-                  },
-                })
-              "
-            >
-              View Evaluation
-            </button>
-          </div>
-        </div>
-        <div v-if="filteredAndSortedStudents.length === 0" class="no-results">
-          <p>No evaluations found matching your search criteria.</p>
-=======
           <br /><br />
           <button class="start" @click="openStudentModal(newStudent.id)">
             View Evaluation
           </button>
->>>>>>> Development
         </div>
       </div>
     </div>
 
     <!-- Evaluate Teachers -->
     <div v-if="activeModal === 'evaluate'">
-<<<<<<< HEAD
-      <div class="section-header">
-        <h3>Evaluate Teachers</h3>
-      </div>
-
-      <!-- Search and Sort Controls -->
-      <div class="search-sort-container">
-        <div class="search-wrapper">
-          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input
-            type="text"
-            v-model="evaluateSearchQuery"
-            placeholder="Search by name, subject, quarter, or year..."
-            class="search-input"
-          />
-        </div>
-        <div class="sort-wrapper">
-          <label for="evaluate-sort" class="sort-label">Sort by:</label>
-          <select
-            id="evaluate-sort"
-            v-model="evaluateSortBy"
-            class="sort-select"
-          >
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="subject-asc">Subject (A-Z)</option>
-            <option value="subject-desc">Subject (Z-A)</option>
-            <option value="quarter-asc">Quarter (1-4)</option>
-            <option value="quarter-desc">Quarter (4-1)</option>
-            <option value="year-desc">Year (Newest)</option>
-            <option value="year-asc">Year (Oldest)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Results Count -->
-      <div class="results-count" v-if="filteredAndSortedEvaluateTeachers.length !== teachers.length">
-        <span>Showing {{ filteredAndSortedEvaluateTeachers.length }} of {{ teachers.length }} teachers</span>
-      </div>
-
-      <!-- Teacher Cards -->
-      <div class="teacher-container">
-        <div
-          class="card teacher-card-evaluate"
-          v-for="teacher in filteredAndSortedEvaluateTeachers"
-          :key="`evaluate-${teacher.id}`"
-        >
-=======
       <!-- Teacher Cards -->
       <div class="teacher-container">
         <div class="card" v-for="teacher in teachers" :key="teacher.id">
->>>>>>> Development
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
           <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
@@ -712,48 +528,19 @@
 
       <div class="teacher-container">
         <div
-<<<<<<< HEAD
-          class="card teacher-card"
-          v-for="newteacher in filteredAndSortedTeachers"
-          :key="`teacher-${newteacher.id}-${newteacher.eval_id}`"
-=======
           class="card"
           v-for="newteacher in newTeachers"
           :key="newteacher.id"
->>>>>>> Development
         >
           <h3>{{ newteacher.firstname }} {{ newteacher.lastname }}</h3>
           <p>{{ newteacher.subject }}</p>
           <span class="badge"
             >Q{{ newteacher.quarter }} {{ newteacher.year }}</span
           >
-<<<<<<< HEAD
-          <div class="card-button-wrapper">
-            <button
-              class="start"
-              @click.prevent="
-                $router.push({
-                  name: 'printable-form1',
-                  params: {
-                    id: newteacher.id,
-                    tcrid: newteacher.teacher_id,
-                    evtid: newteacher.eval_id,
-                  },
-                })
-              "
-            >
-              View Evaluation
-            </button>
-          </div>
-        </div>
-        <div v-if="filteredAndSortedTeachers.length === 0" class="no-results">
-          <p>No evaluations found matching your search criteria.</p>
-=======
           <br /><br />
           <button class="start" @click="openNewTeacherModal(newteacher.id)">
             View Evaluation
           </button>
->>>>>>> Development
         </div>
       </div>
     </div>
@@ -1237,10 +1024,7 @@ export default {
       urlappphp5: `${url2}/createTeacher.php`,
       subjecturl: `${url2}/subjectGetter.php`,
       editteacherphp: `${url2}/editTeacher.php`,
-<<<<<<< HEAD
-=======
       airesponsephp: `${url2}/ai.php`,
->>>>>>> Development
       teachers: [],
       teacherr: {
         fn: "",
@@ -1281,25 +1065,9 @@ export default {
       showMenu2: false,
       showMenu3: false,
       showMenu4: false,
-<<<<<<< HEAD
-      studentSearchQuery: "",
-      studentSortBy: "name-asc",
-      teacherSearchQuery: "",
-      teacherSortBy: "name-asc",
-      evaluateSearchQuery: "",
-      evaluateSortBy: "name-asc",
-      deleteSearchQuery: "",
-      deleteSortBy: "name-asc",
-      editSearchQuery: "",
-      verify: "",
-      verified: "0",
-      active: "code",
-      subjects: [],
-=======
       subjects: { id: "", subject: "" },
       airesponse: null,
       isNavOpen: false,
->>>>>>> Development
     };
   },
 
@@ -1677,13 +1445,8 @@ export default {
 
     async rmTeachers(id) {
       try {
-<<<<<<< HEAD
-        if (confirm("Are you sure you want to remove this teacher?")) {
-          this.isLoading = true;
-=======
         alert("Are you sure you want to remove this teacher?");
         this.isLoading = true;
->>>>>>> Development
 
           const response = await fetch(this.urlappphp4, {
             method: "POST",
@@ -1702,8 +1465,7 @@ export default {
             setTimeout(() => this.isFailed = false, 3000);
           }
           this.isLoading = false;
-        }
-      } catch (error) {
+        }catch (error) {
         console.error(error);
         this.isLoading = false;
       }
@@ -1777,15 +1539,10 @@ export default {
     },
 
     async editTeachers() {
-<<<<<<< HEAD
-      try {
-        this.isLoading = true;
-=======
       console.log(this.selectedTeachers);
       try {
         this.isLoading = true;
         this.isEditing = true;
->>>>>>> Development
 
         const response = await fetch(this.editteacherphp, {
           method: "POST",
@@ -1799,19 +1556,6 @@ export default {
         const result = await response.json();
 
         if (result.success) {
-<<<<<<< HEAD
-          this.getTeachers();
-          this.isSuccess = true;
-          setTimeout(() => this.isSuccess = false, 3000);
-          this.isEditing = false;
-        } else {
-          this.isFailed = true;
-          setTimeout(() => this.isFailed = false, 3000);
-          this.isWrong = true;
-          setTimeout(() => this.isWrong = false, 3000);
-        }
-        this.isLoading = false;
-=======
           this.isLoading = false;
           this.isSuccess = true;
         } else {
@@ -1819,15 +1563,12 @@ export default {
           this.isFailed = true;
           this.isWrong = true;
         }
->>>>>>> Development
       } catch (error) {
         this.isLoading = false;
         console.log(error);
       }
     },
 
-<<<<<<< HEAD
-=======
     async airesponse(id) {
       try {
         this.isLoading = true;
@@ -1857,7 +1598,6 @@ export default {
       }
     },
 
->>>>>>> Development
     logout() {
       try {
         removeToken();
@@ -1875,8 +1615,6 @@ export default {
       this.activeModal = "showInfo";
     },
 
-<<<<<<< HEAD
-=======
     openStudentModal(studentId) {
       this.selectedStudent = this.newStudents.find(
         (student) => student.id === studentId
@@ -1884,7 +1622,6 @@ export default {
       this.activeModal = "showInfo";
     },
 
->>>>>>> Development
     openNewTeacherModal(newTeacherId) {
       this.newSelectedteachers = this.newTeachers.find(
         (teacher) => teacher.id === newTeacherId
@@ -1893,21 +1630,6 @@ export default {
     },
 
     openTeacherModal(teacherId) {
-<<<<<<< HEAD
-      const teacher = this.teachers.find((teacher) => teacher.id === teacherId);
-
-      this.selectedTeachers = {
-        fn: teacher.firstname,
-        ln: teacher.lastname,
-        email: teacher.email,
-        id: teacher.id,
-        sub: teacher.subject,
-        qrt: teacher.quarter,
-        yr: teacher.year,
-      };
-
-      this.isEditing = true;
-=======
       const t = this.teachers.find((teacher) => teacher.id === teacherId);
 
       this.selectedTeachers = {
@@ -1927,7 +1649,6 @@ export default {
 
     toggleModal(modal) {
       this.activeModal = modal;
->>>>>>> Development
     },
 
     click(tabName) {
@@ -1945,27 +1666,9 @@ export default {
       }
     },
 
-<<<<<<< HEAD
-    navigateAndClose(route) {
-      this.$router.push(route);
-      if (window.innerWidth <= 768) {
-        document.getElementById('principal-nav-toggle').checked = false;
-      }
-    },
-
-    verifyCode() {
-      this.active = 'input';
-    },
-
-    verifyInput() {
-      this.verified = '1';
-      this.active = 'code';
-    }
-=======
     closeNav() {
       this.isNavOpen = false;
     },
->>>>>>> Development
   },
 
   watch: {
@@ -1983,8 +1686,8 @@ export default {
         case "manage":
           this.getSubjects();
           break;
-      }
-    },
+      };
+    }
   },
 
   mounted() {
@@ -2001,13 +1704,6 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-<<<<<<< HEAD
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  background: #f9fafb;
-=======
   font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -2029,41 +1725,10 @@ html {
 
 body {
   background: #ffffff;
->>>>>>> Development
   color: #1a1a1a;
   line-height: 1.6;
   display: flex;
   min-height: 100vh;
-<<<<<<< HEAD
-  overflow-x: hidden;
-  font-size: 16px;
-}
-
-/* ===== IMPROVED TYPOGRAPHY - LARGER TEXT ===== */
-h1 { font-size: 1.875rem; }
-h2 { font-size: 1.625rem; }
-h3 { font-size: 1.375rem; }
-p, span, label, button, input, select { 
-  font-size: 1.0625rem; 
-}
-
-@media (min-width: 768px) {
-  h1 { font-size: 2.25rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.75rem; }
-  p, span, label, button, input, select { 
-    font-size: 1.125rem; 
-  }
-}
-
-@media (min-width: 1024px) {
-  h1 { font-size: 2.5rem; }
-  h2 { font-size: 2.25rem; }
-  h3 { font-size: 2rem; }
-  p, span, label, button, input, select { 
-    font-size: 1.25rem; 
-  }
-=======
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2071,7 +1736,6 @@ p, span, label, button, input, select {
 .material-icons {
   font-size: 1.5rem;
   vertical-align: middle;
->>>>>>> Development
 }
 
 /* ===== TOPBAR STYLES ===== */
@@ -2079,123 +1743,6 @@ p, span, label, button, input, select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-<<<<<<< HEAD
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  flex-wrap: wrap;
-  gap: 1rem;
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 30;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.header-left {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 1rem;
-}
-
-.logo {
-  font-weight: bold;
-  margin: 0;
-  color: #111827;
-  font-size: 1.25rem;
-}
-
-.title-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.portal-btn {
-  background: #f3f4f6;
-  padding: 0.75rem 1.25rem;
-  border-radius: 12px;
-  cursor: pointer;
-  border: none;
-  transition: background 0.2s;
-  white-space: nowrap;
-  font-weight: 500;
-}
-
-.portal-btn:hover {
-  background: #e5e7eb;
-}
-
-.user-section {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.user-greeting {
-  color: #374151;
-  white-space: nowrap;
-  font-weight: 500;
-}
-
-.desktop-only {
-  display: inline-flex;
-}
-
-.menu-toggle {
-  display: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 5px;
-  position: relative;
-  z-index: 45;
-  flex-shrink: 0;
-}
-
-.menu-toggle span {
-  width: 20px;
-  height: 2.5px;
-  background: #111827;
-  border-radius: 999px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.menu-toggle:focus-visible {
-  outline: 2px solid #111827;
-  outline-offset: 3px;
-}
-
-.menu-checkbox:checked ~ .side-bar {
-  transform: translateX(0);
-}
-
-.logout-btn {
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  padding: 0.75rem 1.25rem;
-  border-radius: 12px;
-  cursor: pointer;
-  text-decoration: none;
-  color: #374151;
-=======
   padding: 1.5rem 2.5rem;
   border-bottom: 2px solid #e5e7eb;
   flex-wrap: wrap;
@@ -2272,7 +1819,6 @@ p, span, label, button, input, select {
   color: #ffffff;
   font-weight: 600;
   font-size: 1rem;
->>>>>>> Development
   transition: all 0.2s ease;
   white-space: nowrap;
   display: inline-flex;
@@ -2286,244 +1832,6 @@ p, span, label, button, input, select {
 }
 
 .logout-btn:hover {
-<<<<<<< HEAD
-  background: #e5e7eb;
-  border-color: #d1d5db;
-}
-
-.logout-icon {
-  flex-shrink: 0;
-  color: #dc2626;
-  stroke: #dc2626;
-}
-
-/* ===== SIDEBAR STYLES ===== */
-.menu-checkbox {
-  display: none;
-}
-
-.menu-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(17, 24, 39, 0.55);
-  backdrop-filter: blur(1px);
-  z-index: 35;
-  cursor: pointer;
-  pointer-events: auto;
-}
-
-.menu-checkbox:checked ~ .menu-overlay {
-  display: block;
-}
-
-@media (min-width: 769px) {
-  .menu-overlay {
-    display: none !important;
-  }
-}
-
-.side-bar {
-  background: #ffffff;
-  width: 320px;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  overflow-y: auto;
-  z-index: 40;
-  border-right: 1px solid #e5e7eb;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s ease;
-  pointer-events: auto;
-}
-
-.sidebar-header {
-  padding: 1.75rem 1.5rem;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f9fafb;
-  position: relative;
-}
-
-.sidebar-title {
-  font-size: 1.375rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0;
-}
-
-.sidebar-close {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  background: #ffffff;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-  position: relative;
-}
-
-.sidebar-close span {
-  position: absolute;
-  width: 18px;
-  height: 2px;
-  background: #111827;
-  border-radius: 999px;
-}
-
-.sidebar-close span:first-child {
-  transform: rotate(45deg);
-}
-
-.sidebar-close span:last-child {
-  transform: rotate(-45deg);
-}
-
-.sidebar-close:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
-}
-
-.side-bar .menu {
-  width: 100%;
-  padding: 1rem 0;
-  flex: 1;
-}
-
-.side-bar .menu .item {
-  cursor: pointer;
-  position: relative;
-  pointer-events: auto;
-}
-
-.side-bar .menu .item a {
-  color: #374151;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  font-size: 1.0625rem;
-  font-weight: 500;
-  border-bottom: 1px solid #f3f4f6;
-  transition: all 0.2s ease;
-  pointer-events: auto;
-  position: relative;
-  z-index: 1;
-}
-
-.side-bar .menu .item a:hover {
-  background: #f9fafb;
-  color: #111827;
-}
-
-.side-bar .menu .item .sub-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.chevron-icon {
-  transition: transform 0.2s ease;
-  color: #6b7280;
-  flex-shrink: 0;
-}
-
-.chevron-icon.rotated {
-  transform: rotate(180deg);
-}
-
-.side-bar .menu .item .sub-menu {
-  background: #f9fafb;
-  position: relative;
-  border-left: 3px solid #e5e7eb;
-  margin-left: 1.5rem;
-}
-
-.side-bar .menu .item .sub-menu a {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  font-size: 1rem;
-  color: #6b7280;
-  border-bottom: 1px solid #f3f4f6;
-  pointer-events: auto;
-  position: relative;
-  z-index: 1;
-}
-
-.side-bar .menu .item .sub-menu a:hover {
-  background: #f3f4f6;
-  color: #111827;
-  border-left-color: #000;
-}
-
-.sidebar-footer {
-  padding: 1.25rem 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
-}
-
-.sidebar-logout {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 10px;
-  font-size: 1.0625rem;
-  justify-content: flex-start;
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  color: #374151;
-}
-
-.sidebar-logout:hover {
-  background: #f3f4f6;
-  border-color: #d1d5db;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  flex: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-  margin-left: 320px;
-  width: calc(100% - 320px);
-  transition: margin-left 0.3s ease, width 0.3s ease;
-}
-
-/* ===== PAGE HEADER ===== */
-.page-header { 
-  padding: 2rem 1.75rem 1.25rem; 
-}
-
-.page-header h2 { 
-  margin: 0 0 0.75rem; 
-  color: #111827;
-  font-weight: 700;
-}
-
-.page-header p { 
-  color: #6b7280; 
-  line-height: 1.6;
-  max-width: 800px;
-}
-
-/* ===== STATS CONTAINER ===== */
-.stats-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  padding: 1.5rem 1.75rem;
-=======
   background: #333333;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -2558,37 +1866,10 @@ p, span, label, button, input, select {
   display: flex;
   gap: 2rem;
   padding: 1.5rem 2.5rem;
->>>>>>> Development
   flex-wrap: wrap;
 }
 
 .stat-card {
-<<<<<<< HEAD
-  background: #fff;
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid #f3f4f6;
-}
-
-.stat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.stat-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.stat-card h3 {
-  margin: 0.75rem 0 0;
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: #111827;
-=======
   flex: 1;
   min-width: 200px;
   background: #ffffff;
@@ -2611,137 +1892,10 @@ p, span, label, button, input, select {
   font-size: 2.5rem;
   font-weight: 700;
   color: #000000;
->>>>>>> Development
 }
 
 .stat-card p {
   color: #6b7280;
-<<<<<<< HEAD
-  font-size: 1.125rem;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-/* ===== SECTION HEADER ===== */
-.section-header {
-  padding: 0 1.75rem 1.25rem;
-  margin-bottom: 0.5rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.section-header h3 {
-  font-size: 1.375rem;
-  font-weight: 600;
-  color: #111827;
-  margin: 0 0 0.5rem 0;
-}
-
-.section-description {
-  font-size: 1rem;
-  color: #6b7280;
-  margin: 0;
-  line-height: 1.5;
-}
-
-/* ===== SEARCH AND SORT ===== */
-.search-sort-container {
-  display: flex;
-  gap: 1.25rem;
-  padding: 0 1.75rem 1.5rem;
-  margin-bottom: 0.5rem;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.search-wrapper {
-  position: relative;
-  flex: 1;
-  min-width: 280px;
-  display: flex;
-  align-items: center;
-}
-
-.search-icon {
-  position: absolute;
-  left: 1.125rem;
-  color: #6b7280;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.search-input {
-  width: 100%;
-  padding: 1rem 1.125rem 1rem 3.25rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 12px;
-  font-size: 1.0625rem;
-  background: #fff;
-  transition: all 0.3s ease;
-}
-
-.search-input:focus {
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.search-input::placeholder {
-  color: #9ca3af;
-}
-
-.sort-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.sort-label {
-  font-size: 1.0625rem;
-  font-weight: 500;
-  color: #374151;
-  white-space: nowrap;
-}
-
-.sort-select {
-  padding: 1rem 1.125rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 12px;
-  font-size: 1.0625rem;
-  background: #fff;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  min-width: 200px;
-}
-
-.sort-select:focus {
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.results-count {
-  padding: 0.75rem 1.75rem;
-  font-size: 1rem;
-  color: #6b7280;
-  margin-bottom: 0.5rem;
-}
-
-/* ===== TEACHER CONTAINER ===== */
-.teacher-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.75rem;
-  padding: 0 1.75rem 3rem;
-}
-
-.card {
-  border: 1px solid #e1e5e9;
-  border-radius: 16px;
-  padding: 1.75rem;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-=======
   font-size: 1.1rem;
   margin-top: 0.25rem;
   font-weight: 500;
@@ -2792,30 +1946,12 @@ p, span, label, button, input, select {
   padding: 2rem;
   background: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
->>>>>>> Development
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
 }
 
 .card:hover {
-<<<<<<< HEAD
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  transform: translateY(-5px);
-}
-
-.card h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.card p {
-  font-size: 1.0625rem;
-  color: #6b7280;
-  margin-bottom: 0.75rem;
-=======
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   border-color: #000000;
   transform: translateY(-4px);
@@ -2832,7 +1968,6 @@ p, span, label, button, input, select {
   font-size: 1.1rem;
   color: #6b7280;
   margin-bottom: 1rem;
->>>>>>> Development
   line-height: 1.5;
   flex: 1;
 }
@@ -2840,41 +1975,6 @@ p, span, label, button, input, select {
 /* ===== BADGES ===== */
 .badge {
   display: inline-block;
-<<<<<<< HEAD
-  background: #f1f3f5;
-  padding: 0.5rem 1.125rem;
-  font-size: 0.9375rem;
-  border-radius: 20px;
-  margin: 0 5px 10px 0;
-  font-weight: 600;
-  color: #374151;
-}
-
-/* ===== CARD BUTTONS ===== */
-.card-button-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: auto;
-  padding-top: 1.25rem;
-}
-
-.card .start,
-.card .update,
-.btn-delete {
-  width: 100%;
-  padding: 1rem 1.25rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.0625rem;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-=======
   background: #f3f4f6;
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
@@ -2896,7 +1996,6 @@ p, span, label, button, input, select {
   transition: all 0.2s ease;
   margin-top: 1rem;
   font-family: inherit;
->>>>>>> Development
 }
 
 .card .start {
@@ -2906,21 +2005,9 @@ p, span, label, button, input, select {
 }
 
 .card .start:hover {
-<<<<<<< HEAD
-  background: #1a1a1a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card .update {
-  background: #fff;
-  color: #333;
-  border-color: #e1e5e9;
-=======
   background: #333333;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
->>>>>>> Development
 }
 
 .card .update:hover {
@@ -2965,66 +2052,11 @@ p, span, label, button, input, select {
 
 /* ===== FORM STYLES ===== */
 .content {
-<<<<<<< HEAD
-  padding: 1.5rem 1.75rem;
-=======
   padding: 2rem 2.5rem;
->>>>>>> Development
   min-height: 100vh;
 }
 
 .container {
-<<<<<<< HEAD
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.form-header {
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.75rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.form-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0 0 0.75rem 0;
-}
-
-.form-subtitle {
-  font-size: 1.125rem;
-  color: #6b7280;
-  margin: 0;
-  line-height: 1.5;
-}
-
-.create-teacher-form {
-  max-width: 1000px;
-}
-
-.wrong {
-  color: #d32f2f;
-  background: #ffebee;
-  padding: 1rem 1.25rem;
-  border-radius: 12px;
-  margin-bottom: 2rem;
-  font-weight: 600;
-  text-align: center;
-  border: 1px solid #ffcdd2;
-  font-size: 1.0625rem;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.75rem;
-  margin-bottom: 2.5rem;
-}
-
-.form-group {
-  margin-bottom: 0;
-=======
   max-width: 800px;
   margin: 0 auto;
 }
@@ -3053,41 +2085,19 @@ p, span, label, button, input, select {
 
 .form-group {
   margin-bottom: 1.5rem;
->>>>>>> Development
 }
 
 .form-group label {
   display: block;
-<<<<<<< HEAD
-  margin-bottom: 0.75rem;
-  color: #374151;
-  font-weight: 600;
-  font-size: 1.0625rem;
-}
-
-.required {
-  color: #dc2626;
-  margin-left: 2px;
-=======
   margin-bottom: 0.5rem;
   color: #374151;
   font-weight: 600;
   font-size: 1rem;
->>>>>>> Development
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
-<<<<<<< HEAD
-  max-width: 100%;
-  padding: 1rem 1.125rem;
-  border: 1.5px solid #e1e5e9;
-  border-radius: 12px;
-  font-size: 1.0625rem;
-  background: #fff;
-  transition: all 0.3s ease;
-=======
   padding: 1rem 1.25rem;
   border: 2px solid #d1d5db;
   border-radius: 0.5rem;
@@ -3095,19 +2105,10 @@ p, span, label, button, input, select {
   background: #ffffff;
   transition: all 0.2s ease;
   font-family: inherit;
->>>>>>> Development
 }
 
 .form-group input:focus,
 .form-group select:focus {
-<<<<<<< HEAD
-  border-color: #000;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-}
-
-.form-actions {
-=======
   outline: none;
   border-color: #000000;
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
@@ -3473,7 +2474,6 @@ p, span, label, button, input, select {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.85);
->>>>>>> Development
   display: flex;
   justify-content: flex-start;
   padding-top: 2rem;
@@ -3497,27 +2497,6 @@ p, span, label, button, input, select {
   gap: 0.75rem;
 }
 
-<<<<<<< HEAD
-.btn-primary:hover {
-  background: #1a1a1a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.btn-secondary {
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #e5e7eb;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.125rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-=======
 .loading-spinner {
   border: 6px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
@@ -3541,7 +2520,6 @@ p, span, label, button, input, select {
   100% {
     transform: rotate(360deg);
   }
->>>>>>> Development
 }
 
 .btn-secondary:hover {
@@ -3561,17 +2539,6 @@ p, span, label, button, input, select {
   top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-<<<<<<< HEAD
-  padding: 1.25rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  z-index: 1000;
-  text-align: center;
-  min-width: 350px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  animation: slideIn 0.3s ease-out;
-  font-size: 1.0625rem;
-=======
   padding: 1.5rem 2rem;
   border-radius: 0.75rem;
   font-weight: 600;
@@ -3582,7 +2549,6 @@ p, span, label, button, input, select {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: slideIn 0.3s ease-out, timeout 6s linear forwards;
   font-size: 1.1rem;
->>>>>>> Development
 }
 
 .success {
@@ -3613,21 +2579,6 @@ p, span, label, button, input, select {
   color: white;
 }
 
-<<<<<<< HEAD
-.loading-spinner {
-  border: 5px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top: 5px solid #ffffff;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1.5rem;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-=======
 .success::after,
 .error::after {
   content: "";
@@ -3637,7 +2588,6 @@ p, span, label, button, input, select {
   height: 4px;
   background: rgba(255, 255, 255, 0.5);
   animation: progress 5s linear forwards;
->>>>>>> Development
 }
 
 @keyframes slideIn {
@@ -3719,360 +2669,6 @@ p, span, label, button, input, select {
   }
 }
 
-<<<<<<< HEAD
-.profile-image-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (min-width: 640px) {
-  .profile-image-container {
-    justify-content: flex-start;
-  }
-}
-
-.profile-image {
-  width: 12rem;
-  height: 12rem;
-  background-color: #e2e8f0;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.profile-icon {
-  font-size: 4.5rem;
-  color: #9ca3af;
-}
-
-.profile-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1.25rem;
-}
-
-.detail-item {
-  margin-bottom: 0.75rem;
-}
-
-.detail-label {
-  font-weight: 600;
-  color: #6b7280;
-  display: block;
-  font-size: 1.0625rem;
-}
-
-.detail-value {
-  margin-top: 0.5rem;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #111827;
-}
-
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.info-item {
-  margin-bottom: 0.75rem;
-}
-
-.info-label {
-  font-weight: 600;
-  color: #6b7280;
-  display: block;
-  font-size: 1.0625rem;
-}
-
-.info-value {
-  margin-top: 0.5rem;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #111827;
-}
-
-.buttons-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.25rem;
-  padding-top: 1.5rem;
-}
-
-.action-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 1rem 1.25rem;
-  font-size: 1.0625rem;
-  font-weight: 600;
-  color: #374151;
-  background-color: #ffffff;
-  border: 1.5px solid #d1d5db;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-}
-
-.action-button:hover {
-  background-color: #f3f4f6;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.action-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px #0f172a, 0 0 0 5px rgba(15, 23, 42, 0.1);
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .main-content {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  .side-bar {
-    transform: translateX(-100%);
-    box-shadow: 2px 0 24px rgba(15, 23, 42, 0.15);
-  }
-  
-  .menu-toggle {
-    display: flex;
-  }
-  
-  .sidebar-close {
-    display: flex;
-  }
-  
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .teacher-container {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  .topbar {
-    padding: 1rem;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-  }
-  
-  .title-row {
-    flex-wrap: wrap;
-  }
-  
-  .title-actions .portal-btn {
-    display: none;
-  }
-  
-  .user-section {
-    width: 100%;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-  
-  .desktop-only {
-    display: none;
-  }
-  
-  .user-greeting {
-    display: none;
-  }
-  
-  .page-header {
-    padding: 1.5rem 1rem 1rem;
-  }
-  
-  .stats-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1rem;
-  }
-  
-  .stat-card {
-    padding: 1.5rem 1rem;
-  }
-  
-  .section-header,
-  .search-sort-container {
-    padding: 0 1rem 1rem;
-  }
-  
-  .search-sort-container {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .search-wrapper {
-    width: 100%;
-    min-width: unset;
-  }
-  
-  .sort-wrapper {
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .sort-select {
-    width: 100%;
-    min-width: unset;
-  }
-  
-  .results-count {
-    padding: 0.5rem 1rem;
-  }
-  
-  .teacher-container {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 0 1rem 2rem;
-  }
-  
-  .card {
-    padding: 1.25rem;
-  }
-  
-  .content {
-    padding: 1rem;
-  }
-  
-  .form-header {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-  }
-  
-  .form-title {
-    font-size: 1.5rem;
-  }
-  
-  .form-actions {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-  
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .modal-container {
-    padding: 1rem;
-  }
-  
-  .modal-content {
-    padding: 1.5rem;
-  }
-  
-  .profile-section {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-  
-  .profile-details {
-    text-align: center;
-  }
-  
-  .buttons-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .side-bar {
-    width: min(300px, 85%);
-  }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .logo {
-    font-size: 1.125rem;
-  }
-  
-  h1 { font-size: 1.625rem; }
-  h2 { font-size: 1.375rem; }
-  h3 { font-size: 1.25rem; }
-  
-  .stat-card h3 {
-    font-size: 1.75rem;
-  }
-  
-  .stat-icon {
-    font-size: 2.5rem;
-  }
-  
-  .card h3 {
-    font-size: 1.125rem;
-  }
-  
-  .card p {
-    font-size: 1rem;
-  }
-  
-  .success,
-  .error {
-    min-width: 280px;
-    padding: 1rem 1.25rem;
-    left: 0.625rem;
-    right: 0.625rem;
-    transform: translateX(0);
-    margin: 0 auto;
-  }
-  
-  .side-bar {
-    width: 100%;
-  }
-  
-  .profile-image {
-    width: 10rem;
-    height: 10rem;
-    margin: 0 auto;
-  }
-  
-  .profile-icon {
-    font-size: 4rem;
-  }
-}
-
-/* High contrast support */
-@media (prefers-contrast: high) {
-  .form-group input,
-  .form-group select,
-  .dropdown {
-    border-width: 2px;
-  }
-  
-  .wrong {
-    border: 2px solid #d32f2f;
-  }
-  
-  .badge {
-    border: 1px solid currentColor;
-  }
-}
-
-/* Focus visibility for accessibility */
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-.action-button:focus-visible {
-  outline: 2px solid #4a6da7;
-=======
 /* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 640px) {
   .topbar {
@@ -4175,7 +2771,6 @@ button:focus,
 input:focus,
 select:focus {
   outline: 3px solid #000000;
->>>>>>> Development
   outline-offset: 2px;
 }
 
@@ -4187,9 +2782,6 @@ select:focus {
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
-<<<<<<< HEAD
-</style> 
-=======
 
 ::-webkit-scrollbar-thumb {
   background: #888;
@@ -4200,4 +2792,3 @@ select:focus {
   background: #555;
 }
 </style>
->>>>>>> Development

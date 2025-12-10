@@ -23,11 +23,7 @@
       <section class="card">
         <h2 class="card-title">A.I. Summarizer</h2>
         <div class="ai-response">
-<<<<<<< HEAD
-          <p class="response-text">A.I. Response Here</p>
-=======
           <p class="response-text">{{ geminiOutput }}</p>
->>>>>>> Development
         </div>
       </section>
     </main>
@@ -36,10 +32,7 @@
 
 <script>
 import { Bar } from "vue-chartjs";
-<<<<<<< HEAD
-=======
 
->>>>>>> Development
 import {
   Chart as ChartJS,
   Title,
@@ -69,13 +62,10 @@ export default {
     return {
       aiphp: `${url2}/chartGetter.php`,
       chartphp: `${url2}/chartGetter.php`,
-<<<<<<< HEAD
-=======
       urlappphp: `${url2}/questionsAll.php`,
       urlappphp3: `${url2}/mergeAnsGetter.php`,
       gemini: null,
       geminiOutput: "",
->>>>>>> Development
       averages: [],
       isLoading: false,
       isSuccess: false,
@@ -94,13 +84,10 @@ export default {
         },
       },
       airesponse: null,
-<<<<<<< HEAD
-=======
       headers: [],
       answers: {},
       teacher: {},
       answer: {},
->>>>>>> Development
     };
   },
 
@@ -149,18 +136,6 @@ export default {
       }
     },
 
-<<<<<<< HEAD
-    async getAiResponse() {
-      try {
-        this.isLoading = true;
-
-        const response = await fetch(this.aiphp, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "giveAi",
-            tcr_id: this.$route.params.id,
-=======
     async getQuestions() {
       try {
         this.isLoading = true;
@@ -198,31 +173,12 @@ export default {
             action: "student",
             evt: this.$route.params.evtid,
             tcr: this.$route.params.id,
->>>>>>> Development
           }),
         });
 
         const result = await response.json();
 
         if (result.success) {
-<<<<<<< HEAD
-          this.airesponse = result.response;
-          this.isLoading = false;
-          this.isSuccess = true;
-        } else {
-          this.isLoading = false;
-          this.isFailed = true;
-        }
-      } catch (error) {
-        this.isLoading = false;
-        console.error(error);
-      }
-    },
-  },
-
-  mounted() {
-    this.getChartData();
-=======
           const sessionData = Object.values(result.answer)[0];
 
           this.month = sessionData.time;
@@ -290,7 +246,7 @@ export default {
 
       const { GoogleGenAI } = await import("@google/genai");
       this.gemini = new GoogleGenAI({
-        apiKey: "AIzaSyDsxzdngcvRJmU3LqlUIHffsDHFjUnlTcQ",
+        apiKey: "AIzaSyDpAiyG5Cm_pNIzIOcH6pM_vOGCjfeOMw0",
       });
       const res = await this.gemini.models.generateContent({
         model: "gemini-2.5-flash",
@@ -308,7 +264,6 @@ export default {
       .catch((error) => {
         console.error("Error loading data:", error);
       });
->>>>>>> Development
   },
 };
 </script>

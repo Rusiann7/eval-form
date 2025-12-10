@@ -12,7 +12,7 @@ $action = $data['action'] ?? '';
 
 if($action === "getTime"){
 
-    $sql = "SELECT * FROM Schedules WHERE is_deleted = 0 LIMIT 1;";
+    $sql = "SELECT * FROM Schedules WHERE is_deleted = 0 ORDER BY id DESC LIMIT 1;";
     $result = $conn->query($sql);
 
     if($result && $result->num_rows > 0){
@@ -21,20 +21,12 @@ if($action === "getTime"){
 
         echo json_encode(["success" => true, "times" => $row ]);
     }else{
-<<<<<<< HEAD
-        echo json_encode(["success" => false, "message" => "erro"]);
-=======
         echo json_encode(["success" => false, "message" => "error"]);
->>>>>>> Development
         http_response_code(500);
     }
 }else{
     echo json_encode(["success" => false, "message" => "Invalid action"]);
     http_response_code(400);
-<<<<<<< HEAD
-}
-=======
 }
 
 $conn->close();
->>>>>>> Development
