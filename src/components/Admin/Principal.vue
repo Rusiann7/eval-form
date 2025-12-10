@@ -11,7 +11,11 @@
     class="menu-checkbox"
     aria-hidden="true"
   />
-  <label for="principal-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+  <label
+    for="principal-nav-toggle"
+    class="menu-overlay"
+    aria-hidden="true"
+  ></label>
 
   <!-- Modals -->
   <div class="main-modal" v-if="activeModal === 'showInfo'">
@@ -352,9 +356,21 @@
         </div>
       </div>
       <div class="user-section">
-        <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
+        <span class="user-greeting"
+          >Welcome, {{ fullname }} {{ lastname }}</span
+        >
         <button class="logout-btn desktop-only" @click="logout()">
-          <svg class="logout-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            class="logout-icon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -403,7 +419,17 @@
       <!-- Search and Sort Controls -->
       <div class="search-sort-container">
         <div class="search-wrapper">
-          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            class="search-icon"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
@@ -416,11 +442,7 @@
         </div>
         <div class="sort-wrapper">
           <label for="student-sort" class="sort-label">Sort by:</label>
-          <select
-            id="student-sort"
-            v-model="studentSortBy"
-            class="sort-select"
-          >
+          <select id="student-sort" v-model="studentSortBy" class="sort-select">
             <option value="name-asc">Name (A-Z)</option>
             <option value="name-desc">Name (Z-A)</option>
             <option value="subject-asc">Subject (A-Z)</option>
@@ -434,8 +456,14 @@
       </div>
 
       <!-- Results Count -->
-      <div class="results-count" v-if="filteredAndSortedStudents.length !== newStudents.length">
-        <span>Showing {{ filteredAndSortedStudents.length }} of {{ newStudents.length }} evaluations</span>
+      <div
+        class="results-count"
+        v-if="filteredAndSortedStudents.length !== newStudents.length"
+      >
+        <span
+          >Showing {{ filteredAndSortedStudents.length }} of
+          {{ newStudents.length }} evaluations</span
+        >
       </div>
 
       <div class="teacher-container">
@@ -469,14 +497,20 @@
             <button
               class="start"
               @click.prevent="
-                $router.push({ name: 'teacher-eval', params: { id: teacher.id } })
+                $router.push({
+                  name: 'teacher-eval',
+                  params: { id: teacher.id },
+                })
               "
             >
               Start Evaluation
             </button>
           </div>
         </div>
-        <div v-if="filteredAndSortedEvaluateTeachers.length === 0" class="no-results">
+        <div
+          v-if="filteredAndSortedEvaluateTeachers.length === 0"
+          class="no-results"
+        >
           <p>No teachers found matching your search criteria.</p>
         </div>
       </div>
@@ -491,7 +525,17 @@
       <!-- Search and Sort Controls -->
       <div class="search-sort-container">
         <div class="search-wrapper">
-          <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            class="search-icon"
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.35-4.35"></path>
           </svg>
@@ -504,11 +548,7 @@
         </div>
         <div class="sort-wrapper">
           <label for="teacher-sort" class="sort-label">Sort by:</label>
-          <select
-            id="teacher-sort"
-            v-model="teacherSortBy"
-            class="sort-select"
-          >
+          <select id="teacher-sort" v-model="teacherSortBy" class="sort-select">
             <option value="name-asc">Name (A-Z)</option>
             <option value="name-desc">Name (Z-A)</option>
             <option value="subject-asc">Subject (A-Z)</option>
@@ -522,8 +562,14 @@
       </div>
 
       <!-- Results Count -->
-      <div class="results-count" v-if="filteredAndSortedTeachers.length !== newTeachers.length">
-        <span>Showing {{ filteredAndSortedTeachers.length }} of {{ newTeachers.length }} evaluations</span>
+      <div
+        class="results-count"
+        v-if="filteredAndSortedTeachers.length !== newTeachers.length"
+      >
+        <span
+          >Showing {{ filteredAndSortedTeachers.length }} of
+          {{ newTeachers.length }} evaluations</span
+        >
       </div>
 
       <div class="teacher-container">
@@ -552,17 +598,25 @@
         <div class="container" v-if="activeTab1 === 'crtTeacher'">
           <div class="form-header">
             <h3 class="form-title">Create New Teacher Account</h3>
-            <p class="form-subtitle">Fill in the details below to create a new teacher user account</p>
+            <p class="form-subtitle">
+              Fill in the details below to create a new teacher user account
+            </p>
           </div>
 
-          <form method="post" @submit.prevent="createTeachers()" class="create-teacher-form">
+          <form
+            method="post"
+            @submit.prevent="createTeachers()"
+            class="create-teacher-form"
+          >
             <div v-if="isWrong" class="wrong">
               <p>Wrong Credentials or Incomplete Information</p>
             </div>
 
             <div class="form-grid">
               <div class="form-group">
-                <label for="firstName">First Name <span class="required">*</span></label>
+                <label for="firstName"
+                  >First Name <span class="required">*</span></label
+                >
                 <input
                   id="firstName"
                   type="text"
@@ -573,7 +627,9 @@
               </div>
 
               <div class="form-group">
-                <label for="lastName">Last Name <span class="required">*</span></label>
+                <label for="lastName"
+                  >Last Name <span class="required">*</span></label
+                >
                 <input
                   id="lastName"
                   type="text"
@@ -584,7 +640,9 @@
               </div>
 
               <div class="form-group">
-                <label for="email">Email Address <span class="required">*</span></label>
+                <label for="email"
+                  >Email Address <span class="required">*</span></label
+                >
                 <input
                   id="email"
                   type="email"
@@ -595,7 +653,9 @@
               </div>
 
               <div class="form-group">
-                <label for="teacherId">Teacher ID <span class="required">*</span></label>
+                <label for="teacherId"
+                  >Teacher ID <span class="required">*</span></label
+                >
                 <input
                   id="teacherId"
                   type="number"
@@ -606,7 +666,9 @@
               </div>
 
               <div class="form-group">
-                <label for="subject">Subject <span class="required">*</span></label>
+                <label for="subject"
+                  >Subject <span class="required">*</span></label
+                >
                 <select id="subject" v-model="teacherr.sub" required>
                   <option value="">Select Subject</option>
                   <option value="Math">Math</option>
@@ -621,7 +683,9 @@
               </div>
 
               <div class="form-group">
-                <label for="quarter">Quarter <span class="required">*</span></label>
+                <label for="quarter"
+                  >Quarter <span class="required">*</span></label
+                >
                 <select id="quarter" v-model="teacherr.qrt" required>
                   <option value="">Select Quarter</option>
                   <option value="1">Quarter 1</option>
@@ -645,7 +709,9 @@
               </div>
 
               <div class="form-group">
-                <label for="password">Password <span class="required">*</span></label>
+                <label for="password"
+                  >Password <span class="required">*</span></label
+                >
                 <input
                   id="password"
                   type="password"
@@ -657,7 +723,9 @@
               </div>
 
               <div class="form-group">
-                <label for="confirmPassword">Confirm Password <span class="required">*</span></label>
+                <label for="confirmPassword"
+                  >Confirm Password <span class="required">*</span></label
+                >
                 <input
                   id="confirmPassword"
                   type="password"
@@ -671,7 +739,17 @@
 
             <div class="form-actions">
               <button type="submit" class="btn-primary">
-                <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  class="btn-icon"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M12 5v14M5 12h14"></path>
                 </svg>
                 Create Teacher Account
@@ -684,13 +762,26 @@
         <div v-if="activeTab1 === 'rmTeacher'">
           <div class="section-header">
             <h3>Delete Users</h3>
-            <p class="section-description">Search and manage teacher accounts. Click remove to delete a teacher account.</p>
+            <p class="section-description">
+              Search and manage teacher accounts. Click remove to delete a
+              teacher account.
+            </p>
           </div>
 
           <!-- Search and Sort Controls -->
           <div class="search-sort-container">
             <div class="search-wrapper">
-              <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                class="search-icon"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
               </svg>
@@ -721,8 +812,14 @@
           </div>
 
           <!-- Results Count -->
-          <div class="results-count" v-if="filteredAndSortedDeleteTeachers.length !== teachers.length">
-            <span>Showing {{ filteredAndSortedDeleteTeachers.length }} of {{ teachers.length }} teachers</span>
+          <div
+            class="results-count"
+            v-if="filteredAndSortedDeleteTeachers.length !== teachers.length"
+          >
+            <span
+              >Showing {{ filteredAndSortedDeleteTeachers.length }} of
+              {{ teachers.length }} teachers</span
+            >
           </div>
 
           <div class="teacher-container">
@@ -733,21 +830,38 @@
             >
               <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
               <p>{{ teacher.subject }}</p>
-              <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+              <span class="badge"
+                >Q{{ teacher.quarter }} {{ teacher.year }}</span
+              >
               <div class="card-button-wrapper">
                 <button
                   class="btn-delete"
                   @click.prevent="rmTeachers(teacher.id)"
                 >
-                  <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <svg
+                    class="btn-icon"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
                     <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    <path
+                      d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    ></path>
                   </svg>
                   Remove Teacher
                 </button>
               </div>
             </div>
-            <div v-if="filteredAndSortedDeleteTeachers.length === 0" class="no-results">
+            <div
+              v-if="filteredAndSortedDeleteTeachers.length === 0"
+              class="no-results"
+            >
               <p>No teachers found matching your search criteria.</p>
             </div>
           </div>
@@ -757,13 +871,25 @@
         <div v-if="activeTab1 === 'editTeacher'">
           <div class="section-header">
             <h3>Edit Teacher Accounts</h3>
-            <p class="section-description">Search and edit teacher account details.</p>
+            <p class="section-description">
+              Search and edit teacher account details.
+            </p>
           </div>
 
           <!-- Search and Sort Controls -->
           <div class="search-sort-container">
             <div class="search-wrapper">
-              <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                class="search-icon"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="m21 21-4.35-4.35"></path>
               </svg>
@@ -777,8 +903,14 @@
           </div>
 
           <!-- Results Count -->
-          <div class="results-count" v-if="filteredEditTeachers.length !== teachers.length">
-            <span>Showing {{ filteredEditTeachers.length }} of {{ teachers.length }} teachers</span>
+          <div
+            class="results-count"
+            v-if="filteredEditTeachers.length !== teachers.length"
+          >
+            <span
+              >Showing {{ filteredEditTeachers.length }} of
+              {{ teachers.length }} teachers</span
+            >
           </div>
 
           <div class="teacher-container">
@@ -790,9 +922,14 @@
             >
               <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
               <p>{{ teacher.subject }}</p>
-              <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+              <span class="badge"
+                >Q{{ teacher.quarter }} {{ teacher.year }}</span
+              >
               <div class="card-button-wrapper">
-                <button class="update" @click.prevent="openTeacherModal(teacher.id)">
+                <button
+                  class="update"
+                  @click.prevent="openTeacherModal(teacher.id)"
+                >
                   Edit Teacher
                 </button>
               </div>
@@ -802,15 +939,22 @@
               <div class="card">
                 <div class="form-header">
                   <h3 class="form-title">Edit Teacher Account</h3>
-                  <p class="form-subtitle">Update the details for {{ selectedTeachers.fn }} {{ selectedTeachers.ln }}</p>
+                  <p class="form-subtitle">
+                    Update the details for {{ selectedTeachers.fn }}
+                    {{ selectedTeachers.ln }}
+                  </p>
                 </div>
                 <form method="post" @submit.prevent="editTeachers()">
                   <div v-if="isWrong" class="wrong">
-                    <p class="wrong">Wrong Credentials or Incomplete Information</p>
+                    <p class="wrong">
+                      Wrong Credentials or Incomplete Information
+                    </p>
                   </div>
                   <div class="form-grid">
                     <div class="form-group">
-                      <label for="editFirstName">First Name <span class="required">*</span></label>
+                      <label for="editFirstName"
+                        >First Name <span class="required">*</span></label
+                      >
                       <input
                         id="editFirstName"
                         type="text"
@@ -821,7 +965,9 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="editLastName">Last Name <span class="required">*</span></label>
+                      <label for="editLastName"
+                        >Last Name <span class="required">*</span></label
+                      >
                       <input
                         id="editLastName"
                         type="text"
@@ -832,7 +978,9 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="editEmail">Email Address <span class="required">*</span></label>
+                      <label for="editEmail"
+                        >Email Address <span class="required">*</span></label
+                      >
                       <input
                         id="editEmail"
                         type="email"
@@ -843,7 +991,9 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="editTeacherId">Teacher ID <span class="required">*</span></label>
+                      <label for="editTeacherId"
+                        >Teacher ID <span class="required">*</span></label
+                      >
                       <input
                         id="editTeacherId"
                         type="number"
@@ -854,8 +1004,14 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="editSubject">Subject <span class="required">*</span></label>
-                      <select id="editSubject" v-model="selectedTeachers.sub" required>
+                      <label for="editSubject"
+                        >Subject <span class="required">*</span></label
+                      >
+                      <select
+                        id="editSubject"
+                        v-model="selectedTeachers.sub"
+                        required
+                      >
                         <option value="">Select Subject</option>
                         <option
                           v-for="subject in subjects"
@@ -868,8 +1024,14 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="editQuarter">Quarter <span class="required">*</span></label>
-                      <select id="editQuarter" v-model="selectedTeachers.qrt" required>
+                      <label for="editQuarter"
+                        >Quarter <span class="required">*</span></label
+                      >
+                      <select
+                        id="editQuarter"
+                        v-model="selectedTeachers.qrt"
+                        required
+                      >
                         <option value="1">Quarter 1</option>
                         <option value="2">Quarter 2</option>
                         <option value="3">Quarter 3</option>
@@ -878,7 +1040,9 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="editYear">Year <span class="required">*</span></label>
+                      <label for="editYear"
+                        >Year <span class="required">*</span></label
+                      >
                       <input
                         id="editYear"
                         type="number"
@@ -889,8 +1053,16 @@
                     </div>
                   </div>
                   <div class="form-actions">
-                    <button type="submit" class="btn-primary">Save Changes</button>
-                    <button type="button" class="btn-secondary" @click="isEditing = false">Cancel</button>
+                    <button type="submit" class="btn-primary">
+                      Save Changes
+                    </button>
+                    <button
+                      type="button"
+                      class="btn-secondary"
+                      @click="isEditing = false"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </form>
               </div>
@@ -1050,8 +1222,7 @@ export default {
         JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
         "Principal",
       lastname:
-        JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
-        "User",
+        JSON.parse(localStorage.getItem("userData") || "{}").lastname || "User",
       usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
       activeModal: "student",
       activeTab: "student",
@@ -1076,14 +1247,15 @@ export default {
       let filtered = this.newStudents;
 
       // Apply search filter
-      if (this.studentSearchQuery.trim()) {
+      if ((this.studentSearchQuery || "").trim()) {
         const query = this.studentSearchQuery.toLowerCase().trim();
         filtered = filtered.filter((student) => {
-          const fullName = `${student.firstname} ${student.lastname}`.toLowerCase();
+          const fullName =
+            `${student.firstname} ${student.lastname}`.toLowerCase();
           const subject = (student.subject || "").toLowerCase();
           const quarter = String(student.quarter || "");
           const year = String(student.year || "");
-          
+
           return (
             fullName.includes(query) ||
             subject.includes(query) ||
@@ -1094,7 +1266,9 @@ export default {
       }
 
       // Apply sorting
-      const [sortField, sortOrder] = this.studentSortBy.split("-");
+      const [sortField, sortOrder] = (this.studentSortBy || "name-asc").split(
+        "-"
+      );
       filtered = [...filtered].sort((a, b) => {
         let aValue, bValue;
 
@@ -1135,14 +1309,15 @@ export default {
       let filtered = this.newTeachers;
 
       // Apply search filter
-      if (this.teacherSearchQuery.trim()) {
+      if ((this.teacherSearchQuery || "").trim()) {
         const query = this.teacherSearchQuery.toLowerCase().trim();
         filtered = filtered.filter((teacher) => {
-          const fullName = `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
+          const fullName =
+            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
           const subject = (teacher.subject || "").toLowerCase();
           const quarter = String(teacher.quarter || "");
           const year = String(teacher.year || "");
-          
+
           return (
             fullName.includes(query) ||
             subject.includes(query) ||
@@ -1153,7 +1328,9 @@ export default {
       }
 
       // Apply sorting
-      const [sortField, sortOrder] = this.teacherSortBy.split("-");
+      const [sortField, sortOrder] = (this.teacherSortBy || "name-asc").split(
+        "-"
+      );
       filtered = [...filtered].sort((a, b) => {
         let aValue, bValue;
 
@@ -1194,14 +1371,15 @@ export default {
       let filtered = this.teachers;
 
       // Apply search filter
-      if (this.evaluateSearchQuery.trim()) {
+      if ((this.evaluateSearchQuery || "").trim()) {
         const query = this.evaluateSearchQuery.toLowerCase().trim();
         filtered = filtered.filter((teacher) => {
-          const fullName = `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
+          const fullName =
+            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
           const subject = (teacher.subject || "").toLowerCase();
           const quarter = String(teacher.quarter || "");
           const year = String(teacher.year || "");
-          
+
           return (
             fullName.includes(query) ||
             subject.includes(query) ||
@@ -1212,7 +1390,9 @@ export default {
       }
 
       // Apply sorting
-      const [sortField, sortOrder] = this.evaluateSortBy.split("-");
+      const [sortField, sortOrder] = (this.evaluateSortBy || "name-asc").split(
+        "-"
+      );
       filtered = [...filtered].sort((a, b) => {
         let aValue, bValue;
 
@@ -1253,14 +1433,15 @@ export default {
       let filtered = this.teachers;
 
       // Apply search filter
-      if (this.deleteSearchQuery.trim()) {
+      if ((this.deleteSearchQuery || "").trim()) {
         const query = this.deleteSearchQuery.toLowerCase().trim();
         filtered = filtered.filter((teacher) => {
-          const fullName = `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
+          const fullName =
+            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
           const subject = (teacher.subject || "").toLowerCase();
           const quarter = String(teacher.quarter || "");
           const year = String(teacher.year || "");
-          
+
           return (
             fullName.includes(query) ||
             subject.includes(query) ||
@@ -1271,7 +1452,9 @@ export default {
       }
 
       // Apply sorting
-      const [sortField, sortOrder] = this.deleteSortBy.split("-");
+      const [sortField, sortOrder] = (this.deleteSortBy || "name-asc").split(
+        "-"
+      );
       filtered = [...filtered].sort((a, b) => {
         let aValue, bValue;
 
@@ -1312,14 +1495,15 @@ export default {
       let filtered = this.teachers;
 
       // Apply search filter
-      if (this.editSearchQuery.trim()) {
+      if ((this.editSearchQuery || "").trim()) {
         const query = this.editSearchQuery.toLowerCase().trim();
         filtered = filtered.filter((teacher) => {
-          const fullName = `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
+          const fullName =
+            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
           const subject = (teacher.subject || "").toLowerCase();
           const quarter = String(teacher.quarter || "");
           const year = String(teacher.year || "");
-          
+
           return (
             fullName.includes(query) ||
             subject.includes(query) ||
@@ -1448,24 +1632,24 @@ export default {
         alert("Are you sure you want to remove this teacher?");
         this.isLoading = true;
 
-          const response = await fetch(this.urlappphp4, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ action: "rmTeachers", id: id }),
-          });
+        const response = await fetch(this.urlappphp4, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "rmTeachers", id: id }),
+        });
 
-          const result = await response.json();
+        const result = await response.json();
 
-          if (result.success) {
-            this.getTeachers();
-            this.isSuccess = true;
-            setTimeout(() => this.isSuccess = false, 3000);
-          } else {
-            this.isFailed = true;
-            setTimeout(() => this.isFailed = false, 3000);
-          }
-          this.isLoading = false;
-        }catch (error) {
+        if (result.success) {
+          this.getTeachers();
+          this.isSuccess = true;
+          setTimeout(() => (this.isSuccess = false), 3000);
+        } else {
+          this.isFailed = true;
+          setTimeout(() => (this.isFailed = false), 3000);
+        }
+        this.isLoading = false;
+      } catch (error) {
         console.error(error);
         this.isLoading = false;
       }
@@ -1474,7 +1658,7 @@ export default {
     async createTeachers() {
       if (this.teacherr.ps !== this.teacherr.cpas) {
         this.isWrong = true;
-        setTimeout(() => this.isWrong = false, 3000);
+        setTimeout(() => (this.isWrong = false), 3000);
         return;
       }
 
@@ -1495,7 +1679,7 @@ export default {
         if (result.success) {
           this.getTeachers();
           this.isSuccess = true;
-          setTimeout(() => this.isSuccess = false, 3000);
+          setTimeout(() => (this.isSuccess = false), 3000);
           this.teacherr = {
             fn: "",
             ln: "",
@@ -1509,7 +1693,7 @@ export default {
           };
         } else {
           this.isFailed = true;
-          setTimeout(() => this.isFailed = false, 3000);
+          setTimeout(() => (this.isFailed = false), 3000);
         }
         this.isLoading = false;
       } catch (error) {
@@ -1654,7 +1838,7 @@ export default {
     click(tabName) {
       this.activeModal = tabName;
       if (window.innerWidth <= 768) {
-        document.getElementById('principal-nav-toggle').checked = false;
+        document.getElementById("principal-nav-toggle").checked = false;
       }
     },
 
@@ -1662,7 +1846,7 @@ export default {
       this.activeTab1 = tabName;
       this.activeModal = "manage";
       if (window.innerWidth <= 768) {
-        document.getElementById('principal-nav-toggle').checked = false;
+        document.getElementById("principal-nav-toggle").checked = false;
       }
     },
 
@@ -1686,8 +1870,8 @@ export default {
         case "manage":
           this.getSubjects();
           break;
-      };
-    }
+      }
+    },
   },
 
   mounted() {
