@@ -4,21 +4,7 @@
     <p>Loading...</p>
   </div>
 
-  <!-- Sidebar Toggle -->
-  <input
-    type="checkbox"
-    id="principal-nav-toggle"
-    class="menu-checkbox"
-    aria-hidden="true"
-  />
-  <label
-    for="principal-nav-toggle"
-    class="menu-overlay"
-    aria-hidden="true"
-  ></label>
-
-  <!-- Modals -->
-  <div class="main-modal" v-if="activeModal === 'showInfo'">
+  <div class="loading-screen" v-if="activeModal === 'showInfo'">
     <div class="modal-container">
       <div class="modal-content">
         <div class="left-column">
@@ -299,6 +285,7 @@
           >File Upload</a
         >
       </div>
+
       <div class="item">
         <a href="#" @click.prevent="showMenu4 = !showMenu4">
           Question Change
@@ -336,8 +323,9 @@
       </button>
     </div>
   </div>
+  <!--end of sidebar-->
 
-  <!-- Main content container -->
+  <!--main content container-->
   <div class="main-content">
     <!-- Header -->
     <header class="topbar">
@@ -355,28 +343,9 @@
           <span class="breadcrumb">Principal Portal</span>
         </div>
       </div>
-      <div class="user-section">
-        <span class="user-greeting"
-          >Welcome, {{ fullname }} {{ lastname }}</span
-        >
-        <button class="logout-btn desktop-only" @click="logout()">
-          <svg
-            class="logout-icon"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          Logout
-        </button>
+      <div class="user-info">
+        <span>Welcome, {{ fullname }} {{ lastname }}</span>
+        <button class="logout-btn" @click="logout()">Logout</button>
       </div>
 
       <div class="error" v-if="isFailed">
@@ -399,78 +368,27 @@
     <!-- Stats -->
     <div class="stats-container">
       <div class="stat-card">
-        <div class="stat-icon">👥</div>
+        👥
         <h3>{{ this.count }}</h3>
         <p>Teachers</p>
       </div>
       <div class="stat-card">
-        <div class="stat-icon">🎓</div>
+        🎓
         <h3>{{ this.count2 }}</h3>
         <p>Students</p>
       </div>
     </div>
 
-    <!-- Student Evaluations -->
     <div v-if="activeModal === 'student'">
-      <div class="section-header">
+      <div class="teacher-header">
         <h3>Student Evaluations</h3>
-      </div>
-
-      <!-- Search and Sort Controls -->
-      <div class="search-sort-container">
-        <div class="search-wrapper">
-          <svg
-            class="search-icon"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input
-            type="text"
-            v-model="studentSearchQuery"
-            placeholder="Search by name, subject, quarter, or year..."
-            class="search-input"
-          />
-        </div>
-        <div class="sort-wrapper">
-          <label for="student-sort" class="sort-label">Sort by:</label>
-          <select id="student-sort" v-model="studentSortBy" class="sort-select">
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="subject-asc">Subject (A-Z)</option>
-            <option value="subject-desc">Subject (Z-A)</option>
-            <option value="quarter-asc">Quarter (1-4)</option>
-            <option value="quarter-desc">Quarter (4-1)</option>
-            <option value="year-desc">Year (Newest)</option>
-            <option value="year-asc">Year (Oldest)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Results Count -->
-      <div
-        class="results-count"
-        v-if="filteredAndSortedStudents.length !== newStudents.length"
-      >
-        <span
-          >Showing {{ filteredAndSortedStudents.length }} of
-          {{ newStudents.length }} evaluations</span
-        >
       </div>
 
       <div class="teacher-container">
         <div
-          class="card student-card"
-          v-for="newStudent in filteredAndSortedStudents"
-          :key="`student-${newStudent.id}-${newStudent.eval_id}`"
+          class="card"
+          v-for="newStudent in newStudents"
+          :key="newStudents.id"
         >
           <h3>{{ newStudent.firstname }} {{ newStudent.lastname }}</h3>
           <p>{{ newStudent.subject }}</p>
@@ -485,7 +403,6 @@
       </div>
     </div>
 
-    <!-- Evaluate Teachers -->
     <div v-if="activeModal === 'evaluate'">
       <!-- Teacher Cards -->
       <div class="teacher-container">
@@ -493,83 +410,22 @@
           <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
           <p>{{ teacher.subject }}</p>
           <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-          <div class="card-button-wrapper">
-            <button
-              class="start"
-              @click.prevent="
-                $router.push({
-                  name: 'teacher-eval',
-                  params: { id: teacher.id },
-                })
-              "
-            >
-              Start Evaluation
-            </button>
-          </div>
-        </div>
-        <div
-          v-if="filteredAndSortedEvaluateTeachers.length === 0"
-          class="no-results"
-        >
-          <p>No teachers found matching your search criteria.</p>
+          <br /><br />
+          <button
+            class="start"
+            @click.prevent="
+              $router.push({ name: 'teacher-eval', params: { id: teacher.id } })
+            "
+          >
+            Start Evaluation
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Teacher Evaluations -->
     <div v-if="activeModal === 'teacher'">
-      <div class="section-header">
+      <div class="teacher-header">
         <h3>Teacher Evaluations</h3>
-      </div>
-
-      <!-- Search and Sort Controls -->
-      <div class="search-sort-container">
-        <div class="search-wrapper">
-          <svg
-            class="search-icon"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input
-            type="text"
-            v-model="teacherSearchQuery"
-            placeholder="Search by name, subject, quarter, or year..."
-            class="search-input"
-          />
-        </div>
-        <div class="sort-wrapper">
-          <label for="teacher-sort" class="sort-label">Sort by:</label>
-          <select id="teacher-sort" v-model="teacherSortBy" class="sort-select">
-            <option value="name-asc">Name (A-Z)</option>
-            <option value="name-desc">Name (Z-A)</option>
-            <option value="subject-asc">Subject (A-Z)</option>
-            <option value="subject-desc">Subject (Z-A)</option>
-            <option value="quarter-asc">Quarter (1-4)</option>
-            <option value="quarter-desc">Quarter (4-1)</option>
-            <option value="year-desc">Year (Newest)</option>
-            <option value="year-asc">Year (Oldest)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Results Count -->
-      <div
-        class="results-count"
-        v-if="filteredAndSortedTeachers.length !== newTeachers.length"
-      >
-        <span
-          >Showing {{ filteredAndSortedTeachers.length }} of
-          {{ newTeachers.length }} evaluations</span
-        >
       </div>
 
       <div class="teacher-container">
@@ -591,482 +447,126 @@
       </div>
     </div>
 
-    <!-- Account Management -->
     <div v-if="activeModal === 'manage'">
       <div class="content">
-        <!-- Create Teacher Form -->
         <div class="container" v-if="activeTab1 === 'crtTeacher'">
-          <div class="form-header">
-            <h3 class="form-title">Create New Teacher Account</h3>
-            <p class="form-subtitle">
-              Fill in the details below to create a new teacher user account
-            </p>
+          <div class="header">
+            <h3 class="headText">Create new teacher users</h3>
           </div>
 
-          <form
-            method="post"
-            @submit.prevent="createTeachers()"
-            class="create-teacher-form"
-          >
+          <form method="post" @submit.prevent="createTeachers()">
             <div v-if="isWrong" class="wrong">
-              <p>Wrong Credentials or Incomplete Information</p>
+              <p class="wrong">Wrong Credentials or Incomplete</p>
+            </div>
+            <div class="form-group">
+              <label for="lsNm">Enter the First Name:</label>
+              <input
+                type="text"
+                v-model="teacherr.fn"
+                placeholder="Enter First Name"
+                required
+              />
             </div>
 
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="firstName"
-                  >First Name <span class="required">*</span></label
-                >
-                <input
-                  id="firstName"
-                  type="text"
-                  v-model="teacherr.fn"
-                  placeholder="Enter First Name"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="lastName"
-                  >Last Name <span class="required">*</span></label
-                >
-                <input
-                  id="lastName"
-                  type="text"
-                  v-model="teacherr.ln"
-                  placeholder="Enter Last Name"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="email"
-                  >Email Address <span class="required">*</span></label
-                >
-                <input
-                  id="email"
-                  type="email"
-                  v-model="teacherr.email"
-                  placeholder="Enter Email Address"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="teacherId"
-                  >Teacher ID <span class="required">*</span></label
-                >
-                <input
-                  id="teacherId"
-                  type="number"
-                  v-model="teacherr.id"
-                  placeholder="Enter Teacher ID"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="subject"
-                  >Subject <span class="required">*</span></label
-                >
-                <select id="subject" v-model="teacherr.sub" required>
-                  <option value="">Select Subject</option>
-                  <option value="Math">Math</option>
-                  <option value="English">English</option>
-                  <option value="Filipino">Filipino</option>
-                  <option value="Science">Science</option>
-                  <option value="Araling Panlipunan">Araling Panlipunan</option>
-                  <option value="TLE">TLE</option>
-                  <option value="MAPEH">MAPEH</option>
-                  <option value="ESP">ESP</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="quarter"
-                  >Quarter <span class="required">*</span></label
-                >
-                <select id="quarter" v-model="teacherr.qrt" required>
-                  <option value="">Select Quarter</option>
-                  <option value="1">Quarter 1</option>
-                  <option value="2">Quarter 2</option>
-                  <option value="3">Quarter 3</option>
-                  <option value="4">Quarter 4</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="year">Year <span class="required">*</span></label>
-                <input
-                  id="year"
-                  type="number"
-                  v-model="teacherr.yr"
-                  placeholder="Enter Year (e.g., 2024)"
-                  required
-                  min="2000"
-                  max="2100"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="password"
-                  >Password <span class="required">*</span></label
-                >
-                <input
-                  id="password"
-                  type="password"
-                  v-model="teacherr.ps"
-                  placeholder="Enter Password"
-                  required
-                  minlength="6"
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="confirmPassword"
-                  >Confirm Password <span class="required">*</span></label
-                >
-                <input
-                  id="confirmPassword"
-                  type="password"
-                  v-model="teacherr.cpas"
-                  placeholder="Confirm Password"
-                  required
-                  minlength="6"
-                />
-              </div>
+            <div class="form-group">
+              <label for="lsNm">Enter the Last Name:</label>
+              <input
+                type="text"
+                v-model="teacherr.ln"
+                placeholder="Enter Last Name"
+                required
+              />
             </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn-primary">
-                <svg
-                  class="btn-icon"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+            <div class="form-group">
+              <label for="lsNm">Enter the Email:</label>
+              <input
+                type="email"
+                v-model="teacherr.email"
+                placeholder="Enter Email"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the ID:</label>
+              <input
+                type="number"
+                v-model="teacherr.id"
+                placeholder="Enter ID"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Choose Subject:</label>
+
+              <select v-model="teacherr.sub" class="" required>
+                <option
+                  v-for="subject in subjects"
+                  :key="subject.id"
+                  :value="subject.id"
                 >
-                  <path d="M12 5v14M5 12h14"></path>
-                </svg>
-                Create Teacher Account
-              </button>
+                  {{ subject.subjects }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Choose Quarter:</label>
+              <select v-model="teacherr.qrt" class="" required>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter Year:</label>
+              <input
+                type="number"
+                v-model="teacherr.yr"
+                placeholder="Enter Year"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Password:</label>
+              <input
+                type="password"
+                v-model="teacherr.ps"
+                placeholder="Enter Password"
+                minlength="8"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lsNm">Enter the Confirm Password:</label>
+              <input
+                type="password"
+                v-model="teacherr.cpas"
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+            <div class="">
+              <button type="submit" class="btn">Create Teacher</button>
             </div>
           </form>
         </div>
 
-        <!-- Delete Users Section -->
-        <div v-if="activeTab1 === 'rmTeacher'">
-          <div class="section-header">
-            <h3>Delete Users</h3>
-            <p class="section-description">
-              Search and manage teacher accounts. Click remove to delete a
-              teacher account.
-            </p>
-          </div>
-
-          <!-- Search and Sort Controls -->
-          <div class="search-sort-container">
-            <div class="search-wrapper">
-              <svg
-                class="search-icon"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
-              <input
-                type="text"
-                v-model="deleteSearchQuery"
-                placeholder="Search by name, subject, quarter, or year..."
-                class="search-input"
-              />
-            </div>
-            <div class="sort-wrapper">
-              <label for="delete-sort" class="sort-label">Sort by:</label>
-              <select
-                id="delete-sort"
-                v-model="deleteSortBy"
-                class="sort-select"
-              >
-                <option value="name-asc">Name (A-Z)</option>
-                <option value="name-desc">Name (Z-A)</option>
-                <option value="subject-asc">Subject (A-Z)</option>
-                <option value="subject-desc">Subject (Z-A)</option>
-                <option value="quarter-asc">Quarter (1-4)</option>
-                <option value="quarter-desc">Quarter (4-1)</option>
-                <option value="year-desc">Year (Newest)</option>
-                <option value="year-asc">Year (Oldest)</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Results Count -->
-          <div
-            class="results-count"
-            v-if="filteredAndSortedDeleteTeachers.length !== teachers.length"
-          >
-            <span
-              >Showing {{ filteredAndSortedDeleteTeachers.length }} of
-              {{ teachers.length }} teachers</span
-            >
-          </div>
-
-          <div class="teacher-container">
-            <div
-              class="card delete-teacher-card"
-              v-for="teacher in filteredAndSortedDeleteTeachers"
-              :key="`delete-${teacher.id}`"
-            >
-              <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-              <p>{{ teacher.subject }}</p>
-              <span class="badge"
-                >Q{{ teacher.quarter }} {{ teacher.year }}</span
-              >
-              <div class="card-button-wrapper">
-                <button
-                  class="btn-delete"
-                  @click.prevent="rmTeachers(teacher.id)"
-                >
-                  <svg
-                    class="btn-icon"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path
-                      d="m19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-                    ></path>
-                  </svg>
-                  Remove Teacher
-                </button>
-              </div>
-            </div>
-            <div
-              v-if="filteredAndSortedDeleteTeachers.length === 0"
-              class="no-results"
-            >
-              <p>No teachers found matching your search criteria.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Edit Teacher Section -->
-        <div v-if="activeTab1 === 'editTeacher'">
-          <div class="section-header">
-            <h3>Edit Teacher Accounts</h3>
-            <p class="section-description">
-              Search and edit teacher account details.
-            </p>
-          </div>
-
-          <!-- Search and Sort Controls -->
-          <div class="search-sort-container">
-            <div class="search-wrapper">
-              <svg
-                class="search-icon"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.35-4.35"></path>
-              </svg>
-              <input
-                type="text"
-                v-model="editSearchQuery"
-                placeholder="Search by name, subject, quarter, or year..."
-                class="search-input"
-              />
-            </div>
-          </div>
-
-          <!-- Results Count -->
-          <div
-            class="results-count"
-            v-if="filteredEditTeachers.length !== teachers.length"
-          >
-            <span
-              >Showing {{ filteredEditTeachers.length }} of
-              {{ teachers.length }} teachers</span
-            >
-          </div>
-
-          <div class="teacher-container">
-            <div
-              class="card"
-              v-for="teacher in filteredEditTeachers"
-              :key="teacher.id"
-              v-if="!isEditing"
-            >
-              <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
-              <p>{{ teacher.subject }}</p>
-              <span class="badge"
-                >Q{{ teacher.quarter }} {{ teacher.year }}</span
-              >
-              <div class="card-button-wrapper">
-                <button
-                  class="update"
-                  @click.prevent="openTeacherModal(teacher.id)"
-                >
-                  Edit Teacher
-                </button>
-              </div>
-            </div>
-
-            <div v-if="isEditing" class="edit-form-container">
-              <div class="card">
-                <div class="form-header">
-                  <h3 class="form-title">Edit Teacher Account</h3>
-                  <p class="form-subtitle">
-                    Update the details for {{ selectedTeachers.fn }}
-                    {{ selectedTeachers.ln }}
-                  </p>
-                </div>
-                <form method="post" @submit.prevent="editTeachers()">
-                  <div v-if="isWrong" class="wrong">
-                    <p class="wrong">
-                      Wrong Credentials or Incomplete Information
-                    </p>
-                  </div>
-                  <div class="form-grid">
-                    <div class="form-group">
-                      <label for="editFirstName"
-                        >First Name <span class="required">*</span></label
-                      >
-                      <input
-                        id="editFirstName"
-                        type="text"
-                        v-model="selectedTeachers.fn"
-                        placeholder="Enter First Name"
-                        required
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="editLastName"
-                        >Last Name <span class="required">*</span></label
-                      >
-                      <input
-                        id="editLastName"
-                        type="text"
-                        v-model="selectedTeachers.ln"
-                        placeholder="Enter Last Name"
-                        required
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="editEmail"
-                        >Email Address <span class="required">*</span></label
-                      >
-                      <input
-                        id="editEmail"
-                        type="email"
-                        v-model="selectedTeachers.email"
-                        placeholder="Enter Email"
-                        required
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="editTeacherId"
-                        >Teacher ID <span class="required">*</span></label
-                      >
-                      <input
-                        id="editTeacherId"
-                        type="number"
-                        v-model="selectedTeachers.id"
-                        placeholder="Enter ID"
-                        required
-                      />
-                    </div>
-
-                    <div class="form-group">
-                      <label for="editSubject"
-                        >Subject <span class="required">*</span></label
-                      >
-                      <select
-                        id="editSubject"
-                        v-model="selectedTeachers.sub"
-                        required
-                      >
-                        <option value="">Select Subject</option>
-                        <option
-                          v-for="subject in subjects"
-                          :key="subject.id"
-                          :value="subject.id"
-                        >
-                          {{ subject.subjects }}
-                        </option>
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="editQuarter"
-                        >Quarter <span class="required">*</span></label
-                      >
-                      <select
-                        id="editQuarter"
-                        v-model="selectedTeachers.qrt"
-                        required
-                      >
-                        <option value="1">Quarter 1</option>
-                        <option value="2">Quarter 2</option>
-                        <option value="3">Quarter 3</option>
-                        <option value="4">Quarter 4</option>
-                      </select>
-                    </div>
-
-                    <div class="form-group">
-                      <label for="editYear"
-                        >Year <span class="required">*</span></label
-                      >
-                      <input
-                        id="editYear"
-                        type="number"
-                        v-model="selectedTeachers.yr"
-                        placeholder="Enter Year"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="form-actions">
-                    <button type="submit" class="btn-primary">
-                      Save Changes
-                    </button>
-                    <button
-                      type="button"
-                      class="btn-secondary"
-                      @click="isEditing = false"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+        <div class="teacher-container" v-if="activeTab1 === 'rmTeacher'">
+          <div class="card" v-for="teacher in teachers" :key="teacher.id">
+            <h3>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
+            <p>{{ teacher.subject }}</p>
+            <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
+            <br /><br />
+            <button class="start" @click.prevent="rmTeachers(teacher.id)">
+              Remove Teacher
+            </button>
           </div>
         </div>
 
@@ -1174,6 +674,15 @@
         </div>
       </div>
     </div>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </div>
 </template>
 
@@ -1220,9 +729,10 @@ export default {
       isEditing: false,
       fullname:
         JSON.parse(localStorage.getItem("userData") || "{}").fullname ||
-        "Principal",
+        "Student Name",
       lastname:
-        JSON.parse(localStorage.getItem("userData") || "{}").lastname || "User",
+        JSON.parse(localStorage.getItem("userData") || "{}").lastname ||
+        "Student Name",
       usrid: JSON.parse(localStorage.getItem("userData") || "{}").id || null,
       activeModal: "student",
       activeTab: "student",
@@ -1240,281 +750,6 @@ export default {
       airesponse: null,
       isNavOpen: false,
     };
-  },
-
-  computed: {
-    filteredAndSortedStudents() {
-      let filtered = this.newStudents;
-
-      // Apply search filter
-      if ((this.studentSearchQuery || "").trim()) {
-        const query = this.studentSearchQuery.toLowerCase().trim();
-        filtered = filtered.filter((student) => {
-          const fullName =
-            `${student.firstname} ${student.lastname}`.toLowerCase();
-          const subject = (student.subject || "").toLowerCase();
-          const quarter = String(student.quarter || "");
-          const year = String(student.year || "");
-
-          return (
-            fullName.includes(query) ||
-            subject.includes(query) ||
-            quarter.includes(query) ||
-            year.includes(query)
-          );
-        });
-      }
-
-      // Apply sorting
-      const [sortField, sortOrder] = (this.studentSortBy || "name-asc").split(
-        "-"
-      );
-      filtered = [...filtered].sort((a, b) => {
-        let aValue, bValue;
-
-        switch (sortField) {
-          case "name":
-            aValue = `${a.firstname} ${a.lastname}`.toLowerCase();
-            bValue = `${b.firstname} ${b.lastname}`.toLowerCase();
-            break;
-          case "subject":
-            aValue = (a.subject || "").toLowerCase();
-            bValue = (b.subject || "").toLowerCase();
-            break;
-          case "quarter":
-            aValue = parseInt(a.quarter) || 0;
-            bValue = parseInt(b.quarter) || 0;
-            break;
-          case "year":
-            aValue = parseInt(a.year) || 0;
-            bValue = parseInt(b.year) || 0;
-            break;
-          default:
-            return 0;
-        }
-
-        if (typeof aValue === "string") {
-          return sortOrder === "asc"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        } else {
-          return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
-        }
-      });
-
-      return filtered;
-    },
-
-    filteredAndSortedTeachers() {
-      let filtered = this.newTeachers;
-
-      // Apply search filter
-      if ((this.teacherSearchQuery || "").trim()) {
-        const query = this.teacherSearchQuery.toLowerCase().trim();
-        filtered = filtered.filter((teacher) => {
-          const fullName =
-            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
-          const subject = (teacher.subject || "").toLowerCase();
-          const quarter = String(teacher.quarter || "");
-          const year = String(teacher.year || "");
-
-          return (
-            fullName.includes(query) ||
-            subject.includes(query) ||
-            quarter.includes(query) ||
-            year.includes(query)
-          );
-        });
-      }
-
-      // Apply sorting
-      const [sortField, sortOrder] = (this.teacherSortBy || "name-asc").split(
-        "-"
-      );
-      filtered = [...filtered].sort((a, b) => {
-        let aValue, bValue;
-
-        switch (sortField) {
-          case "name":
-            aValue = `${a.firstname} ${a.lastname}`.toLowerCase();
-            bValue = `${b.firstname} ${b.lastname}`.toLowerCase();
-            break;
-          case "subject":
-            aValue = (a.subject || "").toLowerCase();
-            bValue = (b.subject || "").toLowerCase();
-            break;
-          case "quarter":
-            aValue = parseInt(a.quarter) || 0;
-            bValue = parseInt(b.quarter) || 0;
-            break;
-          case "year":
-            aValue = parseInt(a.year) || 0;
-            bValue = parseInt(b.year) || 0;
-            break;
-          default:
-            return 0;
-        }
-
-        if (typeof aValue === "string") {
-          return sortOrder === "asc"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        } else {
-          return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
-        }
-      });
-
-      return filtered;
-    },
-
-    filteredAndSortedEvaluateTeachers() {
-      let filtered = this.teachers;
-
-      // Apply search filter
-      if ((this.evaluateSearchQuery || "").trim()) {
-        const query = this.evaluateSearchQuery.toLowerCase().trim();
-        filtered = filtered.filter((teacher) => {
-          const fullName =
-            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
-          const subject = (teacher.subject || "").toLowerCase();
-          const quarter = String(teacher.quarter || "");
-          const year = String(teacher.year || "");
-
-          return (
-            fullName.includes(query) ||
-            subject.includes(query) ||
-            quarter.includes(query) ||
-            year.includes(query)
-          );
-        });
-      }
-
-      // Apply sorting
-      const [sortField, sortOrder] = (this.evaluateSortBy || "name-asc").split(
-        "-"
-      );
-      filtered = [...filtered].sort((a, b) => {
-        let aValue, bValue;
-
-        switch (sortField) {
-          case "name":
-            aValue = `${a.firstname} ${a.lastname}`.toLowerCase();
-            bValue = `${b.firstname} ${b.lastname}`.toLowerCase();
-            break;
-          case "subject":
-            aValue = (a.subject || "").toLowerCase();
-            bValue = (b.subject || "").toLowerCase();
-            break;
-          case "quarter":
-            aValue = parseInt(a.quarter) || 0;
-            bValue = parseInt(b.quarter) || 0;
-            break;
-          case "year":
-            aValue = parseInt(a.year) || 0;
-            bValue = parseInt(b.year) || 0;
-            break;
-          default:
-            return 0;
-        }
-
-        if (typeof aValue === "string") {
-          return sortOrder === "asc"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        } else {
-          return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
-        }
-      });
-
-      return filtered;
-    },
-
-    filteredAndSortedDeleteTeachers() {
-      let filtered = this.teachers;
-
-      // Apply search filter
-      if ((this.deleteSearchQuery || "").trim()) {
-        const query = this.deleteSearchQuery.toLowerCase().trim();
-        filtered = filtered.filter((teacher) => {
-          const fullName =
-            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
-          const subject = (teacher.subject || "").toLowerCase();
-          const quarter = String(teacher.quarter || "");
-          const year = String(teacher.year || "");
-
-          return (
-            fullName.includes(query) ||
-            subject.includes(query) ||
-            quarter.includes(query) ||
-            year.includes(query)
-          );
-        });
-      }
-
-      // Apply sorting
-      const [sortField, sortOrder] = (this.deleteSortBy || "name-asc").split(
-        "-"
-      );
-      filtered = [...filtered].sort((a, b) => {
-        let aValue, bValue;
-
-        switch (sortField) {
-          case "name":
-            aValue = `${a.firstname} ${a.lastname}`.toLowerCase();
-            bValue = `${b.firstname} ${b.lastname}`.toLowerCase();
-            break;
-          case "subject":
-            aValue = (a.subject || "").toLowerCase();
-            bValue = (b.subject || "").toLowerCase();
-            break;
-          case "quarter":
-            aValue = parseInt(a.quarter) || 0;
-            bValue = parseInt(b.quarter) || 0;
-            break;
-          case "year":
-            aValue = parseInt(a.year) || 0;
-            bValue = parseInt(b.year) || 0;
-            break;
-          default:
-            return 0;
-        }
-
-        if (typeof aValue === "string") {
-          return sortOrder === "asc"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        } else {
-          return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
-        }
-      });
-
-      return filtered;
-    },
-
-    filteredEditTeachers() {
-      let filtered = this.teachers;
-
-      // Apply search filter
-      if ((this.editSearchQuery || "").trim()) {
-        const query = this.editSearchQuery.toLowerCase().trim();
-        filtered = filtered.filter((teacher) => {
-          const fullName =
-            `${teacher.firstname} ${teacher.lastname}`.toLowerCase();
-          const subject = (teacher.subject || "").toLowerCase();
-          const quarter = String(teacher.quarter || "");
-          const year = String(teacher.year || "");
-
-          return (
-            fullName.includes(query) ||
-            subject.includes(query) ||
-            quarter.includes(query) ||
-            year.includes(query)
-          );
-        });
-      }
-
-      return filtered;
-    },
   },
 
   methods: {
@@ -1552,6 +787,35 @@ export default {
         }
       } catch (error) {
         console.error("Error fetching teachers:", error);
+      }
+    },
+
+    async getStudentbyid() {
+      try {
+        this.isLoading = true;
+
+        const response = await fetch(this.urlappphp4, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify({
+            action: "getstudentbyid",
+            evt: this.$route.params.evtid,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          this.name = result.student;
+          this.isLoading = false;
+        } else {
+          console.log("Server error:", result.message);
+        }
+      } catch (error) {
+        console.log(error);
+        this.isLoading = false;
       }
     },
 
@@ -1643,62 +907,57 @@ export default {
         if (result.success) {
           this.getTeachers();
           this.isSuccess = true;
-          setTimeout(() => (this.isSuccess = false), 3000);
+          this.isLoading = false;
         } else {
-          this.isFailed = true;
-          setTimeout(() => (this.isFailed = false), 3000);
+          this.isLoading = false;
+          console.error(result.message);
         }
-        this.isLoading = false;
       } catch (error) {
         console.error(error);
-        this.isLoading = false;
       }
     },
 
     async createTeachers() {
-      if (this.teacherr.ps !== this.teacherr.cpas) {
-        this.isWrong = true;
-        setTimeout(() => (this.isWrong = false), 3000);
-        return;
-      }
+      if (this.teacherr.ps === this.teacherr.cpas) {
+        try {
+          this.isLoading = true;
 
-      try {
-        this.isLoading = true;
+          const response = await fetch(this.urlappphp5, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ...this.teacherr,
+              action: "createTeachers",
+            }),
+          });
 
-        const response = await fetch(this.urlappphp5, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...this.teacherr,
-            action: "createTeachers",
-          }),
-        });
+          console.log(this.teacherr);
 
-        const result = await response.json();
+          const result = await response.json();
 
-        if (result.success) {
-          this.getTeachers();
-          this.isSuccess = true;
-          setTimeout(() => (this.isSuccess = false), 3000);
-          this.teacherr = {
-            fn: "",
-            ln: "",
-            email: "",
-            id: "",
-            yr: "",
-            ps: "",
-            cpas: "",
-            sub: "",
-            qrt: "",
-          };
-        } else {
-          this.isFailed = true;
-          setTimeout(() => (this.isFailed = false), 3000);
+          if (result.success) {
+            this.getTeachers();
+            this.isLoading = false;
+            this.isSuccess = true;
+            this.teacherr = {
+              fn: "",
+              ln: "",
+              email: "",
+              id: "",
+              yr: "",
+              ps: "",
+              cpas: "",
+            };
+          } else {
+            this.isLoading = false;
+            this.isFailed = true;
+            console.error(error);
+          }
+        } catch (error) {
+          console.error(error);
         }
-        this.isLoading = false;
-      } catch (error) {
-        console.error(error);
-        this.isLoading = false;
+      } else {
+        this.isWrong = true;
       }
     },
 
@@ -1716,6 +975,7 @@ export default {
 
         if (result.success) {
           this.subjects = result.subjects;
+        } else {
         }
       } catch (error) {
         console.error("error");
@@ -1792,11 +1052,14 @@ export default {
       }
     },
 
-    openStudentModal(studentId) {
-      this.selectedStudent = this.newStudents.find(
-        (student) => student.id === studentId
-      );
-      this.activeModal = "showInfo";
+    skipLogin() {
+      const token = getToken();
+
+      if (!token) {
+        console.error("No token found, redirecting to login.");
+        this.$router.replace("/");
+        return;
+      }
     },
 
     openStudentModal(studentId) {
@@ -1836,18 +1099,13 @@ export default {
     },
 
     click(tabName) {
-      this.activeModal = tabName;
-      if (window.innerWidth <= 768) {
-        document.getElementById("principal-nav-toggle").checked = false;
-      }
+      this.activeTab = tabName;
+      this.toggleModal(tabName);
     },
 
     click2(tabName) {
       this.activeTab1 = tabName;
       this.activeModal = "manage";
-      if (window.innerWidth <= 768) {
-        document.getElementById("principal-nav-toggle").checked = false;
-      }
     },
 
     closeNav() {
@@ -1869,13 +1127,13 @@ export default {
           break;
         case "manage":
           this.getSubjects();
-          break;
       }
     },
   },
 
   mounted() {
     this.id = localStorage.getItem("userData") || "";
+    this.skipLogin();
     this.getSteval();
     this.getTeachers();
   },
@@ -2005,10 +1263,6 @@ body {
   font-size: 1rem;
   transition: all 0.2s ease;
   white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 500;
 }
 
 .topbar .logout-btn {
@@ -2153,7 +1407,6 @@ body {
   color: #6b7280;
   margin-bottom: 1rem;
   line-height: 1.5;
-  flex: 1;
 }
 
 /* ===== BADGES ===== */
@@ -2192,46 +1445,6 @@ body {
   background: #333333;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.card .update:hover {
-  background: #f9fafb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.btn-delete {
-  background: #fff;
-  color: #dc2626;
-  border-color: #dc2626;
-}
-
-.btn-delete:hover {
-  background: #dc2626;
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
-}
-
-.btn-icon {
-  flex-shrink: 0;
-}
-
-/* ===== NO RESULTS ===== */
-.no-results {
-  grid-column: 1 / -1;
-  text-align: center;
-  padding: 4rem 1.75rem;
-  color: #6b7280;
-  background: #f9fafb;
-  border-radius: 16px;
-  border: 1px dashed #e5e7eb;
-}
-
-.no-results p {
-  font-size: 1.25rem;
-  margin: 0;
-  font-weight: 500;
 }
 
 /* ===== FORM STYLES ===== */
@@ -2659,26 +1872,11 @@ body {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.85);
   display: flex;
-  justify-content: flex-start;
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 1rem;
-  gap: 1rem;
-}
-
-.btn-primary {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 1.125rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 0.75rem;
+  z-index: 3000;
+  color: white;
 }
 
 .loading-spinner {
@@ -2706,17 +1904,6 @@ body {
   }
 }
 
-.btn-secondary:hover {
-  background: #e5e7eb;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.edit-form-container {
-  grid-column: 1 / -1;
-}
-
-/* ===== FEEDBACK MESSAGES ===== */
 .success,
 .error {
   position: fixed;
@@ -2747,20 +1934,9 @@ body {
   border: 2px solid #dc2626;
 }
 
-/* ===== LOADING SCREEN ===== */
-.loading-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.85);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 3000;
-  color: white;
+.success span,
+.error span {
+  display: block;
 }
 
 .success::after,
@@ -2785,71 +1961,26 @@ body {
   }
 }
 
-/* ===== MODAL STYLES ===== */
-.main-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 2000;
-  overflow-y: auto;
-}
-
-@media (min-width: 640px) {
-  .main-modal {
-    padding: 1.5rem;
+@keyframes timeout {
+  0% {
+    opacity: 1;
+    visibility: visible;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
   }
 }
 
-@media (min-width: 1024px) {
-  .main-modal {
-    padding: 2rem;
+@keyframes progress {
+  0% {
+    width: 100%;
   }
-}
-
-.modal-container {
-  width: 100%;
-  max-width: 80rem;
-  max-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-}
-
-.modal-content {
-  width: 100%;
-  max-width: 72rem;
-  border-radius: 16px;
-  background-color: #f8fafc;
-  padding: 2rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  overflow-y: auto;
-  max-height: 90vh;
-}
-
-.left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
-.profile-section {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-}
-
-@media (min-width: 640px) {
-  .profile-section {
-    grid-template-columns: auto 1fr;
-    gap: 2rem;
+  100% {
+    width: 0%;
   }
 }
 
