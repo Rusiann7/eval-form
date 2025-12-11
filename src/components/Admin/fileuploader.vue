@@ -108,13 +108,10 @@ export default {
       showMenu2: false,
       showMenu3: false,
       showMenu4: false,
-<<<<<<< HEAD
-=======
       isLoading: false,
       isSuccess: false,
       isFailed: false,
       file: null,
->>>>>>> Development
     };
   },
 

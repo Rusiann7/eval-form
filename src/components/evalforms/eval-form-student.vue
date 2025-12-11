@@ -326,7 +326,7 @@ export default {
 body {
   margin: 0;
   padding: 1rem;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
@@ -711,8 +711,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -721,7 +725,7 @@ body {
     padding: 0.75rem;
     font-size: 15px;
   }
-  
+
   .content {
     padding: 1.25rem 1.5rem;
   }
@@ -732,24 +736,25 @@ body {
     width: 100%;
     min-height: auto;
   }
-  
+
   .header {
     padding: 0.75rem;
   }
-  
-  .logo-left, .logo-right {
+
+  .logo-left,
+  .logo-right {
     width: 4rem;
     height: 4rem;
   }
-  
+
   .header h1 {
     font-size: 1.25rem;
   }
-  
+
   .header h2 {
     font-size: 1.1rem;
   }
-  
+
   .header h3 {
     font-size: 1rem;
   }
@@ -761,81 +766,82 @@ body {
     font-size: 14px;
     align-items: flex-start;
   }
-  
+
   .a4-page {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
-  
+
   .header {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
     gap: 1rem;
   }
-  
-  .logo-left, .logo-right {
+
+  .logo-left,
+  .logo-right {
     width: 3.5rem;
     height: 3.5rem;
     margin: 0;
   }
-  
+
   .header-content {
     width: 100%;
     order: 2;
   }
-  
+
   .logo-left {
     order: 1;
   }
-  
+
   .logo-right {
     order: 3;
   }
-  
+
   .content {
     padding: 1rem;
   }
-  
+
   .info-fields {
     grid-template-columns: 1fr;
     gap: 1rem;
     padding: 0.75rem;
   }
-  
+
   .section-header {
     font-size: 1.25rem;
     padding: 0.85rem;
     flex-direction: column;
   }
-  
+
   .indicator-table {
     display: block;
     overflow-x: auto;
     font-size: 1rem;
   }
-  
+
   .indicator-table td:first-child,
   .indicator-table td:last-child {
     width: auto;
     min-width: 60%;
   }
-  
+
   .indicator-table td:last-child {
     min-width: 40%;
   }
-  
+
   .footer {
     flex-direction: column;
     text-align: center;
     padding: 1rem;
     gap: 1rem;
   }
-  
+
   .footer-logo {
     width: 3.5rem;
     height: 3.5rem;
   }
-  
+
   .footer-line strong {
     display: block;
     text-align: left;
@@ -848,83 +854,73 @@ body {
     padding: 0.25rem;
     font-size: 13px;
   }
-  
+
   .header h1 {
     font-size: 1.1rem;
   }
-  
+
   .header h2 {
     font-size: 1rem;
   }
-  
+
   .header h3 {
     font-size: 0.9rem;
   }
-  
+
   .section-header {
     font-size: 1.15rem;
     padding: 0.75rem;
   }
-  
+
   .tagalog {
     font-size: 1rem;
   }
-  
+
   .info-field label {
     font-size: 1.05rem;
   }
-  
+
   .info-field p {
     font-size: 1.1rem;
   }
-  
+
   .rating-scale h2 {
     font-size: 1.2rem;
   }
-  
+
   .rating-table {
     font-size: 1rem;
   }
-  
+
   .rating-table th,
   .rating-table td {
     padding: 0.6rem 0.4rem;
   }
-  
+
   .indicator-table th,
   .indicator-table td {
     padding: 0.7rem 0.5rem;
   }
-  
+
   .indicator-table td:first-child {
     font-size: 1rem;
   }
-  
+
   .indicator-table td:last-child {
     font-size: 1.15rem;
   }
-  
+
   .content > p:first-of-type {
     font-size: 1.1rem;
   }
-  
+
   .content > p.rating-cell {
     font-size: 1rem;
     padding: 0.75rem;
   }
 }
 
-<<<<<<< HEAD
-/* Print styles - FIXED HEADER/FOOTER THAT WORKS */
-/* 
-  IMPORTANT: For best print results, enable "Background graphics" in your browser's print settings:
-  - Chrome/Edge: Settings > More settings > Background graphics
-  - Firefox: Options > Print Background Colors
-  - Safari: Show Details > Print backgrounds
-*/
-=======
 /* Print styles - optimized for A4 printing */
->>>>>>> Development
 @media print {
   /* Force browsers to print backgrounds and colors */
   * {
@@ -937,257 +933,63 @@ body {
     background: none;
     margin: 0;
     padding: 0;
-<<<<<<< HEAD
-    font-size: 0.8rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-=======
     font-size: 11pt;
     line-height: 1.4;
     width: 210mm;
     height: 297mm;
->>>>>>> Development
   }
-  
+
   .a4-page {
     box-shadow: none;
     margin: 0;
     width: 210mm;
     min-height: 297mm;
     page-break-after: always;
-<<<<<<< HEAD
-    background: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Header on every page - FIXED */
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 0.2rem 0.5rem;
-    background: #f8f9fa !important;
-    background-color: #f8f9fa !important;
-    border-bottom: 2px solid #0044cc !important;
-    z-index: 1000;
-    height: auto;
-    min-height: 1.5rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .header h1 {
-    color: #003366 !important;
-  }
-
-  .header h2 {
-    color: #0044aa !important;
-  }
-
-  .header h3 {
-    color: #005588 !important;
-  }
-
-  /* Footer on every page - FIXED */
-  .footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0.2rem 1rem;
-    background: #f8f9fa !important;
-    background-color: #f8f9fa !important;
-    border-top: 1px solid #0044cc !important;
-    z-index: 1000;
-    height: auto;
-    min-height: 1rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Logo containers */
-  .logo-left,
-  .logo-right,
-  .footer-logo {
-    background-color: #e6e6e6 !important;
-    border: 1px solid #ccc !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* CRITICAL: Add margins to content to avoid cutting */
-  .content {
-    padding: 2rem 1rem 1.5rem 1rem;
-    margin: 0;
-  }
-
-  /* Info fields */
-  .info-field label {
-    color: #2c3e50 !important;
-    font-weight: bold !important;
-  }
-
-  /* Rating scale */
-  .rating-scale {
-    background-color: #f8f9fa !important;
-    border: 1px solid #dee2e6 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .rating-scale h2 {
-    color: #2c3e50 !important;
-  }
-
-  /* Rating table */
-  table.rating-table {
-    border-collapse: collapse !important;
-  }
-
-  table.rating-table th {
-    background-color: #4a86e8 !important;
-    color: white !important;
-    border: 1px solid #dee2e6 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  table.rating-table td {
-    border: 1px solid #dee2e6 !important;
-  }
-
-  table.rating-table tr:nth-child(even) {
-    background-color: #f2f2f2 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Section headers */
-  .section-header {
-    background-color: #4a86e8 !important;
-    color: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .section-header .tagalog {
-    color: white !important;
-    display: block !important;
-  }
-
-  /* Text elements */
-  p,
-  strong {
-    color: #000 !important;
-  }
-
-  .info-field p {
-    color: #000 !important;
-  }
-
-  /* Indicator table */
-  .indicator-table {
-    border-collapse: collapse !important;
-    width: 100% !important;
-    border: 1px solid #dee2e6 !important;
-  }
-
-  .indicator-table thead {
-    display: table-header-group !important;
-  }
-
-  .indicator-table tbody {
-    display: table-row-group !important;
-  }
-
-  .indicator-table th {
-    border: 1px solid #dee2e6 !important;
-    background-color: #f8f9fa !important;
-    font-weight: bold !important;
-    padding: 0.5rem 0.4rem !important;
-    text-align: left !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .indicator-table td {
-    border: 1px solid #dee2e6 !important;
-    padding: 0.5rem 0.4rem !important;
-=======
     position: relative;
   }
-  
+
   /* Hide loading screen when printing */
   .loading-screen {
     display: none !important;
   }
-  
+
   /* Ensure proper page breaks and avoid splitting sections */
   .evaluation-section {
     page-break-inside: avoid;
     break-inside: avoid;
     margin: 1.5rem 0;
->>>>>>> Development
   }
-  
+
   .indicator-table {
     page-break-inside: auto;
   }
-  
+
   .indicator-table tr {
     page-break-inside: avoid;
     break-inside: avoid;
   }
-<<<<<<< HEAD
 
-  .indicator-table tr:nth-child(even) {
-    background-color: #f8f9fa !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Rating cell */
-  .rating-cell {
-    text-align: center !important;
-    border: 1px solid #dee2e6 !important;
-  }
-
-  /* Prevent content from being cut off */
-  .evaluation-section {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin: 1rem 0;
-  }
-
-  /* Ensure tables don't break across pages awkwardly */
-  .indicator-table {
-    page-break-inside: auto;
-=======
-  
   /* Adjust spacing for print */
   .header {
     padding: 0.4rem 0.75rem;
     border-bottom-width: 1px;
->>>>>>> Development
   }
-  
+
   .content {
     padding: 1rem 1.25rem;
   }
-  
+
   .info-fields {
     margin-bottom: 1.5rem;
     padding: 0.75rem;
     gap: 1rem;
   }
-  
+
   .rating-scale {
     margin-bottom: 1.5rem;
     padding: 1rem;
   }
-  
+
   .footer {
     padding: 0.75rem 1rem;
     margin-top: 1.5rem;
@@ -1197,7 +999,7 @@ body {
     left: 0;
     right: 0;
   }
-  
+
   /* Ensure logos print properly */
   .logo-left img,
   .logo-right img,
@@ -1206,19 +1008,19 @@ body {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   /* Remove hover effects for print */
   .indicator-table tbody tr:hover {
     background-color: inherit;
   }
-  
+
   /* Force black text for better print contrast */
   * {
     color: black !important;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
-  
+
   /* Ensure background colors print */
   .section-header,
   .rating-table th,
@@ -1283,9 +1085,9 @@ img {
     z-index: 1000;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
-  
+
   .print-button:hover {
     background-color: #0033aa;
   }
 }
-</style> 
+</style>

@@ -209,12 +209,9 @@
                 </svg>
                 Add question
               </button>
-<<<<<<< HEAD
-=======
               <button class="btn-section" @click="delHeader(header.header_id)">
                 <span class="material-icons">delete</span>
               </button>
->>>>>>> Development
 
               <input
                 type="text"
@@ -277,10 +274,6 @@
                     @click="question.editing = !question.editing"
                   >
                     <span class="material-icons">edit</span>
-<<<<<<< HEAD
-                    Edit
-=======
->>>>>>> Development
                   </button>
                   <button
                     class="btn-question"
@@ -308,18 +301,11 @@ export default {
     return {
       urlappphp: `${url2}/questions.php`,
       chHeaderphp: `${url2}/headerChangerS.php`,
-<<<<<<< HEAD
-      chQuestionphp: `https://star-panda-literally.ngrok-free.app/questionChange.php`,
-      rmQuestionphp: `${url2}/questionDelete.php`,
-      addQuestionphp: `${url2}/addQuestion.php`,
-      addheaderphp: `${url2}/addHeader.php`,
-=======
       chQuestionphp: `${url2}/questionChange.php`,
       rmQuestionphp: `${url2}/questionDelete.php`,
       addQuestionphp: `${url2}/addQuestion.php`,
       addheaderphp: `${url2}/addHeader.php`,
       delheaderphp: `${url2}/headerDel.php`,
->>>>>>> Development
       headers: [],
       newQuestion: "",
       newHeader: "",
@@ -515,8 +501,6 @@ export default {
         console.error(error);
       }
     },
-<<<<<<< HEAD
-=======
 
     async delHeader(hId) {
       try {
@@ -546,7 +530,6 @@ export default {
         console.error(error);
       }
     },
->>>>>>> Development
   },
 
   watch: {

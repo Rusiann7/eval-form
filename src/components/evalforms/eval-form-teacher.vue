@@ -334,7 +334,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   background-color: #f0f0f0;
   display: flex;
   justify-content: center;
@@ -720,8 +720,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-screen p {
@@ -734,7 +738,7 @@ body {
   :root {
     --base-font-size: 16px;
   }
-  
+
   .a4-page {
     width: 100%;
     margin: 1rem;
@@ -745,7 +749,7 @@ body {
   :root {
     --base-font-size: 15px;
   }
-  
+
   body {
     padding: 0.5rem;
     align-items: flex-start;
@@ -868,7 +872,7 @@ body {
   :root {
     --base-font-size: 14px;
   }
-  
+
   body {
     padding: 0.25rem;
   }
@@ -922,43 +926,19 @@ body {
   }
 }
 
-<<<<<<< HEAD
-/* Print styles - FIXED HEADER/FOOTER THAT WORKS */
-/* 
-  IMPORTANT: For best print results, enable "Background graphics" in your browser's print settings:
-  - Chrome/Edge: Settings > More settings > Background graphics
-  - Firefox: Options > Print Background Colors
-  - Safari: Show Details > Print backgrounds
-*/
-@media print {
-  /* Force browsers to print backgrounds and colors */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-    color-adjust: exact !important;
-  }
-
-=======
 /* Print styles - Optimized for A4 printing */
 @media print {
   :root {
     --base-font-size: 12pt;
   }
-  
->>>>>>> Development
+
   body {
     background: none;
     margin: 0;
     padding: 0;
-<<<<<<< HEAD
-    font-size: 0.8rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-=======
     font-size: var(--base-font-size);
     line-height: 1.4;
     width: 210mm;
->>>>>>> Development
   }
 
   .a4-page {
@@ -968,13 +948,7 @@ body {
     height: auto;
     min-height: 297mm;
     page-break-after: always;
-<<<<<<< HEAD
-    background: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-=======
     position: relative;
->>>>>>> Development
   }
 
   /* Watermark for print */
@@ -995,41 +969,11 @@ body {
     top: 0;
     left: 0;
     right: 0;
-<<<<<<< HEAD
-    padding: 0.2rem 0.5rem;
-    background: #f8f9fa !important;
-    background-color: #f8f9fa !important;
-    border-bottom: 2px solid #0044cc !important;
-    z-index: 1000;
-    height: auto;
-    min-height: 1.5rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .header h1 {
-    color: #003366 !important;
-  }
-
-  .header h2 {
-    color: #0044aa !important;
-  }
-
-  .header h3 {
-    color: #005588 !important;
-  }
-
-  .header h4 {
-    color: #cc0000 !important;
-    font-weight: bold !important;
-    text-transform: uppercase !important;
-=======
     padding: 0.5rem 1rem;
     background: white;
     z-index: 1000;
     height: auto;
     border-bottom: 2px solid #0044cc;
->>>>>>> Development
   }
 
   /* Footer for every printed page */
@@ -1038,40 +982,11 @@ body {
     bottom: 0;
     left: 0;
     right: 0;
-<<<<<<< HEAD
-    padding: 0.2rem 1rem;
-    background: #f8f9fa !important;
-    background-color: #f8f9fa !important;
-    border-top: 1px solid #0044cc !important;
-    z-index: 1000;
-    height: auto;
-    min-height: 1rem;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Logo containers */
-  .logo-left,
-  .logo-right,
-  .footer-logo {
-    background-color: #e6e6e6 !important;
-    border: 1px solid #ccc !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Watermark */
-  .watermark {
-    color: rgba(0, 0, 0, 0.05) !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-=======
     padding: 0.5rem 1.5rem;
     background: white;
     z-index: 1000;
     height: auto;
     border-top: 2px solid #0044cc;
->>>>>>> Development
   }
 
   /* Content area with margins to avoid header/footer overlap */
@@ -1080,100 +995,6 @@ body {
     margin: 0;
   }
 
-<<<<<<< HEAD
-  /* Info fields */
-  .info-field label {
-    color: #2c3e50 !important;
-    font-weight: bold !important;
-  }
-
-  /* Rating scale */
-  .rating-scale {
-    background-color: #f8f9fa !important;
-    border: 1px solid #dee2e6 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .rating-scale h2 {
-    color: #2c3e50 !important;
-  }
-
-  /* Rating table */
-  table.rating-table {
-    border-collapse: collapse !important;
-  }
-
-  table.rating-table th {
-    background-color: #4a86e8 !important;
-    color: white !important;
-    border: 1px solid #dee2e6 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  table.rating-table td {
-    border: 1px solid #dee2e6 !important;
-  }
-
-  table.rating-table tr:nth-child(even) {
-    background-color: #f2f2f2 !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Section headers */
-  .section-header {
-    background-color: #4a86e8 !important;
-    color: white !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .section-header .tagalog {
-    color: white !important;
-    display: block !important;
-  }
-
-  /* Text elements */
-  p,
-  strong {
-    color: #000 !important;
-  }
-
-  .info-field p {
-    color: #000 !important;
-  }
-
-  /* Indicator table */
-  .indicator-table {
-    border-collapse: collapse !important;
-    width: 100% !important;
-    border: 1px solid #dee2e6 !important;
-  }
-
-  .indicator-table thead {
-    display: table-header-group !important;
-  }
-
-  .indicator-table tbody {
-    display: table-row-group !important;
-  }
-
-  .indicator-table th {
-    border: 1px solid #dee2e6 !important;
-    background-color: #f8f9fa !important;
-    font-weight: bold !important;
-    padding: 0.5rem 0.4rem !important;
-    text-align: left !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .indicator-table td {
-    border: 1px solid #dee2e6 !important;
-    padding: 0.5rem 0.4rem !important;
-=======
   /* Ensure proper page breaks */
   .evaluation-section {
     page-break-inside: avoid;
@@ -1183,7 +1004,6 @@ body {
 
   .indicator-table {
     page-break-inside: auto;
->>>>>>> Development
   }
 
   .indicator-table tr {
@@ -1191,39 +1011,9 @@ body {
     break-inside: avoid;
   }
 
-<<<<<<< HEAD
-  .indicator-table tr:nth-child(even) {
-    background-color: #f8f9fa !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* Rating cell */
-  .rating-cell {
-    text-align: center !important;
-    border: 1px solid #dee2e6 !important;
-  }
-
-  /* Prevent content from being cut off */
-  .evaluation-section {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    margin: 1rem 0;
-  }
-
-  /* Ensure tables don't break across pages awkwardly */
-  .indicator-table {
-    page-break-inside: auto;
-  }
-
-  /* Add extra space before sections that might break */
-  .evaluation-section:first-child {
-    margin-top: 0;
-=======
   /* Prevent single rows from breaking across pages */
   .indicator-table tbody tr {
     page-break-inside: avoid;
->>>>>>> Development
   }
 
   /* Hide loading screen when printing */
@@ -1231,21 +1021,6 @@ body {
     display: none !important;
   }
 
-<<<<<<< HEAD
-  /* Ensure all borders print */
-  .info-field,
-  .evaluation-section,
-  .rating-scale {
-    border: none;
-  }
-
-  /* Force visibility of all elements */
-  .header-content,
-  .footer-content,
-  .content > * {
-    visibility: visible !important;
-    display: block !important;
-=======
   /* Ensure background colors print */
   * {
     -webkit-print-color-adjust: exact !important;
@@ -1289,7 +1064,6 @@ body {
   /* Add page break before comments if needed */
   .content > p:first-of-type {
     page-break-before: avoid;
->>>>>>> Development
   }
 }
 
@@ -1313,4 +1087,4 @@ body {
 .footer {
   transition: all 0.3s ease;
 }
-</style> 
+</style>
