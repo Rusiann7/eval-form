@@ -1,6 +1,9 @@
 <?php //login
 require 'config.php';
 
+$redis = new Redis();
+$redis->connect('127.0.0.1', 6379);
+
 use Firebase\JWT\JWT;
 //use Firebase\JWT\Key;
 
@@ -19,6 +22,34 @@ if ($action === 'login') {
 
     $identifier = $data['email'] ?? '';  
     $password   = $data['password'] ?? '';
+
+    $cacheKey = "user:$identifier";
+    $cached = $redis->get($cacheKey);
+
+    if ($cached) {
+        $cached = json_decode($cached, true);
+
+        if (password_verify($password, $cached['password'])) {
+
+            unset($cached['password']);
+
+            $tokenPayload = [
+                'user_id' => $cached['id'],
+                'email'   => $cached['email'],
+                'iat'     => time(),
+                'exp'     => time() + JWT_EXPIRE_TIME
+            ];
+
+            $token = JWT::encode($tokenPayload, JWT_SECRET_KEY, 'HS256');
+
+            echo json_encode([
+                "success" => true,
+                "token"   => $token,
+                "userData"=> $cached
+            ]);
+            exit;
+        }
+    }
 
     $sql = "SELECT u.Email, 
     u.id AS user_id,
@@ -50,6 +81,22 @@ if ($action === 'login') {
             ];
 
             $token = JWT::encode($tokenPayload, JWT_SECRET_KEY, 'HS256');
+
+            // AFTER fetching from DB + password verify succeeds, BEFORE echo json
+            $redis->setex(
+                $cacheKey,
+                3600, 
+                json_encode([
+                    "id" => $dataLogin['st_id'],
+                    "email" => $dataLogin['Email'],
+                    "firstname" => $dataLogin['firstname'],
+                    "lastname" => $dataLogin['lastname'],
+                    "grade" => $dataLogin['grade'],
+                    "section" => $dataLogin['section'],
+                    "password" => $dataLogin['password'] // yeah, hashed, calm down
+                ])
+            );
+
 
             echo json_encode([ //ito yung meta data
                     "success"=> true,
