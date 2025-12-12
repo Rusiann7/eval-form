@@ -27,18 +27,36 @@
           </label>
         </div>
       </div>
-      <label for="student-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+      <label
+        for="student-nav-toggle"
+        class="menu-overlay"
+        aria-hidden="true"
+      ></label>
       <div class="menu-panel" role="dialog" aria-labelledby="student-nav-title">
         <div class="menu-header">
           <p id="student-nav-title" class="menu-title">Student Portal</p>
           <p class="menu-subtitle">Welcome, {{ fullname }} {{ lastname }}</p>
         </div>
-        <label for="student-nav-toggle" class="menu-close" aria-label="Close menu">
+        <label
+          for="student-nav-toggle"
+          class="menu-close"
+          aria-label="Close menu"
+        >
           <span></span>
           <span></span>
         </label>
         <button class="logout-btn menu-logout" @click="logout()">
-          <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            class="logout-icon"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
             <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -50,7 +68,17 @@
     <div class="user-section">
       <span class="user-greeting">Welcome, {{ fullname }} {{ lastname }}</span>
       <button class="logout-btn desktop-only" @click="logout()">
-        <svg class="logout-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          class="logout-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
           <polyline points="16 17 21 12 16 7"></polyline>
           <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -86,7 +114,17 @@
     <!-- Search and Filter Controls -->
     <div class="teacher-controls">
       <div class="search-box">
-        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg
+          class="search-icon"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <circle cx="11" cy="11" r="8"></circle>
           <path d="m21 21-4.35-4.35"></path>
         </svg>
@@ -127,8 +165,12 @@
         <h3 v-else>{{ teacher.firstname }} {{ teacher.lastname }}</h3>
         <p>{{ teacher.subject }}</p>
         <span class="badge">Q{{ teacher.quarter }} {{ teacher.year }}</span>
-        <span v-if="teacher.evaluated === 'evaluated'" class="badge evaluated">Evaluated</span>
-        <br v-if="teacher.evaluated !== 'evaluated'" /><br v-if="teacher.evaluated !== 'evaluated'" />
+        <span v-if="teacher.evaluated === 'evaluated'" class="badge evaluated"
+          >Evaluated</span
+        >
+        <br v-if="teacher.evaluated !== 'evaluated'" /><br
+          v-if="teacher.evaluated !== 'evaluated'"
+        />
         <button
           v-if="teacher.evaluated !== 'evaluated'"
           class="start"
@@ -150,7 +192,8 @@
 import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8080";
 
 export default {
   name: "Student",
@@ -471,8 +514,8 @@ header h1 {
   height: 36px;
   border-radius: 10px;
   border: 1px solid #d1d5db;
-  background: rgba(255,255,255,0.95);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   align-items: center;
@@ -519,7 +562,7 @@ header h1 {
   height: 100vh;
   background: #ffffff;
   border-left: 1px solid #e5e7eb;
-  box-shadow: -6px 0 24px rgba(15,23,42,0.15);
+  box-shadow: -6px 0 24px rgba(15, 23, 42, 0.15);
   padding: 4.5rem 1.75rem 2rem;
   display: flex;
   flex-direction: column;
@@ -629,7 +672,7 @@ header h1 {
   display: block;
   position: fixed;
   inset: 0;
-  background: rgba(17,24,39,0.55);
+  background: rgba(17, 24, 39, 0.55);
   backdrop-filter: blur(2px);
   z-index: 30;
   cursor: pointer;

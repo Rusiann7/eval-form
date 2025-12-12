@@ -28,13 +28,21 @@
           </label>
         </div>
       </div>
-      <label for="teacher-nav-toggle" class="menu-overlay" aria-hidden="true"></label>
+      <label
+        for="teacher-nav-toggle"
+        class="menu-overlay"
+        aria-hidden="true"
+      ></label>
       <div class="menu-panel" role="dialog" aria-labelledby="teacher-nav-title">
         <div class="menu-header">
           <p id="teacher-nav-title" class="menu-title">Teacher Portal</p>
           <p class="menu-subtitle">Welcome, {{ fullname }} {{ lastname }}</p>
         </div>
-        <label for="teacher-nav-toggle" class="menu-close" aria-label="Close menu">
+        <label
+          for="teacher-nav-toggle"
+          class="menu-close"
+          aria-label="Close menu"
+        >
           <span></span>
           <span></span>
         </label>
@@ -110,11 +118,16 @@
     </div>
   </div>
 
-  <div v-if="(verified === '0') & (active === 'input')" class="verify-container">
+  <div
+    v-if="(verified === '0') & (active === 'input')"
+    class="verify-container"
+  >
     <div class="verify-card">
       <div class="verify-header">
         <p class="verify-title">Account Verification</p>
-        <p class="verify-subtitle">Enter the verification code sent to your email</p>
+        <p class="verify-subtitle">
+          Enter the verification code sent to your email
+        </p>
       </div>
       <form method="post" @submit.prevent="verifyInput" class="verify-form">
         <input
@@ -223,8 +236,9 @@
 import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
 //const url2 = "http://localhost:8000";
+const url2 = "http://localhost";
 
 export default {
   name: "Teacher",
@@ -1302,5 +1316,4 @@ header h1 {
     transform: rotate(360deg);
   }
 }
-
 </style>
