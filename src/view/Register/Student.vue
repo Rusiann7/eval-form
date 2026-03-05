@@ -165,7 +165,9 @@ form {
   border-radius: 10px;
   border: 1.5px solid #dcdfe6;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .field input:focus {
@@ -183,7 +185,9 @@ form {
   font-size: 1.05rem;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.2s;
+  transition:
+    transform 0.1s,
+    box-shadow 0.2s;
 }
 
 .primary:disabled {
@@ -220,4 +224,3 @@ form {
   border: 1px solid #c8e6c9;
 }
 </style>
-

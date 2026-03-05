@@ -234,6 +234,7 @@
 
 <script>
 import { removeToken, getToken } from "../../utils/auth";
+import { useTeachers } from "../../composable/getTeacher";
 
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://star-panda-literally.ngrok-free.app";
@@ -268,43 +269,12 @@ export default {
     };
   },
 
+  setup() {
+    const { teachers, count, isLoading, error, getTeachers } = useTeachers();
+    return { teachers, count, isLoading, error, getTeachers };
+  },
+
   methods: {
-    async getTeachers() {
-      this.isLoading = true;
-
-      try {
-        const response = await fetch(this.urlappphp, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ action: "getTeachers", id: this.usrid }),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          this.teachers = result.teachers.map((teacher) => ({
-            id: teacher.id,
-            firstname: teacher.firstname,
-            lastname: teacher.lastname,
-            subject: teacher.subject,
-            quarter: teacher.quarter,
-            year: teacher.year,
-            evaluated: teacher.evaluated,
-          }));
-
-          this.count = result.total;
-          this.isLoading = false;
-        } else {
-          console.error("Error fetching teachers:", result.message);
-        }
-      } catch (error) {
-        console.error("Error fetching teachers:", error);
-        this.isLoading = false;
-      }
-    },
-
     async verifyInput() {
       this.isLoading = true;
 
@@ -343,7 +313,7 @@ export default {
       const result = await response.json();
 
       if (result.success) {
-        (this.isLoading = false), (this.active = "input");
+        ((this.isLoading = false), (this.active = "input"));
       } else {
         console.error("Error");
       }
@@ -400,7 +370,7 @@ export default {
         list = list.filter(
           (t) =>
             `${t.firstname} ${t.lastname}`.toLowerCase().includes(q) ||
-            t.subject.toLowerCase().includes(q)
+            t.subject.toLowerCase().includes(q),
         );
       }
 
@@ -426,11 +396,12 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     this.getTeachers();
     this.skipLogin();
     this.id = localStorage.getItem("userData") || "";
     this.verifyCheck();
+    await this.getTeachers(this.usrid);
   },
 };
 </script>
@@ -513,7 +484,10 @@ header h1 {
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -528,7 +502,9 @@ header h1 {
   height: 2px;
   background: #111827;
   border-radius: 999px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .menu-toggle:focus-visible {
@@ -552,7 +528,9 @@ header h1 {
   transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   z-index: 40;
 }
 
@@ -586,7 +564,9 @@ header h1 {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
   position: absolute;
   top: 1.25rem;
   right: 1.25rem;
@@ -814,7 +794,9 @@ header h1 {
   border: 1px solid #d1d5db;
   border-radius: 10px;
   font-size: 0.95rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .verify-input:focus {
@@ -833,7 +815,9 @@ header h1 {
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition:
+    background 0.2s,
+    transform 0.1s;
 }
 
 .verify-btn:hover {
@@ -915,7 +899,9 @@ header h1 {
   border: 1px solid #d1d5db;
   border-radius: 10px;
   font-size: 0.875rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .search-input:focus {
@@ -938,7 +924,9 @@ header h1 {
   font-size: 0.875rem;
   background: #fff;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   flex: 1;
   min-width: 180px;
 }
@@ -1006,7 +994,9 @@ header h1 {
   padding: 1.25rem;
   background: #fff;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .teacher-card:hover {

@@ -190,6 +190,7 @@
 
 <script>
 import { removeToken, getToken } from "../../utils/auth";
+import { useTeachers } from "../../composable/getTeacher";
 
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://star-panda-literally.ngrok-free.app";
@@ -236,14 +237,14 @@ export default {
             `${teacher.firstname} ${teacher.lastname}`
               .toLowerCase()
               .includes(query) ||
-            teacher.subject.toLowerCase().includes(query)
+            teacher.subject.toLowerCase().includes(query),
         );
       }
 
       // I filter out evaluated if hideEvaluated is true
       if (this.hideEvaluated) {
         filtered = filtered.filter(
-          (teacher) => teacher.evaluated !== "evaluated"
+          (teacher) => teacher.evaluated !== "evaluated",
         );
       }
 
@@ -268,43 +269,12 @@ export default {
     },
   },
 
+  setup() {
+    const { teachers, count, isLoading, error, getTeachers } = useTeachers();
+    return { teachers, count, isLoading, error, getTeachers };
+  },
+
   methods: {
-    async getTeachers() {
-      try {
-        this.isLoading = true;
-
-        const response = await fetch(this.urlappphp, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ action: "getTeachers", id: this.stid }),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          this.teachers = result.teachers.map((teacher) => ({
-            id: teacher.id,
-            firstname: teacher.firstname,
-            lastname: teacher.lastname,
-            subject: teacher.subject,
-            quarter: teacher.quarter,
-            year: teacher.year,
-            evaluated: teacher.evaluated,
-          }));
-
-          //this.count = result.points;
-          this.isLoading = false;
-        } else {
-          console.error("Error fetching teachers:", result.message);
-          this.isLoading = false;
-        }
-      } catch (error) {
-        console.error("Error fetching teachers:", error);
-      }
-    },
-
     async getTeachersCompleted() {
       try {
         this.isLoading = true;
@@ -412,11 +382,11 @@ export default {
     },
   },
 
-  mounted() {
-    this.getTeachers();
+  async mounted() {
     this.id = localStorage.getItem("userData") || "";
     this.skipLogin();
     this.getPoints();
+    await this.getTeachers(this.stid);
   },
 };
 </script>
@@ -517,7 +487,10 @@ header h1 {
   background: rgba(255, 255, 255, 0.95);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -546,7 +519,9 @@ header h1 {
   height: 2px;
   background: #111827;
   border-radius: 999px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
 }
 
 .menu-toggle:focus-visible {
@@ -570,7 +545,9 @@ header h1 {
   transform: translateX(100%);
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   z-index: 40;
 }
 
@@ -604,7 +581,9 @@ header h1 {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
   position: absolute;
   top: 1.25rem;
   right: 1.25rem;
@@ -758,7 +737,9 @@ main p {
   border: 1px solid #d1d5db;
   border-radius: 10px;
   font-size: 0.875rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .search-input:focus {
@@ -781,7 +762,9 @@ main p {
   font-size: 0.875rem;
   background: #fff;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   flex: 1;
   min-width: 180px;
 }
@@ -839,7 +822,9 @@ main p {
   padding: 1.25rem;
   background: #fff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .card:hover {

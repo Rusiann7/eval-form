@@ -42,74 +42,24 @@
   </div>
 
   <!--sidebar-->
-  <div class="side-bar">
-    <div class="menu">
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
-          >Student</a
-        >
-      </div>
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
-          >Teacher</a
-        >
-        <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher')" class="sub-item"
-            >Evaluation Answers</a
-          >
-          <a href="#" @click="click('evaluate')" class="sub-item"
-            >Evaluate Teachers</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.stop="$router.push('/principal')"
-          >Account Management</a
-        >
-        <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher')" class="sub-item"
-            >Add Teachers</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Delete Users</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Edit Users</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
-      </div>
-
-      <div class="item">
-        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
-
-        <div class="sub-menu" v-if="showMenu4">
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-student')"
-            class="sub-item"
-            >Chnage Student Questions</a
-          >
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-teacher')"
-            class="sub-item"
-            >Change Teacher Questions</a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
+  <Sidebar
+    :isNavOpen="isNavOpen"
+    @close="closeNav"
+    @navigate="click"
+    @navigate2="click2"
+  />
   <!--end of sidebar-->
 
   <div class="main-content">
     <div class="container">
       <header class="header">
+        <button
+          class="menu-trigger"
+          @click="isNavOpen = true"
+          aria-label="Open menu"
+        >
+          <span class="material-icons">menu</span>
+        </button>
         <div class="search-container">
           <span class="material-icons search-icon">search</span>
           <input
@@ -291,6 +241,8 @@
 </template>
 
 <script>
+import Sidebar from "../../component/sidebar.vue";
+
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://star-panda-literally.ngrok-free.app";
 const url2 = "http://localhost:8000";
@@ -317,8 +269,11 @@ export default {
       isSuccess: false,
       isFailed: false,
       isEditing: false,
+      isNavOpen: false,
     };
   },
+
+  components: { Sidebar },
 
   methods: {
     async getQuestions() {
@@ -500,6 +455,18 @@ export default {
         console.error(error);
       }
     },
+
+    closeNav() {
+      this.isNavOpen = false;
+    },
+    click(tabName) {
+      this.activeTab = tabName;
+      this.activeModal = tabName;
+    },
+    click2(tabName) {
+      this.activeTab1 = tabName;
+      this.activeModal = "manage";
+    },
   },
 
   watch: {
@@ -615,6 +582,30 @@ body {
   }
 }
 
+.menu-trigger {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.1s;
+}
+
+.menu-trigger:hover {
+  background: #f3f4f6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.menu-trigger:active {
+  transform: translateY(1px);
+}
 /* Search */
 .search-container {
   position: relative;

@@ -270,6 +270,7 @@ export default {
       isSuccess: false,
       isFailed: false,
       isEditing: false,
+      isNavOpen: false,
     };
   },
 

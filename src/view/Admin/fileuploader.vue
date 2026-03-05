@@ -1,69 +1,12 @@
 <template>
   <!--sidebar-->
-  <div class="side-bar">
-    <div class="menu">
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
-          >Student</a
-        >
-      </div>
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
-          >Teacher</a
-        >
-        <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher')" class="sub-item"
-            >Evaluation Answers</a
-          >
-          <a href="#" @click="click('evaluate')" class="sub-item"
-            >Evaluate Teachers</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.stop="$router.push('/principal')"
-          >Account Management</a
-        >
-        <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher')" class="sub-item"
-            >Add Teachers</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Delete Users</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Edit Users</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
-      </div>
 
-      <div class="item">
-        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
-
-        <div class="sub-menu" v-if="showMenu4">
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-student')"
-            class="sub-item"
-            >Chnage Student Questions</a
-          >
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-teacher')"
-            class="sub-item"
-            >Change Teacher Questions</a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <Sidebar
+    :isNavOpen="isNavOpen"
+    @close="closeNav"
+    @navigate="click"
+    @navigate2="click2"
+  />
   <!--end of sidebar-->
 
   <!--main content-->
@@ -75,6 +18,13 @@
 
     <div class="container">
       <div class="content">
+        <button
+          class="menu-trigger"
+          @click="isNavOpen = true"
+          aria-label="Open menu"
+        >
+          <span class="material-icons">menu</span>
+        </button>
         <h1 class="title">File Upload</h1>
         <div class="upload-area">
           <span class="material-icons upload-icon">upload_file</span>
@@ -95,6 +45,8 @@
 </template>
 
 <script>
+import Sidebar from "../../component/sidebar.vue";
+
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://star-panda-literally.ngrok-free.app";
 const url2 = "http://localhost:8000";
@@ -112,8 +64,11 @@ export default {
       isSuccess: false,
       isFailed: false,
       file: null,
+      isNavOpen: false,
     };
   },
+
+  components: { Sidebar },
 
   methods: {
     async Upload() {
@@ -142,6 +97,18 @@ export default {
         this.isLoading = false;
         console.error(error);
       }
+    },
+
+    closeNav() {
+      this.isNavOpen = false;
+    },
+    click(tabName) {
+      this.activeTab = tabName;
+      this.activeModal = tabName;
+    },
+    click2(tabName) {
+      this.activeTab1 = tabName;
+      this.activeModal = "manage";
     },
   },
 };
@@ -344,83 +311,29 @@ body {
   outline-offset: 2px;
 }
 
-/* Sidebar - Updated to match first component */
-.side-bar {
-  background: #f8f9fa;
-  width: 100%;
-  height: auto;
-  position: relative;
-  border-right: none;
-  border-bottom: 1px solid #ddd;
-  z-index: 100;
-}
-
-@media (min-width: 1024px) {
-  .side-bar {
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-right: 1px solid #ddd;
-    border-bottom: none;
-  }
-}
-
-.side-bar .menu {
-  width: 100%;
-  margin-top: 0;
-  padding: 1rem 0;
-}
-
-@media (min-width: 1024px) {
-  .side-bar .menu {
-    margin-top: 80px;
-  }
-}
-
-.side-bar .menu .item {
+.menu-trigger {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  position: relative;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.1s;
 }
 
-.side-bar .menu .item a {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  display: block;
-  padding: 1rem 1.5rem;
-  line-height: 1.5;
-  font-size: 1.1rem;
-  font-weight: 500;
-  border-bottom: 1px solid #eee;
-  transition: all 0.2s ease;
+.menu-trigger:hover {
+  background: #f3f4f6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-.side-bar .menu .item a:hover {
-  background: rgba(0, 0, 0, 0.898);
-  color: white;
-  padding-left: 2rem;
-}
-
-.side-bar .menu .item i {
-  margin-right: 15px;
-}
-
-.side-bar .menu .item .sub-menu {
-  background: #e9ecef;
-  position: relative;
-  z-index: 1000;
-}
-
-.side-bar .menu .item .sub-menu a {
-  padding-left: 3rem;
-  font-size: 1rem;
-  border-bottom: 1px solid #ddd;
-}
-
-.side-bar .menu .item .sub-menu a:hover {
-  background: rgba(0, 0, 0, 0.898);
-  color: white;
+.menu-trigger:active {
+  transform: translateY(1px);
 }
 
 /* Main Content - Updated to match first component */

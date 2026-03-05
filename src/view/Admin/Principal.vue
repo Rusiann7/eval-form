@@ -1025,6 +1025,7 @@ export default {
     this.id = localStorage.getItem("userData") || "";
     this.skipLogin();
     this.getSteval();
+    console.log("usrid is:", this.usrid);
     await this.getTeachers(this.usrid);
   },
 };

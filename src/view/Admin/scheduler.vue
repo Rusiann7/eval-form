@@ -1,128 +1,53 @@
 <template>
-  <link href="https://fonts.googleapis.com" rel="preconnect" />
-  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
     rel="stylesheet"
   />
   <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
+
+  <link
     href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
     rel="stylesheet"
   />
 
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=add"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=arrow_upward"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=arrow_downward"
+  />
+
   <!--sidebar-->
-  <div class="side-bar">
-    <div class="menu">
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="$router.push('/principal')"
-          >Student</a
-        >
-      </div>
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2"
-          >Teacher</a
-        >
-        <div class="sub-menu" v-if="showMenu2">
-          <a href="#" @click="click('teacher')" class="sub-item"
-            >Evaluation Answers</a
-          >
-          <a href="#" @click="click('evaluate')" class="sub-item"
-            >Evaluate Teachers</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.stop="$router.push('/principal')"
-          >Account Management</a
-        >
-        <div class="sub-menu" v-if="showMenu3">
-          <a href="#" @click="click2('crtTeacher')" class="sub-item"
-            >Add Teachers</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Delete Users</a
-          >
-          <a href="#" @click="click2('rmTeacher')" class="sub-item"
-            >Edit Users</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="$router.push('/scheduler')">Scheduler</a>
-      </div>
-      <div class="item">
-        <a href="#" @click.prevent="$router.push('/fileupload')">File Upload</a>
-      </div>
-
-      <div class="item">
-        <a href="#" @click.prevent="showMenu4 = !showMenu4">Question Change</a>
-
-        <div class="sub-menu" v-if="showMenu4">
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-student')"
-            class="sub-item"
-            >Chnage Student Questions</a
-          >
-          <a
-            href="#"
-            @click.prevent="$router.push('/changequestions-teacher')"
-            class="sub-item"
-            >Change Teacher Questions</a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <Sidebar
+    :isNavOpen="isNavOpen"
+    @close="closeNav"
+    @navigate="click"
+    @navigate2="click2"
+  />
   <!-- Main content container -->
   <div class="main-content">
     <!-- Header -->
-    <header class="topbar">
-      <div class="header-left">
-        <div class="title-row">
-          <h1 class="logo">Teacher Evaluation System</h1>
-          <div class="title-actions">
-            <button class="portal-btn">Principal Portal</button>
-            <label
-              for="scheduler-nav-toggle"
-              class="menu-toggle"
-              aria-label="Toggle menu"
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="user-section">
-        <span class="user-greeting"
-          >Welcome, {{ fullname }} {{ lastname }}</span
-        >
-        <button class="logout-btn desktop-only" @click="logout()">
-          <svg
-            class="logout-icon"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          Logout
-        </button>
-      </div>
-    </header>
 
     <div class="content">
       <div class="container">
+        <button
+          class="menu-trigger"
+          @click="isNavOpen = true"
+          aria-label="Open menu"
+        >
+          <span class="material-icons">menu</span>
+        </button>
         <main class="main-content">
           <div class="card" style="margin-bottom: 40px">
             <div class="titles">
@@ -226,6 +151,8 @@
 </template>
 
 <script>
+import Sidebar from "../../component/sidebar.vue";
+
 const url1 = "https://rusiann7.helioho.st";
 const url2 = "https://star-panda-literally.ngrok-free.app";
 
@@ -247,8 +174,11 @@ export default {
       showMenu2: false,
       showMenu3: false,
       showMenu4: false,
+      isNavOpen: false,
     };
   },
+
+  components: { Sidebar },
 
   methods: {
     async setTime() {
@@ -311,6 +241,18 @@ export default {
         this.isLoading = false;
         console.error(error);
       }
+    },
+
+    closeNav() {
+      this.isNavOpen = false;
+    },
+    click(tabName) {
+      this.activeTab = tabName;
+      this.activeModal = tabName;
+    },
+    click2(tabName) {
+      this.activeTab1 = tabName;
+      this.activeModal = "manage";
     },
   },
 
@@ -410,7 +352,8 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 .card {
   background-color: #ffffff;
   border-radius: 1rem;
-  box-shadow: 0 8px 16px -1px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 8px 16px -1px rgba(0, 0, 0, 0.1),
     0 4px 8px -1px rgba(0, 0, 0, 0.06);
   padding: 2rem;
   margin-bottom: 2.5rem;
@@ -420,7 +363,8 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 32px -2px rgba(0, 0, 0, 0.15),
+  box-shadow:
+    0 16px 32px -2px rgba(0, 0, 0, 0.15),
     0 8px 16px -2px rgba(0, 0, 0, 0.1);
 }
 
@@ -573,7 +517,8 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
   padding: 1.25rem 2rem;
   border: 2px solid transparent;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
   font-size: 1.1rem;
   font-weight: 600;
@@ -597,92 +542,6 @@ input[type="time"]::-webkit-calendar-picker-indicator:hover {
 
 .button:active {
   transform: translateY(0);
-}
-
-/* ===== SIDEBAR ===== */
-.side-bar {
-  background: #f8f9fa;
-  width: 100%;
-  height: auto;
-  position: relative;
-  border-right: none;
-  border-bottom: 1px solid #ddd;
-  z-index: 100;
-}
-
-@media (min-width: 1024px) {
-  .side-bar {
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    border-right: 1px solid #ddd;
-    border-bottom: none;
-  }
-}
-
-.side-bar .menu {
-  width: 100%;
-  margin-top: 0;
-  padding: 1rem 0;
-}
-
-@media (min-width: 1024px) {
-  .side-bar .menu {
-    margin-top: 80px;
-  }
-}
-
-.side-bar .menu .item {
-  cursor: pointer;
-  position: relative;
-}
-
-.side-bar .menu .item a {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  display: block;
-  padding: 1rem 1.5rem;
-  line-height: 1.5;
-  font-size: 1.1rem;
-  font-weight: 500;
-  border-bottom: 1px solid #eee;
-  transition: all 0.2s ease;
-}
-
-.side-bar .menu .item a:hover {
-  background: rgba(0, 0, 0, 0.898);
-  color: white;
-  padding-left: 2rem;
-}
-
-.side-bar .menu .item .sub-btn {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.side-bar .menu .item i {
-  margin-right: 15px;
-}
-
-.side-bar .menu .item .sub-menu {
-  background: #e9ecef;
-  position: relative;
-  z-index: 1000;
-}
-
-.side-bar .menu .item .sub-menu a {
-  padding-left: 3rem;
-  font-size: 1rem;
-  border-bottom: 1px solid #ddd;
-}
-
-.side-bar .menu .item .sub-menu a:hover {
-  background: rgba(0, 0, 0, 0.898);
-  color: white;
 }
 
 /* ===== MAIN CONTENT AREA ===== */
