@@ -180,7 +180,9 @@
     </div>
 
     <div class="feedback-section">
-      <h2 class="feedback-title">PROFESSIONAL FEEDBACK FOR COLLEAGUE DEVELOPMENT</h2>
+      <h2 class="feedback-title">
+        PROFESSIONAL FEEDBACK FOR COLLEAGUE DEVELOPMENT
+      </h2>
       <textarea
         placeholder="Please provide constructive feedback for your colleague's professional growth..."
         v-model="feedback"
@@ -211,8 +213,8 @@
 import { removeToken, getToken } from "../../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
-//const url2 = "http://localhost:8000";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8000";
 
 export default {
   name: "tcEval",
@@ -297,9 +299,9 @@ export default {
       try {
         // Check if all questions are answered
         const unanswered = Object.keys(this.answer).filter(
-          (key) => !this.answer[key]
+          (key) => !this.answer[key],
         );
-        
+
         if (unanswered.length) {
           alert("Please answer all questions before submitting.");
           return;
@@ -758,8 +760,12 @@ footer {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* Responsive Design */
@@ -768,23 +774,23 @@ footer {
     padding: 1.5rem;
     max-width: 95%;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   .intro {
     font-size: 1.125rem;
   }
-  
+
   .section-header {
     font-size: 1.375rem;
   }
-  
+
   .rating-options-header {
     gap: 0.25rem;
   }
-  
+
   .rating-label-header {
     font-size: 0.6875rem;
   }
@@ -864,12 +870,12 @@ footer {
   .feedback-title {
     font-size: 1.25rem;
   }
-  
+
   .rating-options {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .rating-option {
     min-width: 50px;
     flex: none;
@@ -947,12 +953,12 @@ footer {
     padding: 0.875rem 1.25rem;
     font-size: 1rem;
   }
-  
+
   .question-cell {
     font-size: 1rem;
     line-height: 1.5;
   }
-  
+
   .rating-options-header {
     display: none; /* Hide header rating labels on very small screens */
   }
@@ -963,7 +969,7 @@ footer {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .rating-option {
     flex-direction: row;
     justify-content: space-between;
@@ -1008,7 +1014,7 @@ footer {
     color: #2c3e50;
     border: 1px solid #ccc;
   }
-  
+
   .rating-options-header {
     display: flex !important;
   }
@@ -1026,4 +1032,4 @@ footer {
   white-space: nowrap;
   border: 0;
 }
-</style> 
+</style>

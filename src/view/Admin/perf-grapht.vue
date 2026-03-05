@@ -32,6 +32,7 @@
 
 <script>
 import { Bar } from "vue-chartjs";
+
 import {
   Chart as ChartJS,
   Title,
@@ -52,17 +53,18 @@ ChartJS.register(
 );
 
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8000";
 
 export default {
   name: "graphPerformance",
   components: { Bar },
   data() {
     return {
-      aiphp: `${url2}/chartGetter.php`,
-      chartphp: `${url2}/chartGetter.php`,
-      urlappphp: `${url2}/questionsAll.php`,
-      urlappphp3: `${url2}/mergeAnsGetter.php`,
+      aiphp: `${url2}/chartGettert.php`,
+      chartphp: `${url2}/chartGettert.php`,
+      urlappphp: `${url2}/questiontAll.php`,
+      urlappphp3: `${url2}/mergeAntGetter.php`,
       gemini: null,
       geminiOutput: "",
       averages: [],
@@ -99,7 +101,7 @@ export default {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            action: "getChartData",
+            action: "getChartDataT",
             tcr_id: this.$route.params.id,
           }),
         });
@@ -144,7 +146,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ action: "getQuestions" }),
+          body: JSON.stringify({ action: "getTeacherQuestions" }),
         });
 
         const result = await response.json();
@@ -169,7 +171,7 @@ export default {
           method: "POST",
           headers: { "Content-type": "application/json" },
           body: JSON.stringify({
-            action: "student",
+            action: "teacher",
             evt: this.$route.params.evtid,
             tcr: this.$route.params.id,
           }),

@@ -6,84 +6,118 @@
 
   <div class="loading-screen" v-if="activeModal === 'showInfo'">
     <div class="modal-container">
-      <div class="modal-content">
-        <div class="left-column">
-          <div class="profile-section">
-            <div class="profile-image-container"></div>
-            <div class="profile-details">
-              <div class="detail-item">
-                <label class="detail-label">Name</label>
-                <p class="detail-value">
-                  {{ selectedStudent.firstname }}
-                  {{ selectedStudent.lastname }}
-                </p>
+      <div class="modal-content new-design">
+        <button class="modal-close-icon" @click="activeModal = 'student'">
+          &times;
+        </button>
+        <div class="modal-grid">
+          <!-- Left Section: Profile and Actions -->
+          <div class="left-section">
+            <div class="profile-layout">
+              <div class="profile-image-box">
+                <span class="material-icons">image</span>
               </div>
-              <div class="detail-item">
-                <label class="detail-label">Quarter</label>
-                <p class="detail-value">Q{{ selectedStudent.quarter }}</p>
+              <div class="profile-info">
+                <div class="info-group">
+                  <label>Name</label>
+                  <span class="value"
+                    >{{ selectedStudent.firstname }}
+                    {{ selectedStudent.lastname }}</span
+                  >
+                </div>
+                <div class="info-group">
+                  <label>Quarter</label>
+                  <span class="value">Q{{ selectedStudent.quarter }}</span>
+                </div>
+                <div class="info-group">
+                  <label>Year</label>
+                  <span class="value">{{ selectedStudent.year }}</span>
+                </div>
               </div>
-              <div class="detail-item">
-                <label class="detail-label">Year</label>
-                <p class="detail-value">{{ selectedStudent.year }}</p>
-              </div>
+            </div>
+
+            <div class="info-group full-width">
+              <label>Sentiment</label>
+              <span
+                :class="[
+                  'value',
+                  'sentiment-text',
+                  sentimentClass(selectedStudent.sentiment),
+                ]"
+              >
+                {{ selectedStudent.sentiment }}
+              </span>
+            </div>
+
+            <div class="actions-grid-custom">
+              <button class="action-btn-outline">Previous Evaluation</button>
+              <button
+                class="action-btn-outline"
+                @click.prevent="
+                  $router.push({
+                    name: 'printable-form2',
+                    params: {
+                      tcrid: selectedStudent.teacher_id,
+                      evtid: selectedStudent.eval_id,
+                    },
+                  })
+                "
+              >
+                Average Evaluation
+              </button>
+              <button
+                class="action-btn-outline"
+                @click.prevent="
+                  $router.push({
+                    name: 'PerformanceGraph',
+                    params: { id: selectedStudent.teacher_id },
+                  })
+                "
+              >
+                Show Performance Graph
+              </button>
+              <button
+                class="action-btn-outline"
+                @click.prevent="
+                  $router.push({
+                    name: 'printable-form',
+                    params: {
+                      id: selectedStudent.id,
+                      tcrid: selectedStudent.teacher_id,
+                      evtid: selectedStudent.eval_id,
+                    },
+                  })
+                "
+              >
+                Individual Evaluation
+              </button>
             </div>
           </div>
-          <div class="info-section">
-            <div class="info-item">
-              <label class="info-label">Subject</label>
-              <p class="info-value">{{ selectedStudent.subject }}</p>
+
+          <!-- Right Section: AI Summarizer -->
+          <div class="right-section">
+            <h3 class="ai-title">AI Summarizer</h3>
+            <div class="ai-summary-content">
+              <div v-if="isLoadingAi" class="ai-loading">
+                <div class="pulse-bubble"></div>
+                <p>Generating summary...</p>
+              </div>
+              <p v-else-if="airesponse">{{ airesponse }}</p>
+              <p v-else class="placeholder-text">
+                John has shown exceptional growth this quarter, particularly in
+                his project management skills. He successfully led the "Phoenix"
+                project, delivering it two weeks ahead of schedule. His
+                communication with stakeholders has been consistently clear and
+                effective. An area for improvement would be to delegate more
+                tasks to junior team members to foster their growth.
+              </p>
             </div>
-            <div class="info-item">
-              <label class="info-label">Sentiment</label>
-              <p class="info-value">{{ selectedStudent.sentiment }}</p>
+            <div class="ai-chat-input">
+              <input type="text" placeholder="Ask a follow-up..." />
+              <button class="ai-send-btn">
+                <span class="material-icons">send</span>
+              </button>
             </div>
-          </div>
-          <div class="buttons-grid">
-            <button
-              class="action-button"
-              @click.prevent="
-                $router.push({
-                  name: 'printable-form2',
-                  params: {
-                    tcrid: selectedStudent.teacher_id,
-                    evtid: selectedStudent.eval_id,
-                  },
-                })
-              "
-            >
-              Average Evaluation
-            </button>
-            <button
-              class="action-button"
-              @click.prevent="
-                $router.push({
-                  name: 'PerformanceGraph',
-                  params: {
-                    id: selectedStudent.teacher_id,
-                  },
-                })
-              "
-            >
-              Show Performance Graph
-            </button>
-            <button
-              class="action-button"
-              @click.prevent="
-                $router.push({
-                  name: 'printable-form',
-                  params: {
-                    id: selectedStudent.id,
-                    tcrid: selectedStudent.teacher_id,
-                    evtid: selectedStudent.eval_id,
-                  },
-                })
-              "
-            >
-              Individual Evaluation
-            </button>
-            <button class="action-button" @click="activeModal = 'student'">
-              Close
-            </button>
           </div>
         </div>
       </div>
@@ -93,83 +127,114 @@
   <!--for teacher-->
   <div class="loading-screen" v-if="activeModal === 'showInfot'">
     <div class="modal-container">
-      <div class="modal-content">
-        <div class="left-column">
-          <div class="profile-section">
-            <div class="profile-details">
-              <div class="detail-item">
-                <label class="detail-label">Name</label>
-                <p class="detail-value">
-                  {{ newSelectedteachers.firstname }}
-                  {{ newSelectedteachers.lastname }}
-                </p>
+      <div class="modal-content new-design">
+        <button class="modal-close-icon" @click="activeModal = 'student'">
+          &times;
+        </button>
+        <div class="modal-grid">
+          <!-- Left Section -->
+          <div class="left-section">
+            <div class="profile-layout">
+              <div class="profile-image-box">
+                <span class="material-icons">image</span>
               </div>
-              <div class="detail-item">
-                <label class="detail-label">Quarter</label>
-                <p class="detail-value">Q{{ newSelectedteachers.quarter }}</p>
+              <div class="profile-info">
+                <div class="info-group">
+                  <label>Name</label>
+                  <span class="value"
+                    >{{ newSelectedteachers.firstname }}
+                    {{ newSelectedteachers.lastname }}</span
+                  >
+                </div>
+                <div class="info-group">
+                  <label>Quarter</label>
+                  <span class="value">Q{{ newSelectedteachers.quarter }}</span>
+                </div>
+                <div class="info-group">
+                  <label>Year</label>
+                  <span class="value">{{ newSelectedteachers.year }}</span>
+                </div>
               </div>
-              <div class="detail-item">
-                <label class="detail-label">Year</label>
-                <p class="detail-value">{{ newSelectedteachers.year }}</p>
-              </div>
+            </div>
+
+            <div class="info-group full-width">
+              <label>Sentiment</label>
+              <span
+                :class="[
+                  'value',
+                  'sentiment-text',
+                  sentimentClass(newSelectedteachers.sentiment),
+                ]"
+              >
+                {{ newSelectedteachers.sentiment }}
+              </span>
+            </div>
+
+            <div class="actions-grid-custom">
+              <button class="action-btn-outline">Previous Evaluation</button>
+              <button
+                class="action-btn-outline"
+                @click.prevent="
+                  $router.push({
+                    name: 'printable-form3',
+                    params: {
+                      tcrid: newSelectedteachers.teacher_id,
+                      evtid: newSelectedteachers.eval_id,
+                    },
+                  })
+                "
+              >
+                Average Evaluation
+              </button>
+              <button
+                class="action-btn-outline"
+                @click.prevent="
+                  $router.push({
+                    name: 'PerformanceGraphT',
+                    params: { id: newSelectedteachers.teacher_id },
+                  })
+                "
+              >
+                Show Performance Graph
+              </button>
+              <button
+                class="action-btn-outline"
+                @click.prevent="
+                  $router.push({
+                    name: 'printable-form1',
+                    params: {
+                      id: newSelectedteachers.id,
+                      tcrid: newSelectedteachers.teacher_id,
+                      evtid: newSelectedteachers.eval_id,
+                    },
+                  })
+                "
+              >
+                Individual Evaluation
+              </button>
             </div>
           </div>
-          <div class="info-section">
-            <div class="info-item">
-              <label class="info-label">Subject</label>
-              <p class="info-value">{{ newSelectedteachers.subject }}</p>
+
+          <!-- Right Section -->
+          <div class="right-section">
+            <h3 class="ai-title">AI Summarizer</h3>
+            <div class="ai-summary-content">
+              <div v-if="isLoadingAi" class="ai-loading">
+                <div class="pulse-bubble"></div>
+                <p>Analyzing evaluation data...</p>
+              </div>
+              <p v-else-if="airesponse">{{ airesponse }}</p>
+              <p v-else class="placeholder-text">
+                Summary data is being processed. This section will provide an
+                automated analysis of the performance evaluation once complete.
+              </p>
             </div>
-            <div class="info-item">
-              <label class="info-label">Sentiment</label>
-              <p class="info-value">{{ newSelectedteachers.sentiment }}</p>
+            <div class="ai-chat-input">
+              <input type="text" placeholder="Ask a follow-up..." />
+              <button class="ai-send-btn">
+                <span class="material-icons">send</span>
+              </button>
             </div>
-          </div>
-          <div class="buttons-grid">
-            <button
-              class="action-button"
-              @click.prevent="
-                $router.push({
-                  name: 'printable-form3',
-                  params: {
-                    tcrid: newSelectedteachers.teacher_id,
-                    evtid: newSelectedteachers.eval_id,
-                  },
-                })
-              "
-            >
-              Average Evaluation
-            </button>
-            <button
-              class="action-button"
-              @click.prevent="
-                $router.push({
-                  name: 'PerformanceGraphT',
-                  params: {
-                    id: newSelectedteachers.teacher_id,
-                  },
-                })
-              "
-            >
-              Show Performance Graph
-            </button>
-            <button
-              class="action-button"
-              @click.prevent="
-                $router.push({
-                  name: 'printable-form1',
-                  params: {
-                    id: newSelectedteachers.id,
-                    tcrid: newSelectedteachers.teacher_id,
-                    evtid: newSelectedteachers.eval_id,
-                  },
-                })
-              "
-            >
-              Individual Evaluation
-            </button>
-            <button class="action-button" @click="activeModal = 'student'">
-              Close
-            </button>
           </div>
         </div>
       </div>
@@ -177,152 +242,12 @@
   </div>
 
   <!--sidebar (drawer)-->
-  <div v-if="isNavOpen" class="nav-overlay" @click="closeNav"></div>
-  <div class="side-bar" :class="{ open: isNavOpen }">
-    <div class="nav-header">
-      <div>
-        <p class="nav-title">Principal Portal</p>
-      </div>
-      <button class="nav-close" @click="closeNav" aria-label="Close menu">
-        <span class="material-icons">close</span>
-      </button>
-    </div>
-    <div class="menu">
-      <div class="item">
-        <a
-          href="#"
-          class="sub-btn"
-          @click.stop="
-            $router.push('/principal');
-            click('student');
-            closeNav();
-          "
-          >Student</a
-        >
-      </div>
-      <div class="item">
-        <a href="#" class="sub-btn" @click.stop="showMenu2 = !showMenu2">
-          Teacher
-          <span class="material-icons chevron">{{
-            showMenu2 ? "expand_less" : "expand_more"
-          }}</span>
-        </a>
-        <div class="sub-menu" v-if="showMenu2">
-          <a
-            href="#"
-            @click="
-              click('teacher');
-              closeNav();
-            "
-            class="sub-item"
-            >Evaluation Answers</a
-          >
-          <a
-            href="#"
-            @click="
-              click('evaluate');
-              closeNav();
-            "
-            class="sub-item"
-            >Evaluate Teachers</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a href="#" @click.stop="showMenu3 = !showMenu3">
-          Account Management
-          <span class="material-icons chevron">{{
-            showMenu3 ? "expand_less" : "expand_more"
-          }}</span>
-        </a>
-        <div class="sub-menu" v-if="showMenu3">
-          <a
-            href="#"
-            @click="
-              click2('crtTeacher');
-              closeNav();
-            "
-            class="sub-item"
-            >Add Teachers</a
-          >
-          <a
-            href="#"
-            @click="
-              click2('rmTeacher');
-              closeNav();
-            "
-            class="sub-item"
-            >Delete Users</a
-          >
-          <a
-            href="#"
-            @click="
-              click2('editTeacher');
-              closeNav();
-            "
-            class="sub-item"
-            >Edit Users</a
-          >
-        </div>
-      </div>
-      <div class="item">
-        <a
-          href="#"
-          @click.prevent="
-            $router.push('/scheduler');
-            closeNav();
-          "
-          >Scheduler</a
-        >
-      </div>
-      <div class="item">
-        <a
-          href="#"
-          @click.prevent="
-            $router.push('/fileupload');
-            closeNav();
-          "
-          >File Upload</a
-        >
-      </div>
-
-      <div class="item">
-        <a href="#" @click.prevent="showMenu4 = !showMenu4">
-          Question Change
-          <span class="material-icons chevron">{{
-            showMenu4 ? "expand_less" : "expand_more"
-          }}</span>
-        </a>
-
-        <div class="sub-menu" v-if="showMenu4">
-          <a
-            href="#"
-            @click.prevent="
-              $router.push('/changequestions-student');
-              closeNav();
-            "
-            class="sub-item"
-            >Change Student Questions</a
-          >
-          <a
-            href="#"
-            @click.prevent="
-              $router.push('/changequestions-teacher');
-              closeNav();
-            "
-            class="sub-item"
-            >Change Teacher Questions</a
-          >
-        </div>
-      </div>
-    </div>
-    <div class="menu-footer">
-      <button class="logout-btn menu-logout" @click="logout()">
-        <span class="material-icons logout-icon">logout</span>
-        Logout
-      </button>
-    </div>
-  </div>
+  <Sidebar
+    :isNavOpen="isNavOpen"
+    @close="closeNav"
+    @navigate="click"
+    @navigate2="click2"
+  />
   <!--end of sidebar-->
 
   <!--main content container-->
@@ -688,11 +613,12 @@
 
 <script>
 import { removeToken, getToken } from "../../utils/auth";
+import { useTeachers } from "../../composable/getTeacher";
+import Sidebar from "../../component/sidebar.vue";
 
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
-//const url2 = "http://localhost:8000";
-//const url2 = "https://rusiann7.helioho.st";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8000";
 
 export default {
   name: "Principal",
@@ -706,7 +632,6 @@ export default {
       subjecturl: `${url2}/subjectGetter.php`,
       editteacherphp: `${url2}/editTeacher.php`,
       airesponsephp: `${url2}/ai.php`,
-      teachers: [],
       teacherr: {
         fn: "",
         ln: "",
@@ -720,7 +645,6 @@ export default {
       },
       newTeachers: [],
       newStudents: [],
-      count: 0,
       count2: 0,
       isLoading: false,
       isWrong: false,
@@ -743,53 +667,21 @@ export default {
       selectedTeachers: null,
       newSelectedteachers: null,
       showMenu1: false,
-      showMenu2: false,
-      showMenu3: false,
-      showMenu4: false,
       subjects: { id: "", subject: "" },
       airesponse: null,
+      isLoadingAi: false,
       isNavOpen: false,
     };
   },
 
+  setup() {
+    const { teachers, count, isLoading, error, getTeachers } = useTeachers();
+    return { teachers, count, isLoading, error, getTeachers };
+  },
+
+  components: { Sidebar },
+
   methods: {
-    async getTeachers() {
-      try {
-        this.isLoading = true;
-
-        const response = await fetch(this.urlappphp, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ action: "getTeachers", id: this.usrid }),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          this.teachers = result.teachers.map((teacher) => ({
-            id: teacher.id,
-            firstname: teacher.firstname,
-            lastname: teacher.lastname,
-            subject: teacher.subject,
-            quarter: teacher.quarter,
-            year: teacher.year,
-            sentiment: teacher.sentiment,
-            email: teacher.email,
-          }));
-
-          this.count = result.total;
-          this.isLoading = false;
-        } else {
-          console.error("Error fetching teachers:", result.message);
-          this.isLoading = false;
-        }
-      } catch (error) {
-        console.error("Error fetching teachers:", error);
-      }
-    },
-
     async getStudentbyid() {
       try {
         this.isLoading = true;
@@ -1013,9 +905,10 @@ export default {
       }
     },
 
-    async airesponse(id) {
+    async fetchAiResponse(id) {
       try {
-        this.isLoading = true;
+        this.airesponse = null; // Reset previous response
+        this.isLoadingAi = true;
 
         const response = await fetch(this.airesponsephp, {
           method: "POST",
@@ -1030,26 +923,22 @@ export default {
 
         if (result.success) {
           this.airesponse = result.response;
-          this.isLoading = false;
-          this.isSuccess = true;
+          this.isLoadingAi = false;
         } else {
-          this.isLoading = false;
-          this.isFailed = true;
+          this.isLoadingAi = false;
         }
       } catch (error) {
-        this.isLoading = false;
+        this.isLoadingAi = false;
         console.error(error);
       }
     },
 
-    logout() {
-      try {
-        removeToken();
-        this.localUserData = {};
-        this.$router.replace("/");
-      } catch (error) {
-        console.error("Logout error:", error);
-      }
+    sentimentClass(sentiment) {
+      if (!sentiment) return "sentiment-neutral";
+      const s = sentiment.toString().toLowerCase();
+      if (s.includes("pos")) return "sentiment-positive";
+      if (s.includes("neg")) return "sentiment-negative";
+      return "sentiment-neutral";
     },
 
     skipLogin() {
@@ -1064,14 +953,14 @@ export default {
 
     openStudentModal(studentId) {
       this.selectedStudent = this.newStudents.find(
-        (student) => student.id === studentId
+        (student) => student.id === studentId,
       );
       this.activeModal = "showInfo";
     },
 
     openNewTeacherModal(newTeacherId) {
       this.newSelectedteachers = this.newTeachers.find(
-        (teacher) => teacher.id === newTeacherId
+        (teacher) => teacher.id === newTeacherId,
       );
       this.activeModal = "showInfot";
     },
@@ -1092,24 +981,16 @@ export default {
       this.isEditing = true;
     },
 
-    openTeacherInfo(teacher_id) {},
-
-    toggleModal(modal) {
-      this.activeModal = modal;
+    closeNav() {
+      this.isNavOpen = false;
     },
-
     click(tabName) {
       this.activeTab = tabName;
-      this.toggleModal(tabName);
+      this.activeModal = tabName;
     },
-
     click2(tabName) {
       this.activeTab1 = tabName;
       this.activeModal = "manage";
-    },
-
-    closeNav() {
-      this.isNavOpen = false;
     },
   },
 
@@ -1127,15 +1008,24 @@ export default {
           break;
         case "manage":
           this.getSubjects();
+          break;
+        case "showInfo":
+          if (this.selectedStudent)
+            this.fetchAiResponse(this.selectedStudent.id);
+          break;
+        case "showInfot":
+          if (this.newSelectedteachers)
+            this.fetchAiResponse(this.newSelectedteachers.id);
+          break;
       }
     },
   },
 
-  mounted() {
+  async mounted() {
     this.id = localStorage.getItem("userData") || "";
     this.skipLogin();
     this.getSteval();
-    this.getTeachers();
+    await this.getTeachers(this.usrid);
   },
 };
 </script>
@@ -1169,7 +1059,6 @@ body {
   background: #ffffff;
   color: #1a1a1a;
   line-height: 1.6;
-  display: flex;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -1212,7 +1101,10 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    transform 0.1s;
 }
 
 .menu-trigger:hover {
@@ -1309,34 +1201,59 @@ body {
 
 .stat-card {
   flex: 1;
-  min-width: 200px;
+  min-width: 250px;
   background: #ffffff;
-  border-radius: 1rem;
-  padding: 2rem;
-  text-align: center;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  border: 2px solid #f3f4f6;
-  transition: all 0.3s ease;
+  border-radius: 1.25rem;
+  padding: 2.5rem;
+  text-align: left;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.05),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #000 0%, #333 100%);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .stat-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #e5e7eb;
+}
+
+.stat-card:hover::before {
+  opacity: 1;
 }
 
 .stat-card h3 {
-  margin: 1rem 0 0;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #000000;
+  margin: 0.5rem 0 0;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.025em;
 }
 
 .stat-card p {
   color: #6b7280;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-top: 0.25rem;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* ===== TEACHER HEADER ===== */
@@ -1360,6 +1277,24 @@ body {
 @media (min-width: 768px) {
   .teacher-header h3 {
     font-size: 2rem;
+  }
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  margin-left: 0;
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  overflow-x: hidden;
+  transition: margin-left 0.3s ease;
+}
+
+@media (min-width: 1024px) {
+  .main-content {
+    margin-left: 280px;
   }
 }
 
@@ -1534,333 +1469,281 @@ body {
 }
 
 /* ===== SIDEBAR (DRAWER) ===== */
-.nav-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(2px);
-  z-index: 180;
-}
-
-.side-bar {
-  background: #ffffff;
-  width: 320px;
-  max-width: 90vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  border-right: 1px solid #e5e7eb;
-  z-index: 200;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  transform: translateX(-100%);
-  transition: transform 0.25s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.side-bar.open {
-  transform: translateX(0);
-}
-
-.nav-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.nav-title {
-  margin: 0;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #111827;
-}
-
-.nav-close {
-  border: 1px solid #e5e7eb;
-  background: #f9fafb;
-  border-radius: 10px;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.side-bar .menu {
-  width: 100%;
-  margin-top: 0;
-  padding: 0.5rem 0 0;
-  flex: 1;
-  overflow-y: auto;
-}
-
-.side-bar .menu .item {
-  cursor: pointer;
-  position: relative;
-}
-
-.side-bar .menu .item a {
-  color: rgb(0, 0, 0);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  line-height: 1.4;
-  font-size: 1rem;
-  font-weight: 600;
-  border-bottom: 1px solid #eee;
-  transition: all 0.2s ease;
-}
-
-.side-bar .menu .item a:hover {
-  background: #f3f4f6;
-  color: #000;
-  padding-left: 1.75rem;
-}
-
-.side-bar .menu .item .sub-menu {
-  background: #f9fafb;
-  position: relative;
-  z-index: 1000;
-}
-
-.side-bar .menu .item .sub-menu a {
-  padding-left: 2.75rem;
-  font-size: 0.95rem;
-  border-bottom: 1px solid #eee;
-  font-weight: 500;
-}
-
-.side-bar .menu .item .sub-menu a:hover {
-  background: #eef2ff;
-  color: #000;
-}
-
-.chevron {
-  font-size: 1.1rem;
-  color: #6b7280;
-}
-
-.menu-footer {
-  padding: 1rem 1.25rem 1.5rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.menu-logout {
-  width: 100%;
-  justify-content: center;
-}
-
-/* Hide mobile drawer on desktop */
-@media (min-width: 1024px) {
-  .menu-trigger {
-    display: none;
-  }
-
-  .nav-overlay {
-    display: none !important;
-  }
-
-  .side-bar {
-    transform: translateX(0);
-    box-shadow: none;
-    position: fixed;
-    width: 280px;
-  }
-
-  .nav-close {
-    display: none;
-  }
-
-  .topbar .logout-btn {
-    display: none;
-  }
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-  margin-left: 0;
-  flex: 1;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-@media (min-width: 1024px) {
-  .main-content {
-    margin-left: 280px;
-  }
-}
 
 /* ===== MODAL STYLES ===== */
 .modal-container {
   width: 100%;
-  max-width: 1200px;
   height: 100%;
-  max-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem;
+  overflow-y: auto;
 }
 
-.modal-content {
-  width: 100%;
-  max-width: 800px;
-  border-radius: 1rem;
-  background-color: #ffffff;
-  padding: 2.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  border: 2px solid #e5e7eb;
+/* ===== NEW MODAL DESIGN ===== */
+.modal-content.new-design {
+  max-width: 1100px;
+  width: 95%;
+  padding: 3rem;
+  position: relative;
+  background: #ffffff;
 }
 
-.left-column {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.modal-close-icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
-.profile-section {
+.modal-close-icon:hover {
+  color: #374151;
+}
+
+.modal-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
 }
 
-@media (min-width: 768px) {
-  .profile-section {
-    grid-template-columns: auto 1fr;
+@media (max-width: 992px) {
+  .modal-grid {
+    grid-template-columns: 1fr;
     gap: 2rem;
   }
 }
 
-.profile-image-container {
+/* Left Section */
+.left-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.profile-layout {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.profile-image-box {
+  width: 140px;
+  height: 140px;
+  background: #e5e7eb;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.profile-image {
-  width: 12rem;
-  height: 12rem;
-  background-color: #f3f4f6;
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid #e5e7eb;
-}
-
-.profile-icon {
-  font-size: 4rem;
+.profile-image-box .material-icons {
+  font-size: 3rem;
   color: #9ca3af;
 }
 
-.profile-details {
+.profile-info {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
-.detail-item {
-  margin-bottom: 0.5rem;
+.info-group {
+  display: flex;
+  flex-direction: column;
 }
 
-.detail-label {
-  font-weight: 600;
+.info-group label {
+  font-size: 0.875rem;
   color: #6b7280;
-  display: block;
-  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
 }
 
-.detail-value {
-  margin-top: 0.25rem;
-  font-weight: 700;
+.info-group .value {
   font-size: 1.25rem;
-  color: #000000;
+  font-weight: 700;
+  color: #1f2937;
 }
 
-.info-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.metadata-section {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
 }
 
-@media (max-width: 640px) {
-  .info-section {
-    grid-template-columns: 1fr;
+.sentiment-text {
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.sentiment-positive {
+  color: #059669 !important;
+}
+
+.sentiment-negative {
+  color: #dc2626 !important;
+}
+
+.sentiment-neutral {
+  color: #6b7280 !important;
+}
+
+/* AI Loading Animation */
+.ai-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1rem;
+  color: #6b7280;
+}
+
+.pulse-bubble {
+  width: 12px;
+  height: 12px;
+  background-color: #0f172a;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
   }
 }
 
-.info-item {
-  margin-bottom: 0.5rem;
-}
-
-.info-label {
-  font-weight: 600;
-  color: #6b7280;
-  display: block;
-  font-size: 1rem;
-}
-
-.info-value {
-  margin-top: 0.25rem;
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #000000;
-}
-
-.buttons-grid {
+.actions-grid-custom {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-  padding-top: 1.5rem;
+  margin-top: 1rem;
 }
 
-@media (max-width: 768px) {
-  .buttons-grid {
-    grid-template-columns: 1fr;
-  }
+.action-btn-outline {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
-.action-button {
+.action-btn-outline:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Right Section - AI Summarizer */
+.right-section {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #fcfcfc;
+}
+
+.ai-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #111827;
+}
+
+.ai-summary-content {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-height: 250px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+.placeholder-text {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.ai-chat-input {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+}
+
+.ai-chat-input input {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 0.75rem;
+  font-size: 1rem;
+  outline: none !important;
+  color: #1f2937;
+}
+
+.ai-send-btn {
+  background: #0f172a;
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: #000000;
-  border: 2px solid #000000;
-  border-radius: 0.5rem;
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  font-family: inherit;
+  transition: background 0.2s;
 }
 
-.action-button:hover {
-  background-color: #333333;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.ai-send-btn:hover {
+  background: #1e293b;
 }
 
-.action-button:last-child {
-  background-color: #ffffff;
-  color: #000000;
-}
+@media (max-width: 640px) {
+  .modal-content.new-design {
+    padding: 1.5rem;
+    width: 98%;
+  }
 
-.action-button:last-child:hover {
-  background-color: #f3f4f6;
+  .profile-layout {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .actions-grid-custom {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== LOADING & FEEDBACK STATES ===== */
@@ -1918,7 +1801,9 @@ body {
   min-width: 300px;
   max-width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.3s ease-out, timeout 6s linear forwards;
+  animation:
+    slideIn 0.3s ease-out,
+    timeout 6s linear forwards;
   font-size: 1.1rem;
 }
 
@@ -2065,15 +1950,6 @@ body {
 
   .topbar .logout-btn {
     display: none;
-  }
-
-  .side-bar {
-    height: auto;
-    position: relative;
-  }
-
-  .main-content {
-    margin-left: 0;
   }
 
   .teacher-container {

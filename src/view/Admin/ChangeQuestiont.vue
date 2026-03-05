@@ -105,7 +105,6 @@
       </div>
     </div>
   </div>
-
   <!--end of sidebar-->
 
   <div class="main-content">
@@ -179,8 +178,8 @@
                 class="btn-section"
                 v-if="header.editing"
                 @click="
-                  (header.editing = false),
-                    changeHeader(header.header_id, header.header)
+                  ((header.editing = false),
+                  changeHeader(header.header_id, header.header))
                 "
               >
                 <span class="material-icons">edit</span>
@@ -193,6 +192,7 @@
                 @click="header.editing = !header.editing"
               >
                 <span class="material-icons">edit</span>
+                Edit
               </button>
 
               <button class="btn-section" @click="header.addQ = !header.addQ">
@@ -208,9 +208,6 @@
                   />
                 </svg>
                 Add question
-              </button>
-              <button class="btn-section" @click="delHeader(header.header_id)">
-                <span class="material-icons">delete</span>
               </button>
 
               <input
@@ -259,8 +256,8 @@
                     class="btn-question"
                     v-if="question.editing"
                     @click="
-                      (question.editing = false),
-                        changeQuestion(question.question_id, question.question)
+                      ((question.editing = false),
+                      changeQuestion(question.question_id, question.question))
                     "
                   >
                     <span class="material-icons">edit</span>
@@ -274,12 +271,14 @@
                     @click="question.editing = !question.editing"
                   >
                     <span class="material-icons">edit</span>
+                    Edit
                   </button>
                   <button
                     class="btn-question"
                     @click="rmQuestion(question.question_id)"
                   >
                     <span class="material-icons">delete</span>
+                    Remove
                   </button>
                 </div>
               </div>
@@ -293,19 +292,19 @@
 
 <script>
 const url1 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
+const url2 = "http://localhost:8000";
 
 export default {
   name: "chQuestions",
   data() {
     return {
-      urlappphp: `${url2}/questions.php`,
-      chHeaderphp: `${url2}/headerChangerS.php`,
-      chQuestionphp: `${url2}/questionChange.php`,
-      rmQuestionphp: `${url2}/questionDelete.php`,
-      addQuestionphp: `${url2}/addQuestion.php`,
-      addheaderphp: `${url2}/addHeader.php`,
-      delheaderphp: `${url2}/headerDel.php`,
+      urlappphp: `${url2}/questiont.php`,
+      chHeaderphp: `${url2}/headerChangerT.php`,
+      chQuestionphp: `${url2}/questionChangeT.php`,
+      rmQuestionphp: `${url2}/questionDeleteT.php`,
+      addQuestionphp: `${url2}/addQuestionT.php`,
+      addheaderphp: `${url2}/addHeaderT.php`,
       headers: [],
       newQuestion: "",
       newHeader: "",
@@ -331,7 +330,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ action: "getQuestions" }),
+          body: JSON.stringify({ action: "getTeacherQuestions" }),
         });
 
         const result = await response.json();
@@ -501,35 +500,6 @@ export default {
         console.error(error);
       }
     },
-
-    async delHeader(hId) {
-      try {
-        this.isLoading = true;
-
-        const response = await fetch(this.delheaderphp, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            action: "deleteHeader",
-            header_id: hId,
-          }),
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          this.isLoading = false;
-          this.isSuccess = true;
-          this.getQuestions();
-        } else {
-          this.isLoading = false;
-          this.isFailed = true;
-        }
-      } catch (error) {
-        this.isLoading = false;
-        console.error(error);
-      }
-    },
   },
 
   watch: {
@@ -584,8 +554,15 @@ html {
 }
 
 body {
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    sans-serif;
   background-color: #ffffff;
   color: #000000;
   -webkit-font-smoothing: antialiased;
@@ -599,7 +576,11 @@ body {
 }
 
 .material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-variation-settings:
+    "FILL" 0,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
 /* Layout */
@@ -735,7 +716,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
@@ -1035,7 +1017,9 @@ input:focus {
   min-width: 300px;
   max-width: 90%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-  animation: slideIn 0.3s ease-out, timeout 6s linear forwards;
+  animation:
+    slideIn 0.3s ease-out,
+    timeout 6s linear forwards;
   font-size: 1.1rem;
 }
 

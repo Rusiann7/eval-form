@@ -1,31 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router"; //vue router import
 import { isAuthenticated } from "../utils/auth"; //auth import
 
-const Student = () => import("../components/User/Student.vue"); //loads components
-const Teacher = () => import("../components/User/Teacher.vue");
-const Principal = () => import("../components/Admin/Principal.vue");
-const newDashboard = () => import("../components/newDashboard.vue");
-const RegisterStudent = () => import("../components/Register/Student.vue");
-const StEval = () => import("../components/evalforms/student.vue");
-const TcEval = () => import("../components/evalforms/teacher.vue");
-const printable = () => import("../components/evalforms/eval-form-student.vue");
-const printable1 = () =>
-  import("../components/evalforms/eval-form-teacher.vue");
-const testSidebar = () => import("../components/Testing/testSidebar.vue");
-const pageError = () => import("../components/notFound.vue");
-const yes = () => import("../components/file.vue");
-const scheduler = () => import("../components/Admin/scheduler.vue");
-const changeQuestions = () => import("../components/Admin/ChangeQuestions.vue");
-const fileUpload = () => import("../components/Admin/fileuploader.vue");
-const test = () => import("../components/Testing/test.vue");
-const graph = () => import("../components/Admin/perf-graph.vue");
-const modal = () => import("../components/Testing/modal.vue");
-const changeQuestiont = () => import("../components/Admin/ChangeQuestiont.vue");
+const Student = () => import("../view/User/Student.vue"); //loads view
+const Teacher = () => import("../view/User/Teacher.vue");
+const Principal = () => import("../view/Admin/Principal.vue");
+const newDashboard = () => import("../view/newDashboard.vue");
+const RegisterStudent = () => import("../view/Register/Student.vue");
+const StEval = () => import("../view/evalforms/student.vue");
+const TcEval = () => import("../view/evalforms/teacher.vue");
+const printable = () => import("../view/evalforms/eval-form-student.vue");
+const printable1 = () => import("../view/evalforms/eval-form-teacher.vue");
+const testSidebar = () => import("../view/Testing/testSidebar.vue");
+const pageError = () => import("../view/notFound.vue");
+const yes = () => import("../view/file.vue");
+const scheduler = () => import("../view/Admin/scheduler.vue");
+const changeQuestions = () => import("../view/Admin/ChangeQuestions.vue");
+const fileUpload = () => import("../view/Admin/fileuploader.vue");
+const test = () => import("../view/Testing/test.vue");
+const graph = () => import("../view/Admin/perf-graph.vue");
+const modal = () => import("../view/Testing/modal.vue");
+const changeQuestiont = () => import("../view/Admin/ChangeQuestiont.vue");
 const printablemerge = () =>
-  import("../components/evalforms/eval-form-student-merge.vue");
+  import("../view/evalforms/eval-form-student-merge.vue");
 const printablemerge1 = () =>
-  import("../components/evalforms/eval-form-teacher-merge.vue");
-const graphT = () => import("../components/Admin/perf-grapht.vue");
+  import("../view/evalforms/eval-form-teacher-merge.vue");
+const graphT = () => import("../view/Admin/perf-grapht.vue");
 
 const routes = [
   {

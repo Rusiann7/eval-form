@@ -329,9 +329,9 @@ import { setToken, getToken } from "../utils/auth";
 
 const url1 = "https://rusiann7.helioho.st";
 //const url2 = "https://rusiann7.helioho.st";
-const url2 = "https://star-panda-literally.ngrok-free.app";
+//const url2 = "https://star-panda-literally.ngrok-free.app";
 //const url2 = "https://rusiann7.helioho.st";
-//const url2 = "http://localhost:8000";
+const url2 = "http://localhost:8000";
 export default {
   name: "newDashboard",
   data() {
@@ -631,10 +631,10 @@ export default {
               newVal === "student"
                 ? "turnstileWidgetStudent"
                 : newVal === "teacher"
-                ? "turnstileWidgetTeacher"
-                : newVal === "admin"
-                ? "turnstileWidgetAdmin"
-                : null
+                  ? "turnstileWidgetTeacher"
+                  : newVal === "admin"
+                    ? "turnstileWidgetAdmin"
+                    : null
             ];
 
           if (!ref || !window.turnstile) {
@@ -836,12 +836,16 @@ a {
   max-width: calc(100% - 2rem);
   text-align: center;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease;
   border-radius: 20px;
   padding: 2.5rem;
   text-align: center;
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1122,7 +1126,9 @@ a {
   border: 2px solid #ddd;
   border-radius: 12px;
   font-size: 1.125rem;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .form-group input:focus {
@@ -1189,7 +1195,9 @@ a {
   font-size: 1.25rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 .modal-btn:hover:not(:disabled) {
